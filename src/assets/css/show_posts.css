@@ -1,0 +1,22 @@
+.feeling-sub-header {
+  position: fixed;
+  margin-top: -17px;
+  width: 100%;
+  background: white;
+  z-index: 9;
+}
+
+.feeling-wrapper {
+  position: relative;
+  top: 30px;
+}
+
+/* Individual post */
+.blur-post {
+  filter: blur(10px);
+  padding: 1.5rem !important;
+}
+
+.unlock-post {
+  font-size: 12px;
+}

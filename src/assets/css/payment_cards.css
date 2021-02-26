@@ -1,0 +1,26 @@
+/* Cards page */
+.payment-cards-wrapper .trash-icon {
+  float: right;
+  width: 20px;
+}
+
+.payment-cards-wrapper .card-number {
+  font-size: 14px;
+}
+
+.payment-cards-wrapper .card-name {
+  font-size: 12px;
+}
+
+
+/* Add card page */
+.add-card-wrapper label {
+  font-size: 12px;
+}
+
+.add-card-wrapper input[type="text"],
+.add-card-wrapper input[type="number"],
+.add-card-wrapper input[type="password"] {
+  box-shadow: none;
+  font-size: 13px;
+}

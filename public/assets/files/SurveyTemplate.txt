@@ -1,0 +1,26 @@
+<CATEGORY_TITLE>
+<CATEGORY_DESCRIPTION>
+qId,question,type,value,description
+<SERIAL_NUMBER>,<QUESTION>,<QUESTION_TYPE>,<OPTIONS>,<QUESTION_DESCRIPTION>
+<SERIAL_NUMBER>,<QUESTION>,<QUESTION_TYPE>,<OPTIONS>,<QUESTION_DESCRIPTION>
+<SERIAL_NUMBER>,<QUESTION>,<QUESTION_TYPE>,<OPTIONS>,<QUESTION_DESCRIPTION>
+
+Example for a template:
+/********************STARTS HERE**************************/
+Food habits
+"A healthy outside starts from inside" - By Robert Urich
+qId,question,type,value,description
+1,Do you cook?,radio,Yes daily/Sometimes in a week/Not at all,
+2,Glasses of water per day,radio,1-5/6-10/11-15/>15,Bevarages
+3,What drinks do you like most?,checkbox,Beer/Wine/Vodka/Whiskey/Rum/Gin/Other,Alcohol
+/********************ENDS HERE**************************/
+
+Note:
+<SERIAL_NUMBER> - Must be positive and serial
+<QUESTION_TYPE> - Must be any one of these types : text (or) radio (or) checkbox
+<OPTIONS> - Must be separated by /
+<QUESTION_DESCRIPTION> - Add a comma at the end of line, if there is no description
+** Each line must have only 1 question.
+** Do not edit 3rd line (qId,question,type,value,description)
+** There should be no spaces in any line
+** Use this file as an example. No changes should be made.

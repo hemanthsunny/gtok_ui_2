@@ -1,0 +1,57 @@
+/* Subheader */
+.feeling-sub-header {
+  margin-top: -12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+}
+
+.feeling-sub-header div {
+  padding: 0.4rem;
+}
+
+.feeling-sub-header a {
+  color: #1a1a2e;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0.5rem 1rem;
+}
+
+.feeling-sub-header div:nth-child(1) {
+  border-bottom: 2px solid;
+}
+
+/* Create post wrapper - steps */
+.create-post-wrapper {
+  padding: 3rem 0;
+}
+
+.create-post-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+}
+
+.feeling-detail-wrapper, .feeling-category-wrapper, .feeling-submit-wrapper {
+  font-size: 13px;
+}
+
+.feeling-detail-wrapper .description .header {
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.feeling-detail-wrapper .description textarea {
+  font-size: 13px;
+}
+
+.feeling-detail-wrapper .trash-icon {
+  padding-bottom: 0.7rem;
+}
+
+.feeling-submit-wrapper .checkbox-icon {
+  width: 19px;
+  transform: scale(1.1);
+}
+
+.audio-icon {
+  width: 25px;
+  transform: scale(1.2);
+}

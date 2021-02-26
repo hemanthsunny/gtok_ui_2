@@ -1,0 +1,53 @@
+.activity-sub-header {
+  position: fixed;
+  margin-top: -17px;
+  width: 100%;
+  background: white;
+  z-index: 9;
+}
+
+.activities-wrapper {
+  position: relative;
+  top: 30px;
+}
+
+.activities-wrapper .activity-card  {
+  background: white;
+  padding: 5px 0;
+}
+
+.activities-wrapper .activity-card .media {
+  align-items: center;
+}
+
+.activities-wrapper .activity-card .activity-time {
+  margin: 0.3rem;
+  padding: 0.3rem;
+  font-size: 11px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  text-align: center;
+  float: left;
+}
+
+
+.activities-wrapper .activity-card .activity-text {
+  margin: 0.3rem;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.activities-wrapper .activity-card .activity-description {
+  margin-left: 0.3rem;
+  font-size: 11px;
+}
+
+.activities-wrapper .activity-card .activity-divider {
+  margin: 7px 0px !important;
+}
+
+.trash-icon {
+  width: 21px;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+    <meta name="theme-color" content="#dc3545" />
+    <!-- Adding PWA capabilities to iPhone -->
+<!-- 		<meta name="apple-mobile-web-app-title" content="Lets Gtok" data-react-helmet="true">
+		<meta name="apple-mobile-web-app-capable" content="yes"> -->
+	  <meta property="image" content="../assets/images/favicon.png" data-react-helmet="true"/>
+		<title data-react-helmet="true">Lets Gtok</title>
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png" sizes="16x16"/>
+    <!-- Adding touch icon on iPhones -->
+<!--     <link rel="apple-touch-icon" href="../assets/images/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/images/favicon.png" sizes="152x152" />
+    <link rel="apple-touch-icon" href="../assets/images/favicon.png" sizes="180x180" />
+    <link rel="apple-touch-icon" href="../assets/images/favicon.png" sizes="167x167" /> -->
+    <!-- Adding app launch screens in iPhone -->
+		<!-- <link rel="apple-touch-startup-image" href="./apple-splash-screen.png"> -->
+
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+		<meta name="description" content= "A place to share and connect experiences." data-react-helmet="true"/>
+    <meta name="keywords" content= "lets gtok,gtok,get to know,share experiences,connect,podcast" data-react-helmet="true"/>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-76330503-3"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-76330503-3');
+		</script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/e4fd4102e8.js"></script>
+    <script>
+				$('.alert').alert();
+			  $('[data-toggle="popover"]').popover()
+			  document.cookie = 'cross_site_cookie=bar; SameSite=None; Secure';
+    </script>
+  </body>
+</html>

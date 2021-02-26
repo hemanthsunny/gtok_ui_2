@@ -1,0 +1,26 @@
+{
+  "short_name": "Lets Gtok",
+  "name": "Lets Gtok",
+  "icons": [
+    {
+      "src": "../assets/images/favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "../assets/images/favicon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../assets/images/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#dc3545",
+  "background_color": "#ffffff",
+  "gcm_sender_id": "509468258677"
+}

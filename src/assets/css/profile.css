@@ -1,0 +1,150 @@
+.profile-card {
+  padding: 0.7rem 1rem 0.5rem;
+}
+
+.profile-body {
+  padding-bottom: 1rem;
+}
+
+.profile-card .profile-header {
+  font-size: 18px;
+}
+
+.profile-card .profile-subheader {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.profile-card .profile-description {
+  padding-top: 0.4rem;
+  font-size: 12px;
+}
+
+.profile-card .profile-info {
+  font-size: 12px;
+  text-align: center;
+}
+
+.profile-card .profile-info .info-name {
+  color: rgba(0, 0, 0, 1);
+}
+
+.profile-card .profile-info .info-value a {
+  color: rgba(0, 0, 0, 1) !important;
+}
+
+.profile-pic {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.posts-wrapper .col-6:first-child,
+.badges-wrapper .col-6:first-child {
+  padding-right: 5px !important;
+}
+
+.posts-wrapper .col-6:nth-child(2),
+.badges-wrapper .col-6:nth-child(2) {
+  padding-left: 5px !important;
+}
+
+.posts-wrapper .card-feelings,
+.posts-wrapper .card-activities,
+.badges-wrapper .card-purchase,
+.badges-wrapper .card-redeem {
+  text-align: center;
+  padding: 1rem 0;
+  color: #000000;
+}
+
+.posts-wrapper .card-name {
+  font-size: 15px;
+  padding-bottom: 0.7rem;
+}
+
+.feelings-icon {
+  width: 38px;
+}
+
+.activities-icon {
+  width: 38px;
+}
+
+.card-challenges, .card-badges {
+  padding: 17px 17px;
+}
+
+.card-challenges .row,
+.card-badges .row {
+  align-items: center;
+}
+
+.card-challenges .card-name,
+.card-badges .card-name {
+  font-size: 12px;
+  color: #000000;
+}
+
+.card-challenges .trophies-count,
+.card-badges .badges-count {
+  font-size: xx-large;
+}
+
+.card-badges .badges-count small {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  position: relative;
+  top: -3px;
+}
+
+.card-challenges .challenge-icon,
+.card-badges .badge-icon {
+  width: 42px;
+}
+
+.badges-wrapper .card-name {
+  font-size: 14px;
+}
+
+/* posts code */
+.posts-icon {
+  width: 26px;
+}
+
+.posts-wrapper a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.posts-wrapper .card-footer {
+  background: white;
+  padding: 0.5rem 1.25rem;
+}
+
+.posts-wrapper .posts-footer {
+  font-size: 12px;
+  background: white !important;
+}
+
+.posts-wrapper .right-icon {
+  width: 20px;
+  padding-top: 2px;
+  float: right;
+  /* transform: scale(1.4); */
+  transition: all 0.3s;
+}
+
+.posts-wrapper .right-icon:hover {
+  transform: scale(2);
+}
+
+/* wallet code */
+.wallet-wrapper a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.wallet-icon {
+  width: 27px;
+  transform: scale(1.4);
+}

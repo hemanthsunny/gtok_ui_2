@@ -1,0 +1,38 @@
+.unlock-profile-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+}
+
+/* calculate price */
+.calculate-price-wrapper .per-month .label,
+.calculate-price-wrapper .total-months .label,
+.calculate-price-wrapper .total-price .label {
+  font-size: 14px;
+}
+
+.calculate-price-wrapper .total-months .value {
+  box-shadow: none !important;
+}
+
+.calculate-price-wrapper .total-price .value {
+  font-weight: 900;
+}
+
+/* Payment method */
+.payment-method-wrapper .header {
+  font-size: 13px;
+  padding: 0.5rem 0;
+}
+
+/* Invoice/Submit page */
+.invoice-wrapper {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.invoice-wrapper .label {
+  font-size: 13px;
+}
+
+.invoice-wrapper .value {
+  font-size: 14px;
+}

@@ -1,0 +1,17 @@
+.purchase-orders-wrapper .order-name {
+  text-transform: capitalize;
+}
+
+.purchase-orders-wrapper .order-price {
+  font-size: 12px;
+}
+
+.purchase-orders-wrapper .order-status {
+  color: rgba(0, 128, 0, 0.8);
+  font-size: 13px;
+}
+
+.purchase-orders-wrapper .order-validity {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}

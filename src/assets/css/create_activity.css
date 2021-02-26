@@ -1,0 +1,74 @@
+/* .create-activity-wrapper .static-header .btn-name {
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0.5rem 1rem;
+  border: 1px solid #1a1a2e;
+}
+
+.create-activity-wrapper .static-header .btn-name:nth-child(1) {
+  color: #1a1a2e;
+}
+
+.create-activity-wrapper .static-header .btn-name:nth-child(2) {
+  background-color: #1a1a2e;
+  color: white;
+} */
+
+.activity-sub-header {
+  margin-top: -12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+}
+
+.activity-sub-header div {
+  padding: 0.4rem;
+}
+
+.activity-sub-header a {
+  color: #1a1a2e;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 0.5rem 1rem;
+}
+
+.activity-sub-header div:nth-child(2) {
+  border-bottom: 2px solid;
+}
+
+
+.create-activity-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+}
+
+.create-activity-wrapper .btn-submit {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+}
+
+.create-activity-wrapper .header {
+  padding-top: 2rem !important;
+}
+
+.activity-name-wrapper,
+.activity-detail-wrapper {
+  padding: 1rem;
+  /* text-align: center; */
+}
+
+.activity-name-wrapper .options,
+.activity-detail-wrapper .options {
+  padding: 1rem 0;
+}
+
+.activity-name-wrapper .options label,
+.activity-detail-wrapper .options label {
+  font-size: 12px !important;
+}
+
+.activity-submit-wrapper {
+  font-size: 14px;
+}
+
+.checkbox-icon {
+  width: 21px;
+}
