@@ -3,24 +3,24 @@
   "name": "Lets Gtok",
   "icons": [
     {
-      "src": "../assets/images/favicon.png",
+      "src": "../assets/images/favicon.jpg",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "../assets/images/favicon.png",
-      "type": "image/png",
+      "src": "../assets/images/favicon.jpg",
+      "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "../assets/images/favicon.png",
-      "type": "image/png",
+      "src": "../assets/images/favicon.jpg",
+      "type": "image/jpg",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#dc3545",
+  "theme_color": "#6930db",
   "background_color": "#ffffff",
   "gcm_sender_id": "509468258677"
 }

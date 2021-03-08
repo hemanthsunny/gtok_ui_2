@@ -54,3 +54,16 @@
 .scale-1-5 {
   transform: scale(1.5);
 }
+
+.settings-wrapper .row img:first-child {
+  width: 22px;
+  height: 22px;
+  padding: 0px !important;
+}
+
+@media (max-width: 576px) {
+  .settings-wrapper {
+    padding-top: var(--spacing-16);
+    background-color: var(--color-white);
+  }
+}

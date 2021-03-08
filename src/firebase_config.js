@@ -171,9 +171,7 @@ export const removeProfile = () => {
 		.catch(err => formatResult(500, err.message))
 }
 
-export const uploadFile = ({
-	file, setResult, setBtnUpload, setFileUrl, type
-}) => {
+export const uploadFile = (file, type, callback) => {
 	let storageRef = storage.ref();
 	let fileName = file.name + "_" + Date.now();
 	let imageRef = storageRef.child("avatars/" + fileName);
@@ -189,7 +187,8 @@ export const uploadFile = ({
 		(snapshot) => {
 			let progress =
 				Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			setBtnUpload(progress + "%");
+			// setBtnUpload(progress + "%");
+			console.log(progress + "%");
 			switch (snapshot.state) {
 				case "paused":
 					console.log("Upload is paused");
@@ -218,13 +217,10 @@ export const uploadFile = ({
 				default:
 					break;
 			}
-			setResult(err);
+			callback("", err);
 		},
 		(res) => {
-			uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-				setFileUrl(downloadUrl);
-				setBtnUpload('Upload');
-			});
+			uploadTask.snapshot.ref.getDownloadURL().then((fileUrl) => callback(fileUrl));
 		}
 	);
 }

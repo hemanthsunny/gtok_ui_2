@@ -1,0 +1,19 @@
+.dashboard-content.-open-route {
+  margin: 0px auto;
+  margin-top: var(--spacing-64);
+}
+
+.dashboard-content.-open-route .extra-section {
+  text-align: center;
+}
+
+.dashboard-content.-open-route .extra-section img {
+  width: 4vw;
+  margin: var(--spacing-32) 0;
+}
+
+@media (min-width: 576px) {
+  .dashboard-content.-open-route {
+    max-width: 85vw;
+  }
+}

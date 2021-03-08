@@ -8,7 +8,7 @@ function ChallengeComponent({ currentUser, newAlertsCount, newMessagesCount }) {
 			<HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
 	    <div className="container challenges-wrapper">
         <div>
-          <img src={require(`assets/svgs/RocketLaunch.svg`)} className="launch-icon" alt="Challenges" />
+          <img src={require(`assets/svgs/RocketLaunch.svg`).default} className="launch-icon" alt="Challenges" />
         </div><br/>
         <div className="launch-text">
           Still sit tight. And ready up to win prizes. <br/> Shortly we will be announcing challenges!

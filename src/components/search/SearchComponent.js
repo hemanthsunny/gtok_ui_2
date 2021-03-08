@@ -130,7 +130,7 @@ const SearchComponent = ({
 			<HomeHeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
 	    <div className="container">
 	    	<div className="d-flex">
-					<div className="input-group my-3">
+					<div className="input-group my-3">;;;;
 					  <input type="text" className="form-control br-0" aria-label="Search" placeholder="Search on names..." onChange={e => searchValue(e.target.value)}/>
 					  <div className="input-group-append d-none">
 					  	{

@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { getQuery, firestore } from "firebase_config";
-import { NotificationComponent } from "components";
+import { NotificationComponent, CustomImageComponent } from "components";
 import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
 import { createRelationships } from "lib/api";
@@ -32,7 +32,7 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 	}, [relations, currentUser, displayUser])
 
 	const relationStatus = async (status) => {
-		if (status==="block" && 
+		if (status==="block" &&
 			!window.confirm("Are you sure to block "+displayUser.displayName+"?")) {
 			return null;
 		}
@@ -52,18 +52,14 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
   }
 
   return (
-		<div className="col-xs-12 my-xs-2 my-md-3">
-			<div className="card p-2 card-br-0">
+		<div className="col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3">
+			<div className="card p-3 card-br-0">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
 				<div className="media profile_card_img">
-					{
-						follower !== 3 ?
-				  	<Link to={"/app/profile/"+displayUser.id}>
-					  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" />
-				  	</Link> :
-				  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" />
-					}
-				  <div className="media-body">
+			  	<Link to={"/app/profile/"+displayUser.id}>
+						<CustomImageComponent user={displayUser} size="lg" />
+			  	</Link>
+				  <div className="media-body pl-3">
 				    <h6 className="mt-0 text-camelcase">
 					  	<Link to={"/app/profile/"+displayUser.id}>
 					    	{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || "No name"}
@@ -108,25 +104,12 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 							</div>
 							{
 								follower !== 3 &&
-						    <Link to={"/app/profile/"+displayUser.id} className="btn btn-outline-secondary btn-sm pull-right ml-2" title="Show similarities">
-						    	<i className="fa fa-bar-chart"></i>
-						    </Link>
-							}
-							{
-								follower !== 3 &&
-						    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => msgUser()} title="Start chat">
+						    <button className="btn btn-sm btn-outline-secondary ml-3" onClick={e => msgUser()} title="Start chat">
 						    	<i className="fa fa-comment"></i>
 							  </button>
 							}
-						{/*
-					    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => createRelationships(displayUser)} title="Start chat">
-					    	Add relations
-						  </button>
-						*/}
 				    </div>
 				  </div>
-			  </div>
-			  <div className="pull-right pt-0">
 			  </div>
 			</div>
 		</div>

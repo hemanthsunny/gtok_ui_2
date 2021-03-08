@@ -13,8 +13,9 @@ import ActivitySubmit from "./steps/submit/component";
 import { add } from "firebase_config";
 import { capitalizeFirstLetter } from "helpers";
 import { SetNewPost } from "store/actions";
+import { SidebarComponent } from "components";
 
-const CreateActivityComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessagesCount, history, prices, wallet }) => {
+const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessagesCount, history, prices, wallet }) => {
   const [ name, setName ] = useState(null);
   const [ detail, setDetail ] = useState(null);
   const [ description, setDescription ] = useState(null);
@@ -33,6 +34,8 @@ const CreateActivityComponent = ({ currentUser, bindNewPost, newAlertsCount, new
 			return null;
 		}
     let data = {
+      activity: name.trim(),
+      detail: detail.trim(),
 			text: `${capitalizeFirstLetter(currentUser.displayName)} ${capitalizeFirstLetter(name.trim())} ${capitalizeFirstLetter(detail.trim())}`,
       description: (description && description.trim()) || '',
       userId: currentUser.id,
@@ -58,12 +61,10 @@ const CreateActivityComponent = ({ currentUser, bindNewPost, newAlertsCount, new
   }
 
 	const subHeader = () => (
-		<div className="d-flex flex-row justify-content-around activity-sub-header">
-			<div>
-				<Link to="/app/create_post" className="">Feeling</Link>
-			</div>
-			<div>
-				<Link to="/app/create_activity" className="">Activity</Link>
+    <div className="dashboard-tabs" role="navigation" aria-label="Main">
+			<div className="tabs -big">
+				<Link to="/app/create_post" className="tab-item">Share Feeling</Link>
+				<Link to="/app/create_activity" className="tab-item -active">Share Activity</Link>
 			</div>
 		</div>
   );
@@ -71,23 +72,28 @@ const CreateActivityComponent = ({ currentUser, bindNewPost, newAlertsCount, new
   return (
 		<div>
 			<HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
-			{subHeader()}
-	    <div className="container create-activity-wrapper">
-        <div className="text-center">
-          {
-            result.status &&
-            <div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
-              {result.message}
-            </div>
-          }
+      <div>
+        <SidebarComponent currentUser={currentUser} />
+        <div className="dashboard-content">
+			     {subHeader()}
+           <div className="container create-activity-wrapper">
+             <div className="text-center">
+               {
+                 result.status &&
+                 <div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
+                   {result.message}
+                 </div>
+               }
+             </div>
+             { stepNumber === 1 && <ActivityName name={name} setName={setName} setStepNumber={setStepNumber} /> }
+             { stepNumber === 2 && <ActivityDetail name={name} setDetail={setDetail} setStepNumber={setStepNumber} /> }
+             { stepNumber === 3 && <ActivityDescription setDescription={setDescription} setStepNumber={setStepNumber} /> }
+             { stepNumber === 4 && <ActivitySubmit save={saveActivity} setStepNumber={setStepNumber} /> }
+             { stepNumber === 5 && <ActivityStartTime setStartTime={setStartTime} setStepNumber={setStepNumber} /> }
+             { stepNumber === 6 && <ActivityEndTime startTime={startTime} endTime={endTime} setEndTime={setEndTime} setStepNumber={setStepNumber} /> }
+     			</div>
         </div>
-        { stepNumber === 1 && <ActivityName name={name} setName={setName} setStepNumber={setStepNumber} /> }
-        { stepNumber === 2 && <ActivityDetail name={name} setDetail={setDetail} setStepNumber={setStepNumber} /> }
-        { stepNumber === 3 && <ActivityDescription setDescription={setDescription} setStepNumber={setStepNumber} /> }
-        { stepNumber === 4 && <ActivitySubmit save={saveActivity} setStepNumber={setStepNumber} /> }
-        { stepNumber === 5 && <ActivityStartTime setStartTime={setStartTime} setStepNumber={setStepNumber} /> }
-        { stepNumber === 6 && <ActivityEndTime startTime={startTime} endTime={endTime} setEndTime={setEndTime} setStepNumber={setStepNumber} /> }
-			</div>
+      </div>
 		</div>
   );
 };
@@ -109,4 +115,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withRouter(CreateActivityComponent));
+)(withRouter(ParentComponent));

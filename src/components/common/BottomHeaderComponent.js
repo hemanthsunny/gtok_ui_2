@@ -38,7 +38,7 @@ const BottomHeaderComponent = ({
 		bindNewMessagesCount(currentUser);
 		bindNewAlertsCount(currentUser);
 		// bindSurveysList(currentUser);
-  	// bindRelationships(currentUser);
+  	bindRelationships(currentUser);
 		bindPurchaseOrders(currentUser);
 		bindWallet(currentUser);
 		bindPrices(currentUser);
@@ -54,21 +54,21 @@ const BottomHeaderComponent = ({
 				<div className="nav-item ml-1" title="Home">
 					<div className="nav-link text-center">
 						<Link to="/app/posts">
-							<img src={(metaDetails && (metaDetails.path === "posts" || metaDetails.path === "activities")) ? require(`assets/svgs/HomeActive.svg`) : require(`assets/svgs/Home.svg`)} className="home-icon" alt="Home" />
+							<img src={(metaDetails && (metaDetails.path === "posts" || metaDetails.path === "activities")) ? require(`assets/svgs/HomeActive.svg`).default : require(`assets/svgs/Home.svg`).default} className="home-icon" alt="Home" />
 						</Link>
 					</div>
 				</div>
 				<div className="nav-item ml-1" title="Create post">
 					<div className="nav-link text-center">
 						<Link to="/app/create_post">
-							<img src={(metaDetails && (metaDetails.path === "create_post" || metaDetails.path === "create_activity")) ? require(`assets/svgs/PlusActive.svg`) : require(`assets/svgs/Plus.svg`)} className="plus-c-icon" alt="Create post" />
+							<img src={(metaDetails && (metaDetails.path === "create_post" || metaDetails.path === "create_activity")) ? require(`assets/svgs/PlusActive.svg`).default : require(`assets/svgs/Plus.svg`).default} className="plus-c-icon" alt="Create post" />
 						</Link>
 					</div>
 				</div>
-				<div className="nav-item ml-1" title="Search">
+				<div className="nav-item ml-1" title="Profile">
 					<div className="nav-link text-center">
-						<Link to="/app/search">
-							<img src={(metaDetails && metaDetails.path === "search") ? require(`assets/svgs/SearchActive.svg`) : require(`assets/svgs/Search.svg`)} className="search-icon" alt="Search" />
+						<Link to="/app/profile">
+							<img src={(metaDetails && metaDetails.path === "profile") ? require(`assets/svgs/ProfileActive.svg`).default : require(`assets/svgs/Profile.svg`).default} className="profile-icon" alt="Profile" />
 						</Link>
 					</div>
 				</div>

@@ -1,0 +1,53 @@
+.text-violet {
+  color: var(--color-violet-400);
+}
+
+/* Signup page */
+.login-form .permissions {
+  font-size: var(--font-size-small);
+}
+
+/* Login page */
+.login-form {
+  margin: 0px auto;
+  margin-top: var(--spacing-128);
+  padding: var(--spacing-16);
+}
+
+.login-form .page-header {
+  text-align: center;
+}
+
+.login-form input,
+.login-form input[type="email"] {
+	border-radius: 0px;
+	box-shadow: none !important;
+  outline: none !important;
+}
+
+.login-form input:focus,
+.login-form input[type="email"]:focus {
+  border-color: var(--color-violet-400);
+}
+
+.login-form .input-password {
+	position: relative;
+}
+
+.login-form .input-password .show-password {
+	position: absolute;
+	top: 42px;
+	right: 10px;
+	font-size: 17px;
+  color: var(--color-violet-400);
+}
+
+.login-form .page-opts a {
+  color: var(--color-violet-400);
+}
+
+@media (min-width: 576px) {
+  .login-form {
+    width: 40vw !important;
+  }
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { StaticHeaderComponent } from "components";
 
 const SignupSuccessComponent = () => (
-  <div className="App">
+  <div>
   	<StaticHeaderComponent />
   	<div className="mt-5 pt-3">
   		{/*

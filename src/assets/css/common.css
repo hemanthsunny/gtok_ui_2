@@ -1,3 +1,140 @@
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray-100: #f7f8fa;
+  --color-gray-200: #f1f2f5;
+  --color-gray-300: #e4e6eb;
+  --color-gray-400: #bdbfc7;
+  --color-gray-500: #8f94a2;
+  --color-gray-600: #757a8a;
+  --color-gray-650: #696e7c;
+  --color-gray-700: #4f5461;
+  --color-gray-800: #2c3242;
+  --color-gray-900: #1b1f29;
+  --color-blue-100: #ecf2ff;
+  --color-blue-200: #d6e3ff;
+  --color-blue-300: #bdd2ff;
+  --color-blue-400: #175fff;
+  --color-blue-500: #1043b2;
+  --color-blue-transparent: rgba(236, 242, 255, 0.5);
+  --color-violet-100: #f4effd;
+  --color-violet-400: #6930db;
+  --color-yellow-100: #fffbd8;
+  --color-yellow-400: #f9cb40;
+  --color-orange-100: #ffeed1;
+  --color-orange-400: #ffa201;
+  --color-orange-600: #ff7a1a;
+  --color-red-100: #fff2f2;
+  --color-red-200: #ffd3d3;
+  --color-red-300: #ffbaba;
+  --color-red-400: #cd3636;
+  --color-red-500: #ae1d1d;
+  --color-green-100: #e2f8ed;
+  --color-green-200: #c5f2dc;
+  --color-green-400: #3dd48a;
+  --color-green-500: #36ba79;
+  --color-green-600: #1f6e48;
+  --color-primary-100: var(--color-blue-100);
+  --color-primary-200: var(--color-blue-200);
+  --color-primary-300: var(--color-blue-300);
+  --color-primary-400: var(--color-blue-400);
+  --color-primary-500: var(--color-blue-500);
+  --color-text-dark: var(--color-gray-900);
+  --color-text: var(--color-gray-800);
+  --color-text-light: var(--color-gray-650);
+  --color-text-disabled: var(--color-gray-400);
+  --color-line: var(--color-gray-300);
+  --color-line-light: var(--color-gray-200);
+  --color-icon-fill: var(--color-gray-600);
+  --color-button-primary-background: var(--color-primary-400);
+  --color-button-primary-background-hover: var(--color-primary-500);
+  --color-button-primary-text: var(--color-white);
+  --color-button-primary-text-hover: var(--color-white);
+  --color-button-secondary-text: var(--color-primary-400);
+  --color-button-secondary-border: var(--color-gray-300);
+  --color-button-secondary-background: var(--color-white);
+  --color-button-secondary-text-hover: var(--color-primary-400);
+  --color-button-secondary-background-hover: var(--color-primary-100);
+  --color-button-text: var(--color-white);
+  --color-button-text-hover: var(--color-white);
+  --color-button-background: var(--color-primary-400);
+  --color-button-background-hover: var(--color-primary-500);
+  --color-menu-background-hover: var(--color-gray-200);
+  --color-menu-item-highlight: var(--color-gray-300);
+  --transition-duration: 0.2s;
+  --transition-duration-long: 0.4s;
+  --spacing-1: 0.0625rem;
+  --spacing-2: 0.125rem;
+  --spacing-4: 0.25rem;
+  --spacing-8: 0.5rem;
+  --spacing-12: 0.75rem;
+  --spacing-16: 1rem;
+  --spacing-24: 1.5rem;
+  --spacing-32: 2rem;
+  --spacing-40: 2.5rem;
+  --spacing-48: 3rem;
+  --spacing-64: 4rem;
+  --spacing-80: 5rem;
+  --spacing-96: 6rem;
+  --spacing-128: 8rem;
+  --spacing-160: 10rem;
+  --page-padding: var(--spacing-24);
+  --page-padding-small: var(--spacing-16);
+  --border-radius-small: 0.25rem;
+  --border-radius: 0.5rem;
+  --border-radius-big: 0.75rem;
+  --input-height: var(--spacing-48);
+  --input-height-small: var(--spacing-40);
+  --input-height-tiny: var(--spacing-32);
+  --input-border-radius: var(--border-radius-small);
+  --button-height-small: var(--input-height-small);
+  --button-height: var(--input-height);
+  --button-border-radius: var(--input-border-radius);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-display: 'Larsseit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-smaller: 0.625rem;
+  --font-size-small: 0.75rem;
+  --font-size: 0.875rem;
+  --font-size-big: 1rem;
+  --font-size-bigger: 1.125rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  --font-size-heading-1: 2rem;
+  --font-size-heading-2: 1.5rem;
+  --font-size-heading-3: var(--font-size-bigger);
+  --font-size-heading-4: var(--font-size-big);
+  --line-height: 1.6;
+  --line-height-tight: 1.25;
+  --box-shadow: 0 0.0625rem 0.125rem rgba(44, 50, 66, 0.08);
+  --box-shadow-long: 0 0 0.25rem rgba(44, 50, 66, 0.08), 0 0.25rem 1rem rgba(44, 50, 66, 0.08);
+  --box-shadow-panel: 0 0 0.125rem 0.0625rem rgba(44, 50, 66, 0.08);
+  --box-shadow-error: 0rem 0.0625rem 0.125rem var(--color-red-300);
+  --z-index-header: 10;
+  --z-index-skip-nav: 20;
+  --z-index-events-popup: 2147483004;
+  --z-index-tickets-bar: 2147483024;
+  --z-index-tickets: 2147483034;
+  --z-index-modal: 2147483044;
+  --avatar-size-tiny: 1.5rem;
+  --avatar-size-small: 2rem;
+  --avatar-size-medium: 2.5rem;
+  --avatar-size-large: 3rem;
+  --avatar-size-huge: 3.375rem;
+  --avatar-size-gigantic: 4rem;
+  --button-size-small: 1.5rem;
+  --button-size-medium: 2rem;
+  --button-size-large: 3rem;
+  --dash-nav-width: 16rem;
+  --dash-nav-width-v2: 15rem;
+  --color-tooltip: var(--color-white);
+  --color-tooltip-background: var(--color-black);
+  --tooltip-tail-size: 0.625rem;
+  --tooltip: 100;
+}
+
 .text-black {
   color: #000 !important;
 }
@@ -22,8 +159,22 @@
   font-size: 24px !important;
 }
 
+.btn-violet {
+  color: var(--color-white) !important;
+  background-color: var(--color-violet-400)!important;
+}
+
+.btn-violet-outline {
+  color: var(--color-violet-400) !important;
+  border-color: var(--color-violet-400)!important;
+}
+
 .text-capitalize {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
+}
+
+.pointer {
+  cursor: pointer !important;
 }
 
 a {
@@ -33,4 +184,125 @@ a {
 input[type="text"], textarea {
   outline: none !important;
   box-shadow: none !important;
+}
+
+/* Custom image */
+.custom-image {
+  width: var(--spacing-40);
+  height: var(--spacing-40);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.custom-image-text {
+  width: var(--spacing-40);
+  height: var(--spacing-40);
+  border-radius: 50%;
+  color: var(--color-white);
+  background-color: var(--color-violet-400);
+  font-size: var(--font-size-big);
+  padding-top: var(--spacing-8);
+  text-align: center;
+}
+
+.custom-image.-lg {
+  width: var(--spacing-64);
+  height: var(--spacing-64);
+}
+
+.custom-image-text.-lg {
+  width: var(--spacing-64);
+  height: var(--spacing-64);
+  font-size: var(--font-size-bigger);
+  padding-top: var(--spacing-16);
+}
+
+/* Dashboard header - >576px */
+.header {
+  min-height: var(--spacing-64);
+}
+
+.header a {
+  color: var(--black);
+  font-size: 15px;
+}
+
+/* Dashboard tabs - >576px */
+.tabs {
+  background: var(--color-white);
+  display: flex;
+  overflow-x: auto;
+  box-shadow: inset 0 -0.125rem 0 var(--color-line-light);
+  height: calc(var(--spacing-48) + 0.0625rem);
+}
+
+.tab-item {
+  align-items: center;
+  box-shadow: inset 0 -0.125rem 0 transparent;
+  color: var(--color-text-light);
+  cursor: pointer;
+  display: flex;
+  flex-grow: 1;
+  font-weight: var(--font-weight-medium);
+  justify-content: center;
+  padding: 0 var(--spacing-8);
+  transition-property: box-shadow, color;
+}
+
+.tab-item:hover {
+  color: var(--color-violet-400);
+}
+
+.tab-item.-active {
+  color: var(--color-text);
+  box-shadow: inset 0 -0.125rem 0 var(--color-violet-400);
+}
+
+/* Dashboard content - >576px */
+.dashboard-content {
+  background-color: var(--color-gray-100);
+  min-height: 100vh;
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    box-shadow: 0 0px 0px rgb(0 0 0 / 12%), 0 1px 0px rgb(0 0 0 / 24%) !important;
+  }
+
+  .header .container-fluid {
+    padding: 0px !important;
+  }
+
+  .hide-sm {
+    display: none;
+  }
+
+  .tab-item {
+    font-size: var(--font-size);
+  }
+
+  .dashboard-content .dashboard-tabs.-xs-d-none {
+    display: none !important;
+  }
+
+  .dashboard-content.xs-bg-none {
+    background-color: var(--color-white) !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .dashboard-content {
+    margin-left: 16.25rem;
+  }
+
+  .dashboard-content .desktop-align-center {
+    margin-top: var(--spacing-32);
+    padding: var(--spacing-16);
+    background-color: var(--color-white);
+    width: 40vw !important;
+  }
+
+  .tabs.-big {
+    height: calc(var(--spacing-64) + 0.0625rem);
+  }
 }

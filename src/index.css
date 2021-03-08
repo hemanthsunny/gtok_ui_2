@@ -17,23 +17,27 @@
 @import 'assets/css/add_price.css';
 @import 'assets/css/unlock_profile.css';
 @import 'assets/css/purchase_orders.css';
+@import 'assets/css/search.css';
+@import 'assets/css/sidebar.css';
+@import 'assets/css/auth.css';
+@import 'assets/css/show_open_posts.css';
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-family-display);
+  /* font-family: 'Roboto', sans-serif; */
 	/*font-family: 'Poppins', sans-serif;*/
 }
 
 body {
   margin: 0;
 	/*font-family: 'Poppins', sans-serif;*/
-  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  /* font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; */
 }
 
 .font-poppins {
@@ -222,12 +226,6 @@ audio::-internal-media-controls-download-button {
     transform: scale(1);
 }
 
-.copy-link-icon {
-	width: 36px;
-  height: 36px;
-  border: 1px solid rgba(0,0,0, 0.88);
-}
-
 .text-between-line:before,
 .text-between-line:after {
 	content: "\00a0\00a0\00a0\00a0\00a0";
@@ -339,52 +337,6 @@ button:active {
 }
 
 .signup-form a {
-	font-size: 14px;
-}
-
-/* Login page */
-.login-form {
-	padding-top: 25px;
-	text-align: left;
-}
-
-.login-form label {
-	font-size: 13px;
-}
-
-.login-form input {
-	border-radius: 0px;
-	font-size: 13px;
-	box-shadow: none !important;
-}
-
-.login-form .input-password {
-	position: relative;
-}
-
-.login-form .input-password .show-password {
-	position: absolute;
-	top: 37px;
-	right: 10px;
-	font-size: 17px;
-}
-
-.login-form .btn-submit {
-	border: 1px solid;
-	border-radius: 0px;
-	min-height: 7vh;
-  min-width: 35vw;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
-  transition: ease-in-out .25s;
-}
-
-.login-form .btn-submit:hover {
-	color: white;
-	background-color: black;
-}
-
-.login-form a {
 	font-size: 14px;
 }
 
@@ -644,13 +596,6 @@ button:active {
 	color: #6c757d !important;
 }
 
-.post-card-image img {
-	object-fit: cover;
-	width: 45px;
-	height: 45px;
-	border-radius: 50%;
-}
-
 .continue-posts .left-btn,
 .continue-posts .right-btn {
 	font-size: larger;
@@ -675,14 +620,6 @@ button:active {
 	font-size: small !important;
 	min-width: 5rem !important;
 	left: -10px !important;
-}
-
-.carousel-control-prev .carousel-control-prev-icon,
-.carousel-control-next .carousel-control-next-icon {
-	width: 15px;
-	height: 15px;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 50%;
 }
 
 /* Home page - Desktop */
@@ -1030,6 +967,8 @@ button:active {
 	overflow-y: scroll;
 	padding-right: 15px !important;
 	padding-bottom: 15px;*/
+  overflow-y: scroll;
+  max-height: 60vh;
 }
 
 ::-webkit-scrollbar {
@@ -1257,8 +1196,8 @@ button:active {
 
 	.mob-single-chat-window .chat-window-footer {
 		position: fixed;
-    bottom: 55px;
-    width: 100%;
+    bottom: 0px;
+    width: calc(100vw - 20rem);
     background-color: white;
 	}
 

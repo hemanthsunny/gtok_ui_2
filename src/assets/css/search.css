@@ -1,0 +1,13 @@
+@media (max-width: 576px) {
+  .search-subheader {
+    /* overflow-x: scroll !important; */
+  }
+
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .search-subheader .tab-item {
+    min-width: 50vw;
+  }
+}
