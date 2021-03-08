@@ -5,13 +5,14 @@ import moment from "moment";
 
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { update, verifyEmail, signout } from "firebase_config";
+import { StaticHeaderComponent } from "components";
 
 const EmailVerifyComponent = ({currentUser, bindLoggedIn, bindDbUser, bindUser}) => {
 	const [ resendEmail, setResendEmail ] = useState("Resend verification email");
 	const [ btnSignout, setBtnSignout ] = useState('Logout');
 	const [ emailSentTime, setEmailSentTime ] = useState(currentUser.verifyEmailSentTime);
   const history = useHistory();
-	
+
 	const sendEmail = async () => {
 		setResendEmail("Email sending...");
 		let data = { verifyEmailSentTime: new Date() }
@@ -42,18 +43,20 @@ const EmailVerifyComponent = ({currentUser, bindLoggedIn, bindDbUser, bindUser})
   }
 
 	return (
-	  <div className="App">
-	  	<div className="mt-5 pt-3 text-secondary">
-	      <h5 className="text-center text-secondary mb-3">
-		      Please verify your email before you continue.
-	      </h5><br/>
-	      <small>If you didn't receive an email, you can try resend.</small><br/>
-	    	<button className="btn btn-outline-secondary btn-sm" onClick={e => sendEmail(e)} disabled={isEmailSent()}>
-	    		{resendEmail}
-	    	</button>
-			  <button className="btn btn-sm btn-danger ml-2 font-xs-small" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
-	    </div>
-	  </div>
+		<div>
+			<StaticHeaderComponent />
+		  <div className="login-form">
+				<h5 className="page-header">
+					Please verify your email before you continue.
+				</h5>
+		  	<div className="mt-5 pt-3 text-secondary">
+		    	<button className="btn btn-violet-outline btn-sm col-12" onClick={e => sendEmail(e)} disabled={isEmailSent()}>
+		    		{resendEmail}
+		    	</button>
+				  <button className="btn btn-sm btn-outline-secondary my-3 col-12" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
+		    </div>
+		  </div>
+		</div>
   );
 };
 

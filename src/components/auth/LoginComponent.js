@@ -30,9 +30,9 @@ const LoginComponent = ({bindReload}) => {
     if (result.status !== 200) {
     	setErrors(result.message);
     	return;
-    } 
+    }
     bindReload(true);
-  	history.push("/app/home");
+  	history.push("/app/posts");
   };
 
   const showPassword = () => {
@@ -46,79 +46,45 @@ const LoginComponent = ({bindReload}) => {
   	}
   }
 
-/*
- 	const signInWithGoogle = async () => {
-	  let result = await googleSignin();
-	  if (result.status !== 200) {
-	  	setErrors(result.message);
-	  	return;
-	  } 
-	  bindReload(true);
-		history.push("/app/home");
-	}
-*/
   return (
-    <div className="App" onKeyDown={e => handleKeyDown(e)}>
+    <div onKeyDown={e => handleKeyDown(e)}>
     	<StaticHeaderComponent routes={routes} />
-    	<div className="row login-form">
-	    	<div className="mt-5 pt-3 col-xs-12 col-md-6">
-	      	<div className="d-flex align-items-center mb-3">
-	      		<div className="flex-grow-1">
-	      			<h5>Login</h5>
-						</div>
-			    	<Link to="/bot_login" className="font-small">
-			    		Try Gtok bot to login
-			    	</Link>
-			    </div>
-		      <div>
-			    	<div className="form-group">
-			    		<label>Email</label>
-			        <input
-			          value={email}
-			          onChange={e => setEmail(e.target.value)}
-			          name="email"
-			          type="email"
-			          className="form-control"
-			          placeholder="Enter email"
-			          autoFocus={true}
-			        />
-			    	</div>
-			    	<div className="form-group input-password">
-			    		<label>Password</label>
-			        <input
-			          onChange={e => setPassword(e.target.value)}
-			          name="password"
-			          value={password}
-			          type="password"
-			          className="form-control"
-			          id="loginPass"
-			          placeholder="Enter password (must be atleast 6 letters)"
-			        />
-			    		<i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
-			    	</div>
-		      	{error && <div className="text-danger fw-900"><br/><i className="fa fa-info-circle"></i>&nbsp;{error}</div>}
-					  <button className="btn btn-submit btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
-						<div className="d-flex">
-			        <Link to="/forgot_password" className="flex-grow-1">Forgot password</Link> <br/>
-			        <Link to="/signup">New User? Signup</Link> <br/>
-			      </div>
-		      </div>
-		    </div>
-		    <div className="mt-5 pt-3 col-xs-12 col-md-6 login-page-clipart">
-		    	<img src="assets/images/two_people_1_2.jpg" alt="Lets Gtok" className="col-8" />
-		    	<div className="login-page-caption">Lets <span className="text-native">Gtok </span><br/> Share - Listen - Connect
+    	<div className="login-form">
+        <h4 className="page-header">Login</h4>
+	      <div>
+		    	<div className="form-group">
+		    		<label>Email</label>
+		        <input
+		          value={email}
+		          onChange={e => setEmail(e.target.value)}
+		          name="email"
+		          type="email"
+		          className="form-control"
+		          placeholder="Enter email"
+		          autoFocus={true}
+		        />
 		    	</div>
-		    </div>
+		    	<div className="form-group input-password">
+		    		<label>Password</label>
+		        <input
+		          onChange={e => setPassword(e.target.value)}
+		          name="password"
+		          value={password}
+		          type="password"
+		          className="form-control"
+		          id="loginPass"
+		          placeholder="Enter password"
+		        />
+		    		<i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
+		    	</div>
+          {error && <div className="text-danger text-center mt-3">{error}</div>}
+				  <button className="btn btn-sm btn-violet col-12 my-4" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+					<div className="d-flex page-opts">
+		        <Link to="/forgot_password" className="flex-grow-1">Forgot password</Link> <br/>
+		        <Link to="/signup">New User? Signup</Link> <br/>
+		      </div>
+	      </div>
 		  </div>
-    {/*
-      <button onClick={() => signInWithGoogle()} className="googleBtn" type="button">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-          alt="logo"
-        />
-        Login With Google
-      </button>
-    */}
     </div>
   );
 };
@@ -130,6 +96,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-	null, 
+	null,
 	mapDispatchToProps
 )(LoginComponent);

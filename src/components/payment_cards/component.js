@@ -45,7 +45,7 @@ function PaymentCardsComponent({currentUser}) {
                 <div className="card-name">{card.name}</div>
               </div>
               <div className="">
-                <img src={require(`assets/svgs/Trash.svg`)} className="trash-icon pointer" alt="Remove" onClick={e => removeCard(card)} />
+                <img src={require(`assets/svgs/Trash.svg`).default} className="trash-icon pointer" alt="Remove" onClick={e => removeCard(card)} />
               </div>
             </div>
           )) :

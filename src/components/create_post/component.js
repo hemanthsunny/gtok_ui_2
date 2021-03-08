@@ -11,8 +11,9 @@ import { add, update, timestamp, uploadFile, removeFile, get, getId } from "fire
 import { PostCategories } from "constants/categories";
 import { capitalizeFirstLetter } from "helpers";
 import { SetNewPost } from "store/actions";
+import { SidebarComponent } from "components";
 
-const CreatePostComponent = (props) => {
+const ParentComponent = (props) => {
 	let sharePost = (props.history.location.state && props.history.location.state.sharePost) || {};
 	let story = (props.history.location.state && props.history.location.state.story) || {
 		text: "",
@@ -21,7 +22,6 @@ const CreatePostComponent = (props) => {
 	let storyIdx = (props.history.location.state && props.history.location.state.storyIdx) || "";
 
 	const { currentUser, bindNewPost } = props;
-	const [ charCount, setCharCount ] = useState(500-story.text.length);
 	const [ postText, setPostText ] = useState(story.text);
 	const [ category, setCategory ] = useState(sharePost.category || {});
 	const [ result, setResult ] = useState({});
@@ -159,105 +159,37 @@ const CreatePostComponent = (props) => {
   	})
   }
 
-  const subHeader = () => (
-		<div className="d-flex flex-row justify-content-around feeling-sub-header">
-			<div>
-				<Link to="/app/create_post" className="">Feeling</Link>
-			</div>
-			<div>
-				<Link to="/app/create_activity" className="">Activity</Link>
+	const subHeader = () => (
+    <div className="dashboard-tabs" role="navigation" aria-label="Main">
+			<div className="tabs -big">
+				<Link to="/app/create_post" className="tab-item -active">Share Feeling</Link>
+				<Link to="/app/create_activity" className="tab-item">Share Activity</Link>
 			</div>
 		</div>
   );
 
+
   return (
 		<div>
 			<HeaderComponent newAlertsCount={props.newAlertsCount} newMessagesCount={props.newMessagesCount} />
-			{subHeader()}
-	    <div className="container create-post-wrapper">
-        { stepNumber === 1 && <DetailComponent setStepNumber={setStepNumber} btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} charCount={charCount}  setCharCount={setCharCount} /> }
-        { stepNumber === 2 && <CategoryComponent setStepNumber={setStepNumber} postCategories={PostCategories} category={category} setCategory={setCategory} /> }
-        { stepNumber === 3 && <SubmitComponent save={savePost} setStepNumber={setStepNumber} /> }
-				<div className="text-center">
-					{
-						result.status &&
-						<div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
-							{result.message}
-						</div>
-					}
-				</div>
-
-		  	<button className="btn d-none" onClick={updateAdditionalStories}>UPDATE DB</button>
-				{/*
-		  	<div className="row">
-		    	<div className="col-xs-12 col-md-9">
-			      <div className="card create-post-card mt-2 mb-4">
-			      	<div className="d-flex">
-			      		<div className="col-12 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: "#eee"}}>
-			      			<div className="d-flex align-self-center">
-			      				<i className="fa fa-pencil pr-1 mt-1"></i> &nbsp;
-			      				<span>Share an experience / Pinch a feeling
-			      				</span>
-			      			</div>
-			      		</div>
-			      	</div>
-			      	<div className="create-post">
-					    	<textarea className="post-textbox font-xs-small" rows={5} placeholder={`${sharePost.id && !story.text ? "Continue your experience" : "Start typing here.. Ex: Love BBQ, BMW is my favorite car..."}`} maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
-								<div className="p-2 text-secondary text-center">
-									<label htmlFor="staticAudioFile">
-						    	{
-						    		btnUpload === "Upload" ?
-						    			fileUrl ?
-							    		<div className="profile-pic-section">
-								    		<audio src={fileUrl} controls controlsList="nodownload"></audio>
-								    		<br/>
-												<span className="btn-link btn-sm font-xs-small" onClick={deleteFile}>
-													Remove audio
-												</span>
-											</div> :
-											<div>
-												<i className="fa fa-plus-circle"></i> &nbsp;
-												<span className="font-small">Upload your experience as an audio clip</span>
-											</div>
-										: <div className="font-small"><i className="fa fa-spinner fa-spin"></i> {btnUpload !== "Upload" && btnUpload}</div>
-						    	}
-						    	</label>
-						      <input type="file" className="form-control-plaintext d-none" id="staticAudioFile" onChange={e => uploadAudio(e.target.files[0])} accept="audio/*" />
-							  </div>
-								<div className="input-group px-1">
-								  <div className="input-group-prepend">
-								    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
-								    This post is about your
-								    </label>
-								  </div>
-								  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange("category", e.target.value)} value={category.title}>
-								    <option value="">Choose...</option>
-								    {
-								    	PostCategories.map(category => (
-								    		<option value={category.title} key={category.key}>
-								    		{category.title}
-								    		</option>
-								    	))
-								    }
-								  </select>
+			<div>
+        <SidebarComponent currentUser={currentUser} />
+        <div className="dashboard-content">
+			     {subHeader()}
+			    <div className="container create-post-wrapper">
+		        { stepNumber === 1 && <DetailComponent setStepNumber={setStepNumber} btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} /> }
+		        { stepNumber === 2 && <CategoryComponent setStepNumber={setStepNumber} postCategories={PostCategories} category={category} setCategory={setCategory} /> }
+		        { stepNumber === 3 && <SubmitComponent save={savePost} setStepNumber={setStepNumber} /> }
+						<div className="text-center">
+							{
+								result.status &&
+								<div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
+									{result.message}
 								</div>
-					    	<div className="px-1 py-2 pull-right">
-					    		<button className="btn btn-outline-secondary btn-sm pull-right ml-2" onClick={cancelPost} disabled={postBtn !== "Post"}>
-					    		Cancel
-					    		</button>
-					    		<button className="btn btn-secondary btn-sm pull-right" onClick={savePost} disabled={postBtn !== "Post"}>
-					    		{sharePost.id ? "Update" : "Post"}
-					    		</button>
-					    		{
-					    			(charCount !== 500) &&
-						    		<small className="pull-right pr-2 pt-1">{charCount} chars left</small>
-					    		}
-					    	</div>
-					    </div>
-				    </div>
-			    </div>
-		  	</div>
-				*/}
+							}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
   );
@@ -280,4 +212,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withRouter(CreatePostComponent));
+)(withRouter(ParentComponent));

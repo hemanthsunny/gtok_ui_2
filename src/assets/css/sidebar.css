@@ -1,0 +1,78 @@
+/* Dashboard sidebar - >576px */
+.sidebar {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 16.25rem;
+  flex-shrink: 0;
+  min-height: 100vh;
+}
+
+.sidebar .header .nav-link {
+  padding: var(--spacing-12);
+}
+
+.sidebar .header .nav-link:first-child {
+  background-color: var(--color-gray-100);
+}
+
+.sidebar .header .nav-link .static-avatar {
+  height: var(--spacing-48);
+  width: var(--spacing-48);
+  border-radius: 50%;
+  float: left;
+}
+
+.sidebar .header .nav-link .static-avatar.-no {
+  background-color: var(--color-violet-400);
+  color: var(--color-white);
+  padding-top: var(--spacing-8);
+  font-size: var(--font-size-bigger);
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.sidebar .header .nav-link .static-text {
+  color: var(--color-text);
+  text-transform: capitalize;
+  padding-top: var(--spacing-8);
+  padding-left: 1rem;
+  font-size: var(--font-size-bigger);
+}
+
+.sidebar .header .nav-link:first-child .static-text .caption {
+  font-size: var(--font-size-smaller);
+}
+
+.sidebar .header .nav-link .static-text img {
+  width: var(--font-size-bigger);
+  padding-top: var(--spacing-8);
+  float: right;
+}
+
+.sidebar .header .nav-link.-sm img {
+  width: var(--spacing-24);
+  float: left;
+}
+
+.sidebar .header .nav-link.-sm .static-text {
+  font-size: var(--font-size);
+  padding: 0.75rem 2rem 0;
+}
+
+/* Sidebar footer */
+.sidebar .footer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: 0px;
+  background-color: var(--color-gray-100);
+}
+
+.sidebar .footer .nav-link {
+  color: var(--color-text);
+  text-transform: capitalize;
+  padding: var(--spacing-16);
+  width: 16rem;
+  text-align: center;
+}

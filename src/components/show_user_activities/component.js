@@ -87,7 +87,7 @@ class UserActivitiesComponent extends Component {
 									<div className="media-body">
 										<div className="activity-text">
 											{activity.text}
-											<img src={require(`assets/svgs/Trash.svg`)} className={`trash-icon pointer pull-right ${activity.userId !== this.props.currentUser.id && "d-none"}`} alt="Remove" onClick={e => this.deleteActivity(activity)} />
+											<img src={require(`assets/svgs/Trash.svg`).default} className={`trash-icon pointer pull-right ${activity.userId !== this.props.currentUser.id && "d-none"}`} alt="Remove" onClick={e => this.deleteActivity(activity)} />
 										</div>
 										<p className="activity-description">{activity.description}</p>
 									</div>

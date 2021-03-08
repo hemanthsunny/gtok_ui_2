@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import $ from "jquery";
 
-import { 
+import {
 	add,
 	arrayAdd,
 	arrayRemove,
@@ -42,7 +42,7 @@ const DisplayPostComponent = ({
 			setPostedUser(result);
 		}
 		getPostedUser();
-		function enableSwipe() {			
+		function enableSwipe() {
 			$(".carousel").on("touchstart", function(event){
         let xClick = event.originalEvent.touches[0].pageX;
 		    $(this).one("touchmove", function(event){
@@ -154,7 +154,7 @@ const DisplayPostComponent = ({
 
 	const redirectToProfile = async () => {
 		if (!hideRedirects) {
-			history.push("/app/profile/"+displayPost.userId);			
+			history.push("/app/profile/"+displayPost.userId);
 		}
 	}
 
@@ -181,7 +181,7 @@ const DisplayPostComponent = ({
 	}
 
 	const editPost = (post, idx) => {
-		if (displayPost.id) {		
+		if (displayPost.id) {
 			history.push({
 	  		pathname: "/app/create_post",
 	  		state: {
@@ -194,7 +194,7 @@ const DisplayPostComponent = ({
 	}
 
 	const addPost = (idx) => {
-		if (displayPost.id) {		
+		if (displayPost.id) {
 			history.push({
 	  		pathname: "/app/create_post",
 	  		state: {
@@ -251,13 +251,13 @@ const DisplayPostComponent = ({
 				  		))
 				  	}
 				  </div>
-				  {displayPost.stories.length > 1 && 
+				  {displayPost.stories.length > 1 &&
 					  <a className="carousel-control-prev" href={`#${displayPost.id}`} role="button" data-slide="prev">
 					    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
 					    <span className="sr-only">Previous</span>
 					  </a>
 					}
-				  {displayPost.stories.length > 1 && 
+				  {displayPost.stories.length > 1 &&
 					  <a className="carousel-control-next" href={`#${displayPost.id}`} role="button" data-slide="next">
 					    <span className="carousel-control-next-icon" aria-hidden="true"></span>
 					    <span className="sr-only">Next</span>
@@ -277,8 +277,8 @@ const DisplayPostComponent = ({
 					  </button>
 					}
 				  {
-				  	!hideShareBtn && 
-					  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={sharePost}>
+				  	!hideShareBtn &&
+					  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary d-none" onClick={sharePost}>
 					  	<i className="fa fa-share-alt"></i>
 					  </button>
 					}
@@ -314,7 +314,7 @@ const DisplayPostComponent = ({
 				    </Link>
 				  }
 				  {/*
-				  	!hideShareBtn && 
+				  	!hideShareBtn &&
 					  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={e => sharePost()}>
 					  	<i className="fa fa-share-alt"></i>
 					  </button>*/

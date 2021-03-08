@@ -29,6 +29,7 @@ const PostComponent = ({
 	const [ followersCount, setFollowersCount ] = useState(displayPost.followers.length);
 	const [ followerLoading, setFollowerLoading ] = useState(false);
 	const [ result, setResult ] = useState({});
+	const [ activeIndex, setActiveIndex ] = useState(0);
 	const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active));
 	const history = useHistory();
 
@@ -147,7 +148,7 @@ const PostComponent = ({
 		}
 	}
 
-	const sharePost = async () => {
+	const showPost = async () => {
 		await bindSharePost(currentUser, "id", {post});
 		history.push("/app/posts/"+displayPost.id);
 	}
@@ -184,128 +185,96 @@ const PostComponent = ({
 		}
 	}
 
+	const slideTo = (action, idx) => {
+		let totalSlides = displayPost.stories.length;
+		if (action === "prev") {
+			if (idx === 0) {
+				setActiveIndex(totalSlides-1);
+			} else {
+				setActiveIndex(idx-1);
+			}
+		} else {
+			if (idx === totalSlides-1) {
+				setActiveIndex(0);
+			} else {
+				setActiveIndex(idx+1);
+			}
+		}
+	}
+
   return postedUser && displayPost.stories && (
-    <div className="card card-br-0 mb-4 pb-2">
+    <div className="card post-card-wrapper">
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-			<div className="media post-card-image p-2 text-secondary">
-		  	<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => redirectToProfile()}/>
-			  <div className="media-body">
-			    <h6 className="my-0 text-camelcase font-small">
-			    	{capitalizeFirstLetter(postedUser.displayName)}
-			    </h6>
-			    <span className="font-small" title="Posted time">
-			    <i className="fa fa-clock-o"></i>&nbsp;{moment(displayPost.createdAt).fromNow()}
-			    </span>
-			    <span className="font-small ml-2" title="Post category">
-			    <i className="fa fa-tag"></i>&nbsp;{selectCategory(displayPost.categoryId)}
-			    </span>
-			  </div>
-		  </div>
+			<div>
+				<span className="card-badge">{selectCategory(displayPost.categoryId)}</span>
+				<div className="card-follow">
+				{followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
+					<button className="btn btn-link p-0 pr-2" onClick={e => followPost(e)}>
+						<i className={`fa fa-heart ${follower && "-active"}`}></i>
+					</button>
+				}
+				</div>
+			</div>
       {
         (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId)) ?
-        <div className="card-body text-center">
+        <div className="card-body">
           <div className="blur-post">
             This post is locked. <br/> To unlock this post, purchase premium of the profile user.
           </div>
           <Link to={`/app/profile/${displayPost.userId}/unlock_profile`} className="unlock-post">
-            Unlock post
+            <i className="fa fa-lock"></i> Unlock post
           </Link>
         </div>
         :
-  		  <div className="card-body text-center">
-    			<div id={displayPost.id} className="carousel slide" data-ride="carousel" data-interval="false">
-  				  <div className="carousel-inner">
-  				  	{
-  				  		displayPost.stories.map((story, idx) => (
-  						    <div className={`carousel-item ${idx===0 && "active"}`} key={idx}>
-  							  	<p className="white-space-preline">{story.text}</p>
-  					  			{ story.fileUrl &&
-  						    		<audio src={story.fileUrl} controls controlsList="nodownload"></audio>
-  									}
-  				  		  	{
-  						    		(displayPost.userId === currentUser.id) &&
-  				    				<div className="d-inline">
-  				    					<br/>
-  							        <button className="btn btn-link" onClick={e => editPost(story, idx)}>
-  							        	<i className="fa fa-pencil text-secondary"></i>
-  							        </button>
-  							        <button className="btn btn-link" onClick={e => deletePost(story, idx)}>
-  							        	<i className="fa fa-trash text-secondary"></i>
-  							        </button>
-  				    				</div>
-  						    	}
-  								</div>
-  				  		))
-  				  	}
-  				  </div>
-  				  {displayPost.stories.length > 1 &&
-  					  <a className="carousel-control-prev" href={`#${displayPost.id}`} role="button" data-slide="prev">
-  					    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-  					    <span className="sr-only">Previous</span>
-  					  </a>
-  					}
-  				  {displayPost.stories.length > 1 &&
-  					  <a className="carousel-control-next" href={`#${displayPost.id}`} role="button" data-slide="next">
-  					    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-  					    <span className="sr-only">Next</span>
-  					  </a>
-  					}
-  				</div>
+  		  <div className="card-body">
+			  	{
+			  		displayPost.stories.map((story, idx) => (
+					    <div className={`${idx!==activeIndex && "d-none"}`} key={idx}>
+						  	<p className="white-space-preline" onClick={showPost}>
+									{story.text.length <= 150 ? story.text :
+										<span className="pointer">{story.text.slice(0, 149)} <small>. . . See full story</small></span>
+									}
+								</p>
+				  			{ story.fileUrl &&
+					    		<audio src={story.fileUrl} controls controlsList="nodownload"></audio>
+								}
+								{
+									displayPost.stories.length > 1 &&
+									<div className="carousel-effect">
+										<span className="prev" onClick={e => slideTo("prev", idx)}>Prev</span>
+										<span className="next" onClick={e => slideTo("next", idx)}>Next</span>
+									</div>
+								}
+								<div className="clearfix my-4"></div>
+								<div className="media card-details">
+							  	{/*<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => redirectToProfile()}/>*/}
+								  <div className="media-body">
+								    <h6>
+								    	<span onClick={e => redirectToProfile()}>@{postedUser.displayName}</span>
+											<div className="edit-options">
+												<button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && "d-none"}`} onClick={e => editPost(story, idx)}>
+													<i className="fa fa-pencil"></i>
+												</button>
+												<button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && "d-none"}`} onClick={e => deletePost(story, idx)}>
+													<i className="fa fa-trash"></i>
+												</button>
+												<button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={showPost}>
+													<i className="fa fa-share-alt"></i>
+												</button>
+											</div>
+								    </h6>
+								    <span className="created-at">
+								    	{moment(displayPost.createdAt).fromNow()}
+								    </span>
+								  </div>
+							  </div>
+							</div>
+			  		))
+			  	}
   			</div>
       }
-
-			<div className="post-card-footer">
-				<div className="pull-left">
-				  {followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
-					  <button className="btn btn-link btn-sm ml-2 fs-15" onClick={e => followPost(e)}>
-				  		<i className={`fa fa-heart ${follower ? "text-danger" : "text-secondary"}`}></i> &nbsp;
-				  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{followersCount}</span>
-					  </button>
-					}
-				  {
-				  	!hideShareBtn &&
-					  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={sharePost}>
-					  	<i className="fa fa-share-alt"></i>
-					  </button>
-					}
-				</div>
-				<div className="pull-right">
-			  	{
-			  		(displayPost.userId === currentUser.id) &&
-				  	<button className="btn btn-link text-secondary btn-sm mr-2" onClick={e => addPost(displayPost.stories.length)}>
-				  		<i className="fa fa-plus"></i>
-				  	</button>
-				  }
-				</div>
-	  		<div className="mt-2 d-none">
-			  	{
-			  		currentUser.id !== displayPost.userId &&
-				  	<button className="btn btn-outline-secondary btn-sm font-xs-small ml-2" title="Number of similar people" onClick={e => followPost(e)}>
-				  		{followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
-				  			<div>
-						  		<i className={`fa fa-heart ${follower && "text-danger"}`}></i> &nbsp;
-						  		{follower ? "Remove Pinch" : "Same Pinch"}
-				  			</div>
-				  		}
-				  	</button>
-				  }
-			  	{
-			  		currentUser.id !== displayPost.userId && !hideSimilarityBtn &&
-				    <Link to={"/app/profile/"+displayPost.userId} className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" title={"Show similarities with "+postedUser.displayName && postedUser.displayName.split(" ")[0]}>
-				    	<i className="fa fa-bar-chart"></i> &nbsp;
-					    Similarities
-				    </Link>
-				  }
-				  {/*
-				  	!hideShareBtn &&
-					  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={e => sharePost()}>
-					  	<i className="fa fa-share-alt"></i>
-					  </button>*/
-				  }
-			  </div>
-		  </div>
     </div>
   );
 };

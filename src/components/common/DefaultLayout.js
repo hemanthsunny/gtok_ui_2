@@ -6,7 +6,7 @@ import { HeaderComponent, BottomHeaderComponent, UserPermissionsComponent } from
 const DefaultLayout = ({children, dbUser}) => {
   return (
     <div>
-    	{ (window.innerWidth < 576) ? <BottomHeaderComponent currentUser={dbUser} /> : <HeaderComponent currentUser={dbUser} />}
+    	{(window.innerWidth < 576) ? <BottomHeaderComponent currentUser={dbUser} /> : <HeaderComponent currentUser={dbUser} />}
 			<UserPermissionsComponent />
     	<div className="mt-5 mb-5 pt-3 bottom-sm-padding">
 		  	{children}

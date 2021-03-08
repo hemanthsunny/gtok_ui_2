@@ -5,24 +5,23 @@ import SignupComponent from "components/auth/SignupComponent";
 import SignupSuccessComponent from "components/auth/SignupSuccessComponent";
 import ForgotPasswordComponent from "components/auth/ForgotPasswordComponent";
 import DeleteProfileComponent from "components/auth/DeleteProfileComponent";
-import AlertsComponent from "components/alerts/AlertsComponent";
+import AlertsComponent from "components/alerts/component";
 import HomeComponent from "components/home/HomeComponent";
 import DisplayComponent from "components/display_question/DisplayComponent";
 import PrivateProfileComponent from "components/profile/PrivateProfileComponent";
 import PublicProfileComponent from "components/profile/PublicProfileComponent";
 import SimilarityComponent from "components/profile/SimilarityComponent";
-import GraphsComponent from "components/graphs/GraphsComponent";
-import LineGraphComponent from "components/graphs/LineGraphComponent";
-import LineChartComponent from "components/graphs/LineChartComponent";
-import CalendarComponent from "components/graphs/CalendarComponent";
 import SurveysComponent from "components/surveys/SurveysComponent";
 import AddSurveyComponent from "components/surveys/AddSurveyComponent";
 import DisplaySurveyComponent from "components/surveys/DisplaySurveyComponent";
 import PaymentsComponent from "components/payments/PaymentsComponent";
-import SearchComponent from "components/search/SearchComponent";
+import SearchComponent from "components/search/component";
 import SearchUserComponent from "components/search/SearchUserComponent";
 import DisplaySearchUserComponent from "components/search/DisplaySearchUserComponent";
 import PendingUserComponent from "components/search/PendingUserComponent";
+import SearchRequestsComponent from "components/search_requests/component";
+import SearchFollowersComponent from "components/search_followers/component";
+import SearchFollowingComponent from "components/search_following/component";
 import CheckSimilarityComponent from "components/search/CheckSimilarityComponent";
 import DefaultLayout from "components/common/DefaultLayout";
 import HeaderComponent from "components/common/HeaderComponent";
@@ -34,18 +33,16 @@ import NoInternetNotification from "components/common/NoInternetNotification";
 import CookieNotification from "components/common/CookieNotification";
 import ModalComponent from "components/common/ModalComponent";
 import FormFieldsComponent from "components/common/FormFieldsComponent";
-import ChatsComponent from "components/conversation/ChatsComponent";
-import SingleChatComponent from "components/conversation/SingleChatComponent";
-import CreateChatComponent from "components/conversation/CreateChatComponent";
-import MobileChatsComponent from "components/conversation/mobile/ChatsComponent";
-import MobileSingleChatComponent from "components/conversation/mobile/SingleChatComponent";
+import CreateChatComponent from "components/chats/CreateChatComponent";
+import MobileChatsComponent from "components/chats/mobile/ChatsComponent";
+import MobileSingleChatComponent from "components/chats/mobile/SingleChatComponent";
 import SupportComponent from "components/support/SupportComponent";
 import PermissionsComponent from "components/permissions/component";
 import LoadingComponent from "components/common/LoadingComponent";
 import DisplayPostComponent from "components/home/DisplayPostComponent";
 import GeneratePostComponent from "components/home/GeneratePostComponent";
 import TodayTrendsComponent from "components/home/TodayTrendsComponent";
-import SharePostComponent from "components/home/SharePostComponent";
+// import SharePostComponent from "components/home/SharePostComponent";
 import HelmetMetaDataComponent from "components/common/HelmetMetaDataComponent";
 import UserPermissionsComponent from "components/common/UserPermissionsComponent";
 import AuthBotComponent from "components/auth/AuthBotComponent";
@@ -62,9 +59,8 @@ import ChangePasswordComponent from "components/change_password/component";
 import EditProfileComponent from "components/edit_profile/component";
 import ProfileComponent from "components/profile/component";
 import ChallengesComponent from "components/challenges/component";
-import PurchaseBadgesComponent from "components/purchase_badges/component";
-import RedeemBadgesComponent from "components/redeem_badges/component";
 import ShowPostsComponent from "components/show_posts/component";
+import ShowPostComponent from "components/show_post/component";
 import ShowActivitiesComponent from "components/show_activities/component";
 import ShowUserPostsComponent from "components/show_user_posts/component";
 import ShowUserActivitiesComponent from "components/show_user_activities/component";
@@ -74,6 +70,12 @@ import WalletComponent from "components/wallet/component";
 import AddPriceComponent from "components/add_price/component";
 import UnlockProfileComponent from "components/unlock_profile/component";
 import PurchaseOrdersComponent from "components/purchase_orders/component";
+import ChatsComponent from "components/chats/component";
+import ShowChatComponent from "components/show_chat/component";
+import SidebarComponent from "components/common/sidebar/component";
+import CustomImageComponent from "components/common/custom_image/component";
+import ShowOpenPostsComponent from "components/common/show_open_posts/component";
+import ShowOpenActivitiesComponent from "components/common/show_open_activities/component";
 
 export {
 	EmailVerifyComponent,
@@ -87,10 +89,6 @@ export {
 	PrivateProfileComponent,
 	PublicProfileComponent,
 	SimilarityComponent,
-	GraphsComponent,
-	LineGraphComponent,
-	LineChartComponent,
-	CalendarComponent,
 	SurveysComponent,
 	AddSurveyComponent,
 	PaymentsComponent,
@@ -98,6 +96,9 @@ export {
 	SearchUserComponent,
 	DisplaySearchUserComponent,
 	PendingUserComponent,
+	SearchRequestsComponent,
+	SearchFollowersComponent,
+	SearchFollowingComponent,
 	CheckSimilarityComponent,
 	DefaultLayout,
 	HeaderComponent,
@@ -112,8 +113,6 @@ export {
 	FormFieldsComponent,
 	DisplaySurveyComponent,
 	LogoutComponent,
-	ChatsComponent,
-	SingleChatComponent,
 	CreateChatComponent,
 	MobileChatsComponent,
 	MobileSingleChatComponent,
@@ -123,7 +122,6 @@ export {
 	DisplayPostComponent,
 	GeneratePostComponent,
 	TodayTrendsComponent,
-	SharePostComponent,
 	HelmetMetaDataComponent,
 	UserPermissionsComponent,
 	AuthBotComponent,
@@ -140,9 +138,8 @@ export {
 	EditProfileComponent,
 	ProfileComponent,
 	ChallengesComponent,
-	PurchaseBadgesComponent,
-	RedeemBadgesComponent,
 	ShowPostsComponent,
+	ShowPostComponent,
 	ShowActivitiesComponent,
 	ShowUserPostsComponent,
 	ShowUserActivitiesComponent,
@@ -151,5 +148,11 @@ export {
 	WalletComponent,
 	AddPriceComponent,
 	UnlockProfileComponent,
-	PurchaseOrdersComponent
+	PurchaseOrdersComponent,
+	ChatsComponent,
+	ShowChatComponent,
+	SidebarComponent,
+	CustomImageComponent,
+	ShowOpenPostsComponent,
+	ShowOpenActivitiesComponent
 }

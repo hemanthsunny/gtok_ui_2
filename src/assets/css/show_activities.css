@@ -6,48 +6,60 @@
   z-index: 9;
 }
 
-.activities-wrapper {
-  position: relative;
-  top: 30px;
+.activity-card-wrapper {
+  padding: 1rem 0.75rem;
+  margin: 1rem;
 }
 
-.activities-wrapper .activity-card  {
-  background: white;
-  padding: 5px 0;
+.activity-card-wrapper .btn {
+  font-size: var(--font-size-bigger);
+  color: var(--color-gray-600);
 }
 
-.activities-wrapper .activity-card .media {
-  align-items: center;
+.activity-card-wrapper .fa {
+  font-size: var(--font-size-bigger);
+  color: var(--color-gray-600);
 }
 
-.activities-wrapper .activity-card .activity-time {
-  margin: 0.3rem;
-  padding: 0.3rem;
-  font-size: 11px;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.5);
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  text-align: center;
+.activity-card-wrapper .fa.-active {
+  color: var(--color-violet-400);
+}
+
+.activity-card-wrapper .created-at {
+  font-size: var(--font-size);
+}
+
+.activity-card-wrapper .card-badge {
+  font-size: small;
+  background-color: var(--color-gray-100);
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
   float: left;
 }
 
-
-.activities-wrapper .activity-card .activity-text {
-  margin: 0.3rem;
-  font-weight: 500;
-  font-size: 13px;
+.activity-card-wrapper .card-follow {
+  float: right;
 }
 
-.activities-wrapper .activity-card .activity-description {
-  margin-left: 0.3rem;
-  font-size: 11px;
+.activity-card-wrapper .card-body {
+  padding-bottom: 0;
+  padding-left: 0.3rem;
+  padding-top: 0.5rem;
+  padding-right: 0.3rem;
 }
 
-.activities-wrapper .activity-card .activity-divider {
-  margin: 7px 0px !important;
+.activity-card-wrapper .card-body .description {
+  font-size: var(--font-size);
+  padding-top: var(--spacing-8);
 }
 
-.trash-icon {
-  width: 21px;
+@media (min-width: 576px) {
+  .activity-wrapper {
+    padding: 0rem 3rem 5rem;
+  }
+
+  .activity-card-wrapper {
+    padding: 1.5rem 1.5rem 1rem;
+    margin: 2rem 0;
+  }
 }

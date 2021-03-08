@@ -2,36 +2,38 @@ import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import moment from "moment";
 
-import { signup, add } from "firebase_config";
+import { signup, add, getQuery, firestore } from "firebase_config";
 import { StaticHeaderComponent } from "components";
 import { validateEmail } from "helpers";
 
 const SignupComponent = () => {
-  const [ name, setName ] = useState("");
-  const [ dob, setDob ] = useState("");
+  const [ username, setUsername ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
-  const [ cpassword, setCpassword ] = useState("");
-  // const [tnc, setTnc] = useState(false);
+  const [ tnc, setTnc ] = useState(false);
   const [ emailUpdates, setEmailUpdates ] = useState(true);
 	const [ btnSave, setBtnSave ] = useState("Submit");
   const [ error, setErrors ] = useState("");
-  const [eyeIcon, setEyeIcon] = useState("fa-eye");
+  const [ eyeIcon, setEyeIcon ] = useState("fa-eye");
   const history = useHistory();
 
   const handleForm = async (e) => {
     e.preventDefault();
-    if (!name || !name.trim()) {
-    	setErrors("Name is mandatory");
+    if (!username || !username.trim()) {
+    	setErrors("Username is mandatory");
     	return;
     }
-    if (!dob) {
-    	setErrors("Date of Birth is mandatory");
-    	return;
+    let data = {
+    	username: username.toLowerCase().replace(/ /g, "_"),
+      displayName: username.toLowerCase().replace(/_/g, " ")
     }
-    if (dob && (moment().diff(dob, 'years', false) < 18)) {
-    	setErrors("You must be 18 years old to proceed");
-    	return;
+    // Verify username in database
+    let user = await getQuery(
+      firestore.collection("users").where("username", "==", data["username"]).get()
+    );
+    if (user || user[0]) {
+      setErrors("Username is already in use. Attempt anything new.");
+      return;
     }
     if (!email || !email.trim()) {
     	setErrors("Email is mandatory");
@@ -45,32 +47,18 @@ const SignupComponent = () => {
     	setErrors("Password is mandatory");
     	return;
     }
-    if (!cpassword || !cpassword.trim()) {
-    	setErrors("Re-enter your password");
+    if (!tnc) {
+    	setErrors("Agree to our Terms and conditions");
     	return;
-    }
-    if (password !== cpassword) {
-    	setErrors("Password & Re-enter password must match");
-    	return;
-    }
-    // if (!tnc) {
-    // 	setErrors("Agree to our Terms and conditions");
-    // 	return;
-    // }
-    let data = {
-    	name: name.toLowerCase(),
-    	dob,
-    	emailUpdates
     }
     setBtnSave("Submitting...");
     await signup({email, password, data});
     let userData = {
   		email,
   		followers: [],
-  		displayName: name.toLowerCase(),
-  		dob,
+  		username: data["username"],
   		permissions: {
-  			tnc: true,
+  			tnc,
   			recordPageVisits: true,
   			locationAccess: true,
   			emailUpdates
@@ -98,47 +86,32 @@ const SignupComponent = () => {
   	}
   }
 
-	/*
-  const handleGoogleLogin = async () => {
-    let result = await googleSignup();
-    if (result.status !== 200) {
-    	setErrors(result.message);
-    	return;
-    } 
-    Auth.setLoggedIn(true)
-  	history.push("/app/home");
-  }*/
+  const verifyUsername = async () => {
+    let un = username.toLowerCase().replace(/ /g, "_");
+    let user = await getQuery(
+      firestore.collection("users").where("username", "==", un).get()
+    );
+    if (user || user[0]) {
+      setErrors("Username is already in use. Attempt anything new.");
+      return null;
+    }
+  }
 
   return (
-    <div className="container">
+    <div >
     	<StaticHeaderComponent />
-    	<div className="mt-5 pt-5">
-    		<div className="signup-form mb-3">
-			    <h5>Signup</h5>
-			    <div className="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
-			  </div>
-	      <div className="signup-form">
+    	<div className="login-form">
+        <h4 className="page-header mb-4">Signup</h4>
+	      <div>
 		    	<div className="form-group">
-		    		<label>Name</label>
+		    		<label>Username</label>
 		        <input
-		          value={name}
-		          onChange={e => setName(e.target.value)}
+		          value={username}
+		          onChange={e => setUsername(e.target.value.toLowerCase())}
 		          name="name"
 		          type="text"
 		          className="form-control"
-		          placeholder="Enter your name"
-		        />
-		    	</div>
-		    	<div className="form-group">
-		    		<label>Date of birth</label>
-		        <input
-		          onChange={e => setDob(e.target.value)}
-		          name="dob"
-		          value={dob}
-		          type="date"
-		          className="form-control"
-		          placeholder="Date of birth"
-		          max="2003-01-01"
+		          placeholder="Username must be unique"
 		        />
 		    	</div>
 		    	<div className="form-group">
@@ -161,20 +134,9 @@ const SignupComponent = () => {
 		          type="password"
 		          className="form-control"
 		          id="signupPass"
-		          placeholder="Enter password (must be atleast 6 letters)"
+		          placeholder="Atleast 6 letters required"
 		        />
 		    		<i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
-		    	</div>
-		    	<div className="form-group">
-		    		<label>Re-enter Password</label>
-		        <input
-		          onChange={e => setCpassword(e.target.value)}
-		          name="cpassword"
-		          value={cpassword}
-		          type="password"
-		          className="form-control"
-		          placeholder="Re-enter password"
-		        />
 		    	</div>
 	      {/*
 					<div className="d-flex">
@@ -186,20 +148,25 @@ const SignupComponent = () => {
 						</div>
 					</div>
 				*/}
-					<div className="d-flex align-items-center">
-						<div className="custom-switch mb-2">
-						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
-						  <label className="custom-control-label" htmlFor="emailUpdates">
-						  	Would like to get email notifications.
+					<div className="permissions">
+            <div className="form-check">
+              <input type="checkbox" className="form-check-input" id="tnc" name="tnc" onChange={e => setTnc(!tnc)} checked={tnc} />
+              <label className="form-check-label" htmlFor="tnc">
+                I'm at least 16 years old. Accept our Terms and Conditions, and our Privacy Policy.
+              </label>
+            </div>
+						<div className="form-check mt-2">
+						  <input type="checkbox" className="form-check-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
+						  <label className="form-check-label" htmlFor="emailUpdates">
+						  	I'd like to be notified by email.
 						  </label>
 						</div>
 					</div>
-	      	{error && <div className="text-danger fw-900"><br/><i className="fa fa-info-circle"></i>&nbsp;{error}</div>}
-	      	<div className="d-flex align-items-center">
-	      		<div className="flex-grow-1">
-						  <button className="btn btn-submit btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
-						</div>
-		        <Link to="/login">Existing User? Login</Link>
+          {error && <div className="text-danger text-center mt-3">{error}</div>}
+          <button className="btn btn-sm btn-violet col-12 my-4" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+					<div className="d-flex page-opts">
+		        <Link to="/login" className="flex-grow-1">Already exists? Login</Link>
+		        <Link to="/forgot_password">Forgot password</Link> <br/>
 		      </div>
 	      </div>
 	    </div>

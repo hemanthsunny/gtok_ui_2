@@ -1,12 +1,15 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import { StaticHeaderComponent } from "components";
 
 const LogoutComponent = () => (
-  <div className="App">
+  <div>
   	<StaticHeaderComponent />
-  	<div className="mt-5 pt-3">
-      <h5>Succesfully logged out.</h5>
-      <a href="/login">Login again</a>
+  	<div className="login-form">
+      <h5 className="page-header">Succesfully logged out.</h5>
+      <div className="page-opts text-center">
+        <Link to="/login" className="flex-grow-1">Login again</Link>
+      </div>
     </div>
   </div>
 );
