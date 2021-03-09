@@ -27,6 +27,7 @@ class ParentComponent extends Component {
 		// this.messagesList = [];
 		this.bindMessages = props.bindMessages;
 		this.bindNewMessagesCount = props.bindNewMessagesCount;
+		this.scrollRef = React.createRef();
 	}
 
 	componentDidMount() {
@@ -68,8 +69,11 @@ class ParentComponent extends Component {
 	}
 
 	scrollToBottom = (e) => {
-		var div = $(".chat-window");
-		div.scrollTop(div.prop("scrollHeight"));
+		setTimeout(() => {
+			// this.scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			// Alternative option: https://stackoverflow.com/questions/43441856/how-to-scroll-to-an-element
+			window.scrollTo(0, this.scrollRef.current.offsetTop);
+		}, 1000)
 	}
 
 	updateConvo = async (data = {}) => {
@@ -133,6 +137,10 @@ class ParentComponent extends Component {
   }
 
   sendMessage = async () => {
+		if (this.state.status !== 1) {
+			alert("You must follow this user in order to send a message.");
+			return null;
+		}
   	if (!this.state.message.trim()) { return; }
   	let data = {
   		conversationId: this.state.conversation.id,
@@ -182,7 +190,7 @@ class ParentComponent extends Component {
     		this.state.loading ? <LoadingComponent /> :
     		this.state.messagesList[0] ?
     			this.state.messagesList.map((msg, idx) => (
-	    			<div key={idx}>
+	    			<div className="chat-messages" key={idx}>
 		    			<div className={`${this.isMsgAdmin(msg.admin) ? "sender ml-2" : "receiver"} mt-3 white-space-preline`}>
 			    			{msg.text}
 		    				<div className="msg-header">
@@ -205,6 +213,7 @@ class ParentComponent extends Component {
 					))
 				: <div className="text-center text-secondary"> No messages yet </div>
     	}
+			<div ref={this.scrollRef}></div>
   	</div>
   )
 
@@ -213,14 +222,24 @@ class ParentComponent extends Component {
 	}
 
 	subHeader = () => (
-		<div className="dashboard-tabs hide-sm" role="navigation" aria-label="Main">
+		<div className="dashboard-tabs" role="navigation" aria-label="Main">
 			<div className="tabs -big">
-        <Link to="/app/chats" className="tab-item -active">
-          Chats {this.props.newMessagesCount>0 && <sup><img src={require(`assets/svgs/DotActive.svg`).default} className={`dot-icon`} alt="Dot" /></sup>}
+				<div className="tab-item -active">
+					{this.state.conversation && this.state.chatUser ?
+						<div className="text-center">
+							{this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}<br/>
+							{
+								this.state.chatUser.lastSeen &&
+								<small>
+									Last active {this.state.chatUserLastSeen && moment.unix(this.state.chatUserLastSeen).format("HH:mm DD/MM/YYYY")}
+								</small>
+							}
+						</div> : <LoadingComponent />
+					}
+				</div>
+				<Link to="/app/chats" className="tab-item">
+          Go Back
         </Link>
-        <Link to="/app/alerts" className="tab-item">
-					Alerts {this.props.newAlertsCount>0 && <sup><img src={require(`assets/svgs/DotActive.svg`).default} className={`dot-icon`} alt="Dot" /></sup>}
-				</Link>
 			</div>
 		</div>
   );
@@ -231,54 +250,26 @@ class ParentComponent extends Component {
 				<HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
 				<div>
 					<SidebarComponent currentUser={this.props.currentUser} />
-					<div className="dashboard-content">
+					<div className="dashboard-content -opts">
             {this.subHeader()}
-						<div className="container mob-single-chat-window">
+						<div className="mob-single-chat-window">
 				    	{this.state.copied && this.copiedTextAlert() }
 				    	{
 				    		this.state.conversation && this.state.chatUser ? (
 				    			<div>
-						    		<div className="chat-window-header media p-2">
-						    	{/*
-						    			<Link to={"/app/profile/"+this.state.chatUser.id}>
-							    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" onError={this.setDefaultImg} />
-							    		</Link>*/}
-						    			<div className="media-body">
-						    				<div className="d-flex">
-						    					<div className="flex-shrink-1 go-back-btn" title="Go back">
-						    						<Link to="/app/chats">
-						    							<i className="fa fa-arrow-left"></i>
-						    						</Link>
-						    					</div>
-						    					<div className="flex-grow-1 text-right">
-								    				<div className="pl-2 mb-0 chat-user-name">
-										    			<Link to={"/app/profile/"+this.state.chatUser.id}>
-								    						{this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}
-								    					</Link>
-								    				</div>
-								    				{
-								    					this.state.chatUser.lastSeen &&
-									    				<small className="pl-2 fs-12 font-grey chat-user-active">
-										    				Last active {this.state.chatUserLastSeen && moment.unix(this.state.chatUserLastSeen).format("HH:mm DD/MM/YYYY")}
-									    				</small>
-								    				}
-						    					</div>
-						    				</div>
-							    		</div>
-						    		</div>
 						    		{this.renderMessageWindow()}
-						    		{
-									  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary chat-window-footer">You must follow this user to chat.</div> :
-								      <div className="d-flex px-2 align-self-center align-items-center chat-window-footer">
-								    		<div className="flex-grow-1">
-									      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus}>
-									      	</textarea>
-									      </div>
-								      	<div className="flex-shrink-1 pl-2">
-									      	<i className="fa fa-paper-plane reply-box-icon" onClick={e => this.sendMessage()}></i>
-									      </div>
+							      <div className="chat-window-footer">
+											<div className="p-2">
+												<i className="fa fa-paperclip"></i>
+											</div>
+							    		<div className="flex-grow-1 p-2">
+								      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus}>
+								      	</textarea>
 								      </div>
-						    		}
+							      	<div className="p-2">
+								      	<i className="fa fa-paper-plane" onClick={e => this.sendMessage()}></i>
+								      </div>
+							      </div>
 				    			</div>
 				    		) : <LoadingComponent />
 				    	}

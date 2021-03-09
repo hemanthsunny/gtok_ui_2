@@ -9,7 +9,7 @@
 }
 
 .sidebar .header .nav-link {
-  padding: var(--spacing-12);
+  padding: var(--spacing-8);
 }
 
 .sidebar .header .nav-link:first-child {
@@ -32,16 +32,15 @@
   text-transform: capitalize;
 }
 
-.sidebar .header .nav-link .static-text {
+.sidebar .header .nav-link .static-text .title {
   color: var(--color-text);
   text-transform: capitalize;
   padding-top: var(--spacing-8);
-  padding-left: 1rem;
   font-size: var(--font-size-bigger);
 }
 
 .sidebar .header .nav-link:first-child .static-text .caption {
-  font-size: var(--font-size-smaller);
+  font-size: var(--font-size);
 }
 
 .sidebar .header .nav-link .static-text img {

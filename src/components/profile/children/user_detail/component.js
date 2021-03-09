@@ -39,7 +39,7 @@ function Component(props) {
 	}, [userId]);
 
 	const showEligibilityRules = () => {
-		alert(`You must have at least 50 followers and 100 legitimate posts to use this feature.`);
+		alert(`You must have at least 500 followers and 100 legitimate posts to use this feature.`);
 		return null;
 	}
 

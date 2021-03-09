@@ -53,7 +53,7 @@ import {
 const LandingComponent = () => {
 	let token = window.sessionStorage.getItem('token');
 	if (!token) {
-		return (<Redirect to="/posts" />)
+		return (<Redirect to="/login" />)
 	}
 	return (<Redirect to="/app/posts" />);
 };

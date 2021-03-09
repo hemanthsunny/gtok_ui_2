@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CustomImageComponent } from "components";
 
 const SidebarComponent = ({ currentUser }) => {
+  const username = currentUser.username || currentUser.displayName.toLowerCase().replace(/ /g, "_");
   return (window.innerWidth >= 576) && (
     <div className="sidebar">
 	  	<nav className="header">
@@ -11,9 +12,8 @@ const SidebarComponent = ({ currentUser }) => {
           <div className="media">
             <CustomImageComponent user={currentUser} size="lg" />
             <div className="media-body static-text">
-              {currentUser.displayName}
-              <img src={require(`assets/svgs/AngleRight.svg`).default} alt="Edit" />
-              <div className="caption">View profile</div>
+              <div className="title">{currentUser.displayName}</div>
+              <div className="caption">@{username}</div>
             </div>
           </div>
         </Link>
