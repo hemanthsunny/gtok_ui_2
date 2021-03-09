@@ -32,6 +32,14 @@ function SettingsComponent({ currentUser, bindLoggedIn, bindUser, bindDbUser, ne
 		// history.push('/profile_deleted');
   }
 
+  const contactUs = async () => {
+    alert(`Contact us at letsgtok@gmail.com`);
+  }
+
+  const inviteFriend = async () => {
+    alert("Share this app link - https://app.letsgtok.com");
+  }
+
 
   const subHeader = () => (
 		<div className="dashboard-tabs -xs-d-none" role="navigation" aria-label="Main">
@@ -130,17 +138,24 @@ function SettingsComponent({ currentUser, bindLoggedIn, bindUser, bindDbUser, ne
     						</li>
     					</ul>
     				</div>
-    				<div className="section d-none">
+    				<div className="section">
       				<div className="section-header">Support Zone</div>
     					<ul className="section-list">
-    						<li>
+                <li>
+                  <Link to="/app/settings" className="row" onClick={inviteFriend}>
+                    <img src={require(`assets/svgs/Workflow.svg`).default} className="scale-0-9 col-2" alt="Workflow" />
+                    <span className="option-name col-8">Invite my friend</span>
+                    <img src={require(`assets/svgs/AngleRight.svg`).default} className="option-open col-2 d-none" alt="Open" />
+                  </Link>
+                </li>
+    						<li className="d-none">
     							<Link to="/app/settings" className="row" onClick={comeBackAlert}>
     								<img src={require(`assets/svgs/Workflow.svg`).default} className="scale-0-9 col-2" alt="Workflow" />
     								<span className="option-name col-8">App workflow</span>
     								<img src={require(`assets/svgs/AngleRight.svg`).default} className="option-open col-2" alt="Open" />
     							</Link>
     						</li>
-    						<li>
+    						<li className="d-none">
     							<Link to="/app/settings" className="row" onClick={comeBackAlert}>
     								<img src={require(`assets/svgs/Faq.svg`).default} className="scale-1-1 col-2" alt="Faq" />
     								<span className="option-name col-8">Faq's</span>
@@ -148,10 +163,10 @@ function SettingsComponent({ currentUser, bindLoggedIn, bindUser, bindDbUser, ne
     							</Link>
     						</li>
     						<li>
-    							<Link to="/app/settings" className="row" onClick={comeBackAlert}>
+    							<Link to="/app/settings" className="row" onClick={contactUs}>
     								<img src={require(`assets/svgs/Support.svg`).default} className="scale-1-3 col-2" alt="Support" />
     								<span className="option-name col-8">Contact us</span>
-    								<img src={require(`assets/svgs/AngleRight.svg`).default} className="option-open col-2" alt="Open" />
+    								<img src={require(`assets/svgs/AngleRight.svg`).default} className="option-open col-2 d-none" alt="Open" />
     							</Link>
     						</li>
     					</ul>

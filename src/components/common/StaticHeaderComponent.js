@@ -24,12 +24,13 @@ const StaticHeaderComponent = ({routes}) => {
 				<div className="container-fluid">
 		  		<div className="navbar-brand mr-auto">
 		        <Link to="/app/posts">
-							<span className="home-page-title">LetsGtok</span>
+							<span className="home-page-title">Lets Gtok</span>
 		        </Link>
 					</div>
 			  	<ul className="navbar-nav ml-auto">
 						<li className="nav-item">
 							<div className="nav-link p-0">
+								<Link to="/posts">View samples</Link>
 							{
 				  			routes && routes[0] && routes.map(r => (
 									<Link to={r.route}>{r.title}</Link>
