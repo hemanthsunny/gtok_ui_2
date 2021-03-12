@@ -176,8 +176,8 @@ const PostComponent = ({
     }
   }
 
-  const playAudio = () => {
-    const audio = document.getElementById('audio-player')
+  const playAudio = (idx) => {
+    const audio = document.getElementById(`audio-player-${displayPost.id}-${idx}`)
     const duration = parseInt(audio.duration)
     let currentTime = parseInt(audio.currentTime)
 
@@ -240,8 +240,8 @@ const PostComponent = ({
                 </p>
                 { story.fileUrl &&
                   <div className='d-flex align-items-center'>
-                    <audio className='d-none' id='audio-player' src={story.fileUrl} controls controlsList='nodownload' />
-                    <button className='audio-btn' onClick={playAudio}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
+                    <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
+                    <button className='audio-btn' onClick={e => playAudio(idx)}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
                   </div>
                 }
                 {
