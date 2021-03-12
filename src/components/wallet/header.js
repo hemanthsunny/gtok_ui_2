@@ -1,26 +1,26 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-const HeaderComponent = ({username}) => {
+const HeaderComponent = ({ username }) => {
   return (
-    <nav className="navbar fixed-top navbar-expand-sm py-md-0">
-      <Link to="/app/profile">
-        <img src={require(`assets/svgs/LeftArrow.svg`).default} className="go-back-icon" alt="LeftArrow" />
+    <nav className='navbar fixed-top navbar-expand-sm py-md-0'>
+      <Link to='/app/profile'>
+        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
       </Link>
-      <div className="navbar-brand mr-auto fs-16 text-capitalize">
+      <div className='navbar-brand mr-auto fs-16 text-capitalize'>
         Wallet
       </div>
-      <ul className="navbar-nav ml-auto d-none">
-        <li className="">
-          <div className="nav-link p-0">
-            <Link to="/app/settings" title="Settings">
-              <img src={require(`assets/svgs/Settings.svg`).default} className="settings-icon" alt="Settings" />
+      <ul className='navbar-nav ml-auto d-none'>
+        <li className=''>
+          <div className='nav-link p-0'>
+            <Link to='/app/settings' title='Settings'>
+              <img src={require('assets/svgs/Settings.svg').default} className='settings-icon' alt='Settings' />
             </Link>
           </div>
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default HeaderComponent;
+export default HeaderComponent
