@@ -1,30 +1,26 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const SubmitComponent = ({ save, setStepNumber }) => {
-  const [ premium, setPremium ] = useState(false);
+  // const [premium, setPremium] = useState(false)
+  const [anonymous, setAnonymous] = useState(false)
 
   const submit = async () => {
-    await save({premium});
-  }
-
-  const goBack = () => {
-    setStepNumber(2);
+    await save({ anonymous })
   }
 
   return (
-    <div className="container feeling-submit-wrapper">
-      <div>
-        Make it as premium
-        <img src={premium ? require(`assets/svgs/CheckboxActive.svg`).default : require(`assets/svgs/Checkbox.svg`).default} className="checkbox-icon pull-right" alt="Premium" onClick={e => setPremium(!premium)} />
+    <div className='feeling-submit-wrapper'>
+      <div className='p-1 pointer' onClick={e => setAnonymous(!anonymous)}>
+        <img src={anonymous ? require('assets/svgs/CheckboxActive.svg').default : require('assets/svgs/Checkbox.svg').default} className='checkbox-icon' alt='anonymous' />
+        <span className='pl-2'>Post anonymously</span>
       </div>
-      <button className="btn btn-next my-3" onClick={goBack}>
-        Back
-      </button>
-      <button className="btn btn-next my-3 pull-right" onClick={submit}>
-        Save
-      </button>
-		</div>
-  );
-};
+      <div className='p-1 display-right'>
+        <button className='btn btn-violet btn-sm' onClick={submit}>
+          Save
+        </button>
+      </div>
+    </div>
+  )
+}
 
-export default SubmitComponent;
+export default SubmitComponent

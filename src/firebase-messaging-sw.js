@@ -1,10 +1,8 @@
-import * as firebase from "firebase/app";
-import "firebase/messaging";
+import * as firebase from 'firebase/app'
+import 'firebase/messaging'
 
 firebase.initializeApp({
-	messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,	
-});
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
+})
 
-const messaging = firebase.messaging();
-
-export messaging;
+export const messaging = firebase.messaging()

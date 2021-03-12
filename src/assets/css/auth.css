@@ -20,8 +20,8 @@
 
 .login-form input,
 .login-form input[type="email"] {
-	border-radius: 0px;
-	box-shadow: none !important;
+  border-radius: 0px;
+  box-shadow: none !important;
   outline: none !important;
 }
 
@@ -31,14 +31,14 @@
 }
 
 .login-form .input-password {
-	position: relative;
+  position: relative;
 }
 
 .login-form .input-password .show-password {
-	position: absolute;
-	top: 42px;
-	right: 10px;
-	font-size: 17px;
+  position: absolute;
+  top: 42px;
+  right: 10px;
+  font-size: 17px;
   color: var(--color-violet-400);
 }
 

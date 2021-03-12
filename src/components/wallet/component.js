@@ -1,96 +1,97 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 
-import { LoadingComponent } from "components";
-import HeaderComponent from "./header";
-import CreateWalletComponent from "./steps/create_wallet/component";
-import DuplicateWalletComponent from "./steps/duplicate_wallet/component";
-import WalletDetailsComponent from "./steps/wallet_details/component";
+import { LoadingComponent } from 'components'
+import HeaderComponent from './header'
+import CreateWalletComponent from './steps/create_wallet/component'
+import DuplicateWalletComponent from './steps/duplicate_wallet/component'
+import WalletDetailsComponent from './steps/wallet_details/component'
 
-import { add, update, } from "firebase_config";
+import { add, update } from 'firebase_config'
 
-function WalletComponent({ currentUser, wallet }) {
-  const [ loading, setLoading ] = useState(true);
-  const [ walletExists, setWalletExists ] = useState(true);
-  const [ walletDetails, setWalletDetails ] = useState("");
-  const [ duplicateWallet, setDuplicateWallet ] = useState(false);
-  const [ walletAmount, setWalletAmount ] = useState(0);
-  const [ walletCurrency, setWalletCurrency ] = useState("INR");
-  const [ requestSent, setRequestSent ] = useState(false);
-  const [ result, setResult ] = useState({});
+function WalletComponent ({ currentUser, wallet }) {
+  const [loading, setLoading] = useState(true)
+  const [walletExists, setWalletExists] = useState(true)
+  const [walletDetails, setWalletDetails] = useState('')
+  const [duplicateWallet, setDuplicateWallet] = useState(false)
+  // const [walletAmount, setWalletAmount] = useState(0)
+  // const [walletCurrency, setWalletCurrency] = useState('INR')
+  const [requestSent, setRequestSent] = useState(false)
+  // const [result, setResult] = useState({})
 
   useEffect(() => {
     if (wallet.length === 1) {
-      setWalletDetails(wallet);
+      setWalletDetails(wallet)
     } else if (wallet.length > 1) {
-      setWalletDetails(wallet);
-      setDuplicateWallet(true);
-      setRequestSent(!!wallet.find(w => w.requestSent));
+      setWalletDetails(wallet)
+      setDuplicateWallet(true)
+      setRequestSent(!!wallet.find(w => w.requestSent))
     } else {
-      setWalletExists(false);
+      setWalletExists(false)
     }
-    setLoading(false);
-  }, [wallet, setWalletExists, setWalletDetails, setDuplicateWallet, setRequestSent, setLoading]);
+    setLoading(false)
+  }, [wallet, setWalletExists, setWalletDetails, setDuplicateWallet, setRequestSent, setLoading])
 
   const createWallet = async () => {
-    let data = {
+    const data = {
       userId: currentUser.id,
       amount: 0,
-      currency: "INR"
+      currency: 'INR'
     }
-    let res = await add("wallets", data);
+    const res = await add('wallets', data)
     if (res.status === 200) {
-      setWalletDetails(data);
-      setWalletExists(true);
+      setWalletDetails(data)
+      setWalletExists(true)
     }
-    setResult(res)
+    // setResult(res)
   }
 
   const unlockRequest = async () => {
-    let data = {
+    const data = {
       requestSent: true
     }
-    let result;
+    let result
     walletDetails.map(async (item, i) => {
-      result = await update("wallets", item.id, data);
+      result = await update('wallets', item.id, data)
       if (result.status === 200) {
-        setRequestSent(true);
+        setRequestSent(true)
       }
-    });
+    })
   }
 
-  const withdrawAmount = () => {
-    if (walletAmount < 50) {
-      alert(`Atleast 50 ${walletCurrency} required to withdraw.`);
-      return null;
-    }
-    setWalletAmount(100);
-    setWalletCurrency("INR");
-  }
+  // const withdrawAmount = () => {
+  //   if (walletAmount < 50) {
+  //     alert(`Atleast 50 ${walletCurrency} required to withdraw.`)
+  //     return null
+  //   }
+  //   setWalletAmount(100)
+  //   setWalletCurrency('INR')
+  // }
 
-	return (
+  return (
     <div>
       <HeaderComponent />
-  	  <div className="container wallet-wrapper">
+      <div className='container wallet-wrapper'>
         {
-          loading ? <LoadingComponent /> :
-          <div>
+          loading
+            ? <LoadingComponent />
+            : <div>
             {!walletExists && <CreateWalletComponent save={createWallet} />}
             {duplicateWallet && <DuplicateWalletComponent requestSent={requestSent} save={unlockRequest} />}
             {walletExists && !duplicateWallet && <WalletDetailsComponent wallet={walletDetails[0]} />}
           </div>
         }
-  		</div>
+      </div>
     </div>
-	);
+  )
 }
 
 const mapStateToProps = (state) => {
-	const { wallet } = state.wallet
-	return { wallet };
+  const { wallet } = state.wallet
+  return { wallet }
 }
 
 export default connect(
-	mapStateToProps,
-	null
-)(WalletComponent);
+  mapStateToProps,
+  null
+)(WalletComponent)
