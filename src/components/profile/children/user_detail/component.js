@@ -92,10 +92,8 @@ function Component (props) {
   //   }
   // }
 
-  const updateFollowStatus = async () => {
+  const updateFollowStatus = async (status) => {
     setIsFollowerLoading(true)
-    const status = follower.status === 1 ? 0 : 1
-
     if (follower) {
       await update('userRelationships', follower.id, { status: status })
     } else {
@@ -131,19 +129,45 @@ function Component (props) {
             </label>
           }
           <input type='file' className='form-control-plaintext d-none' id='staticImage' onChange={e => uploadImage(e.target.files[0])} accept='image/*' />
-          <div className='media-body pl-2'>
+          <div className='media-body pl-3 pt-1'>
             <div className='profile-header'>
+              <h6 className='mb-0'>
               {user && capitalizeFirstLetter(user.displayName)}
               {
                 (!userId || (userId === currentUser.id))
                   ? <Link to='/app/settings' className='btn btn-violet-outline btn-sm float-right'><i className='fa fa-cog'></i></Link>
                   : <div className='d-flex flex-row float-right'>
-                  <div className='btn btn-violet-outline btn-sm mr-2' onClick={updateFollowStatus}>
-                    {isFollowerLoading ? <i className='fa fa-spinner fa-spin'></i> : (follower.status === 1 ? 'Unfollow' : 'Follow')}
+                  <div className='btn-group'>
+                    <div className='btn btn-violet-outline btn-sm'>
+                      {isFollowerLoading
+                        ? <i className='fa fa-spinner fa-spin'></i>
+                        : (follower.status === 0
+                            ? 'Pending'
+                            : follower.status === 1 ? 'Following' : <span onClick={e => updateFollowStatus(0)}>Follow</span>
+                          )
+                        }
+                    </div>
+                    {
+                      follower.status >= 0 && follower.status !== null &&
+                      <button type='button' className='btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                        <span className='sr-only'>Toggle Dropdown</span>
+                      </button>
+                    }
+                    <div className='dropdown-menu'>
+                      { follower.status === 0 &&
+                        <button className='dropdown-item' onClick={e => updateFollowStatus(null)}>
+                          <i className='fa fa-times'></i>&nbsp;Cancel request
+                        </button> }
+                      { follower.status === 1 &&
+                        <button className='dropdown-item' onClick={e => updateFollowStatus(null)}>
+                          <i className='fa fa-times'></i>&nbsp;Unfollow
+                        </button> }
+                    </div>
                   </div>
-                  <Link to={`/app/chats/new/${userId}`} className='btn btn-violet-outline btn-sm'><i className='fa fa-comment'></i></Link>
+                  <Link to={`/app/chats/new/${userId}`} className='btn btn-violet-outline btn-sm ml-2'><i className='fa fa-comment'></i></Link>
                 </div>
               }
+              </h6>
             </div>
             <div className='profile-uniq-name'>
               @{uniqName}
@@ -182,7 +206,7 @@ function Component (props) {
                 Unlock &nbsp;<b>@{uniqName}</b>&nbsp; inner feelings and secret activities &nbsp;
               </div>
               <div className='col-xs-12 col-sm-2 text-center pt-2 pt-sm-0'>
-                <button className='btn btn-sm btn-violet' onClick={e => alert(`@${uniqName} is not a premium user yet`)}>Purchase</button>
+                <button className='btn btn-sm btn-violet' onClick={e => alert(`@${uniqName} doesn't have any secret posts yet. Once he/she has made at least one secret post, you can purchase.`)}>Purchase</button>
               </div>
             </div>
               )

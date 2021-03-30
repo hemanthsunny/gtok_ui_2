@@ -4,24 +4,17 @@ import { connect } from 'react-redux'
 
 import HeaderComponent from './header'
 import ActivityName from './steps/name/component'
-import ActivityDetail from './steps/detail/component'
 import ActivityDescription from './steps/description/component'
-import ActivityStartTime from './steps/start_time/component'
-import ActivityEndTime from './steps/end_time/component'
 import ActivitySubmit from './steps/submit/component'
 
-import { add } from 'firebase_config'
+import { add, timestamp } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
 import { SidebarComponent } from 'components'
 
 const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessagesCount, history, prices, wallet }) => {
   const [name, setName] = useState(null)
-  const [detail, setDetail] = useState(null)
   const [description, setDescription] = useState(null)
-  const [startTime, setStartTime] = useState(null)
-  const [endTime, setEndTime] = useState(null)
-  const [stepNumber, setStepNumber] = useState(1)
   const [result, setResult] = useState({})
 
   const saveActivity = async (opts) => {
@@ -33,23 +26,29 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
       alert('Just before doing a premium post, please create a wallet')
       return null
     }
+    if (!name) {
+      alert('Activity is mandatory')
+      return null
+    }
+    if (!description) {
+      alert('Description is mandatory')
+      return null
+    }
     const data = {
-      activity: name.trim(),
-      detail: detail.trim(),
-      text: `${capitalizeFirstLetter(currentUser.displayName)} ${capitalizeFirstLetter(name.trim())} ${capitalizeFirstLetter(detail.trim())}`,
-      description: (description && description.trim()) || '',
+      activity: capitalizeFirstLetter(name.trim()),
+      description: capitalizeFirstLetter(description.trim()),
       userId: currentUser.id,
       ...opts
     }
     const result = await add('activities', data)
 
     /* Log the activity */
-    // await add('logs', {
-    //   text: `${currentUser.displayName} posted an activity`,
-    //   userId: currentUser.id,
-    //   collection: 'activities',
-    //   timestamp
-    // });
+    await add('logs', {
+      text: `${currentUser.displayName} posted an activity`,
+      userId: currentUser.id,
+      collection: 'activities',
+      timestamp
+    })
     if (result.status === 200) {
       history.push({
         pathname: '/app/activities',
@@ -85,12 +84,18 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
                  </div>
                }
              </div>
+             <ActivityName name={name} setName={setName} />
+             { name && <ActivityDescription setDescription={setDescription} /> }
+             { name && <ActivitySubmit save={saveActivity} /> }
+
+             {/*
              { stepNumber === 1 && <ActivityName name={name} setName={setName} setStepNumber={setStepNumber} /> }
              { stepNumber === 2 && <ActivityDetail name={name} setDetail={setDetail} setStepNumber={setStepNumber} /> }
              { stepNumber === 3 && <ActivityDescription setDescription={setDescription} setStepNumber={setStepNumber} /> }
              { stepNumber === 4 && <ActivitySubmit save={saveActivity} setStepNumber={setStepNumber} /> }
              { stepNumber === 5 && <ActivityStartTime setStartTime={setStartTime} setStepNumber={setStepNumber} /> }
              { stepNumber === 6 && <ActivityEndTime startTime={startTime} endTime={endTime} setEndTime={setEndTime} setStepNumber={setStepNumber} /> }
+             */}
            </div>
         </div>
       </div>

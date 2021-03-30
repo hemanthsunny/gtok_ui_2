@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
@@ -8,74 +8,124 @@ import { gtokFavicon } from 'images'
 import { capitalizeFirstLetter } from 'helpers'
 import { SidebarComponent, LoadingComponent } from 'components'
 import { SetAlerts, CreatePageVisits } from 'store/actions'
+import { getQuery, firestore } from 'firebase_config'
 
-const ParentComponent = ({
-  currentUser, alerts, bindAlerts, createPageVisits, newAlertsCount, newMessagesCount
-}) => {
-  const [loading, setLoading] = useState(false)
+class ParentComponent extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      alerts: props.alerts,
+      pageId: 1,
+      pageLimit: 15
+    }
+  }
 
-  useEffect(() => {
-    if (!alerts[0] || newAlertsCount > 0) bindAlerts(currentUser, 'all')
-    setLoading(false)
+  componentDidMount () {
+    if (!this.state.alerts[0]) {
+      this.loadAlerts()
+    }
     setTimeout(() => {
-      createPageVisits(currentUser)
+      this.props.createPageVisits(this.props.currentUser)
     }, 2000)
-  }, [bindAlerts, currentUser, alerts, createPageVisits, newAlertsCount])
+  }
 
-  const setDefaultImg = (e) => {
+  UNSAFE_componentWillMount () {
+    window.addEventListener('scroll', this.loadMoreAlerts)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.loadMoreAlerts)
+  }
+
+  loadAlerts = async () => {
+    this.setState({ loading: true })
+    let alerts = await getQuery(
+      firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
+    )
+    alerts = alerts.sort((a, b) => b.createdAt - a.createdAt)
+    this.setState({
+      pageId: 2,
+      alerts,
+      loading: false
+    })
+  }
+
+  loadMoreAlerts = async () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight
+    ) {
+      this.setState({ loading: true })
+      let alerts = await getQuery(
+        firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
+      )
+      alerts = alerts.sort((a, b) => b.createdAt - a.createdAt)
+      this.setState({
+        pageId: this.state.pageId + 1,
+        alerts,
+        loading: false
+      })
+    }
+  }
+
+  setDefaultImg = (e) => {
     e.target.src = gtokFavicon
   }
 
-  const subHeader = () => (
+  subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <Link to='/app/chats' className='tab-item'>
-          Chats {newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+          Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
         <Link to='/app/alerts' className='tab-item -active'>
-          Alerts {newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+          Alerts {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
       </div>
     </div>
   )
 
-  return (
-    <div>
-      <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
+  render () {
+    return (
       <div>
-        <SidebarComponent currentUser={currentUser} />
-        <div className='dashboard-content'>
-          {subHeader()}
-          <div className='container mt-4'>
-            <div className='card alerts-wrapper'>
-              {
-                loading
-                  ? <LoadingComponent />
-                  : (
-                      alerts[0]
-                        ? alerts.map(alert => (
-                    <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
-                      <div className='media p-3' style={{ boxShadow: '1px 1px 2px gainsboro' }}>
-                        <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
-                        <div className='media-body font-xs-small'>
-                          {capitalizeFirstLetter(alert.text)}<br/>
-                          <small className='pull-right text-secondary'>
-                            {moment(alert.createdAt).fromNow()}
-                          </small>
-                        </div>
-                      <hr/>
-                    </div>
-                    </Link>
+        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
+        <div>
+          <SidebarComponent currentUser={this.props.currentUser} />
+          <div className='dashboard-content'>
+            {this.subHeader()}
+            <div className='container mt-4'>
+            {
+              this.state.loading
+                ? <LoadingComponent />
+                : (
+                    this.state.alerts[0]
+                      ? <div className='card alerts-wrapper'> {
+                        this.state.alerts.map(alert => (
+                          <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
+                            <div className='media p-3' style={{ boxShadow: '1px 1px 2px gainsboro' }}>
+                              <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={this.setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
+                              <div className='media-body font-xs-small'>
+                                {capitalizeFirstLetter(alert.text)}<br/>
+                                <small className='pull-right text-secondary'>
+                                  {moment(alert.createdAt).fromNow()}
+                                </small>
+                              </div>
+                            <hr/>
+                          </div>
+                          </Link>
                         ))
-                        : <div className='text-secondary text-center p-2'>No alerts to show</div>
-                    )
-              }
+                      }
+                      </div>
+                      : <div className='text-center mt-5'>
+                        You haven't received any alerts yet.
+                      </div>
+                  )
+            }
             </div>
           </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

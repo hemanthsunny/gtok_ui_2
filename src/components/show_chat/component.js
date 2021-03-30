@@ -224,6 +224,9 @@ class ParentComponent extends Component {
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
+        <Link to='/app/chats' className='tab-item'>
+          Back
+        </Link>
         <div className='tab-item -active'>
           {this.state.conversation && this.state.chatUser
             ? <div className='text-center'>
@@ -238,9 +241,6 @@ class ParentComponent extends Component {
             : <LoadingComponent />
           }
         </div>
-        <Link to='/app/chats' className='tab-item'>
-          Go Back
-        </Link>
       </div>
     </div>
   );
@@ -261,7 +261,7 @@ class ParentComponent extends Component {
                   <div>
                     {this.renderMessageWindow()}
                     <div className='chat-window-footer'>
-                      <div className='p-2'>
+                      <div className='p-2 d-none'>
                         <i className='fa fa-paperclip'></i>
                       </div>
                       <div className='flex-grow-1 p-2'>

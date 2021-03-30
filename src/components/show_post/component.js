@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import HeaderComponent from './header'
-import PostComponent from './children/post/component'
+import PostComponent from './post/component'
 
 import {
   SidebarComponent,

@@ -47,6 +47,10 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
   }
 
   const msgUser = async () => {
+    if (!follower) {
+      alert('You must be a follower before sending a message')
+      return null
+    }
     history.push('/app/chats/new/' + displayUser.id)
   }
 
@@ -66,7 +70,7 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
             </h6>
             <div>
               <div className='btn-group'>
-                <button className={`btn btn-sm ${follower ? 'btn-secondary' : 'btn-outline-secondary'}`} onClick={e => relationStatus('follow')}>
+                <button className='btn btn-sm btn-violet-outline' onClick={e => relationStatus('follow')}>
                 {
                   isFollowerLoading
                     ? <i className='fa fa-spinner fa-spin'></i>
@@ -85,7 +89,7 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
                       )
                 }
                 </button>
-                <button type='button' className='btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                <button type='button' className='btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                   <span className='sr-only'>Toggle Dropdown</span>
                 </button>
                 <div className='dropdown-menu'>

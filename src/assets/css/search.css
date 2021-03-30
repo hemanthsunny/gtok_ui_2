@@ -1,3 +1,13 @@
+.search-input {
+  min-height: 6vh;
+  border-radius: 0px !important;
+}
+
+.search-input:active,
+.search-input:focus {
+  border-color: var(--color-violet-400) !important;
+}
+
 @media (max-width: 576px) {
   .search-subheader {
     /* overflow-x: scroll !important; */
