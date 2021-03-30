@@ -1,17 +1,41 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
 import {
-  remove
+  remove,
+  getId
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
+import { ReportPostComponent } from 'components'
 
 const Component = ({
-  currentUser, activity, purchaseOrders
+  currentUser, activity, purchaseOrders, allUsers
 }) => {
+  const [postedUser, setPostedUser] = useState('')
+
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === activity.userId && order.active))
+  const history = useHistory()
+
+  useEffect(() => {
+    async function getPostedUser () {
+      let result = allUsers.find(user => user.id === activity.userId)
+      if (!result) {
+        result = await getId('users', activity.userId)
+      }
+      result.id = activity.userId
+      setPostedUser(result)
+    }
+    if (activity.anonymous) {
+      setPostedUser({
+        id: activity.userId,
+        displayName: 'Anonymous'
+      })
+    } else {
+      getPostedUser()
+    }
+  }, [activity, allUsers])
 
   const deleteActivity = async (activity) => {
     if (activity.id && window.confirm('Are you sure to delete this activity?')) {
@@ -33,16 +57,18 @@ const Component = ({
     }
   }
 
+  const redirectToProfile = async () => {
+    history.push('/app/profile/' + activity.userId)
+  }
+
   return activity.id && (
     <div className='card activity-card-wrapper'>
+      <ReportPostComponent postId={activity.id} currentUser={currentUser} collection='activities' />
       <div>
         <span className='card-badge mr-2'>{moment(activity.createdAt).format('DD/MM/YY HH:mm')}</span>
-        <span className='card-badge'>{activity.activity || 'Activity'}</span>
-        <div className='card-follow'>
-          <button className='btn btn-link p-0 pr-2' onClick={e => deleteActivity(activity)}>
-            <i className='fa fa-trash'></i>
-          </button>
-        </div>
+        <span className='card-badge mr-2'>
+          {activity.anonymous ? <span>@Anonymous</span> : <span className='pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
+        </span>
       </div>
       {
         (activity.premium && !purchaseFound && (currentUser.id !== activity.userId))
@@ -57,12 +83,26 @@ const Component = ({
           : <div className='card-body'>
           <div>
             <div className='white-space-preline'>
-              {activity.text}
+              {activity.activity}
             </div>
             <div className='description'>{activity.description}</div>
           </div>
         </div>
       }
+      <div className='media card-details'>
+        <div className='media-body'>
+          <h6>
+            <div className='edit-options float-right'>
+              <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} onClick={e => deleteActivity(activity)}>
+                <i className='fa fa-trash'></i>
+              </button>
+              <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                <i className='fa fa-flag'></i>
+              </button>
+            </div>
+          </h6>
+        </div>
+      </div>
     </div>
   )
 }

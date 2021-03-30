@@ -14,7 +14,7 @@ import {
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { NotificationComponent } from 'components'
+import { NotificationComponent, ReportPostComponent } from 'components'
 import { PostCategories } from 'constants/categories'
 
 const PostComponent = ({
@@ -207,6 +207,7 @@ const PostComponent = ({
       {
         result.status && <NotificationComponent result={result} setResult={setResult} />
       }
+      <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
       <div>
         <span className='card-badge'>{selectCategory(displayPost.categoryId)}</span>
         <div className='card-follow'>
@@ -265,6 +266,9 @@ const PostComponent = ({
                         </button>
                         <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={showPost}>
                           <i className='fa fa-share-alt'></i>
+                        </button>
+                        <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                          <i className='fa fa-flag'></i>
                         </button>
                       </div>
                     </h6>

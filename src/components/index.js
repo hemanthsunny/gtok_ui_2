@@ -9,13 +9,9 @@ import AlertsComponent from 'components/alerts/component'
 import DisplayComponent from 'components/display_question/DisplayComponent'
 import PaymentsComponent from 'components/payments/PaymentsComponent'
 import SearchComponent from 'components/search/component'
-import SearchUserComponent from 'components/search/SearchUserComponent'
-import DisplaySearchUserComponent from 'components/search/DisplaySearchUserComponent'
-import PendingUserComponent from 'components/search/PendingUserComponent'
 import SearchRequestsComponent from 'components/search_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
-import CheckSimilarityComponent from 'components/search/CheckSimilarityComponent'
 import DefaultLayout from 'components/common/DefaultLayout'
 import HeaderComponent from 'components/common/HeaderComponent'
 import BottomHeaderComponent from 'components/common/BottomHeaderComponent'
@@ -62,6 +58,7 @@ import SidebarComponent from 'components/common/sidebar/component'
 import CustomImageComponent from 'components/common/custom_image/component'
 import ShowOpenPostsComponent from 'components/common/show_open_posts/component'
 import ShowOpenActivitiesComponent from 'components/common/show_open_activities/component'
+import ReportPostComponent from 'components/report_post/component'
 
 export {
   EmailVerifyComponent,
@@ -73,13 +70,9 @@ export {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchUserComponent,
-  DisplaySearchUserComponent,
-  PendingUserComponent,
   SearchRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
-  CheckSimilarityComponent,
   DefaultLayout,
   HeaderComponent,
   BottomHeaderComponent,
@@ -127,5 +120,6 @@ export {
   SidebarComponent,
   CustomImageComponent,
   ShowOpenPostsComponent,
-  ShowOpenActivitiesComponent
+  ShowOpenActivitiesComponent,
+  ReportPostComponent
 }

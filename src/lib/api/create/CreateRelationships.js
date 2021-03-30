@@ -24,7 +24,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
   const data = {
     userIdOne: currentUser.id,
     userIdTwo: displayUser.id,
-    status: displayUser.permissions.private ? 0 : 1,
+    status: 0,
     actionUserId: currentUser.id
   }
   const rln = await getQuery(

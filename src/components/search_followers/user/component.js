@@ -2,21 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { getId, getQuery, firestore } from 'firebase_config'
-import { NotificationComponent } from 'components'
+import { getQuery, firestore } from 'firebase_config'
+import { NotificationComponent, CustomImageComponent } from 'components'
 import { capitalizeFirstLetter } from 'helpers'
-import { gtokFavicon } from 'images'
 import { createRelationships } from 'lib/api'
 import { SetRelationships } from 'store/actions'
 
-const DisplaySearchUserComponent = ({
-  currentUser, displayUserId, status, allUsers, bindRelationships
-}) => {
+const UserComponent = ({ displayUser, currentUser, relations, bindRelationships }) => {
   const history = useHistory()
-  const [follower, setFollower] = useState(status)
+  const [follower, setFollower] = useState(null)
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
   const [result, setResult] = useState({})
-  const [displayUser, setDisplayUser] = useState('')
   /*
   const StatusCodes = {
     0: 'Pending',
@@ -26,17 +22,19 @@ const DisplaySearchUserComponent = ({
   } */
 
   useEffect(() => {
-    async function getUser () {
-      let user = allUsers.find(u => u.id === displayUserId)
-      if (!user) {
-        user = await getId('users', displayUserId)
+    if (relations[0]) {
+      const relation = relations.find(rln => rln.userIdOne === currentUser.id && rln.userIdTwo === displayUser.id)
+      if (relation && relation.id) {
+        setFollower(relation.status)
       }
-      setDisplayUser(user)
     }
-    getUser()
-  }, [displayUserId, allUsers])
+  }, [relations, currentUser, displayUser])
 
   const relationStatus = async (status) => {
+    if (status === 'block' &&
+      !window.confirm('Are you sure to block ' + displayUser.displayName + '?')) {
+      return null
+    }
     setIsFollowerLoading(true)
     const res = await createRelationships(currentUser, displayUser, status)
     await bindRelationships(currentUser)
@@ -53,14 +51,14 @@ const DisplaySearchUserComponent = ({
   }
 
   return (
-    <div className='col-xs-12 my-xs-2 my-md-3'>
-      <div className='card p-2 card-br-0'>
+    <div className='col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3'>
+      <div className='card p-3 card-br-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile_card_img'>
           <Link to={'/app/profile/' + displayUser.id}>
-            <img className='mr-2' src={displayUser.photoURL || gtokFavicon} alt='Card img cap' />
+            <CustomImageComponent user={displayUser} size='lg' />
           </Link>
-          <div className='media-body'>
+          <div className='media-body pl-3'>
             <h6 className='mt-0 text-camelcase'>
               <Link to={'/app/profile/' + displayUser.id}>
                 {(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}
@@ -68,12 +66,12 @@ const DisplaySearchUserComponent = ({
             </h6>
             <div>
               <div className='btn-group'>
-                <button className={`btn btn-sm ${follower ? 'btn-secondary' : 'btn-outline-secondary'}`} onClick={e => relationStatus('follow')}>
+                <button className='btn btn-sm btn-violet-outline' onClick={e => relationStatus('follow')}>
                 {
                   isFollowerLoading
                     ? <i className='fa fa-spinner fa-spin'></i>
                     : (
-                    <small className='pull-right'>{
+                    <small>{
                       follower === 0
                         ? 'Pending'
                         : (
@@ -87,23 +85,19 @@ const DisplaySearchUserComponent = ({
                       )
                 }
                 </button>
-                <button type='button' className='btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                <button type='button' className='btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                   <span className='sr-only'>Toggle Dropdown</span>
                 </button>
                 <div className='dropdown-menu'>
                   { follower === 0 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('accept_request')}>
-                      <i className='fa fa-tick'></i> Accept Request
-                    </button>}
-                  { follower === 0 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('decline_request')}>
-                      <i className='fa fa-times'></i> Decline Request
+                    <button className='dropdown-item' onClick={e => relationStatus('cancel_request')}>
+                      <i className='fa fa-times'></i>&nbsp;Cancel Request
                     </button>}
                   { follower === 1 &&
                     <button className='dropdown-item' onClick={e => relationStatus('unfollow')}>
                       <i className='fa fa-times'></i>&nbsp;Unfollow
                     </button>}
-                  { follower !== 3 &&
+                  { follower !== 0 && follower !== 3 &&
                     <button className='dropdown-item' onClick={e => relationStatus('block')}>
                       <i className='fa fa-ban'></i>&nbsp; Block
                     </button>}
@@ -113,21 +107,14 @@ const DisplaySearchUserComponent = ({
                     </button>}
                 </div>
               </div>
-              <Link to={'/app/profile/' + displayUser.id} className='btn btn-outline-secondary btn-sm pull-right ml-2' title='Show similarities'>
-                <i className='fa fa-bar-chart'></i>
-              </Link>
-              <button className='btn btn-sm btn-outline-secondary pull-right' onClick={e => msgUser()} title='Start chat'>
-                <i className='fa fa-comment'></i>
-              </button>
-            {/*
-              <button className='btn btn-sm btn-outline-secondary pull-right' onClick={e => createRelationships(displayUser)} title='Start chat'>
-                Add relations
-              </button>
-            */}
+              {
+                follower !== 3 &&
+                <button className='btn btn-sm btn-outline-secondary ml-3' onClick={e => msgUser()} title='Start chat'>
+                  <i className='fa fa-comment'></i>
+                </button>
+              }
             </div>
           </div>
-        </div>
-        <div className='pull-right pt-0'>
         </div>
       </div>
     </div>
@@ -135,8 +122,8 @@ const DisplaySearchUserComponent = ({
 }
 
 const mapStateToProps = (state) => {
-  const { allUsers } = state.users
-  return { allUsers }
+  const { relations } = state.relationships
+  return { relations }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -148,4 +135,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DisplaySearchUserComponent)
+)(UserComponent)

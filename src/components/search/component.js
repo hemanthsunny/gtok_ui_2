@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import HeaderComponent from './header'
+import _ from 'lodash'
 
-import { SidebarComponent, SearchUserComponent } from 'components'
+import HeaderComponent from './header'
+import SearchUserComponent from './user/component'
+import { SidebarComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const SearchComponent = ({
   currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount
 }) => {
   const [searchVal, setSearchVal] = useState('')
+  const [users, setUsers] = useState(allUsers)
 
   useEffect(() => {
-    if (!allUsers[0] && !searchVal) {
+    if (!allUsers[0]) {
       if (currentUser.admin) bindAllUsers(currentUser, 'adminUsers')
       else bindAllUsers(currentUser, 'all')
     }
-  }, [currentUser, allUsers, bindAllUsers, searchVal, relations])
+  }, [currentUser, allUsers, bindAllUsers, relations])
 
   const searchValue = async (val) => {
     if (val.includes('search')) {
@@ -32,7 +35,9 @@ const SearchComponent = ({
     ) {
       val = ''
     }
-    await bindAllUsers(currentUser, 'search', val)
+    // search from allUsers
+    const users = _.filter(allUsers, (u) => u.displayName.indexOf(val) > -1)
+    setUsers(users)
     setSearchVal(val)
     if (!!val && !allUsers[0]) {
       // readoutLoud('No search results found');
@@ -60,21 +65,36 @@ const SearchComponent = ({
           <div className='container'>
             <div className='d-flex'>
               <div className='input-group my-3'>
-                <input type='text' className='form-control br-0' aria-label='Search' placeholder='Search on names...' onChange={e => searchValue(e.target.value)}/>
+                <input type='text' className='form-control search-input' aria-label='Search' placeholder='Search on names...' onChange={e => searchValue(e.target.value)}/>
               </div>
             </div>
-            <small>{allUsers.length} users</small>
-            <div className='tab-content' id='pills-tabContent'>
-              <div className='tab-pane fade show active' id='pills-all' role='tabpanel' aria-labelledby='pills-all-tab'>
-                <div className='row'>
-                {
-                  allUsers[0]
-                    ? allUsers.map((user, idx) =>
-                    <SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
+            <div>
+              <div>
+              {/* If searchVal exists and users found */}
+              {
+                searchVal && users[0] && <div className='row'>
+                  {
+                    users.map((user, idx) =>
+                      <SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
                     )
-                    : <div className='card text-center mt-2 p-2 text-secondary'>No users found</div>
-                }
+                  }
+                  </div>
+              }
+              {/* If searchVal exists and no users found */}
+              {
+                searchVal && !users[0] && <div className='text-center mt-5'>
+                  There are no users with this name.
                 </div>
+              }
+              {/* If there is no searchVal */}
+              {
+                !searchVal && <div className='text-center mt-5'>
+                  <img src={require('assets/svgs/Search.svg').default} className='profile-icon' alt='Search' />
+                  <div>
+                    Look for a new user here.
+                  </div>
+                </div>
+              }
               </div>
             </div>
           </div>

@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import HeaderComponent from './header'
+import _ from 'lodash'
 
-import { SidebarComponent, DisplaySearchUserComponent } from 'components'
+import HeaderComponent from './header'
+import UserComponent from './user/component'
+import { SidebarComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const ParentComponent = ({
   currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount
 }) => {
-  const [searchVal, setSearchVal] = useState('')
   const [followingRelations, setFollowingRelations] = useState([])
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
-    if (!allUsers[0] && !searchVal) {
-      if (currentUser.admin) bindAllUsers(currentUser, 'adminUsers')
-      else bindAllUsers(currentUser, 'all')
+    if (!allUsers[0]) {
+      bindAllUsers(currentUser, 'all')
     }
     if (relations[0]) {
       const rlns = relations.filter(rln => rln.userIdOne === currentUser.id && rln.status === 1)
       setFollowingRelations(rlns)
+      const uIds = _.map(rlns, 'userIdTwo')
+      setUsers(_.filter(allUsers, (u) => _.indexOf(uIds, u.id) !== -1))
     }
-  }, [currentUser, allUsers, bindAllUsers, searchVal, relations])
-
-  const searchValue = async (val) => {
-    if (val.includes('search')) {
-      val = val.replace('search', '').trim().toLowerCase()
-    }
-    if (val) {
-      val = val.trim().toLowerCase()
-    }
-    if (val.includes('clear search') ||
-      val.includes('clear all') ||
-      val.includes('show all') ||
-      val.includes('show me all')
-    ) {
-      val = ''
-    }
-    await bindAllUsers(currentUser, 'search', val)
-    setSearchVal(val)
-    if (!!val && !allUsers[0]) {
-      // readoutLoud('No search results found');
-    }
-  }
+  }, [currentUser, allUsers, bindAllUsers, relations])
 
   const subHeader = () => (
     <div className='dashboard-tabs search-subheader' role='navigation' aria-label='Main'>
@@ -62,24 +44,19 @@ const ParentComponent = ({
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
           {subHeader()}
-          <div className='container'>
-            <div className='d-flex'>
-              <div className='input-group my-3'>
-                <input type='text' className='form-control br-0' aria-label='Search' placeholder='Search on names...' onChange={e => searchValue(e.target.value)}/>
-              </div>
-            </div>
-            <small>{followingRelations.length} users</small>
-            <div className='tab-content' id='pills-tabContent'>
-              <div className='tab-pane fade' id='pills-requests' role='tabpanel' aria-labelledby='pills-requests-tab'>
-                {
-                  followingRelations[0]
-                    ? followingRelations.map((rln, idx) =>
-                    <DisplaySearchUserComponent displayUserId={rln.userIdTwo} currentUser={currentUser} status={rln.status} key={idx} />
-                    )
-                    : <div className='card text-center mt-2 p-2 text-secondary'>No users found</div>
-                }
-              </div>
-            </div>
+          <div className='container mt-3'>
+            {followingRelations.length && <small>{followingRelations.length} users</small>}
+            {
+              users[0]
+                ? <div className='row'> {
+                users.map((u, idx) =>
+                <UserComponent displayUser={u} currentUser={currentUser} key={idx} />
+                )}
+                </div>
+                : <div className='text-center mt-5'>
+                  You don't seem to be following anyone. Keep an eye out for <Link to='/app/search' className='text-violet'> your friends here.</Link>
+                </div>
+            }
           </div>
         </div>
       </div>

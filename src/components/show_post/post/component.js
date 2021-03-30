@@ -14,7 +14,7 @@ import {
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { HelmetMetaDataComponent } from 'components'
+import { HelmetMetaDataComponent, ReportPostComponent } from 'components'
 import { PostCategories } from 'constants/categories'
 
 import {
@@ -28,12 +28,14 @@ const PostComponent = ({
   const [postedUser, setPostedUser] = useState('')
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
   const [followerLoading, setFollowerLoading] = useState(false)
-  // const [result, setResult] = useState({})
   const [activeIndex, setActiveIndex] = useState(0)
   const [copied, setCopied] = useState(false)
+  const [play, setPlay] = useState(true)
+  const [playDetails, setPlayDetails] = useState('')
+
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
-  const displayPostUrl = 'https://beta.letsgtok.com/app/posts/' + post.id
+  const displayPostUrl = 'https://app.letsgtok.com/app/posts/' + post.id
 
   useEffect(() => {
     async function getPostedUser () {
@@ -180,10 +182,41 @@ const PostComponent = ({
     }, 1500)
   }
 
+  const playAudio = (idx) => {
+    const audio = document.getElementById(`audio-player-${displayPost.id}-${idx}`)
+    const duration = parseInt(audio.duration)
+    let currentTime = parseInt(audio.currentTime)
+
+    if (audio.paused) {
+      audio.play()
+    } else {
+      audio.pause()
+    }
+
+    const interval = setInterval(() => {
+      currentTime = parseInt(audio.currentTime)
+      setPlayDetails({ currentTime, duration })
+      if (currentTime >= duration) {
+        clearInterval(interval)
+        setPlay(prev => { return true })
+      }
+    }, 1000)
+
+    setPlayDetails({ currentTime, duration })
+    setPlay(prevState => {
+      return !prevState
+    })
+  }
+
+  // const closeModal = () => {
+  //   setShowModal(!showModal)
+  // }
+
   return postedUser && displayPost.id && (
     <div>
       <div className='card post-card-wrapper mt-4'>
         <HelmetMetaDataComponent currentUrl={displayPostUrl} title={displayPost.category.title} description={displayPost.text} />
+        <ReportPostComponent postId={displayPost.id} currentUser={currentUser} />
         <div>
           <span className='card-badge'>{selectCategory(displayPost.categoryId)}</span>
           <div className='card-follow'>
@@ -213,7 +246,10 @@ const PostComponent = ({
                     {story.text}
                   </p>
                   { story.fileUrl &&
-                    <audio src={story.fileUrl} controls controlsList='nodownload'></audio>
+                    <div className='d-flex align-items-center'>
+                      <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
+                      <button className='audio-btn' onClick={e => playAudio(idx)}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
+                    </div>
                   }
                   {
                     displayPost.stories.length > 1 &&
@@ -227,13 +263,16 @@ const PostComponent = ({
                     {/* <img className='mr-2' src={postedUser.photoURL || gtokFavicon} alt='Card img cap' onClick={e => redirectToProfile()}/> */}
                     <div className='media-body'>
                       <h6>
-                        <span onClick={e => redirectToProfile()}>@{postedUser.displayName}</span>
+                        {displayPost.anonymous ? <span>@Anonymous</span> : <span onClick={e => redirectToProfile()}>@{postedUser.displayName}</span>}
                         <div className='edit-options'>
                           <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
                             <i className='fa fa-pencil'></i>
                           </button>
                           <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
                             <i className='fa fa-trash'></i>
+                          </button>
+                          <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                            <i className='fa fa-flag'></i>
                           </button>
                         </div>
                       </h6>

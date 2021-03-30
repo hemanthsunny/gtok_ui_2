@@ -158,7 +158,7 @@ const SignupComponent = () => {
           {error && <div className='text-danger text-center mt-3'>{error}</div>}
           <button className='btn btn-sm btn-violet col-12 my-4' disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
           <div className='d-flex page-opts'>
-            <Link to='/login' className='flex-grow-1'>Already exists? Login</Link>
+            <Link to='/login' className='flex-grow-1'>Already a user? Login</Link>
             <Link to='/forgot_password'>Forgot password</Link> <br/>
           </div>
         </div>

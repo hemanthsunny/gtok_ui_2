@@ -1,13 +1,18 @@
 export const PostCategories = [
   {
-    title: 'Arts & Design',
-    key: 'arts_design',
-    id: 0
+    title: 'Anxiety',
+    key: 'anxiety',
+    id: 28
   },
   {
-    title: 'Banking',
-    key: 'banking',
-    id: 22
+    title: 'Angry',
+    key: 'angry',
+    id: 29
+  },
+  {
+    title: 'Arts',
+    key: 'arts_design',
+    id: 0
   },
   {
     title: 'Business',
@@ -20,19 +25,24 @@ export const PostCategories = [
     id: 2
   },
   {
-    title: 'Current activity/feeling',
+    title: 'Current feeling',
     key: 'current_activity',
     id: 3
   },
   {
-    title: 'Dance',
-    key: 'dance',
-    id: 4
+    title: 'Crush',
+    key: 'crush',
+    id: 25
   },
   {
-    title: 'Dreams/Goals',
+    title: 'Dreams',
     key: 'dreams',
     id: 5
+  },
+  {
+    title: 'Goals',
+    key: 'goals',
+    id: 23
   },
   {
     title: 'Facts',
@@ -45,19 +55,19 @@ export const PostCategories = [
     id: 7
   },
   {
-    title: 'Favorite songs',
-    key: 'favorite_songs',
-    id: 8
-  },
-  {
     title: 'Food habits',
     key: 'food_habits',
     id: 9
   },
   {
-    title: 'General',
-    key: 'general',
-    id: 10
+    title: 'Chit-chat',
+    key: 'chit_chat',
+    id: 26
+  },
+  {
+    title: 'Happy',
+    key: 'happy',
+    id: 27
   },
   {
     title: 'Health & Fitness',
@@ -65,7 +75,7 @@ export const PostCategories = [
     id: 20
   },
   {
-    title: 'Innovative ideas',
+    title: 'Ideas',
     key: 'innovative_ideas',
     id: 11
   },
@@ -85,19 +95,30 @@ export const PostCategories = [
     id: 13
   },
   {
-    title: 'Places/Locations',
+    title: 'Places',
     key: 'locations',
     id: 23
   },
   {
     title: 'Pet lovers',
     key: 'pet_lovers',
-    id: 14
+    id: 14,
+    hidden: true
   },
   {
-    title: 'Thoughts/Opinions',
+    title: 'Thoughts',
     key: 'random_thoughts',
     id: 15
+  },
+  {
+    title: 'Opinions',
+    key: 'opinions',
+    id: 24
+  },
+  {
+    title: 'Sad',
+    key: 'sad',
+    id: 27
   },
   {
     title: 'Shopping',
@@ -115,7 +136,7 @@ export const PostCategories = [
     id: 17
   },
   {
-    title: 'Writings/Poetry',
+    title: 'Writings',
     key: 'writings',
     id: 18
   }
