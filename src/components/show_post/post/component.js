@@ -128,6 +128,10 @@ const PostComponent = ({
         actionLink: '/app/profile/' + currentUser.id,
         timestamp
       })
+      history.push({
+        pathname: '/app/posts',
+        state: { postingSuccess: true, reloadPosts: true }
+      })
       // setResult(result)
       // await bindPosts(currentUser);
     }

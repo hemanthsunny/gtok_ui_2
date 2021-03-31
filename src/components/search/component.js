@@ -36,7 +36,7 @@ const SearchComponent = ({
       val = ''
     }
     // search from allUsers
-    const users = _.filter(allUsers, (u) => u.displayName.indexOf(val) > -1)
+    const users = _.filter(allUsers, (u) => u.displayName && u.displayName.indexOf(val) > -1)
     setUsers(users)
     setSearchVal(val)
     if (!!val && !allUsers[0]) {
