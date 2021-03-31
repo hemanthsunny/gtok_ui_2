@@ -17,7 +17,7 @@ class ParentComponent extends Component {
     this.bindPosts = props.bindPosts
     this.propsState = props.history.location.state || {}
     this.state = {
-      posts: props.posts,
+      posts: [],
       generatePost: false,
       reloadPosts: this.propsState.reloadPosts || false,
       pageId: 1,

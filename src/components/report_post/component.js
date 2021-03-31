@@ -57,7 +57,7 @@ const ParentComponent = ({
 
   return (
     <div className='modal' tabIndex='-1' role='dialog' id='reportPostModal' aria-labelledby='reportPostModalLabel'>
-      <div className='modal-dialog' role='document' style={{ width: '40%' }}>
+      <div className='modal-dialog' role='document'>
         <div className='modal-content'>
           <div className='modal-header'>
             <h5 className='modal-title'>Report post</h5>

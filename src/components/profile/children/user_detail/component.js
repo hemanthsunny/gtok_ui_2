@@ -13,7 +13,6 @@ function Component (props) {
   const [user, setUser] = useState(currentUser)
   const [btnUpload, setBtnUpload] = useState('upload')
   const userId = props.match.params.user_id
-  const uniqName = user.username || user.displayName.toLowerCase().replace(/ /g, '_')
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === userId && order.purchaseOrderStatus === 'active'))
   const [follower, setFollower] = useState('')
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
@@ -170,7 +169,7 @@ function Component (props) {
               </h6>
             </div>
             <div className='profile-uniq-name'>
-              @{uniqName}
+              @{user.username}
             </div>
           </div>
         </div>
@@ -195,7 +194,7 @@ function Component (props) {
                 purchaseFound
                   ? <div className='posts-footer'>
               <div className='col-xs-12 col-sm-10'>
-                Unlocked &nbsp;<b>@{uniqName}</b>&nbsp; inner feelings and secret activities &nbsp;
+                Unlocked &nbsp;<b>@{user.username}</b>&nbsp; inner feelings and secret activities &nbsp;
               </div>
               <div className='col-xs-12 col-sm-2 text-center pt-2 pt-sm-0'>
                 <button className='btn btn-sm btn-violet'><i className='fa fa-check'></i></button>
@@ -203,10 +202,10 @@ function Component (props) {
             </div>
                   : <div className='posts-footer'>
               <div className='col-xs-12 col-sm-10'>
-                Unlock &nbsp;<b>@{uniqName}</b>&nbsp; inner feelings and secret activities &nbsp;
+                Unlock &nbsp;<b>@{user.username}</b>&nbsp; inner feelings and secret activities &nbsp;
               </div>
               <div className='col-xs-12 col-sm-2 text-center pt-2 pt-sm-0'>
-                <button className='btn btn-sm btn-violet' onClick={e => alert(`@${uniqName} doesn't have any secret posts yet. Once he/she has made at least one secret post, you can purchase.`)}>Purchase</button>
+                <button className='btn btn-sm btn-violet' onClick={e => alert(`@${user.username} doesn't have any secret posts yet. Once he/she has made at least one secret post, you can purchase.`)}>Purchase</button>
               </div>
             </div>
               )
