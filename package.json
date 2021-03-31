@@ -33,7 +33,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "deploy": "firebase deploy --token $FIREBASE_TOKEN"
+    "deploy": "firebase deploy --except functions --token $FIREBASE_TOKEN"
   },
   "eslintConfig": {
     "extends": "react-app"
