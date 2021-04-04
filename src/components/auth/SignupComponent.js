@@ -61,6 +61,7 @@ const SignupComponent = () => {
       email,
       followers: [],
       username: data.username,
+      displayName: data.displayName,
       permissions: {
         tnc,
         recordPageVisits: true,
@@ -76,7 +77,7 @@ const SignupComponent = () => {
       setErrors(createDbUser.message)
       return null
     }
-    history.push('/')
+    history.replace('/')
   }
 
   const showPassword = () => {
