@@ -78,9 +78,11 @@ class PostsComponent extends Component {
         {this.subHeader()}
         <div className='feeling-wrapper'>
           {
-            this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
-              <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-            ))
+            this.state.posts[0] && this.state.posts.map((post, idx) =>
+              (post.anonymous && post.userId !== this.props.currentUser.id)
+                ? <div key={idx}></div>
+                : <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+            )
           }
         </div>
       </div>
