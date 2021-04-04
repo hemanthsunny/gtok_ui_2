@@ -96,6 +96,9 @@ const PostComponent = ({
 
   const selectCategory = (id) => {
     const category = PostCategories.find(c => c.id === id)
+    if (!category) {
+      return
+    }
     return category.title
   }
 

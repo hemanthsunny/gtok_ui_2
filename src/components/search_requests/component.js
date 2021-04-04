@@ -9,15 +9,15 @@ import { SidebarComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const ParentComponent = ({
-  currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount
+  currentUser, allUsers, bindAllUsers, relations, pendingRelationsCount
 }) => {
   const [pendingRelations, setPendingRelations] = useState([])
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    if (!allUsers[0]) {
-      bindAllUsers(currentUser, 'all')
-    }
+    // if (!allUsers[0]) {
+    bindAllUsers(currentUser, 'all')
+    // }
     if (relations[0]) {
       // status must be 0
       const rlns = relations.filter(rln => rln.userIdTwo === currentUser.id && rln.status === 0)
@@ -32,7 +32,9 @@ const ParentComponent = ({
       <div className='tabs -big'>
         <Link to='/app/search' className='tab-item'>Find a new search</Link>
         <Link to='/app/search/followers' className='tab-item'>Your followers</Link>
-        <Link to='/app/search/requests' className='tab-item -active'>Pending requests</Link>
+        <Link to='/app/search/requests' className='tab-item -active'>
+          Pending requests{(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+        </Link>
         <Link to='/app/search/following' className='tab-item'>You following</Link>
       </div>
     </div>
@@ -40,7 +42,7 @@ const ParentComponent = ({
 
   return (
     <div>
-      <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
+      <HeaderComponent />
       <div>
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
@@ -67,10 +69,8 @@ const ParentComponent = ({
 
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
-  const { relations } = state.relationships
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { allUsers, relations, newAlertsCount, newMessagesCount }
+  const { relations, pendingRelationsCount } = state.relationships
+  return { allUsers, relations, pendingRelationsCount }
 }
 
 const mapDispatchToProps = (dispatch) => {

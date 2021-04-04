@@ -300,7 +300,8 @@ export const SetRelationships = (currentUser, displayUser, status) => {
       dispatch({
         type: SET_RELATIONSHIPS,
         payload: {
-          rls: res
+          rls: res,
+          currentUser: currentUser
         }
       })
     })

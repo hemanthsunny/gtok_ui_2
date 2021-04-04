@@ -1,7 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-const HeaderComponent = ({ userId, currentUserId, newMessagesCount, newAlertsCount }) => {
+const HeaderComponent = ({
+  newMessagesCount,
+  newAlertsCount,
+  pendingRelationsCount
+}) => {
   return (
     <nav className='navbar fixed-top header'>
       <div className='container-fluid'>
@@ -15,6 +20,7 @@ const HeaderComponent = ({ userId, currentUserId, newMessagesCount, newAlertsCou
             <div className='nav-link p-0'>
               <Link to='/app/search' title='Search'>
                 Search
+                {(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
               </Link>
               <Link to='/app/chats' title='Notifications'>
                 Notifications
@@ -28,4 +34,14 @@ const HeaderComponent = ({ userId, currentUserId, newMessagesCount, newAlertsCou
   )
 }
 
-export default HeaderComponent
+const mapStateToProps = (state) => {
+  const { newAlertsCount } = state.alerts
+  const { newMessagesCount } = state.chatMessages
+  const { pendingRelationsCount } = state.relationships
+  return { newAlertsCount, newMessagesCount, pendingRelationsCount }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(HeaderComponent)

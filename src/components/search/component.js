@@ -9,7 +9,7 @@ import { SidebarComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const SearchComponent = ({
-  currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount
+  currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount, pendingRelationsCount
 }) => {
   const [searchVal, setSearchVal] = useState('')
   const [users, setUsers] = useState(allUsers)
@@ -49,7 +49,9 @@ const SearchComponent = ({
       <div className='tabs -big'>
         <Link to='/app/search' className='tab-item -active'>Find a new search</Link>
         <Link to='/app/search/followers' className='tab-item'>Your followers</Link>
-        <Link to='/app/search/requests' className='tab-item'>Pending requests</Link>
+        <Link to='/app/search/requests' className='tab-item'>
+          Pending requests{(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+        </Link>
         <Link to='/app/search/following' className='tab-item'>You following</Link>
       </div>
     </div>
@@ -106,10 +108,10 @@ const SearchComponent = ({
 
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
-  const { relations } = state.relationships
+  const { relations, pendingRelationsCount } = state.relationships
   const { newAlertsCount } = state.alerts
   const { newMessagesCount } = state.chatMessages
-  return { allUsers, relations, newAlertsCount, newMessagesCount }
+  return { allUsers, relations, newAlertsCount, newMessagesCount, pendingRelationsCount }
 }
 
 const mapDispatchToProps = (dispatch) => {
