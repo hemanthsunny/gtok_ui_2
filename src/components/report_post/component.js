@@ -20,10 +20,10 @@ const ParentComponent = ({
       return null
     }
     const report = await getQuery(
-      firestore.collection('report_posts').where('postId', '==', postId).where('userId', '==', currentUser.id).get()
+      firestore.collection('reportPosts').where('postId', '==', postId).where('userId', '==', currentUser.id).get()
     )
     if (!report[0]) {
-      await add('report_posts', {
+      await add('reportPosts', {
         userId: currentUser.id,
         postId,
         comment,
@@ -34,8 +34,8 @@ const ParentComponent = ({
         text: `${currentUser.displayName} reported a post`,
         userId: currentUser.id,
         actionType: 'add',
-        collection: 'report_posts',
-        actionLink: '/app/report_posts/' + postId,
+        collection: 'reportPosts',
+        actionLink: '/app/reportPosts/' + postId,
         timestamp
       })
       alert('Thanks for informing us. Your report has been received.')
