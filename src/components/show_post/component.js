@@ -60,6 +60,9 @@ class ParentComponent extends Component {
             {this.subHeader()}
             <div className='feeling-wrapper'>
               {this.state.post && <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>}
+              <div className='text-center my-4'>
+                <button className='btn btn-violet btn-sm' onClick={this.props.history.goBack}>Go Back</button>
+              </div>
             </div>
             {this.state.loading && <LoadingComponent />}
           </div>

@@ -59,6 +59,7 @@ import CustomImageComponent from 'components/common/custom_image/component'
 import ShowOpenPostsComponent from 'components/common/show_open_posts/component'
 import ShowOpenActivitiesComponent from 'components/common/show_open_activities/component'
 import ReportPostComponent from 'components/report_post/component'
+import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
 
 export {
   EmailVerifyComponent,
@@ -121,5 +122,6 @@ export {
   CustomImageComponent,
   ShowOpenPostsComponent,
   ShowOpenActivitiesComponent,
-  ReportPostComponent
+  ReportPostComponent,
+  ScrollIntoViewComponent
 }

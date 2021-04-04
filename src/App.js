@@ -11,7 +11,7 @@ import {
 } from './firebase_config'
 import './App.css'
 
-import { CookieNotification, NoInternetNotification, LoadingComponent } from 'components'
+import { CookieNotification, NoInternetNotification, LoadingComponent, ScrollIntoViewComponent } from 'components'
 import { SetDbUser, SetUser, SetLoggedIn } from 'store/actions'
 
 export const AuthContext = React.createContext()
@@ -64,7 +64,9 @@ class App extends Component {
           <CookieNotification />
           <NoInternetNotification />
           <Router>
-            <Routes />
+            <ScrollIntoViewComponent>
+              <Routes />
+            </ScrollIntoViewComponent>
           </Router>
         </div>
     )

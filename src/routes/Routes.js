@@ -1,5 +1,4 @@
 import React from 'react'
-// import { AuthComponent } from "routes";
 import { Switch, Route, Redirect } from 'react-router-dom'
 import AuthRoute from './index'
 
