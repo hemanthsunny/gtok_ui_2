@@ -33,7 +33,7 @@ const AuthSwitchWrapper = (props) => {
     return (<Redirect to="/" />)
   }
 
-  if (localReload) {
+  if (localReload || !dbUser || !user) {
     window.location.reload()
   }
   return (
