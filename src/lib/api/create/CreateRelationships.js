@@ -37,7 +37,6 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
   )
   if (rlnTwo[0] && rlnTwo[0].status === 3) { data.status = 0 }
   /* End */
-
   if (!rln[0]) {
     if (status === 'follow') {
       if (data.status === 0) {
@@ -48,6 +47,16 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
         logsData.text = `${currentUser.displayName} followed you`
       }
       res = await add('userRelationships', data)
+    } else if (status === 'accept_request') {
+      // Create a one-to-one relationship with new user
+      res = await add('userRelationships', {
+        userIdOne: currentUser.id,
+        userIdTwo: displayUser.id,
+        status: 1,
+        actionUserId: currentUser.id
+      })
+      // Then, update the status (accept request) for existing relationship
+      res = await update('userRelationships', rlnTwo[0].id, { status: 1, actionUserId: currentUser.id })
     }
   } else {
     if (status === 'follow') {
