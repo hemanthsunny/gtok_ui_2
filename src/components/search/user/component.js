@@ -76,15 +76,17 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
                     ? <i className='fa fa-spinner fa-spin'></i>
                     : (
                     <small className='pull-right'>{
-                      follower === 0
-                        ? 'Pending'
-                        : (
-                            follower === 1
-                              ? 'Following'
-                              : (
-                                  follower === 3 ? 'Blocked' : 'Follow'
-                                )
-                          )
+                      follower === null
+                        ? 'Follow'
+                        : follower === 0
+                          ? 'Pending'
+                          : (
+                              follower === 1
+                                ? 'Following'
+                                : (
+                                    follower === 3 && 'Blocked'
+                                  )
+                            )
                     }</small>
                       )
                 }
