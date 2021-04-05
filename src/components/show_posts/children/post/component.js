@@ -259,7 +259,7 @@ const PostComponent = ({
                 <div className='media card-details'>
                   <div className='media-body'>
                     <h6>
-                      {displayPost.anonymous ? <span>@Anonymous</span> : <span onClick={e => redirectToProfile()}>@{postedUser.displayName}</span>}
+                      {displayPost.anonymous ? <span>@Anonymous</span> : <span className='pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
                       <div className='edit-options'>
                         <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
                           <i className='fa fa-pencil'></i>
