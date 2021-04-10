@@ -94,8 +94,8 @@ const PostComponent = ({
     setFollowerLoading(false)
   }
 
-  const selectCategory = (id) => {
-    const category = PostCategories.find(c => c.id === id)
+  const selectCategory = (key) => {
+    const category = PostCategories.find(c => c.key === key)
     if (!category) {
       return
     }
@@ -212,7 +212,7 @@ const PostComponent = ({
       }
       <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
       <div>
-        <span className='card-badge'>{selectCategory(displayPost.categoryId)}</span>
+        <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
         <div className='card-follow'>
         {followerLoading
           ? <i className='fa fa-spinner fa-spin'></i>
