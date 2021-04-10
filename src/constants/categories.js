@@ -15,6 +15,11 @@ export const PostCategories = [
     id: 0
   },
   {
+    title: 'Banking',
+    key: 'banking',
+    id: 22
+  },
+  {
     title: 'Business',
     key: 'business',
     id: 1
@@ -33,6 +38,11 @@ export const PostCategories = [
     title: 'Crush',
     key: 'crush',
     id: 25
+  },
+  {
+    title: 'Dance',
+    key: 'dance',
+    id: 4
   },
   {
     title: 'Dreams',
@@ -55,9 +65,19 @@ export const PostCategories = [
     id: 7
   },
   {
+    title: 'Favorite songs',
+    key: 'favorite_songs',
+    id: 8
+  },
+  {
     title: 'Food habits',
     key: 'food_habits',
     id: 9
+  },
+  {
+    title: 'General',
+    key: 'general',
+    id: 10
   },
   {
     title: 'Chit-chat',

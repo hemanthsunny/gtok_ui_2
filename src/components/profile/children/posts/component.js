@@ -16,7 +16,7 @@ class PostsComponent extends Component {
       generatePost: false,
       reloadPosts: this.propsState.reloadPosts || false,
       pageId: 1,
-      pageLimit: 10,
+      pageLimit: 1000,
       userId: props.match.params.user_id || props.currentUser.id
     }
   }
