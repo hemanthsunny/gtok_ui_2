@@ -70,6 +70,7 @@ const PostComponent = ({
         actionId: displayPost.id,
         actionKey: 'followers',
         actionLink: '/app/posts/' + displayPost.id,
+        unread: true,
         timestamp
       })
       setFollower(true)

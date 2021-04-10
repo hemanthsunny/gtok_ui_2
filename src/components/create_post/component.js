@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
 import HeaderComponent from './header'
 import DetailComponent from './steps/detail/component'
 import CategoryComponent from './steps/category/component'
 import SubmitComponent from './steps/submit/component'
 
-import { add, update, timestamp, uploadFile, removeFile } from 'firebase_config'
+import { add, update, timestamp, uploadFile, removeFile, batchWrite } from 'firebase_config'
 import { PostCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
@@ -74,17 +75,20 @@ const ParentComponent = (props) => {
         ...opts
       })
       result = await add('posts', postData)
+      // When a new post added, alert all followers
+      await sendAlertsToFollowers(result.data, postData)
     }
     /* Log the activity */
-    await add('logs', {
-      text: `${currentUser.displayName} created a post`,
-      photoURL: currentUser.photoURL,
-      receiverId: '',
-      userId: currentUser.id,
-      actionType: 'create',
-      collection: 'posts',
-      timestamp
-    })
+    // await add('logs', {
+    //   text: `${currentUser.displayName} created a post`,
+    //   photoURL: currentUser.photoURL,
+    //   receiverId: '',
+    //   userId: currentUser.id,
+    //   actionType: 'create',
+    //   collection: 'posts',
+    //   timestamp
+    // })
+
     if (result.status === 200) {
       props.history.push({
         pathname: '/app/posts',
@@ -92,6 +96,25 @@ const ParentComponent = (props) => {
       })
     } else {
       setResult(result)
+    }
+  }
+
+  const sendAlertsToFollowers = async (res = {}, post) => {
+    if (res.path && !post.anonymous) {
+      /* Send alerts to all followers */
+      const relationsIds = _.without(_.map(props.relations, rln => {
+        if (rln.userIdTwo === currentUser.id && rln.status === 1) {
+          return rln.userIdOne
+        }
+      }), undefined)
+      await batchWrite('logs', relationsIds, {
+        text: `@${currentUser.username} recently shared a feeling. Show your support now.`,
+        photoURL: currentUser.photoURL,
+        userId: currentUser.id,
+        actionLink: `/app/${res.path}`,
+        unread: true,
+        timestamp
+      })
     }
   }
 
@@ -196,11 +219,10 @@ const ParentComponent = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
+  const { relations } = state.relationships
   const { wallet } = state.wallet
   const { prices } = state.prices
-  return { newAlertsCount, newMessagesCount, wallet, prices }
+  return { relations, wallet, prices }
 }
 
 const mapDispatchToProps = (dispatch) => {

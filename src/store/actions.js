@@ -268,7 +268,17 @@ export const SetAllUsers = (currentUser, type = 'all', searchVal = '') => {
   }
 }
 
-export const SetAlerts = (currentUser, type = 'all') => {
+export const SetAlerts = (currentUser, type = 'all', data) => {
+  if (type === 'none') {
+    return (dispatch) => {
+      dispatch({
+        type: SET_ALERTS,
+        payload: {
+          alerts: data
+        }
+      })
+    }
+  }
   return (dispatch) => {
     getAlerts(currentUser, type).then(res => {
       dispatch({

@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
 import HeaderComponent from './header'
 import ActivityName from './steps/name/component'
 import ActivityDescription from './steps/description/component'
 import ActivitySubmit from './steps/submit/component'
 
-import { add, timestamp } from 'firebase_config'
+import { add, timestamp, batchWrite } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
-import { SetNewPost } from 'store/actions'
 import { SidebarComponent } from 'components'
 
-const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessagesCount, history, prices, wallet }) => {
+const ParentComponent = ({ currentUser, relations, history, prices, wallet }) => {
   const [name, setName] = useState(null)
   const [description, setDescription] = useState(null)
   const [result, setResult] = useState({})
@@ -41,14 +41,15 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
       ...opts
     }
     const result = await add('activities', data)
-
     /* Log the activity */
-    await add('logs', {
-      text: `${currentUser.displayName} posted an activity`,
-      userId: currentUser.id,
-      collection: 'activities',
-      timestamp
-    })
+    // await add('activity', {
+    //   text: `${currentUser.displayName} posted an activity`,
+    //   userId: currentUser.id,
+    //   collection: 'activities',
+    //   timestamp
+    // })
+    await sendAlertsToFollowers(result.data, data)
+
     if (result.status === 200) {
       history.push({
         pathname: '/app/activities',
@@ -56,6 +57,25 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
       })
     } else {
       setResult(result)
+    }
+  }
+
+  const sendAlertsToFollowers = async (res = {}, activity) => {
+    if (res.path && !activity.anonymous) {
+      /* Send alerts to all followers */
+      const relationsIds = _.without(_.map(relations, rln => {
+        if (rln.userIdTwo === currentUser.id && rln.status === 1) {
+          return rln.userIdOne
+        }
+      }), undefined)
+      await batchWrite('logs', relationsIds, {
+        text: `@${currentUser.username} recently posted an activity. Appreciate it now.`,
+        photoURL: currentUser.photoURL,
+        userId: currentUser.id,
+        actionLink: `/app/${res.path}`,
+        unread: true,
+        timestamp
+      })
     }
   }
 
@@ -70,7 +90,7 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
 
   return (
     <div>
-      <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
+      <HeaderComponent />
       <div>
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
@@ -104,20 +124,13 @@ const ParentComponent = ({ currentUser, bindNewPost, newAlertsCount, newMessages
 }
 
 const mapStateToProps = (state) => {
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
+  const { relations } = state.relationships
   const { wallet } = state.wallet
   const { prices } = state.prices
-  return { newAlertsCount, newMessagesCount, wallet, prices }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    bindNewPost: (content) => dispatch(SetNewPost(content))
-  }
+  return { relations, wallet, prices }
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(withRouter(ParentComponent))

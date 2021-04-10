@@ -23,6 +23,7 @@
 @import 'assets/css/show_open_posts.css';
 @import 'assets/css/show_chat.css';
 @import 'assets/css/modal.css';
+@import 'assets/css/alerts.css';
 
 * {
   font-family: var(--font-family-display);

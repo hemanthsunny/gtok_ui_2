@@ -19,6 +19,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
     actionId: '',
     actionKey: 'followers',
     actionLink: '/app/search',
+    unread: true,
     timestamp
   }
   const data = {

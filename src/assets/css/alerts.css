@@ -1,0 +1,9 @@
+.alerts-wrapper .card {
+  border-width: 0px;
+  border-bottom: 1px solid var(--color-gray) !important;
+  /* box-shadow: 1px 1px 2px gainsboro; */
+}
+
+.active-alert {
+  background-color: var(--color-violet-100) !important;
+}

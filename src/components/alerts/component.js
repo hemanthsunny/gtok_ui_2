@@ -7,8 +7,8 @@ import HeaderComponent from './header'
 import { gtokFavicon } from 'images'
 import { capitalizeFirstLetter } from 'helpers'
 import { SidebarComponent, LoadingComponent } from 'components'
-import { SetAlerts, CreatePageVisits } from 'store/actions'
-import { getQuery, firestore } from 'firebase_config'
+import { SetAlerts, CreatePageVisits, SetNewAlertsCount } from 'store/actions'
+import { getQuery, firestore, batchUpdate } from 'firebase_config'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -16,7 +16,7 @@ class ParentComponent extends Component {
     this.state = {
       alerts: props.alerts,
       pageId: 1,
-      pageLimit: 15
+      pageLimit: 10000
     }
   }
 
@@ -30,11 +30,23 @@ class ParentComponent extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    window.addEventListener('scroll', this.loadMoreAlerts)
+    // window.addEventListener('scroll', this.loadMoreAlerts)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.loadMoreAlerts)
+    // window.removeEventListener('scroll', this.loadMoreAlerts)
+  }
+
+  updateUnreadAlerts = async () => {
+    const alerts = await getQuery(
+      firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).where('unread', '==', true).get()
+    )
+    if (alerts.length) {
+      const alertIds = alerts.map(a => a.id)
+      await batchUpdate('logs', alertIds, { unread: false })
+    }
+    this.loadAlerts()
+    this.props.bindNewAlertsCount(this.props.currentUser)
   }
 
   loadAlerts = async () => {
@@ -48,11 +60,13 @@ class ParentComponent extends Component {
       alerts,
       loading: false
     })
+    await this.props.bindAlerts(this.props.currentUser, 'none', alerts)
   }
 
   loadMoreAlerts = async () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight
+      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight &&
+      this.state.alerts.length < (this.state.pageId * this.state.pageLimit)
     ) {
       this.setState({ loading: true })
       let alerts = await getQuery(
@@ -64,6 +78,7 @@ class ParentComponent extends Component {
         alerts,
         loading: false
       })
+      await this.props.bindAlerts(this.props.currentUser, 'none', alerts)
     }
   }
 
@@ -98,19 +113,24 @@ class ParentComponent extends Component {
                 ? <LoadingComponent />
                 : (
                     this.state.alerts[0]
-                      ? <div className='card alerts-wrapper'> {
-                        this.state.alerts.map(alert => (
+                      ? <div className='alerts-wrapper'>
+                        <div className='text-violet pointer font-small mb-2' onClick={this.updateUnreadAlerts}>
+                          Mark all alerts as read
+                        </div>
+                      {
+                        this.state.alerts.map((alert, idx) => (
                           <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
-                            <div className='media p-3' style={{ boxShadow: '1px 1px 2px gainsboro' }}>
-                              <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={this.setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
-                              <div className='media-body font-xs-small'>
-                                {capitalizeFirstLetter(alert.text)}<br/>
-                                <small className='pull-right text-secondary'>
-                                  {moment(alert.createdAt).fromNow()}
-                                </small>
+                            <div className={`card br-0 ${alert.unread && 'active-alert'}`}>
+                              <div className='media p-3'>
+                                <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={this.setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
+                                <div className='media-body font-xs-small'>
+                                  {capitalizeFirstLetter(alert.text)}<br/>
+                                  <small className='pull-right text-secondary'>
+                                    {moment(alert.createdAt).fromNow()}
+                                  </small>
+                                </div>
                               </div>
-                            <hr/>
-                          </div>
+                            </div>
                           </Link>
                         ))
                       }
@@ -136,7 +156,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bindAlerts: (content, type) => dispatch(SetAlerts(content, type)),
+    bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content)),
+    bindAlerts: (content, type, data) => dispatch(SetAlerts(content, type, data)),
     createPageVisits: (content, type) => dispatch(CreatePageVisits(content))
   }
 }

@@ -237,7 +237,12 @@ export const add = (collection, data) => {
   data.createdAt = new Date().getTime()
   data.updatedAt = new Date().getTime()
   return firestore.collection(collection).add(data)
-    .then(res => formatResult(200, 'Successfully created', res))
+    .then(res => {
+      return formatResult(200, 'Successfully created', {
+        id: res.id,
+        path: res.path
+      })
+    })
     .catch(e => formatResult(500, 'Something went wrong'))
 }
 
@@ -329,6 +334,32 @@ export const sendForgotPassword = (email) => {
   return auth.sendPasswordResetEmail(email)
     .then(res => formatResult(200, 'Email sent'))
     .catch(e => formatResult(404, e.message))
+}
+
+/* Batch writes */
+// Use bulk writes to perform this operation
+// Use bulk_writes API from lib folder
+// Ref: https://firebase.google.com/docs/firestore/manage-data/transactions
+const batch = firestore.batch()
+export const batchWrite = async (collection, ids, data = {}) => {
+  // To generate automated Id: use .doc()
+  // To generate custom Id: use .doc('<ID_NUMBER>')
+  data.createdAt = new Date().getTime()
+  data.updatedAt = new Date().getTime()
+  ids.map(async (id) => {
+    const ref = firestore.collection(collection).doc()
+    await batch.set(ref, data)
+  })
+  await batch.commit()
+}
+
+export const batchUpdate = async (collection, ids, data = {}) => {
+  data.updatedAt = new Date().getTime()
+  ids.map(async (id) => {
+    const ref = firestore.collection(collection).doc(id)
+    batch.update(ref, data)
+  })
+  batch.commit()
 }
 
 /* Common code */

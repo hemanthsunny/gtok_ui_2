@@ -134,7 +134,7 @@ function Component (props) {
               {user && capitalizeFirstLetter(user.displayName)}
               {
                 (!userId || (userId === currentUser.id))
-                  ? <Link to='/app/settings' className='btn btn-violet-outline btn-sm float-right'><i className='fa fa-cog'></i></Link>
+                  ? <Link to='/app/settings' className='float-right pr-2'><i className='fa fa-cog fs-24 text-violet'></i></Link>
                   : <div className='d-flex flex-row float-right'>
                   <div className='btn-group'>
                     <div className='btn btn-violet-outline btn-sm'>
