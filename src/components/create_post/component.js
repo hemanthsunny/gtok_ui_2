@@ -28,6 +28,7 @@ const ParentComponent = (props) => {
   const [result, setResult] = useState({})
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
+  const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
 
   const savePost = async (opts) => {
     if (opts && opts.premium && (!props.prices || !props.prices[0])) {
@@ -194,7 +195,7 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent newAlertsCount={props.newAlertsCount} newMessagesCount={props.newMessagesCount} />
+      <HeaderComponent />
       <div>
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
@@ -202,7 +203,7 @@ const ParentComponent = (props) => {
           <div className='container create-post-wrapper'>
             <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} />
             <CategoryComponent postCategories={PostCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
-            <SubmitComponent save={savePost} />
+            <SubmitComponent save={savePost} anonymous={anonymous} setAnonymous={setAnonymous} />
             <div className='text-center'>
               {
                 result.status &&

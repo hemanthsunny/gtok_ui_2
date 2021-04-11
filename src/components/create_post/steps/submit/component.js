@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const SubmitComponent = ({ save, setStepNumber }) => {
+const SubmitComponent = ({ save, setStepNumber, anonymous, setAnonymous }) => {
   // const [premium, setPremium] = useState(false)
-  const [anonymous, setAnonymous] = useState(false)
+  // const [anonymous, setAnonymous] = useState(false)
 
   const submit = async () => {
     await save({ anonymous })

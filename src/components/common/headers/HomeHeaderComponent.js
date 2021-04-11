@@ -10,7 +10,7 @@ const HomeHeaderComponent = ({
       <div className='navbar-brand mr-auto'>
         <Link to='/app/posts'>
           {/* <img src={require(`assets/svgs/Home.svg`).default} className='home-icon' alt='Home' /> */}
-          <span className='home-page-title'>LetsGtok</span>
+          <span className='home-page-title'>Lets Gtok</span>
         </Link>
       </div>
       <ul className='navbar-nav ml-auto'>

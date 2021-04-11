@@ -12,7 +12,7 @@ const HeaderComponent = ({
       <div className='container-fluid'>
         <div className='navbar-brand mr-auto'>
           <Link to='/app/posts'>
-            <span className='home-page-title'>LetsGtok</span>
+            <span className='home-page-title'>Lets Gtok</span>
           </Link>
         </div>
         <ul className='navbar-nav ml-auto'>

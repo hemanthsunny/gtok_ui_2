@@ -12,7 +12,7 @@ export default function HelmetMetaDataComponent (props) {
   const description = props.description || 'Lets get to know each other. Share experiences and connect with similar people.' +
     'Trust us, its million dollars experience to find similar people and have an endless talk!' +
     'So, join us on this voyage, and explore the beauty and miracle of being yourself!'
-  const hashtag = props.hashtag || '#LetsGtok'
+  const hashtag = props.hashtag || '#Lets Gtok'
   const keywords = props.keywords || 'Lets Gtok, Lets Get to know each other'
   return (
     <Helmet>
@@ -36,7 +36,7 @@ export default function HelmetMetaDataComponent (props) {
       <meta property='og:image' content={image} />
       <meta content='image/*' property='og:image:type' />
       <meta property='og:url' content={currentUrl} />
-      <meta property='og:site_name' content='LetsGtok' />
+      <meta property='og:site_name' content='Lets Gtok' />
       <meta property='og:description' content={description} />
       <link rel='icon' type='image/png' href={gtokFavicon} sizes='16x16'/>
     </Helmet>

@@ -14,6 +14,7 @@ const Component = ({
   currentUser, activity, purchaseOrders, allUsers
 }) => {
   const [postedUser, setPostedUser] = useState('')
+  const [showComments, setShowComments] = useState(false)
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === activity.userId && order.active))
   const history = useHistory()
@@ -91,16 +92,23 @@ const Component = ({
       }
       <div className='media card-details'>
         <div className='media-body'>
-          <h6>
-            <div className='edit-options float-right'>
-              <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} onClick={e => deleteActivity(activity)}>
-                <i className='fa fa-trash'></i>
-              </button>
-              <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
-                <i className='fa fa-flag'></i>
-              </button>
+          <div className='d-flex flex-inline align-items-center float-left'>
+            <button className='btn btn-violet btn-sm' onClick={e => setShowComments(!showComments)}>Show support</button>
+            <div className={`${!showComments && 'd-none'}`}>
+              <button className='btn btn-violet-outline btn-sm mx-2 px-2'>Admire you</button>
+              <button className='btn btn-violet-outline btn-sm mx-2 px-2'>Appreciate your effort</button>
+              <button className='btn btn-violet-outline btn-sm mx-2 px-2'>Wanna be like you</button>
+              <button className='btn btn-violet-outline btn-sm mx-2 px-2'>Love you</button>
             </div>
-          </h6>
+          </div>
+          <div className='edit-options float-right'>
+            <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} onClick={e => deleteActivity(activity)}>
+              <i className='fa fa-trash'></i>
+            </button>
+            <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+              <i className='fa fa-flag'></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
