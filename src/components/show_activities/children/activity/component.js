@@ -90,7 +90,7 @@ const Component = ({
           </div>
         </div>
       }
-      <div className='media card-details'>
+      <div className='media card-details d-none'>
         <div className='media-body'>
           <div className='d-flex flex-inline align-items-center float-left'>
             <button className='btn btn-violet btn-sm' onClick={e => setShowComments(!showComments)}>Show support</button>
