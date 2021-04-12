@@ -347,6 +347,7 @@ export const batchWrite = async (collection, ids, data = {}) => {
   data.createdAt = new Date().getTime()
   data.updatedAt = new Date().getTime()
   ids.map(async (id) => {
+    data.receiverId = id
     const ref = firestore.collection(collection).doc()
     await batch.set(ref, data)
   })
