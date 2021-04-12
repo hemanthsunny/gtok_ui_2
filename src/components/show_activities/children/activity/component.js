@@ -90,9 +90,9 @@ const Component = ({
           </div>
         </div>
       }
-      <div className='media card-details d-none'>
+      <div className='media card-details'>
         <div className='media-body'>
-          <div className='d-flex flex-inline align-items-center float-left'>
+          <div className='d-none flex-inline align-items-center float-left'>
             <button className='btn btn-violet btn-sm' onClick={e => setShowComments(!showComments)}>Show support</button>
             <div className={`${!showComments && 'd-none'}`}>
               <button className='btn btn-violet-outline btn-sm mx-2 px-2'>Admire you</button>
