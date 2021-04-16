@@ -28,6 +28,7 @@ const PostComponent = ({
   const [activeIndex, setActiveIndex] = useState(0)
   const [play, setPlay] = useState(true)
   const [playDetails, setPlayDetails] = useState('')
+  const [displayFullStory, setDisplayFullStory] = useState(false)
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
@@ -139,7 +140,7 @@ const PostComponent = ({
     }
   }
 
-  const showPost = async () => {
+  const sharePost = async () => {
     await bindSharePost(currentUser, 'id', { post })
     history.push('/app/posts/' + displayPost.id)
   }
@@ -237,10 +238,10 @@ const PostComponent = ({
           {
             displayPost.stories.map((story, idx) => (
               <div className={`${idx !== activeIndex && 'd-none'}`} key={idx}>
-                <p className='white-space-preline' onClick={showPost}>
-                  {story.text.length <= 150
+                <p className='white-space-preline'>
+                  {story.text.length <= 150 || displayFullStory
                     ? story.text
-                    : <span className='pointer'>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
+                    : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
                   }
                 </p>
                 { story.fileUrl &&
@@ -268,7 +269,7 @@ const PostComponent = ({
                         <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
                           <i className='fa fa-trash'></i>
                         </button>
-                        <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={showPost}>
+                        <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={sharePost}>
                           <i className='fa fa-share-alt'></i>
                         </button>
                         <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
