@@ -46,7 +46,7 @@ const DetailComponent = ({ setStepNumber, postText, setPostText, btnUpload, file
             ? !fileUrl &&
             <div>
               <img src={require('assets/svgs/AttachmentActive.svg').default} className='attachment-icon' alt='Audio' />
-              <small className='pl-2'>Only audios accepted at the moment</small>
+              <small className='pl-2'>Add voice notes. Only audio files accepted.</small>
             </div>
             : <button className='btn audio-btn'><i className='fa fa-spinner fa-spin'></i></button>
         }

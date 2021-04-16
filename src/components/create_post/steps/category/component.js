@@ -2,15 +2,17 @@ import React from 'react'
 
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
   const handleCategory = async (val) => {
-    const cat = postCategories.find(c => c.title === val)
-    setCategory(cat)
+    if (val) {
+      const cat = postCategories.find(c => c.title === val)
+      setCategory(cat)
+    }
   }
 
   return (
     <div className='feeling-category-wrapper'>
       <div className='mb-3'>
-        <select className='custom-select font-small' id='category' onChange={e => handleCategory(e.target.value)} value={category.title}>
-          <option value=''>Select Category</option>
+        <select className='custom-select font-small' id='category' onChange={e => handleCategory(e.target.value)} value={category && category.title}>
+          <option>Select category</option>
           {
             postCategories.map(category => (
               <option value={category.title} key={category.key}>

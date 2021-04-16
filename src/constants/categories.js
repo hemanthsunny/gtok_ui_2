@@ -131,6 +131,16 @@ export const PostCategories = [
     id: 15
   },
   {
+    title: 'To Covid Warriors',
+    key: 'campaign_covid_warriors',
+    id: 30
+  },
+  {
+    title: 'To Students',
+    key: 'campaign_students',
+    id: 31
+  },
+  {
     title: 'Opinions',
     key: 'opinions',
     id: 24
