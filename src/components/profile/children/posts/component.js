@@ -16,7 +16,7 @@ class PostsComponent extends Component {
       generatePost: false,
       reloadPosts: this.propsState.reloadPosts || false,
       pageId: 1,
-      pageLimit: 1000,
+      pageLimit: 10,
       userId: props.match.params.user_id || props.currentUser.id
     }
   }
@@ -36,7 +36,7 @@ class PostsComponent extends Component {
   loadPosts = async () => {
     this.setState({ loading: true })
     let posts = await getQuery(
-      firestore.collection('posts').where('userId', '==', this.state.userId).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
+      firestore.collection('posts').where('userId', '==', this.state.userId).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
     )
     posts = posts.sort((a, b) => b.createdAt - a.createdAt)
     this.setState({
@@ -47,26 +47,22 @@ class PostsComponent extends Component {
   }
 
   loadMorePosts = async () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight
-    ) {
-      this.setState({ loading: true })
-      let posts = await getQuery(
-        firestore.collection('posts').where('userId', '==', this.state.userId).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
-      )
-      posts = posts.sort((a, b) => b.createdAt - a.createdAt)
-      this.setState({
-        pageId: this.state.pageId + 1,
-        posts,
-        loading: false
-      })
-    }
+    this.setState({ loading: true })
+    let posts = await getQuery(
+      firestore.collection('posts').where('userId', '==', this.state.userId).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
+    )
+    posts = posts.sort((a, b) => b.createdAt - a.createdAt)
+    this.setState({
+      pageId: this.state.pageId + 1,
+      posts,
+      loading: false
+    })
   }
 
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <div className='tab-item -active'>Feelings ({this.state.posts.length})</div>
+        <div className='tab-item -active'>Feelings</div>
         <div className='tab-item' onClick={e => this.props.setActiveTab('activities')}>Activities</div>
       </div>
     </div>
@@ -84,6 +80,9 @@ class PostsComponent extends Component {
                 : <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
             )
           }
+          <div className={`text-center my-3 ${(this.state.posts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+            <button className='btn btn-violet btn-sm' onClick={this.loadMorePosts}>Load more</button>
+          </div>
         </div>
       </div>
     )

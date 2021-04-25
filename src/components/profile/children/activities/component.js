@@ -38,7 +38,7 @@ class ActivitiesComponent extends Component {
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <div className='tab-item' onClick={e => this.props.setActiveTab('posts')}>Feelings</div>
-        <div className='tab-item -active'>Activities ({this.state.activities.length})</div>
+        <div className='tab-item -active'>Activities</div>
       </div>
     </div>
   );

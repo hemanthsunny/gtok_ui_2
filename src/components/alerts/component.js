@@ -8,7 +8,7 @@ import { gtokFavicon } from 'images'
 import { capitalizeFirstLetter } from 'helpers'
 import { SidebarComponent, LoadingComponent } from 'components'
 import { SetAlerts, CreatePageVisits, SetNewAlertsCount } from 'store/actions'
-import { getQuery, firestore, batchUpdate } from 'firebase_config'
+import { getQuery, firestore, batchUpdate, update } from 'firebase_config'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -16,7 +16,7 @@ class ParentComponent extends Component {
     this.state = {
       alerts: props.alerts,
       pageId: 1,
-      pageLimit: 10000
+      pageLimit: 25
     }
   }
 
@@ -49,6 +49,13 @@ class ParentComponent extends Component {
     this.props.bindNewAlertsCount(this.props.currentUser)
   }
 
+  updateAlert = async (alert) => {
+    if (alert.unread) {
+      await update('logs', alert.id, { unread: false })
+    }
+    this.props.bindNewAlertsCount(this.props.currentUser)
+  }
+
   loadAlerts = async () => {
     this.setState({ loading: true })
     let alerts = await getQuery(
@@ -64,22 +71,23 @@ class ParentComponent extends Component {
   }
 
   loadMoreAlerts = async () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight &&
-      this.state.alerts.length < (this.state.pageId * this.state.pageLimit)
-    ) {
-      this.setState({ loading: true })
-      let alerts = await getQuery(
-        firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
-      )
-      alerts = alerts.sort((a, b) => b.createdAt - a.createdAt)
-      this.setState({
-        pageId: this.state.pageId + 1,
-        alerts,
-        loading: false
-      })
-      await this.props.bindAlerts(this.props.currentUser, 'none', alerts)
-    }
+    this.setState({ loading: true })
+    let alerts = await getQuery(
+      firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
+    )
+    alerts = alerts.sort((a, b) => b.createdAt - a.createdAt)
+    this.setState({
+      pageId: this.state.pageId + 1,
+      alerts,
+      loading: false
+    })
+    await this.props.bindAlerts(this.props.currentUser, 'none', alerts)
+
+    // if (
+    //   window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight &&
+    //   this.state.alerts.length < (this.state.pageId * this.state.pageLimit)
+    // ) {
+    // }
   }
 
   setDefaultImg = (e) => {
@@ -120,7 +128,7 @@ class ParentComponent extends Component {
                       {
                         this.state.alerts.map((alert, idx) => (
                           <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
-                            <div className={`card br-0 ${alert.unread && 'active-alert'}`}>
+                            <div className={`card br-0 ${alert.unread && 'active-alert'}`} onClick={e => this.updateAlert(alert)}>
                               <div className='media p-3'>
                                 <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={this.setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
                                 <div className='media-body font-xs-small'>
@@ -134,6 +142,9 @@ class ParentComponent extends Component {
                           </Link>
                         ))
                       }
+                        <div className={`text-center my-3 ${(this.state.alerts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+                          <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
+                        </div>
                       </div>
                       : <div className='text-center mt-5'>
                         You haven't received any alerts yet.
