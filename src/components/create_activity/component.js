@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { motion } from 'framer-motion'
 import _ from 'lodash'
 
 import HeaderComponent from './header'
@@ -12,10 +13,46 @@ import { add, timestamp, batchWrite } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
 import { SidebarComponent } from 'components'
 
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: '100vw',
+    scale: 0.8
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+    scale: 1
+  },
+  out: {
+    opacity: 0,
+    x: '-100vw',
+    scale: 1.2
+  }
+}
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'anticipate',
+  duration: 1
+}
+
+const pageStyle = {
+  position: 'absolute'
+}
+
 const ParentComponent = ({ currentUser, relations, history, prices, wallet }) => {
   const [name, setName] = useState(null)
   const [description, setDescription] = useState(null)
   const [result, setResult] = useState({})
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+
+  useEffect(() => {
+    if (touchStart && touchEnd && (touchStart - touchEnd < -150)) {
+      history.push('/app/create_post')
+    }
+  }, [touchStart, touchEnd])
 
   const saveActivity = async (opts) => {
     if (opts && opts.premium && (!prices || !prices[0])) {
@@ -79,6 +116,15 @@ const ParentComponent = ({ currentUser, relations, history, prices, wallet }) =>
     }
   }
 
+  const onTouchStart = (e) => {
+    setTouchStart(e.changedTouches[0].clientX)
+    setTouchEnd(0)
+  }
+
+  const onTouchEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].clientX)
+  }
+
   const subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -93,30 +139,32 @@ const ParentComponent = ({ currentUser, relations, history, prices, wallet }) =>
       <HeaderComponent />
       <div>
         <SidebarComponent currentUser={currentUser} />
-        <div className='dashboard-content'>
+        <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
            {subHeader()}
-           <div className='container create-activity-wrapper'>
-             <div className='text-center'>
-               {
-                 result.status &&
-                 <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
-                   {result.message}
-                 </div>
-               }
-             </div>
-             <ActivityName name={name} setName={setName} />
-             { name && <ActivityDescription setDescription={setDescription} /> }
-             { name && <ActivitySubmit save={saveActivity} /> }
+           <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition} style={pageStyle}>
+             <div className='container create-activity-wrapper pb-150'>
+               <div className='text-center'>
+                 {
+                   result.status &&
+                   <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
+                     {result.message}
+                   </div>
+                 }
+               </div>
+               <ActivityName name={name} setName={setName} />
+               { name && <ActivityDescription setDescription={setDescription} /> }
+               { name && <ActivitySubmit save={saveActivity} /> }
 
-             {/*
-             { stepNumber === 1 && <ActivityName name={name} setName={setName} setStepNumber={setStepNumber} /> }
-             { stepNumber === 2 && <ActivityDetail name={name} setDetail={setDetail} setStepNumber={setStepNumber} /> }
-             { stepNumber === 3 && <ActivityDescription setDescription={setDescription} setStepNumber={setStepNumber} /> }
-             { stepNumber === 4 && <ActivitySubmit save={saveActivity} setStepNumber={setStepNumber} /> }
-             { stepNumber === 5 && <ActivityStartTime setStartTime={setStartTime} setStepNumber={setStepNumber} /> }
-             { stepNumber === 6 && <ActivityEndTime startTime={startTime} endTime={endTime} setEndTime={setEndTime} setStepNumber={setStepNumber} /> }
-             */}
-           </div>
+               {/*
+               { stepNumber === 1 && <ActivityName name={name} setName={setName} setStepNumber={setStepNumber} /> }
+               { stepNumber === 2 && <ActivityDetail name={name} setDetail={setDetail} setStepNumber={setStepNumber} /> }
+               { stepNumber === 3 && <ActivityDescription setDescription={setDescription} setStepNumber={setStepNumber} /> }
+               { stepNumber === 4 && <ActivitySubmit save={saveActivity} setStepNumber={setStepNumber} /> }
+               { stepNumber === 5 && <ActivityStartTime setStartTime={setStartTime} setStepNumber={setStepNumber} /> }
+               { stepNumber === 6 && <ActivityEndTime startTime={startTime} endTime={endTime} setEndTime={setEndTime} setStepNumber={setStepNumber} /> }
+               */}
+             </div>
+           </motion.div>
         </div>
       </div>
     </div>

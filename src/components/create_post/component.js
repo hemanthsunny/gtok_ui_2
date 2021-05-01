@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { motion } from 'framer-motion'
 import _ from 'lodash'
 
 import HeaderComponent from './header'
@@ -13,6 +14,30 @@ import { PostCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
 import { SidebarComponent } from 'components'
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: '-100vw',
+    scale: 0.8
+  },
+  in: {
+    opacity: 1,
+    x: 0,
+    scale: 1
+  },
+  out: {
+    opacity: 0,
+    x: '100vw',
+    scale: 1.2
+  }
+}
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'anticipate',
+  duration: 1
+}
 
 const ParentComponent = (props) => {
   const sharePost = (props.history.location.state && props.history.location.state.sharePost) || {}
@@ -29,6 +54,14 @@ const ParentComponent = (props) => {
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
   const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+
+  useEffect(() => {
+    if (touchStart && touchEnd && (touchStart - touchEnd > 150)) {
+      props.history.push('/app/create_activity')
+    }
+  }, [touchStart, touchEnd, props])
 
   const savePost = async (opts) => {
     if (opts && opts.premium && (!props.prices || !props.prices[0])) {
@@ -184,6 +217,15 @@ const ParentComponent = (props) => {
   //   })
   // }
 
+  const onTouchStart = (e) => {
+    setTouchStart(e.changedTouches[0].clientX)
+    setTouchEnd(0)
+  }
+
+  const onTouchEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].clientX)
+  }
+
   const subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -198,21 +240,23 @@ const ParentComponent = (props) => {
       <HeaderComponent />
       <div>
         <SidebarComponent currentUser={currentUser} />
-        <div className='dashboard-content'>
-           {subHeader()}
-          <div className='container create-post-wrapper'>
-            <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} />
-            <CategoryComponent postCategories={PostCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
-            <SubmitComponent save={savePost} anonymous={anonymous} setAnonymous={setAnonymous} />
-            <div className='text-center'>
-              {
-                result.status &&
-                <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
-                  {result.message}
-                </div>
-              }
+        <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+          {subHeader()}
+          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
+            <div className='container create-post-wrapper'>
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} />
+              <CategoryComponent postCategories={PostCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
+              <SubmitComponent save={savePost} anonymous={anonymous} setAnonymous={setAnonymous} />
+              <div className='text-center'>
+                {
+                  result.status &&
+                  <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
+                    {result.message}
+                  </div>
+                }
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { motion } from 'framer-motion'
+
 import HeaderComponent from './header'
 import PostComponent from './children/post/component'
 
@@ -10,6 +12,7 @@ import {
 } from 'components'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
+import { pageVariants, pageTransition } from 'constants/framer-motion'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -91,6 +94,26 @@ class ParentComponent extends Component {
     }
   }
 
+  touchStart = (e) => {
+    this.setState({
+      touchStart: e.changedTouches[0].clientX
+    })
+  }
+
+  touchEnd = (e) => {
+    this.setState({
+      touchEnd: e.changedTouches[0].clientX
+    }, () => {
+      this.handleGesture()
+    })
+  }
+
+  handleGesture = (e) => {
+    if (this.state.touchStart - this.state.touchEnd > 150) {
+      this.props.history.push('/app/activities')
+    }
+  }
+
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -106,16 +129,18 @@ class ParentComponent extends Component {
         <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
-          <div className='dashboard-content'>
+          <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {this.subHeader()}
-            <div className='feeling-wrapper'>
-              {
-                this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
-                  <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-                ))
-              }
-            </div>
-            {this.state.loading && <LoadingComponent />}
+            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
+              <div className='feeling-wrapper'>
+                {
+                  this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
+                    <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                  ))
+                }
+              </div>
+              {this.state.loading && <LoadingComponent />}
+            </motion.div>
           </div>
         </div>
       </div>

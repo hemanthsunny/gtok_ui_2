@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { motion } from 'framer-motion'
 import moment from 'moment'
-import HeaderComponent from './header'
 
+import HeaderComponent from './header'
 import { gtokFavicon } from 'images'
 import { capitalizeFirstLetter } from 'helpers'
 import { SidebarComponent, LoadingComponent } from 'components'
 import { SetAlerts, CreatePageVisits, SetNewAlertsCount } from 'store/actions'
 import { getQuery, firestore, batchUpdate, update } from 'firebase_config'
+import { pageVariants, pageTransition } from 'constants/framer-motion'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -125,7 +127,8 @@ class ParentComponent extends Component {
                         <div className='text-violet pointer font-small mb-2' onClick={this.updateUnreadAlerts}>
                           Mark all alerts as read
                         </div>
-                      {
+                        <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
+                        {
                         this.state.alerts.map((alert, idx) => (
                           <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
                             <div className={`card br-0 ${alert.unread && 'active-alert'}`} onClick={e => this.updateAlert(alert)}>
@@ -142,6 +145,7 @@ class ParentComponent extends Component {
                           </Link>
                         ))
                       }
+                        </motion.div>
                         <div className={`text-center my-3 ${(this.state.alerts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
                           <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
                         </div>
