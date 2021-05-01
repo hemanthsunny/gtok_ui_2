@@ -37,10 +37,6 @@ const pageTransition = {
   duration: 1
 }
 
-const pageStyle = {
-  position: 'absolute'
-}
-
 const ParentComponent = ({ currentUser, relations, history, prices, wallet }) => {
   const [name, setName] = useState(null)
   const [description, setDescription] = useState(null)
@@ -49,7 +45,7 @@ const ParentComponent = ({ currentUser, relations, history, prices, wallet }) =>
   const [touchEnd, setTouchEnd] = useState(0)
 
   useEffect(() => {
-    if (touchStart && touchEnd && (touchStart - touchEnd < -150)) {
+    if (touchStart && touchEnd && (touchStart - touchEnd < -75)) {
       history.push('/app/create_post')
     }
   }, [touchStart, touchEnd])
@@ -141,7 +137,7 @@ const ParentComponent = ({ currentUser, relations, history, prices, wallet }) =>
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
            {subHeader()}
-           <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition} style={pageStyle}>
+           <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
              <div className='container create-activity-wrapper pb-150'>
                <div className='text-center'>
                  {

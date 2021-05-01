@@ -58,7 +58,7 @@ const ParentComponent = (props) => {
   const [touchEnd, setTouchEnd] = useState(0)
 
   useEffect(() => {
-    if (touchStart && touchEnd && (touchStart - touchEnd > 150)) {
+    if (touchStart && touchEnd && (touchStart - touchEnd > 75)) {
       props.history.push('/app/create_activity')
     }
   }, [touchStart, touchEnd, props])
