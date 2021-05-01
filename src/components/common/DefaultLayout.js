@@ -9,7 +9,7 @@ const pageTransition = {
     opacity: 1
   },
   out: {
-    opacity: 0
+    opacity: 0.95
   }
 }
 
