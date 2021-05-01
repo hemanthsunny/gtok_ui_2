@@ -23,7 +23,7 @@
 }
 
 .post-card-wrapper .fa.-active {
-  color: var(--color-violet-400);
+  color: var(--color-red-400);
 }
 
 .post-card-wrapper .created-at {
@@ -113,6 +113,40 @@
 
 .post-card-wrapper .card-details .edit-options {
   float: right;
+}
+
+.post-card-wrapper .post-card-footer {
+  padding-top: var(--spacing-12);
+  text-align: center;
+  font-size: var(--font-size-small);
+}
+
+.post-card-wrapper .post-card-footer i {
+  color: var(--color-red-400);
+  animation: scaleIn 1s infinite;
+}
+
+@-webkit-keyframes scaleIn {
+   0% {
+     font-size: var(--font-size-small);
+   }
+   50% {
+     font-size: var(--font-size);
+   }
+   100% {
+     font-size: var(--font-size-small);
+   }
+}
+@keyframes scaleIn {
+  0% {
+    font-size: var(--font-size-small);
+  }
+  50% {
+    font-size: var(--font-size);
+  }
+  100% {
+    font-size: var(--font-size-small);
+  }
 }
 
 .blur-post {

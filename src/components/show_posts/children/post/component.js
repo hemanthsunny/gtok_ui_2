@@ -287,6 +287,9 @@ const PostComponent = ({
           }
         </div>
       }
+      <div className={`post-card-footer ${follower && 'd-none'}`}>
+      Give a  <i className='fa fa-heart px-1'></i> to show your love
+      </div>
     </div>
   )
 }
