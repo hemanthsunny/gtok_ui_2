@@ -276,7 +276,7 @@ const PostComponent = ({
                           <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
                             <i className='fa fa-trash'></i>
                           </button>
-                          <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                          <button className={`btn btn-link d-none ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
                             <i className='fa fa-flag'></i>
                           </button>
                         </div>
