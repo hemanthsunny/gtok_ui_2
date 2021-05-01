@@ -23,7 +23,7 @@
 }
 
 .post-card-wrapper .fa.-active {
-  color: var(--color-red-400);
+  color: var(--color-violet-400);
 }
 
 .post-card-wrapper .created-at {
@@ -122,7 +122,7 @@
 }
 
 .post-card-wrapper .post-card-footer i {
-  color: var(--color-red-400);
+  color: var(--color-violet-400);
   animation: scaleIn 1s infinite;
 }
 
