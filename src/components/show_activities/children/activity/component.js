@@ -105,7 +105,7 @@ const Component = ({
             <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} onClick={e => deleteActivity(activity)}>
               <i className='fa fa-trash'></i>
             </button>
-            <button className={`btn btn-link ${(activity.userId !== currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+            <button className={`btn btn-link ${(activity.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
               <i className='fa fa-flag'></i>
             </button>
           </div>

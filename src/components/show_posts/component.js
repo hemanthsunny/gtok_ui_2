@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 
-import HeaderComponent from './header'
 import PostComponent from './children/post/component'
 
 import {
@@ -126,12 +125,10 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {this.subHeader()}
-            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
               <div className='feeling-wrapper'>
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
@@ -140,6 +137,7 @@ class ParentComponent extends Component {
                 }
               </div>
               {this.state.loading && <LoadingComponent />}
+            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
             </motion.div>
           </div>
         </div>
@@ -150,9 +148,7 @@ class ParentComponent extends Component {
 
 const mapStateToProps = (state) => {
   const { posts } = state.posts
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { posts, newAlertsCount, newMessagesCount }
+  return { posts }
 }
 
 const mapDispatchToProps = (dispatch) => {

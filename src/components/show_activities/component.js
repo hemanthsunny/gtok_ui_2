@@ -77,13 +77,13 @@ class ParentComponent extends Component {
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {this.subHeader()}
-            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
               <div className='activity-wrapper'>
                 {this.state.activities.map((activity, idx) => (
                   <ActivityComponent activity={activity} currentUser={this.props.currentUser} key={idx} />
                 ))}
               </div>
               {this.state.loading && <LoadingComponent />}
+            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
             </motion.div>
           </div>
         </div>

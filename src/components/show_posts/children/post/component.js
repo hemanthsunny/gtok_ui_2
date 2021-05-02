@@ -272,7 +272,7 @@ const PostComponent = ({
                         <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={sharePost}>
                           <i className='fa fa-share-alt'></i>
                         </button>
-                        <button className={`btn btn-link d-none ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                        <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
                           <i className='fa fa-flag'></i>
                         </button>
                       </div>
