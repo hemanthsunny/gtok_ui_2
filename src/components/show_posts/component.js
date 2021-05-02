@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 
 import PostComponent from './children/post/component'
-
+import HeaderComponent from './header'
 import {
   SidebarComponent,
   LoadingComponent
@@ -125,6 +125,7 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
+        <HeaderComponent />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
