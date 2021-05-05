@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "g-to-k"
+    "default": "g-to-k",
+    "development": "lg-main"
   }
 }
