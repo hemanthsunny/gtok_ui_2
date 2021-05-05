@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {
   DefaultLayout,
   ErrorComponent,
-  EmailVerifyComponent
+  VerifyEmailComponent
 } from 'components'
 import { SetReload } from 'store/actions'
 
@@ -45,7 +45,7 @@ const AuthSwitchWrapper = (props) => {
         loggedIn
           ? (
             <DefaultLayout>
-              {(user.emailVerified || dbUser.admin) ? <TruthyComponent currentUser={dbUser} {...rest} /> : <EmailVerifyComponent currentUser={dbUser} />}
+              {(user.emailVerified || dbUser.admin) ? <TruthyComponent currentUser={dbUser} {...rest} /> : <VerifyEmailComponent currentUser={dbUser} />}
             </DefaultLayout>
             )
           : (

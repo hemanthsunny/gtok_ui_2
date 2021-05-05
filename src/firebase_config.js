@@ -3,7 +3,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/storage'
 
-let config
+let config = {}
 if (process.env.REACT_APP_ENV === 'development') {
   config = {
     apiKey: process.env.REACT_APP_DEV_API_KEY,
@@ -30,7 +30,7 @@ if (process.env.REACT_APP_ENV === 'production') {
 }
 
 // if (!firebase.apps.length) {
-firebase.initializeApp(config)
+export const app = firebase.initializeApp(config)
 // }
 
 // const admin = require('firebase-admin');
@@ -39,10 +39,14 @@ export const storage = firebase.storage()
 export const firestore = fb.firestore()
 // export const messaging = firebase.messaging();
 
-// if (location.hostname === 'localhost') {
-//   firestore.useEmulator('localhost', 8080)
-//   auth.useEmulator('http://localhost:9099')
-// }
+if (process.env.REACT_APP_ENV === 'local' || location.hostname === 'localhost') {
+  app.functions().useFunctionsEmulator('http://localhost:5001')
+  app.auth().useEmulator('http://localhost:9099')
+  app.firestore().settings({
+    host: 'localhost:8080',
+    ssl: false
+  })
+}
 
 export const initFirebaseUser = () => {
   /*
@@ -362,6 +366,9 @@ export const sendForgotPassword = (email) => {
 // Ref: https://firebase.google.com/docs/firestore/manage-data/transactions
 const batch = firestore.batch()
 export const batchWrite = async (collection, ids, data = {}) => {
+  if (!ids || !ids[0]) {
+    return null
+  }
   // To generate automated Id: use .doc()
   // To generate custom Id: use .doc('<ID_NUMBER>')
   data.createdAt = new Date().getTime()
