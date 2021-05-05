@@ -3,26 +3,46 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/storage'
 
-// const admin = require('firebase-admin');
-
-const config = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_DATABASE_URL,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+let config
+if (process.env.REACT_APP_ENV === 'development') {
+  config = {
+    apiKey: process.env.REACT_APP_DEV_API_KEY,
+    authDomain: process.env.REACT_APP_DEV_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DEV_DATABASE_URL,
+    projectId: process.env.REACT_APP_DEV_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_DEV_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_DEV_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_DEV_ID
+  }
 }
+
+if (process.env.REACT_APP_ENV === 'production') {
+  config = {
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
+  }
+}
+
 // if (!firebase.apps.length) {
 firebase.initializeApp(config)
 // }
 
+// const admin = require('firebase-admin');
 export const auth = firebase.auth()
 export const storage = firebase.storage()
 export const firestore = fb.firestore()
 // export const messaging = firebase.messaging();
+
+// if (location.hostname === 'localhost') {
+//   firestore.useEmulator('localhost', 8080)
+//   auth.useEmulator('http://localhost:9099')
+// }
 
 export const initFirebaseUser = () => {
   /*
