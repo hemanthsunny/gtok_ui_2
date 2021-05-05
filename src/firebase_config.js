@@ -4,7 +4,7 @@ import 'firebase/auth'
 import 'firebase/storage'
 
 let config
-if (process.env.NODE_ENV === 'development') {
+if (process.env.REACT_APP_ENV === 'development') {
   config = {
     apiKey: process.env.REACT_APP_DEV_API_KEY,
     authDomain: process.env.REACT_APP_DEV_AUTH_DOMAIN,
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
   }
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.REACT_APP_ENV === 'production') {
   config = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
