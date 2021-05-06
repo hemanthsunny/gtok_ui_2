@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { SetUser, SetLoggedIn, SetDbUser } from 'store/actions'
 import { update, verifyEmail, signout } from 'firebase_config'
-import { StaticHeaderComponent } from 'components'
+import HeaderComponent from './header'
 
 const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser }) => {
   const [resendEmail, setResendEmail] = useState('Resend verification email')
@@ -42,9 +42,14 @@ const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser 
     history.push('/logout')
   }
 
+  const adminUser = async () => {
+    await update('users', currentUser.id, { admin: true })
+    window.location.reload()
+  }
+
   return (
     <div>
-      <StaticHeaderComponent />
+      <HeaderComponent />
       <div className='login-form'>
         <h5 className='page-header'>
           Please verify your email before you continue.
@@ -54,6 +59,12 @@ const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser 
             {resendEmail}
           </button>
           <button className='btn btn-sm btn-outline-secondary my-3 col-12' disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
+          {
+            process.env.REACT_APP_ENV === 'development' &&
+            <button className='btn btn-violet-outline btn-sm col-12' onClick={adminUser}>
+              I'm an administrator. Request me access.
+            </button>
+          }
         </div>
       </div>
     </div>

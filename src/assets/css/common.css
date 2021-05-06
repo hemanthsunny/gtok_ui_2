@@ -264,6 +264,11 @@ input[type="text"], textarea {
   min-height: 100vh;
 }
 
+/* Hide emulator warning locally */
+.firebase-emulator-warning {
+  display: none;
+}
+
 @media (max-width: 576px) {
   .navbar {
     box-shadow: 0 0px 0px rgb(0 0 0 / 12%), 0 1px 0px rgb(0 0 0 / 24%) !important;

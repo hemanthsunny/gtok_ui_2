@@ -28,10 +28,11 @@
     "underline": "^1.0.4"
   },
   "scripts": {
-    "start": "REACT_APP_ENV=production react-scripts start",
-    "build": "REACT_APP_ENV=production react-scripts build",
-    "start-dev": "REACT_APP_ENV=development react-scripts start",
+    "start": "REACT_APP_ENV=development react-scripts start",
+    "api": "sh -x ./scripts/api.sh",
+    "build": "react-scripts build",
     "build-dev": "REACT_APP_ENV=development react-scripts build",
+    "build-prod": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",

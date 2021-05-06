@@ -1,4 +1,4 @@
-import EmailVerifyComponent from 'components/auth/EmailVerifyComponent'
+import VerifyEmailComponent from 'components/auth/verify_email/component'
 import LoginComponent from 'components/auth/LoginComponent'
 import LogoutComponent from 'components/auth/LogoutComponent'
 import SignupComponent from 'components/auth/SignupComponent'
@@ -62,7 +62,7 @@ import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
 
 export {
-  EmailVerifyComponent,
+  VerifyEmailComponent,
   LoginComponent,
   SignupComponent,
   SignupSuccessComponent,

@@ -58,6 +58,11 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       })
       // Then, update the status (accept request) for existing relationship
       res = await update('userRelationships', rlnTwo[0].id, { status: 1, actionUserId: currentUser.id })
+      logsData.receiverId = displayUser.id
+      logsData.text = `${currentUser.displayName} accepted your follow request`
+      logsData.actionType = 'update'
+      logsData.actionId = rlnTwo[0].id
+      logsData.actionKey = status
     }
   } else {
     if (status === 'follow') {
@@ -106,6 +111,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
     }
   }
   if (res) {
+    logsData.actionLink = `/app/profile/${currentUser.id}`
     await add('logs', logsData)
   }
   return res
