@@ -50,7 +50,9 @@ class ActivitiesComponent extends Component {
         <div className='activity-wrapper'>
           {
             this.state.activities.map((activity, idx) => (
-              <ActivityComponent activity={activity} currentUser={this.props.currentUser} key={idx} />
+              (activity.anonymous && activity.userId !== this.props.currentUser.id)
+                ? <div key={idx}></div>
+                : <ActivityComponent activity={activity} currentUser={this.props.currentUser} key={idx} />
             ))
           }
         </div>
