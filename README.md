@@ -12,7 +12,7 @@ After successful installation of npm dependencies, do the following:
 1. Start the application - `npm run start`
 2. Start the emulator - `npm run api`
 
-Note: Make sure the ports between `src/firebase config.js` and `firebase.json` are properly linked.
+Note: Make sure the ports between `src/firebase_config.js` and `firebase.json` are properly linked.
 
 
 #### How does FES work?
@@ -23,9 +23,9 @@ Our application must communicate with a real-time firebase project environment (
 - Firestore
 
 #### Remove this styling from styles/common.css to see emulator warning
-.firebase-emulator-warning {
+`.firebase-emulator-warning {
     display: none;
-}
+}`
 
 Other useful references:
 1. Page transition animations
