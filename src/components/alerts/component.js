@@ -27,6 +27,7 @@ class ParentComponent extends Component {
       this.loadAlerts()
     }
     setTimeout(() => {
+      this.updateUnreadAlerts(false)
       this.props.createPageVisits(this.props.currentUser)
     }, 2000)
   }
@@ -39,7 +40,7 @@ class ParentComponent extends Component {
     // window.removeEventListener('scroll', this.loadMoreAlerts)
   }
 
-  updateUnreadAlerts = async () => {
+  updateUnreadAlerts = async (reload = true) => {
     const alerts = await getQuery(
       firestore.collection('logs').where('receiverId', '==', this.props.currentUser.id).where('unread', '==', true).get()
     )
@@ -47,7 +48,9 @@ class ParentComponent extends Component {
       const alertIds = alerts.map(a => a.id)
       await batchUpdate('logs', alertIds, { unread: false })
     }
-    this.loadAlerts()
+    if (reload) {
+      this.loadAlerts()
+    }
     this.props.bindNewAlertsCount(this.props.currentUser)
   }
 
@@ -124,7 +127,7 @@ class ParentComponent extends Component {
                 : (
                     this.state.alerts[0]
                       ? <div className='alerts-wrapper'>
-                        <div className='text-violet pointer font-small mb-2' onClick={this.updateUnreadAlerts}>
+                        <div className='btn btn-violet btn-sm pointer font-small mb-2' onClick={this.updateUnreadAlerts}>
                           Mark all alerts as read
                         </div>
                         <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
@@ -146,7 +149,7 @@ class ParentComponent extends Component {
                         ))
                       }
                         </motion.div>
-                        <div className={`text-center my-3 ${(this.state.alerts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+                        <div className={`text-center my-3 ${(this.state.alerts.length < (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
                           <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
                         </div>
                       </div>
