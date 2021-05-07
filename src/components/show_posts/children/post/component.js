@@ -29,6 +29,7 @@ const PostComponent = ({
   const [play, setPlay] = useState(true)
   const [playDetails, setPlayDetails] = useState('')
   const [displayFullStory, setDisplayFullStory] = useState(false)
+  const [hidePost, setHidePost] = useState(false)
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
@@ -136,7 +137,8 @@ const PostComponent = ({
         timestamp
       })
       setResult(result)
-      // await bindPosts(currentUser);
+      setHidePost(true)
+      // await bindPosts(currentUser)
     }
   }
 
@@ -207,7 +209,7 @@ const PostComponent = ({
     })
   }
 
-  return postedUser && displayPost.stories && (
+  return !hidePost && postedUser && displayPost.stories && (
     <div className='card post-card-wrapper'>
       {
         result.status && <NotificationComponent result={result} setResult={setResult} />
@@ -288,7 +290,7 @@ const PostComponent = ({
         </div>
       }
       <div className={`post-card-footer ${follower && 'd-none'}`}>
-      Give a  <i className='fa fa-heart px-1'></i> to show your love
+      Pinch the  <i className='fa fa-heart px-1'></i> to show your love
       </div>
     </div>
   )

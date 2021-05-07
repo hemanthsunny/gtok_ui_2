@@ -37,7 +37,7 @@ const DetailComponent = ({ setStepNumber, postText, setPostText, btnUpload, file
   return (
     <div className='feeling-detail-wrapper'>
       <div className='description'>
-        <textarea className='form-control' value={postText} onChange={e => handleChange(e.target.value)} placeholder='How are you feeling today?' rows={5}></textarea>
+        <textarea className='form-control' value={postText} onChange={e => handleChange(e.target.value)} placeholder='How are you feeling today?' rows={5} autoFocus></textarea>
       </div>
       <div className='attachment'>
         <label htmlFor='staticAudioFile'>

@@ -59,7 +59,14 @@ class ParentComponent extends Component {
           <div className='dashboard-content'>
             {this.subHeader()}
             <div className='feeling-wrapper'>
-              {this.state.post && <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>}
+              {
+                this.state.post.status === 404 &&
+                <div className='text-center mt-5 pt-5 pb-3 text-gray-6'>
+                  <i className='fa fa-trash fa-2x'></i><br/>
+                  <h5 className="pt-4">Oh no! The post has been removed.</h5>
+                </div>
+              }
+              {this.state.post && this.state.post.status !== 404 && <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>}
               <div className='text-center my-4'>
                 <button className='btn btn-violet btn-sm' onClick={this.props.history.goBack}>Go Back</button>
               </div>
