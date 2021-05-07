@@ -68,6 +68,7 @@ class ParentComponent extends Component {
     )
     posts = posts.sort((a, b) => b.createdAt - a.createdAt)
     this.setState({
+      loadMore: posts.length >= (this.state.pageId * this.state.pageLimit),
       pageId: 2,
       posts,
       loading: false
@@ -77,7 +78,7 @@ class ParentComponent extends Component {
 
   loadMorePosts = async (last) => {
     if (
-      window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight
+      (window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight) && this.state.loadMore
     ) {
       this.setState({ loading: true })
       let posts = await getQuery(
@@ -85,6 +86,7 @@ class ParentComponent extends Component {
       )
       posts = posts.sort((a, b) => b.createdAt - a.createdAt)
       this.setState({
+        loadMore: posts.length >= (this.state.pageId * this.state.pageLimit),
         pageId: this.state.pageId + 1,
         posts,
         loading: false
