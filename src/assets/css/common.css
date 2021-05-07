@@ -139,6 +139,10 @@
   color: #000 !important;
 }
 
+.text-gray-6 {
+  color: var(--color-gray-600)
+}
+
 .fs-16 {
   font-size: 16px !important;
 }
