@@ -81,7 +81,7 @@ const LoginComponent = ({ bindReload }) => {
           <button className='btn btn-sm btn-violet col-12 my-4' disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
           <div className='d-flex page-opts'>
             <Link to='/forgot_password' className='flex-grow-1'>Forgot password</Link> <br/>
-            <Link to='/signup'>New User? Signup</Link> <br/>
+            <Link to='/signup'>New User? Sign up</Link> <br/>
           </div>
         </div>
       </div>

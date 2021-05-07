@@ -95,7 +95,7 @@ const SignupComponent = () => {
     <div >
       <StaticHeaderComponent />
       <div className='login-form'>
-        <h4 className='page-header mb-4'>Signup</h4>
+        <h4 className='page-header mb-4'>Sign up</h4>
         <div>
           <div className='form-group'>
             <label>Username</label>
@@ -158,9 +158,8 @@ const SignupComponent = () => {
           </div>
           {error && <div className='text-danger text-center mt-3'>{error}</div>}
           <button className='btn btn-sm btn-violet col-12 my-4' disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
-          <div className='d-flex page-opts'>
-            <Link to='/login' className='flex-grow-1'>Already a user? Login</Link>
-            <Link to='/forgot_password'>Forgot password</Link> <br/>
+          <div className='text-center page-opts'>
+            <Link to='/login'>Already a user? Login</Link>
           </div>
         </div>
       </div>
