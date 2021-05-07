@@ -10,8 +10,8 @@
 /* Login page */
 .login-form {
   margin: 0px auto;
-  margin-top: var(--spacing-128);
-  padding: var(--spacing-16);
+  margin-top: var(--spacing-64);
+  padding: var(--spacing-32) var(--spacing-16) var(--spacing-128);
 }
 
 .login-form .page-header {
@@ -49,5 +49,7 @@
 @media (min-width: 576px) {
   .login-form {
     width: 40vw !important;
+    padding: var(--spacing-16);
+    margin-top: var(--spacing-128);
   }
 }
