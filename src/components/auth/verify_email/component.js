@@ -48,9 +48,9 @@ const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser 
   }
 
   return (
-    <div>
+    <div className='verify-email' id='verify_email'>
       <HeaderComponent />
-      <div className='login-form'>
+      <div className='container login-form text-center pt-5 mt-4'>
         <h5 className='page-header'>
           Please verify your email before you continue.
         </h5>

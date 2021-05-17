@@ -17,12 +17,13 @@ const SignupComponent = () => {
   const history = useHistory()
 
   const handleForm = async (e) => {
+    setErrors('')
     e.preventDefault()
     if (!username || !username.trim()) {
       setErrors('Username is mandatory')
       return null
     }
-    if (username && !username.match('^[a-z 1-9 _]+$')) {
+    if (username && !username.match('^[a-z 0-9 _]+$')) {
       setErrors('Only alphanumeric values are accepted as username')
       return null
     }
@@ -56,7 +57,12 @@ const SignupComponent = () => {
       return null
     }
     setBtnSave('Submitting...')
-    await signup({ email, password, data })
+    const res = await signup({ email, password, data })
+    if (res && res.status !== 200) {
+      setErrors(res.message)
+      setBtnSave('Submit')
+      return null
+    }
     const userData = {
       email,
       followers: [],
@@ -91,88 +97,130 @@ const SignupComponent = () => {
     }
   }
 
+  const redirectTo = () => {
+    window.open('https://letsgtok.com', '_blank')
+  }
+
   return (
-    <div >
+    <div className='signup-page' id="signup">
       <StaticHeaderComponent />
-      <div className='login-form'>
-        <h4 className='page-header mb-4'>Sign up</h4>
-        <div>
-          <div className='form-group'>
-            <label>Username</label>
-            <input
-              value={username}
-              onChange={e => setUsername(e.target.value.toLowerCase())}
-              name='name'
-              type='text'
-              className='form-control'
-              placeholder='lets_gtok_user_name'
-            />
-          </div>
-          <div className='form-group'>
-            <label>Email</label>
-            <input
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              name='email'
-              type='email'
-              className='form-control'
-              placeholder='Enter email'
-            />
-          </div>
-          <div className='form-group input-password'>
-            <label>Password</label>
-            <input
-              onChange={e => setPassword(e.target.value)}
-              name='password'
-              value={password}
-              type='password'
-              className='form-control'
-              id='signupPass'
-              placeholder='Atleast 6 letters required'
-            />
-            <i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
-          </div>
-        {/*
-          <div className='d-flex'>
-            <div className='custom-switch mb-2'>
-              <input type='checkbox' className='custom-control-input' id='tnc' name='tnc' onChange={e => setTnc(!tnc)} checked={tnc} />
-              <label className='custom-control-label text-left' htmlFor='tnc'>
-                <small>Agree to our Terms and Conditions.</small>
-              </label>
+      <div className='container login-form'>
+        <div className='row'>
+          <div className='col-12 order-2 order-md-1 col-sm-6 d-none d-sm-block left-block'>
+            <div className='header'>
+              <img src={require('assets/svgs/signup/left_header.svg').default} className='header' alt='Header' />
+              <img src={require('assets/svgs/signup/left_subheader.svg').default} className='subheader' alt='Header' />
+            </div>
+            <div className='col-12 pl-0'>
+              <img src={require('assets/svgs/signup/left_options.svg').default} className='options' alt='Infographic' />
+            </div>
+            <div className='col-12 mt-3 pl-0'>
+              <img src={require('assets/svgs/login/left_learn_more.svg').default} className='learn-more pointer' alt='Learn more' onClick={redirectTo} />
             </div>
           </div>
-        */}
-          <div className='permissions'>
-            <div className='form-check'>
-              <input type='checkbox' className='form-check-input' id='tnc' name='tnc' onChange={e => setTnc(!tnc)} checked={tnc} />
-              <label className='form-check-label' htmlFor='tnc'>
-                I'm at least 16 years old. Accept our <a href='https://letsgtok.com/tnc' target='_blank' rel='noopener noreferrer' className='text-violet'>Terms of service</a>, and our  <a href='https://letsgtok.com/privacy_policy' target='_blank' rel='noopener noreferrer' className='text-violet'>Privacy policy</a>.
-              </label>
+          <div className='col-12 order-1 order-md-2 col-sm-6 right-block'>
+            <div className='header text-center'>
+              <img src={require('assets/svgs/signup/right_header.svg').default} className='header' alt='Header' />
             </div>
-            <div className='form-check mt-2'>
-              <input type='checkbox' className='form-check-input' id='emailUpdates' name='emailUpdates' onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
-              <label className='form-check-label' htmlFor='emailUpdates'>
-                I'd like to be notified by email.
-              </label>
+            <div className='body'>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon3">
+                    <img src={require('assets/svgs/signup/right_username_icon.svg').default} alt='Header' />
+                  </span>
+                </div>
+                <input
+                  value={username}
+                  onChange={e => setUsername(e.target.value.toLowerCase())}
+                  name='name'
+                  type='text'
+                  className='form-control'
+                  placeholder='Username (Ex: john_saxena, alex_george, etc)'
+                  autoFocus={true}
+                  aria-label="username"
+                  aria-describedby="basic-addon3"
+                />
+              </div>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1">
+                    <img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' />
+                  </span>
+                </div>
+                <input
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  name='email'
+                  type='email'
+                  className='form-control'
+                  placeholder='Email'
+                  autoFocus={true}
+                  aria-label="email"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon2">
+                    <img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Header' />
+                  </span>
+                </div>
+                <input
+                  onChange={e => setPassword(e.target.value)}
+                  name='password'
+                  value={password}
+                  type='password'
+                  className='form-control'
+                  id='signupPass'
+                  placeholder='Password (atleast 6 letters required)'
+                  aria-label='password'
+                  aria-describedby='basic-addon2'
+                />
+                <div className="input-group-append">
+                  <span className="input-group-text append" id="basic-addon3">
+                    <i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
+                  </span>
+                </div>
+              </div>
+              <div className='options'>
+                <div className='d-flex form-check'>
+                  <input type='checkbox' className='form-check-input' id='tnc' name='tnc' onChange={e => setTnc(!tnc)} checked={tnc} />
+                  <label className='form-check-label' htmlFor='tnc'>
+                    I'm at least 16 years old. Accept our <a href='https://letsgtok.com/tnc' target='_blank' rel='noopener noreferrer' className='text-violet'>Terms of service</a>, and our  <a href='https://letsgtok.com/privacy_policy' target='_blank' rel='noopener noreferrer' className='text-violet'>Privacy policy</a>.
+                  </label>
+                </div>
+                <div className='d-flex form-check mt-2'>
+                  <input type='checkbox' className='form-check-input' id='emailUpdates' name='emailUpdates' onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
+                  <label className='form-check-label' htmlFor='emailUpdates'>
+                    I'd like to be notified by email.
+                  </label>
+                </div>
+              </div>
+              {error && <div className='text-danger text-center mt-3'>{error}</div>}
+              <div>
+                <button className='btn login-btn col-12' disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>
+                {btnSave}
+                </button><br/>
+                <Link to='/login' className='signup-btn'>Already a user? Log in</Link>
+              </div>
             </div>
-          </div>
-          {error && <div className='text-danger text-center mt-3'>{error}</div>}
-          <button className='btn btn-sm btn-violet col-12 my-4' disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
-          <div className='text-center page-opts'>
-            <Link to='/login'>Already a user? Login</Link>
           </div>
         </div>
+        <div className='footer'>
+          <div className='d-flex justify-content-around'>
+            <div className='pointer' onClick={redirectTo}>
+              About us
+            </div>
+            <div className='pointer' onClick={redirectTo}>
+              Blogs
+            </div>
+            <div className='pointer' onClick={redirectTo}>
+              Contact
+            </div>
+          </div>
+          <div className='company-name'>Lets Gtok Limited &copy;</div>
+        </div>
       </div>
-    <br/>
-    {/*
-      <button onClick={() => handleGoogleLogin()} class='googleBtn' type='button'>
-        <img
-          src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'
-          alt='logo'
-        />
-        Join With Google
-      </button>
-    */}
     </div>
   )
 }
