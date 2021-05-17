@@ -177,6 +177,10 @@
   text-transform: capitalize !important;
 }
 
+.text-violet {
+  color: var(--color-violet-400);
+}
+
 .pointer {
   cursor: pointer !important;
 }

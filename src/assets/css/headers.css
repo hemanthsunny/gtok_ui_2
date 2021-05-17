@@ -52,3 +52,16 @@
 .save-icon {
   width: 16px;
 }
+
+
+/* Static header */
+.static-header .navbar {
+  height: 80px;
+  background: rgba(0, 0, 0, 0.34);
+  mix-blend-mode: normal;
+  box-shadow: 4px 4px 99px rgba(0, 0, 0, 0.25);
+}
+
+.static-header .home-page-title {
+  font-size: var(--font-size-bigger) !important;
+}

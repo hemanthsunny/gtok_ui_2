@@ -13,25 +13,27 @@ const StaticHeaderComponent = ({ routes }) => {
   }, [metaDetails])
 
   return (
-    <div>
+    <div className='static-header'>
       <Helmet>
         <title>{metaDetails.title}</title>
         <meta name='description' content= {metaDetails.description}/>
         <meta name='keywords' content= {metaDetails.keywords} />
         <link rel='icon' type='image/png' href={gtokFavicon} sizes='16x16'/>
       </Helmet>
-      <nav className='navbar fixed-top header'>
-        <div className='container-fluid'>
-          <div className='navbar-brand mr-auto'>
+      <nav className='navbar fixed-top header' style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}>
+        <div className='container'>
+          <div className='navbar-brand mx-auto'>
             <Link to='/posts'>
-              <span className='home-page-title'>Lets Gtok</span>
+              <span className='home-page-title text-white'>Lets Gtok</span>
             </Link>
           </div>
-          <ul className='navbar-nav ml-auto'>
+          <ul className='navbar-nav ml-auto d-none'>
             <li className='nav-item'>
               <div className='nav-link p-0'>
+                {/*
                 <Link to='/posts'>Feelings</Link>
                 <Link to='/activities'>Activities</Link>
+                */}
                 {
                   routes && routes[0] && routes.map(r => (
                     <Link to={r.route} key={r.route}>{r.title}</Link>
