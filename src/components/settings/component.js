@@ -15,7 +15,7 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser, n
     await bindLoggedIn(false)
     await bindDbUser(null)
     await bindUser(null)
-    history.push('/logout')
+    history.push('/')
   }
 
   const deleteUser = async () => {
