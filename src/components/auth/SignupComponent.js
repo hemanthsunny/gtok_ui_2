@@ -106,15 +106,15 @@ const SignupComponent = () => {
       <StaticHeaderComponent />
       <div className='container login-form'>
         <div className='row'>
-          <div className='col-12 order-2 order-md-1 col-sm-6 d-none d-sm-block left-block'>
+          <div className='col-12 order-2 order-md-1 col-sm-6 left-block'>
             <div className='header'>
-              <img src={require('assets/svgs/signup/left_header.svg').default} className='header' alt='Header' />
+              <img src={require('assets/svgs/signup/left_header.svg').default} className='col-12 header' alt='Header' />
               <img src={require('assets/svgs/signup/left_subheader.svg').default} className='subheader' alt='Header' />
             </div>
             <div className='col-12 pl-0'>
               <img src={require('assets/svgs/signup/left_options.svg').default} className='options' alt='Infographic' />
             </div>
-            <div className='col-12 mt-3 pl-0'>
+            <div className='col-12 mt-3 pl-0 pb-5 mb-5 pb-sm-0 mb-sm-0'>
               <img src={require('assets/svgs/login/left_learn_more.svg').default} className='learn-more pointer' alt='Learn more' onClick={redirectTo} />
             </div>
           </div>
@@ -126,7 +126,7 @@ const SignupComponent = () => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon3">
-                    <img src={require('assets/svgs/signup/right_username_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/signup/right_username_icon.svg').default} alt='User' /></div>
                   </span>
                 </div>
                 <input
@@ -135,7 +135,7 @@ const SignupComponent = () => {
                   name='name'
                   type='text'
                   className='form-control'
-                  placeholder='Username (Ex: john_saxena, alex_george, etc)'
+                  placeholder='Username'
                   autoFocus={true}
                   aria-label="username"
                   aria-describedby="basic-addon3"
@@ -144,7 +144,7 @@ const SignupComponent = () => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">
-                    <img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Mail' /></div>
                   </span>
                 </div>
                 <input
@@ -162,7 +162,7 @@ const SignupComponent = () => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon2">
-                    <img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Lock' /></div>
                   </span>
                 </div>
                 <input
@@ -177,8 +177,12 @@ const SignupComponent = () => {
                   aria-describedby='basic-addon2'
                 />
                 <div className="input-group-append">
-                  <span className="input-group-text append" id="basic-addon3">
-                    <i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
+                  <span className="input-group-text append" id="basic-addon3" onClick={e => showPassword()}>
+                    {
+                      eyeIcon === 'fa-eye'
+                        ? <img className='show-password' src={require('assets/svgs/Eye.svg').default} alt='Eye' />
+                        : <img className='show-password' src={require('assets/svgs/EyeOpen.svg').default} alt='EyeOpen' />
+                    }
                   </span>
                 </div>
               </div>

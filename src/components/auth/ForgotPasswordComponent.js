@@ -29,7 +29,7 @@ const ForgotPasswordComponent = () => {
         <div className='row'>
           <div className='col-12 right-block'>
             <div className='header'>
-              <Link to='/login' className='float-left pl-5'>
+              <Link to='/login' className='float-left pl-3'>
                 <img src={require('assets/svgs/forgot_pw/go_back.svg').default} alt='Go back' />
               </Link>
               <div className='clearfix'></div>
@@ -39,7 +39,7 @@ const ForgotPasswordComponent = () => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">
-                    <img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' /></div>
                   </span>
                 </div>
                 <input

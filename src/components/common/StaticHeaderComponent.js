@@ -24,7 +24,7 @@ const StaticHeaderComponent = ({ routes }) => {
         <div className='container'>
           <div className='navbar-brand mx-auto'>
             <Link to='/posts'>
-              <span className='home-page-title text-white'>Lets Gtok</span>
+              <span className='home-page-title'>Lets Gtok</span>
             </Link>
           </div>
           <ul className='navbar-nav ml-auto d-none'>

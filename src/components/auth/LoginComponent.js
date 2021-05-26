@@ -54,13 +54,13 @@ const LoginComponent = ({ bindReload }) => {
       <StaticHeaderComponent />
       <div className='container login-form'>
         <div className='row'>
-          <div className='col-12 order-2 order-sm-1 col-sm-6 d-none d-sm-block left-block'>
+          <div className='col-12 order-2 order-sm-1 col-sm-6 left-block'>
             <div className='header text-center'>
-              <img src={require('assets/svgs/login/left_header.svg').default} className='header' alt='Header' />
+              <img src={require('assets/svgs/login/left_header.svg').default} className='col-12 header' alt='Header' />
             </div>
-            <div className='d-flex justify-content-around body'>
-              <img src={require('assets/svgs/login/left_infographic.svg').default} className='infographic' alt='Infographic' />
-              <img src={require('assets/svgs/login/left_learn_more.svg').default} className='learn-more' alt='Learn more' onClick={redirectTo} />
+            <div className='row justify-content-around body pb-5 mb-4 pb-sm-0 mb-sm-0'>
+              <img src={require('assets/svgs/login/left_infographic.svg').default} className='col-6 infographic' alt='Infographic' />
+              <img src={require('assets/svgs/login/left_learn_more.svg').default} className='col-6 learn-more' alt='Learn more' onClick={redirectTo} />
             </div>
           </div>
           <div className='col-12 order-1 order-sm-2 col-sm-6 right-block'>
@@ -71,7 +71,7 @@ const LoginComponent = ({ bindReload }) => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">
-                    <img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' /></div>
                   </span>
                 </div>
                 <input
@@ -89,7 +89,7 @@ const LoginComponent = ({ bindReload }) => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon2">
-                    <img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Header' />
+                    <div><img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Header' /></div>
                   </span>
                 </div>
                 <input
@@ -104,17 +104,16 @@ const LoginComponent = ({ bindReload }) => {
                   aria-describedby='basic-addon2'
                 />
                 <div className="input-group-append">
-                  <span className="input-group-text append" id="basic-addon3">
-                    <i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
+                  <span className="input-group-text append" id="basic-addon3" onClick={e => showPassword()}>
+                    {
+                      eyeIcon === 'fa-eye'
+                        ? <img className='show-password' src={require('assets/svgs/Eye.svg').default} alt='Eye' />
+                        : <img className='show-password' src={require('assets/svgs/EyeOpen.svg').default} alt='EyeOpen' />
+                    }
                   </span>
                 </div>
               </div>
-              <div className='d-flex'>
-                <div className='d-none'>
-                  <Link to='/forgot_password'>
-                    Remember me
-                  </Link>
-                </div>
+              <div className='text-center'>
                 <div className='ml-auto'>
                   <Link to='/forgot_password' className='forgot-pw'>
                     Forgot password
