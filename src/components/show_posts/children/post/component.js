@@ -289,8 +289,8 @@ const PostComponent = ({
           }
         </div>
       }
-      <div className={`post-card-footer ${follower && 'd-none'}`}>
-      Pinch the  <i className='fa fa-heart px-1'></i> to show your love
+      <div className={`post-card-footer ${follower && 'd-none'}`} onClick={e => followPost(e)}>
+      Pinch <i className='fa fa-heart px-1'></i> to show your love
       </div>
     </div>
   )

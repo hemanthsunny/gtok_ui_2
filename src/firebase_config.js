@@ -378,7 +378,7 @@ export const batchWrite = async (collection, ids, data = {}) => {
     const ref = firestore.collection(collection).doc()
     await batch.set(ref, data)
   })
-  await batch.commit()
+  // await batch.commit()
 }
 
 export const batchUpdate = async (collection, ids, data = {}) => {
@@ -387,7 +387,7 @@ export const batchUpdate = async (collection, ids, data = {}) => {
     const ref = firestore.collection(collection).doc(id)
     batch.update(ref, data)
   })
-  batch.commit()
+  // batch.commit()
 }
 
 /* Common code */
