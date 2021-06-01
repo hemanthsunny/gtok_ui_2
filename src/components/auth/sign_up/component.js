@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { signup, add, getQuery, firestore } from 'firebase_config'
 import { StaticHeaderComponent } from 'components'
 import { validateEmail } from 'helpers'
+import './index.css'
 
 const SignupComponent = () => {
   const [username, setUsername] = useState('')
@@ -108,11 +109,56 @@ const SignupComponent = () => {
         <div className='row'>
           <div className='col-12 order-2 order-md-1 col-sm-6 left-block'>
             <div className='header'>
-              <img src={require('assets/svgs/signup/left_header.svg').default} className='col-12 header' alt='Header' />
-              <img src={require('assets/svgs/signup/left_subheader.svg').default} className='subheader' alt='Header' />
+              <h1>Join the community</h1>
+              <div className='subheader'>Feelings are being shared from all over the world.</div>
             </div>
-            <div className='col-12 pl-0'>
-              <img src={require('assets/svgs/signup/left_options.svg').default} className='options' alt='Infographic' />
+            <div className='col-12 center-wrapper d-none d-sm-block'>
+              <div className='media option'>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/feelings.svg').default} alt='Feelings' />
+                </div>
+                <div className='media-body'>
+                  Share your feelings
+                </div>
+              </div>
+              <div className='media option'>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/activities.svg').default} alt='Activities' />
+                </div>
+                <div className='media-body'>
+                  Post your activities
+                </div>
+              </div>
+              <div className='media option'>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/earn.svg').default} alt='Earn' />
+                </div>
+                <div className='media-body'>
+                  Earn
+                </div>
+              </div>
+            </div>
+            <div className='center-wrapper d-sm-none'>
+              <div className='row option'>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/feelings.svg').default} alt='Feelings' />
+                </div>
+                <div className='col-12 mt-3 mb-5'>
+                  Share your feelings
+                </div>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/activities.svg').default} alt='Feelings' />
+                </div>
+                <div className='col-12 mt-3 mb-5'>
+                  Post your activities
+                </div>
+                <div className='icon'>
+                  <img src={require('assets/svgs/signup/earn.svg').default} alt='Feelings' />
+                </div>
+                <div className='col-12 mt-3 mb-5'>
+                  Earn
+                </div>
+              </div>
             </div>
             <div className='col-12 mt-3 pl-0 pb-5 mb-5 pb-sm-0 mb-sm-0'>
               <img src={require('assets/svgs/login/left_learn_more.svg').default} className='learn-more pointer' alt='Learn more' onClick={redirectTo} />
@@ -123,7 +169,7 @@ const SignupComponent = () => {
               <img src={require('assets/svgs/signup/right_header.svg').default} className='header' alt='Header' />
             </div>
             <div className='body'>
-              <div className="input-group mb-3">
+              <div className="input-group mb-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon3">
                     <div><img src={require('assets/svgs/signup/right_username_icon.svg').default} alt='User' /></div>
@@ -141,10 +187,10 @@ const SignupComponent = () => {
                   aria-describedby="basic-addon3"
                 />
               </div>
-              <div className="input-group mb-3">
+              <div className="input-group mb-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">
-                    <div><img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Mail' /></div>
+                    <div><img className="mail-icon" src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Mail' /></div>
                   </span>
                 </div>
                 <input
@@ -159,7 +205,7 @@ const SignupComponent = () => {
                   aria-describedby="basic-addon1"
                 />
               </div>
-              <div className="input-group mb-3">
+              <div className="input-group mb-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon2">
                     <div><img src={require('assets/svgs/login/right_lock_icon.svg').default} alt='Lock' /></div>

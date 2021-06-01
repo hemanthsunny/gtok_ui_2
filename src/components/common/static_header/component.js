@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Metadata } from 'constants/index'
 import { gtokFavicon } from 'images'
+import './index.css'
 
 const StaticHeaderComponent = ({ routes }) => {
   const [metaDetails, setMetaDetails] = useState({})
@@ -20,7 +21,7 @@ const StaticHeaderComponent = ({ routes }) => {
         <meta name='keywords' content= {metaDetails.keywords} />
         <link rel='icon' type='image/png' href={gtokFavicon} sizes='16x16'/>
       </Helmet>
-      <nav className='navbar fixed-top header' style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}>
+      <nav className='navbar fixed-top' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
         <div className='container'>
           <div className='navbar-brand mx-auto'>
             <Link to='/posts'>

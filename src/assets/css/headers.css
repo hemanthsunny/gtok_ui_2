@@ -47,26 +47,3 @@
 .save-icon {
   width: 16px;
 }
-
-
-/* Static header */
-.static-header .navbar {
-  height: 80px;
-  background: rgba(0, 0, 0, 0.34);
-  mix-blend-mode: normal;
-  box-shadow: 4px 4px 99px rgba(0, 0, 0, 0.25);
-  transition: all 0.35s ease-in-out;
-}
-
-.static-header .home-page-title {
-  font-size: 23px !important;
-  color: var(--color-white);
-}
-
-.static-header .navbar .fixed-after {
-  height: 30px;
-}
-
-.static-header .home-page-title.after {
-  font-size: 18px !important;
-}

@@ -87,6 +87,12 @@
   height: 20px;
 }
 
+.login-form .right-block .body .input-group-text img.mail-icon {
+  position: relative;
+  top: -2px;
+  height: 20px;
+}
+
 .login-form .right-block .body .input-group-text.append {
   background-color: #F4EFFD;
   border-top-left-radius: 0px;
@@ -134,38 +140,8 @@
   font-size: var(--font-size-small);
 }
 
-/* Signup page */
-.signup-page {
-  background-image: url("assets/images/signup.png");
-  height: 100vh;
-  width: 100vw;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  overflow-y: scroll;
-}
-
-.signup-page .login-form .left-block {
-  padding: 0 var(--spacing-64);
-}
-
-.signup-page .login-form .left-block .header {
-  padding-left: 0;
-}
-
-.signup-page .login-form .left-block .options {
-  padding: var(--spacing-24) 0;
-  height: 28vh;
-}
-
 .login-form .right-block .body input[type="checkbox"] {
   min-height: 0px;
-}
-
-.signup-page .options {
-  text-align: left;
-  padding: 0 var(--spacing-16);
-  color: #8A8A8A;
 }
 
 /* Forgot pw page */
@@ -201,18 +177,7 @@
 
 
 @media (min-width: 768px) {
-  .signup-page .login-form .left-block .header {
-    width: 20vw;
-  }
 
-  .signup-page .login-form .left-block .subheader {
-    width: 20vw;
-  }
-
-  .signup-page .login-form .left-block .options {
-    /* width: 37vw; */
-    height: 33vh;
-  }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {

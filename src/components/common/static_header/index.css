@@ -1,0 +1,24 @@
+/* Static header */
+.static-header .navbar {
+  height: 70px;
+  background: rgba(0, 0, 0, 0.34);
+  mix-blend-mode: normal;
+  box-shadow: 4px 4px 99px rgba(0, 0, 0, 0.25);
+  transition: all 0.35s ease-in-out;
+}
+
+.static-header .home-page-title {
+  font-size: 22px !important;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-white);
+  letter-spacing: 0.015rem;
+}
+
+.static-header .navbar .fixed-after {
+  height: 30px;
+}
+
+.static-header .home-page-title.after {
+  font-size: 18px !important;
+}

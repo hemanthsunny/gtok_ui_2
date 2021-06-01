@@ -39,7 +39,7 @@ const ForgotPasswordComponent = () => {
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">
-                    <div><img src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' /></div>
+                    <div><img className="mail-icon" src={require('assets/svgs/login/right_mail_icon.svg').default} alt='Header' /></div>
                   </span>
                 </div>
                 <input
