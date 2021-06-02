@@ -18,7 +18,7 @@ const CookieNotification = () => {
       <p className="pb-0">
         By using this website, you agree to our use of <a href="https://letsgtok.com/cookie_policy" target="_blank" rel="noopener noreferrer" className="text-violet">cookie policy</a>. We use cookies to provide you with a great experience and to help our website run effectively.
       </p>
-      <button className='btn btn-sm p-1 btn-violet' onClick={e => closeCookieBanner()}>OK</button>
+      <button className='btn btn-sm p-1 px-2 btn-violet' onClick={e => closeCookieBanner()}>Got it</button>
     </div>
   )
 }

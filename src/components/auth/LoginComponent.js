@@ -113,7 +113,7 @@ const LoginComponent = ({ bindReload }) => {
                   </span>
                 </div>
               </div>
-              <div className='text-center'>
+              <div className='text-center pt-2'>
                 <div className='ml-auto'>
                   <Link to='/forgot_password' className='forgot-pw'>
                     Forgot password

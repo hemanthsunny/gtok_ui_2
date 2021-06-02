@@ -232,7 +232,7 @@ const SignupComponent = () => {
                   </span>
                 </div>
               </div>
-              <div className='options'>
+              <div className='options pt-2'>
                 <div className='d-flex form-check'>
                   <input type='checkbox' className='form-check-input' id='tnc' name='tnc' onChange={e => setTnc(!tnc)} checked={tnc} />
                   <label className='form-check-label' htmlFor='tnc'>
