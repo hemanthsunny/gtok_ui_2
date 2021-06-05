@@ -364,8 +364,8 @@ export const sendForgotPassword = (email) => {
 // Use bulk writes to perform this operation
 // Use bulk_writes API from lib folder
 // Ref: https://firebase.google.com/docs/firestore/manage-data/transactions
-const batch = firestore.batch()
 export const batchWrite = async (collection, ids, data = {}) => {
+  const batch = firestore.batch()
   if (!ids || !ids[0]) {
     return null
   }
@@ -378,16 +378,19 @@ export const batchWrite = async (collection, ids, data = {}) => {
     const ref = firestore.collection(collection).doc()
     await batch.set(ref, data)
   })
-  // await batch.commit()
+  await batch.commit()
+  return { status: 200 }
 }
 
 export const batchUpdate = async (collection, ids, data = {}) => {
+  const batch = firestore.batch()
   data.updatedAt = new Date().getTime()
   ids.map(async (id) => {
     const ref = firestore.collection(collection).doc(id)
-    batch.update(ref, data)
+    await batch.update(ref, data)
   })
-  // batch.commit()
+  await batch.commit()
+  return { status: 200 }
 }
 
 /* Common code */
