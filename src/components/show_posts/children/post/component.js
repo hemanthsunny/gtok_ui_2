@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import './style.css'
 
 import {
   add,
@@ -14,7 +15,7 @@ import {
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { NotificationComponent, ReportPostComponent } from 'components'
+import { NotificationComponent, ReportPostComponent, CustomImageComponent } from 'components'
 import { PostCategories } from 'constants/categories'
 
 const PostComponent = ({
@@ -33,6 +34,7 @@ const PostComponent = ({
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
+  const displayPostUrl = 'https://app.letsgtok.com/app/posts/' + displayPost.id
 
   useEffect(() => {
     async function getPostedUser () {
@@ -209,88 +211,125 @@ const PostComponent = ({
     })
   }
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(displayPostUrl)
+  }
+
   return !hidePost && postedUser && displayPost.stories && (
-    <div className='card post-card-wrapper'>
-      {
-        result.status && <NotificationComponent result={result} setResult={setResult} />
-      }
-      <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
-      <div>
-        <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
-        <div className='card-follow'>
-        {followerLoading
-          ? <i className='fa fa-spinner fa-spin'></i>
-          : <button className='btn btn-link p-0 pr-2' onClick={e => followPost(e)}>
-            <i className={`fa fa-heart ${follower && '-active'}`}></i>
-          </button>
+    <div className='row mx-2 my-3'>
+      <div className='col-2 col-sm-1 p-0 m-0'>
+        {displayPost.anonymous
+          ? <CustomImageComponent user={postedUser} size='sm' />
+          : <CustomImageComponent user={postedUser} size='sm' />
         }
-        </div>
+        <span className='created-at'>{moment(displayPost.createdAt).format('HH:mm')}</span>
       </div>
-      {
-        (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId))
-          ? <div className='card-body'>
-          <div className='blur-post'>
-            This post is locked. <br/> To unlock this post, purchase premium of the profile user.
+      <div className='card col-10 col-sm-11 m-0 post-card-wrapper'>
+        {
+          result.status && <NotificationComponent result={result} setResult={setResult} />
+        }
+        <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
+        {
+          (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId))
+            ? <div className='card-body'>
+            <div className='blur-post'>
+              This post is locked. <br/> To unlock this post, purchase premium of the profile user.
+            </div>
+            <Link to={`/app/profile/${displayPost.userId}/unlock_profile`} className='unlock-post d-flex'>
+              <i className='fa fa-lock'></i> &nbsp; Premium post. Unlock now
+            </Link>
           </div>
-          <Link to={`/app/profile/${displayPost.userId}/unlock_profile`} className='unlock-post d-flex'>
-            <i className='fa fa-lock'></i> &nbsp; Premium post. Unlock now
-          </Link>
-        </div>
-          : <div className='card-body'>
-          {
-            displayPost.stories.map((story, idx) => (
-              <div className={`${idx !== activeIndex && 'd-none'}`} key={idx}>
-                <p className='white-space-preline'>
-                  {story.text.length <= 150 || displayFullStory
-                    ? story.text
-                    : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
-                  }
-                </p>
-                { story.fileUrl &&
-                  <div className='d-flex align-items-center'>
-                    <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
-                    <button className='audio-btn' onClick={e => playAudio(idx)}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
-                  </div>
-                }
-                {
-                  displayPost.stories.length > 1 &&
-                  <div className='carousel-effect'>
-                    <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
-                    <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
-                  </div>
-                }
-                <div className='clearfix my-3'></div>
-                <div className='media card-details'>
-                  <div className='media-body'>
-                    <h6>
-                      {displayPost.anonymous ? <span>@Anonymous</span> : <span className='pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
-                      <div className='edit-options'>
-                        <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
-                          <i className='fa fa-pencil'></i>
-                        </button>
-                        <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
-                          <i className='fa fa-trash'></i>
-                        </button>
-                        <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={sharePost}>
-                          <i className='fa fa-share-alt'></i>
-                        </button>
-                        <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
-                          <i className='fa fa-flag'></i>
-                        </button>
+            : <div>
+              {
+              displayPost.stories.map((story, idx) => (
+                <div key={idx}>
+                  <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
+                    <div>
+                      <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
+                    </div>
+                    <p className='card-text white-space-preline'>
+                      {story.text.length <= 150 || displayFullStory
+                        ? story.text
+                        : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
+                      }
+                    </p>
+                    { story.fileUrl &&
+                      <div className='d-flex align-items-center'>
+                        <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
+                        <button className='audio-btn' onClick={e => playAudio(idx)}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
                       </div>
-                    </h6>
-                    <span className='created-at'>
-                      {moment(displayPost.createdAt).fromNow()}
-                    </span>
+                    }
+                    {
+                      displayPost.stories.length > 1 &&
+                      <div className='carousel-effect'>
+                        <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
+                        <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
+                      </div>
+                    }
+                    <div className='clearfix my-3'></div>
+                  </div>
+                  <div className='media card-footer card-details'>
+                    <div className='media-body'>
+                      <h6>
+                        {displayPost.anonymous ? <span>@Anonymous</span> : <span className='pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
+                        <div className='edit-options'>
+                          {followerLoading
+                            ? <i className='fa fa-spinner fa-spin'></i>
+                            : <button className='btn btn-link p-0 pr-1' onClick={e => followPost(e)}>
+                              {
+                                follower
+                                  ? <img className="icon-heart" src={require('assets/svgs/HeartActive.svg').default} alt="1" />
+                                  : <img className="icon-heart" src={require('assets/svgs/Heart.svg').default} alt="1" />
+                              }
+                            </button>
+                          }
+                          <div className='btn-group'>
+                            <button className='btn btn-link btn-sm fs-15 text-secondary' id='shareMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                              <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
+                            </button>
+                            <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
+                              <button className='dropdown-item' onClick={sharePost}>
+                                Reshare
+                              </button>
+                              <button className='dropdown-item' onClick={copyLink}>
+                                Send to...
+                              </button>
+                            </div>
+                          </div>
+                          <div className='btn-group'>
+                            <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' id='optionsMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                              <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                            </button>
+                            <div className='dropdown-menu' aria-labelledby='optionsMenuDropdown'>
+                              <button className='dropdown-item' onClick={sharePost}>
+                                Share to...
+                              </button>
+                              <button className='dropdown-item' onClick={copyLink}>
+                                Copy link
+                              </button>
+                              <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
+                                Edit
+                              </button>
+                              <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
+                                Delete
+                              </button>
+                              <button className={`dropdown-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                                Report
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </h6>
+                      <span className='created-at'>
+                        {moment(displayPost.createdAt).format('DD MMMM YYYY')}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-          }
-        </div>
-      }
-      <div className={`post-card-footer ${follower && 'd-none'}`} onClick={e => followPost(e)}>
-      Pinch <i className='fa fa-heart px-1'></i> to show your love
+              ))
+            }
+          </div>
+        }
       </div>
     </div>
   )

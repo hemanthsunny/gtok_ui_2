@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
+import './style.css'
 
 import PostComponent from './children/post/component'
 import HeaderComponent from './header'
@@ -29,7 +30,9 @@ class ParentComponent extends Component {
         { key: 'oldest', val: 'Most Oldest' },
         { key: 'category_asc', val: 'Category (A-Z)' },
         { key: 'category_desc', val: 'Category (Z-A)' }
-      ]
+      ],
+      selectedFilters: [],
+      unselectedFilters: ['Feelings', 'Activities', 'Audios', 'Trade'].sort()
     }
   }
 
@@ -115,6 +118,20 @@ class ParentComponent extends Component {
     }
   }
 
+  handleFilters = (action, val) => {
+    if (action === 'selected') {
+      this.setState({
+        selectedFilters: [...this.state.selectedFilters, val].sort(),
+        unselectedFilters: this.state.unselectedFilters.filter(f => f !== val).sort()
+      })
+    } else {
+      this.setState({
+        unselectedFilters: [...this.state.unselectedFilters, val].sort(),
+        selectedFilters: this.state.selectedFilters.filter(f => f !== val).sort()
+      })
+    }
+  }
+
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -131,8 +148,26 @@ class ParentComponent extends Component {
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
-            {this.subHeader()}
+            {/* this.subHeader() */}
               <div className='feeling-wrapper'>
+                <div className='filter-wrapper'>
+                  <div className='filter-header'>
+                    Filter &nbsp;
+                    <img src={require('assets/svgs/Filter.svg').default} className='filter-icon' alt='Filters' />
+                  </div>
+                  <div className='filter-names'>
+                    {
+                      this.state.selectedFilters.map((name, i) => (
+                        <div className='btn btn-violet-outline btn-sm mx-1 selected' key={i} onClick={e => this.handleFilters('unselected', name)}>{name}</div>
+                      ))
+                    }
+                    {
+                      this.state.unselectedFilters.map((name, i) => (
+                        <div className='btn btn-sm mx-1 unselected' key={i} onClick={e => this.handleFilters('selected', name)}>{name}</div>
+                      ))
+                    }
+                  </div>
+                </div>
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
                     <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>

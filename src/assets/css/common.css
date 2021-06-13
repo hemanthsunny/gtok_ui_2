@@ -194,37 +194,6 @@ input[type="text"], textarea {
   box-shadow: none !important;
 }
 
-/* Custom image */
-.custom-image {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.custom-image-text {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  color: var(--color-white);
-  background-color: var(--color-violet-400);
-  font-size: var(--font-size-big);
-  padding-top: var(--spacing-8);
-  text-align: center;
-}
-
-.custom-image.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-}
-
-.custom-image-text.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-  font-size: var(--font-size-bigger);
-  padding-top: var(--spacing-16);
-}
-
 /* Dashboard header - >576px */
 .header {
   min-height: var(--spacing-64);
