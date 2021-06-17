@@ -5,8 +5,9 @@ import { motion } from 'framer-motion'
 import './style.css'
 
 import PostComponent from './children/post/component'
-import HeaderComponent from './header'
 import {
+  HeaderComponent,
+  MobileFooterComponent,
   SidebarComponent,
   LoadingComponent
 } from 'components'
@@ -151,10 +152,6 @@ class ParentComponent extends Component {
             {/* this.subHeader() */}
               <div className='feeling-wrapper'>
                 <div className='filter-wrapper'>
-                  <div className='filter-header'>
-                    Filter &nbsp;
-                    <img src={require('assets/svgs/Filter.svg').default} className='filter-icon' alt='Filters' />
-                  </div>
                   <div className='filter-names'>
                     {
                       this.state.selectedFilters.map((name, i) => (
@@ -174,6 +171,7 @@ class ParentComponent extends Component {
                   ))
                 }
               </div>
+              <MobileFooterComponent currentUser={this.props.currentUser} />
               {this.state.loading && <LoadingComponent />}
             <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
             </motion.div>

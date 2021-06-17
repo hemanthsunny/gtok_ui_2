@@ -3,15 +3,15 @@
 }
 
 .post-card-wrapper {
-  /* padding: 1rem 0.75rem; */
-  margin: 1rem !important;
+  flex-grow: 1;
+  margin: 0 0.5rem!important;
   padding: 0px !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  font-size: var(--font-size);
   background: linear-gradient(180deg, rgba(194, 95, 255, 0.6) 68.68%, #FFB47E 111.32%);
   backdrop-filter: blur(45.7534px);
-  border-radius: 5px;
   filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.25));
-  border: 0 !important;
-  font-size: var(--font-size);
 }
 
 .post-card-wrapper .dropdown-menu {
@@ -28,6 +28,7 @@
 }
 
 .post-card-wrapper .created-at {
+  float: right;
   font-size: var(--font-size);
 }
 
@@ -50,44 +51,58 @@
 
 .post-card-wrapper .card-body {
   padding: 1rem;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 21px 21px;
   background: var(--color-white);
-  filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.25));
 }
 
-.post-card-wrapper .audio-btn,
-.post-card-wrapper .audio-btn:focus,
-.post-card-wrapper .audio-btn:hover {
-  width: var(--spacing-32);
+.post-card-wrapper .audio-btn {
+  text-align: center;
+  /* width: var(--spacing-32);
   height: var(--spacing-32);
   border-radius: 50%;
   border: 1px solid var(--color-violet-100);
+  background: none; */
+}
+
+.post-card-wrapper .audio-btn {
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
+  width: 13vw;
+  height: 13vw;
+  border-radius: 50%;
   background: none;
+  margin: 0px auto;
 }
 
-.post-card-wrapper .audio-btn .fa {
+.post-card-wrapper .audio-btn .btn-play {
+  width: 4vw;
   position: relative;
-  left: 2px;
-  top: -3px;
+  top: 4px;
+  left: 1px;
+  transition: all 0.25s ease-in-out;
+}
+
+.post-card-wrapper .audio-btn .btn-pause {
+  width: 3vw;
+  position: relative;
+  top: 4px;
+  transition: all 0.25s ease-in-out;
+}
+
+.post-card-wrapper .audio-player .progress {
+  height: 4px;
+}
+
+.post-card-wrapper .audio-player .progress-bar {
+  background-color: var(--color-violet-400);
+}
+
+.post-card-wrapper .audio-time .current {
   font-size: var(--font-size-small);
-  color: var(--color-violet-400);
 }
 
-.post-card-wrapper .audio-btn .fa-play {
-  position: relative;
-  left: -3px;
-  top: -2px;
-}
-
-.post-card-wrapper .audio-btn .fa-pause {
-  position: relative;
-  left: -4px;
-  top: -2px;
-}
-
-.post-card-wrapper .audio-details {
-  margin: 0 var(--spacing-8);
+.post-card-wrapper .audio-time .duration {
   font-size: var(--font-size-small);
+  float: right;
 }
 
 .post-card-wrapper .card-body .carousel-effect .prev {
@@ -106,56 +121,61 @@
   cursor: pointer;
 }
 
-.post-card-wrapper .card-details {
+.post-card-wrapper .card-footer {
   border: 0px !important;
+  padding: var(--spacing-12) var(--spacing-12);
 }
 
-.post-card-wrapper .card-details img {
-  object-fit: cover;
+.post-card-wrapper .card-footer .author {
+  font-size: var(--font-size-big);
+  font-weight: 500;
+}
+
+.post-card-wrapper .card-footer img {
   width: 45px;
   height: 45px;
-  border-radius: 50%;
+  position: relative;
+  top: -7px;
 }
 
-.post-card-wrapper .card-details h6 {
-  margin: 0;
-}
-
-.post-card-wrapper .card-details .edit-options {
+.post-card-wrapper .card-footer .edit-options {
   float: right;
 }
 
-.post-card-wrapper .post-card-footer {
-  padding-top: var(--spacing-12);
-  text-align: center;
-  font-size: var(--font-size-small);
+.scaleInImgFollow {
+  animation: scaleIn 0.75s 2;
 }
 
-.post-card-wrapper .post-card-footer i {
-  color: var(--color-violet-400);
-  animation: scaleIn 1s infinite;
+.scaleInImgUnfollow {
+  animation: scaleIn 0.75s 1;
 }
 
 @-webkit-keyframes scaleIn {
    0% {
-     font-size: var(--font-size-small);
+     transform: scale(1);
+     filter: none;
    }
    50% {
-     font-size: var(--font-size);
+     transform: scale(1.7);
+     filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.25));
    }
    100% {
-     font-size: var(--font-size-small);
+     transform: scale(1);
+     filter: none;
    }
 }
 @keyframes scaleIn {
   0% {
-    font-size: var(--font-size-small);
+    transform: scale(1);
+    filter: none;
   }
   50% {
-    font-size: var(--font-size);
+    transform: scale(1.7);
+    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.25));
   }
   100% {
-    font-size: var(--font-size-small);
+    transform: scale(1);
+    filter: none;
   }
 }
 

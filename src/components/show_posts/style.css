@@ -19,3 +19,19 @@
   border: 1px solid #F4EFFD;
   border-radius: 6px;
 }
+
+/* header */
+.navbar-violet {
+  background-color: var(--color-violet-400);
+  border-radius: 0 0 1rem 1rem;
+}
+
+.navbar-violet .nav-link img {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.navbar-violet .nav-link img {
+  width: 27px;
+  height: 27px;
+}

@@ -13,7 +13,7 @@ import SearchRequestsComponent from 'components/search_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
 import DefaultLayout from 'components/common/DefaultLayout'
-import HeaderComponent from 'components/common/HeaderComponent'
+import HeaderComponent from 'components/common/header/component'
 import BottomHeaderComponent from 'components/common/BottomHeaderComponent'
 import StaticHeaderComponent from 'components/common/static_header/component'
 import ErrorComponent from 'components/common/ErrorComponent'
@@ -60,6 +60,7 @@ import ShowOpenPostsComponent from 'components/common/show_open_posts/component'
 import ShowOpenActivitiesComponent from 'components/common/show_open_activities/component'
 import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
+import MobileFooterComponent from 'components/common/mobile_footer/component'
 
 export {
   VerifyEmailComponent,
@@ -123,5 +124,6 @@ export {
   ShowOpenPostsComponent,
   ShowOpenActivitiesComponent,
   ReportPostComponent,
-  ScrollIntoViewComponent
+  ScrollIntoViewComponent,
+  MobileFooterComponent
 }

@@ -36,21 +36,4 @@
   .feeling-wrapper {
     padding: 0rem 3rem;
   }
-
-  .post-card-wrapper {
-    padding: 1.5rem 1.5rem 1rem;
-    margin: 2rem 0;
-  }
-
-  .post-card-wrapper .audio-btn .fa-play {
-    position: relative;
-    left: 1px;
-    top: -2px;
-  }
-
-  .post-card-wrapper .audio-btn .fa-pause {
-    position: relative;
-    left: 0px;
-    top: -2px;
-  }
 }

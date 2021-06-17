@@ -237,7 +237,7 @@ input[type="text"], textarea {
 
 /* Dashboard content - >576px */
 .dashboard-content {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-white);
   min-height: 100vh;
 }
 

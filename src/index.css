@@ -985,54 +985,6 @@ button:active {
     font-size: large;
   }
 
-  /* Mobile navbar */
-  .bottom-sm-padding {
-    padding-top: 25px;
-    padding-bottom: 25px;
-  }
-
-  .navbar-bottom {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    background-color: #FFFFFF;
-    z-index: 99;
-    font-size: 12px;
-    box-shadow: 0px 0px 2px rgba(50, 50, 50, 0.75);
-  }
-
-  .navbar-bottom .nav-item {
-    border-bottom: 3px solid transparent;
-  }
-
-  .navbar-bottom .nav-item-active {
-    border-bottom: 3px solid #fff;
-  }
-
-  .navbar-bottom .nav-link a {
-    color: #000;
-    text-decoration: none;
-  }
-
-  .navbar-bottom .nav-link a:hover {
-    text-decoration: none;
-  }
-
-  .navbar-bottom .nav-link a .fa {
-    font-size: 24px;
-  }
-
-  .navbar-bottom .bell-icon {
-    position: relative;
-    left: 7px;
-  }
-
-  .navbar-bottom .count-badge {
-    position: relative;
-    top: -6px;
-    right: -10px;
-  }
-
   .bot-chat-window-footer {
     position: fixed;
     bottom: 0px;
