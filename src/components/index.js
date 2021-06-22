@@ -32,10 +32,6 @@ import CreatePostComponent from 'components/create_post/component'
 import CreateActivityComponent from 'components/create_activity/component'
 import SortComponent from 'components/common/SortComponent'
 import ProfileSettingsComponent from 'components/profile/SettingsComponent'
-import AlertHeaderComponent from 'components/common/headers/AlertHeaderComponent'
-import HomeHeaderComponent from 'components/common/headers/HomeHeaderComponent'
-import MessageHeaderComponent from 'components/common/headers/MessageHeaderComponent'
-import ProfileHeaderComponent from 'components/common/headers/ProfileHeaderComponent'
 import SettingsComponent from 'components/settings/component'
 import ChangePasswordComponent from 'components/change_password/component'
 import EditProfileComponent from 'components/edit_profile/component'
@@ -97,10 +93,6 @@ export {
   CreateActivityComponent,
   SortComponent,
   ProfileSettingsComponent,
-  AlertHeaderComponent,
-  HomeHeaderComponent,
-  MessageHeaderComponent,
-  ProfileHeaderComponent,
   SettingsComponent,
   ChangePasswordComponent,
   EditProfileComponent,

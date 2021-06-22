@@ -20,15 +20,14 @@ const HeaderComponent = ({
             <div className='nav-link p-0'>
               <Link to='/app/search' title='Search'>
                 <img src={require('assets/svgs/Search.svg').default} className='icon-search' alt='Search' />
-                {(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
               </Link>
               <Link to='/app/chats' title='Chat'>
                 <img src={require('assets/svgs/Chat.svg').default} className='icon-chat' alt='Chats' />
-                {(newMessagesCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+                {(newMessagesCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>}
               </Link>
               <Link to='/app/alerts' title='Alerts'>
                 <img src={require('assets/svgs/Bell.svg').default} className='icon-alert' alt='Alerts' />
-                {(newMessagesCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+                {(pendingRelationsCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className='dot-alert-icon' alt='Dot' /></sup>}
               </Link>
             </div>
           </li>
