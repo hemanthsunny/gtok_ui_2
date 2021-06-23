@@ -17,7 +17,6 @@
 @import 'assets/css/add_price.css';
 @import 'assets/css/unlock_profile.css';
 @import 'assets/css/purchase_orders.css';
-@import 'assets/css/search.css';
 @import 'assets/css/sidebar.css';
 @import 'assets/css/auth.css';
 @import 'assets/css/show_open_posts.css';
@@ -28,12 +27,12 @@
 * {
   /* font-family: var(--font-family-display); */
   /* font-family: 'Roboto', sans-serif; */
-  /*font-family: 'Poppins', sans-serif;*/
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
   margin: 0;
-  /*font-family: 'Poppins', sans-serif;*/
+  /* font-family: 'Poppins', sans-serif; */
   /* font-family: 'Roboto', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -777,7 +776,7 @@ button:active {
   margin-bottom: 0px !important;
 }
 
-.profile-card-img {
+/* .profile-card-img {
   position: relative;
   color: #fff;
 }
@@ -825,7 +824,7 @@ button:active {
   width: 100% !important;
   height: 125px !important;
   object-fit: contain !important;
-}
+} */
 
 .btn_follow small {
   padding: 1px 7px !important;

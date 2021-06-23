@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import './style.css'
 
 import HeaderComponent from './header'
 import SearchUserComponent from './user/component'
-import { SidebarComponent } from 'components'
+import { SidebarComponent, MobileFooterComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const SearchComponent = ({
@@ -45,7 +46,7 @@ const SearchComponent = ({
   }
 
   const subHeader = () => (
-    <div className='dashboard-tabs search-subheader' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs search-subheader d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <Link to='/app/search' className='tab-item -active'>Find a new search</Link>
         <Link to='/app/search/followers' className='tab-item'>Your followers</Link>
@@ -60,7 +61,7 @@ const SearchComponent = ({
   return (
     <div>
       <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
-      <div>
+      <div className='container pt-4'>
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
           {subHeader()}
@@ -102,6 +103,7 @@ const SearchComponent = ({
           </div>
         </div>
       </div>
+      <MobileFooterComponent currentUser={currentUser} />
     </div>
   )
 }
