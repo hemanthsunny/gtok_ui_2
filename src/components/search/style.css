@@ -1,5 +1,5 @@
 /* header css */
-a.active {
+a.search-active {
   background-color: var(--color-white);
   border-radius: 50% 50% 0 0;
   padding: 0.85rem !important;
@@ -8,7 +8,7 @@ a.active {
   /* -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 10px, transparent 20px, black 21px); */
 }
 
-a.active::before {
+a.search-active::before {
   content: "";
   position: absolute;
   background-color: transparent;
@@ -20,7 +20,7 @@ a.active::before {
   box-shadow: 5px 9px 0 0 var(--color-white);
 }
 
-a.active::after {
+a.search-active::after {
   content: "";
   position: absolute;
   background-color: transparent;

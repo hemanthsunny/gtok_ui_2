@@ -18,7 +18,7 @@ const HeaderComponent = ({
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item'>
             <div className='nav-link p-0'>
-              <Link to='/app/search' className='active' title='Search'>
+              <Link to='/app/search' className='search-active' title='Search'>
                 <img src={require('assets/svgs/SearchActive.svg').default} className='icon-search' alt='Search' />
               </Link>
               <Link to='/app/chats' title='Chat'>
