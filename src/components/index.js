@@ -9,7 +9,7 @@ import AlertsComponent from 'components/alerts/component'
 import DisplayComponent from 'components/display_question/DisplayComponent'
 import PaymentsComponent from 'components/payments/PaymentsComponent'
 import SearchComponent from 'components/search/component'
-import SearchRequestsComponent from 'components/search_requests/component'
+import PendingRequestsComponent from 'components/pending_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
 import DefaultLayout from 'components/common/DefaultLayout'
@@ -68,7 +68,7 @@ export {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchRequestsComponent,
+  PendingRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
   DefaultLayout,

@@ -63,6 +63,21 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       logsData.actionType = 'update'
       logsData.actionId = rlnTwo[0].id
       logsData.actionKey = status
+    } else if (status === 'decline_request') {
+      // Create a one-to-one relationship with new user
+      res = await add('userRelationships', {
+        userIdOne: currentUser.id,
+        userIdTwo: displayUser.id,
+        status: null,
+        actionUserId: currentUser.id
+      })
+      // Then, update the status (decline request) for existing relationship
+      res = await update('userRelationships', rlnTwo[0].id, { status: null, actionUserId: currentUser.id })
+      logsData.receiverId = null
+      logsData.text = `${currentUser.displayName} cancelled your follow request`
+      logsData.actionType = 'update'
+      logsData.actionId = rlnTwo[0].id
+      logsData.actionKey = status
     }
   } else {
     if (status === 'follow') {
