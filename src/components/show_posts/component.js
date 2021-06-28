@@ -152,7 +152,10 @@ class ParentComponent extends Component {
             {/* this.subHeader() */}
               <div className='feeling-wrapper'>
                 <div className='filter-wrapper'>
-                  <div className='filter-names'>
+                  <div className='filter-icon' onClick={e => this.setState({ showFilters: !this.state.showFilters })}>
+                  Filter <img className='btn-play' src={require('assets/svgs/Filter.svg').default} alt="1" />
+                  </div>
+                  <div className={`filter-names ${this.state.showFilters ? 'show-filter-names' : 'hide-filter-names'}`}>
                     {
                       this.state.selectedFilters.map((name, i) => (
                         <div className='btn btn-violet-outline btn-sm mx-1 selected' key={i} onClick={e => this.handleFilters('unselected', name)}>{name}</div>
