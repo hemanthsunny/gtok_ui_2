@@ -21,7 +21,7 @@ a.bell-active::before {
   box-shadow: 5px 9px 0 0 var(--color-white);
 }
 
-.pending-request {
+.alerts-wrapper {
   padding-top: 40px;
   padding-bottom: 20px;
 }
@@ -51,8 +51,4 @@ a.bell-active::before {
 .alerts-wrapper .created-at {
   color: #2B2B2B;
   font-size: var(--font-size-smaller);
-}
-
-.active-alert {
-  background-color: var(--color-violet-100) !important;
 }

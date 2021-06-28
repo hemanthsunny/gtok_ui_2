@@ -12,7 +12,7 @@ import {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchRequestsComponent,
+  PendingRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
   ForgotPasswordComponent,
@@ -93,7 +93,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/settings/add_payment_card" component={AddPaymentCardComponent} />
           <AuthRoute exact path="/app/payments" component={PaymentsComponent} />
           <AuthRoute exact path="/app/search" component={SearchComponent} />
-          <AuthRoute exact path="/app/search/requests" component={SearchRequestsComponent} />
+          <AuthRoute exact path="/app/requests" component={PendingRequestsComponent} />
           <AuthRoute exact path="/app/search/following" component={SearchFollowingComponent} />
           <AuthRoute exact path="/app/search/followers" component={SearchFollowersComponent} />
           <AuthRoute exact path="/app/question/:id" component={DisplayComponent} />

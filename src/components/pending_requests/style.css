@@ -1,0 +1,32 @@
+.requests-subheader {
+  padding: 36px var(--spacing-24) var(--spacing-12);
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-container {
+  padding: var(--spacing-12) var(--spacing-12);
+}
+
+.user-container .profile-user {
+  align-self: center;
+}
+
+.user-container .profile-user .username {
+  font-size: 16px;
+}
+
+.user-container .profile-user .actual-name {
+  font-size: 14px !important;
+}
+
+.user-container .profile-user .request-result {
+  font-size: 12px;
+  color: #2B2B2B;
+}
+
+.icon-request {
+  width: 20px;
+  height: 20px;
+}

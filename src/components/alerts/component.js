@@ -117,54 +117,56 @@ class ParentComponent extends Component {
           <div className='dashboard-content'>
             {this.subHeader()}
             <div className='container px-4'>
-            {
-              this.props.pendingRelationsCount > 0 &&
-                <div className='media pending-request'>
-                  <CustomImageComponent user={this.props.currentUser} />
-                  <sup className='badge badge-danger pending-count'>{this.props.pendingRelationsCount}</sup>
-                  <div className='media-body align-self-center'>
-                    Pending requests
+              <div className='alerts-wrapper'>
+              {
+                this.props.pendingRelationsCount > 0 &&
+                  <div className='media pending-request'>
+                    <CustomImageComponent user={this.props.currentUser} />
+                    <sup className='badge badge-danger pending-count'>{this.props.pendingRelationsCount}</sup>
+                    <Link to='/app/requests' className='media-body align-self-center font-small'>
+                      Pending requests
+                    </Link>
                   </div>
-                </div>
-            }
-            {
-              this.state.loading
-                ? <LoadingComponent />
-                : (
-                    this.state.alerts[0]
-                      ? <div className='alerts-wrapper'>
-                        <div className='mark-alerts' onClick={this.updateUnreadAlerts}>
-                          Mark all alerts as read
-                        </div>
-                        <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
-                        {
-                        this.state.alerts.map((alert, idx) => (
-                          <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
-                            <div className={`card br-0 ${alert.unread && 'active-alert'}`} onClick={e => this.updateAlert(alert)}>
-                              <div className='media py-2'>
-                                <CustomImageComponent user={alert} />
-                                <sup className={`alert-dot ${!alert.unread && 'd-none'}`}><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
-                                <div className='media-body pl-2 font-xs-small'>
-                                  <span className={`${alert.unread && 'fw-900'}`}>{capitalizeFirstLetter(alert.text)}</span>
-                                  <div className='created-at'>
-                                    {moment(alert.createdAt).fromNow()}
+              }
+              {
+                this.state.loading
+                  ? <LoadingComponent />
+                  : (
+                      this.state.alerts[0]
+                        ? <div className='mt-2'>
+                          <div className='mark-alerts' onClick={this.updateUnreadAlerts}>
+                            Mark all alerts as read
+                          </div>
+                          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
+                          {
+                          this.state.alerts.map((alert, idx) => (
+                            <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
+                              <div className='card br-0' onClick={e => this.updateAlert(alert)}>
+                                <div className='media py-2'>
+                                  <CustomImageComponent user={alert} />
+                                  <sup className={`alert-dot ${!alert.unread && 'd-none'}`}><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
+                                  <div className='media-body pl-2 font-xs-small'>
+                                    <span className={`${alert.unread && 'fw-900'}`}>{capitalizeFirstLetter(alert.text)}</span>
+                                    <div className='created-at'>
+                                      {moment(alert.createdAt).fromNow()}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))
-                      }
-                        </motion.div>
-                        <div className={`text-center my-3 ${(this.state.alerts.length < (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
-                          <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
+                            </Link>
+                          ))
+                        }
+                          </motion.div>
+                          <div className={`text-center my-3 ${(this.state.alerts.length < (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+                            <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
+                          </div>
                         </div>
-                      </div>
-                      : <div className='text-center mt-5'>
-                        You haven't received any alerts yet.
-                      </div>
-                  )
-            }
+                        : <div className='text-center mt-5'>
+                          You haven't received any alerts yet.
+                        </div>
+                    )
+              }
+              </div>
             </div>
           </div>
         </div>

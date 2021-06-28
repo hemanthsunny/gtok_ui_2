@@ -56,7 +56,7 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
 
   return (
     <div className='col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3'>
-      <div className='p-0 card-br-0'>
+      <div className='p-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile-user'>
           <Link to={'/app/profile/' + displayUser.id}>
@@ -68,52 +68,50 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
               <span className='actual-name'>{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}</span>
              </Link>
             <div className='pull-right'>
-              <div className=''>
-                <button className='btn btn-link'>
-                {
-                  isFollowerLoading
-                    ? <i className='fa fa-spinner fa-spin'></i>
-                    : (
-                    <small className='pull-right'>{
-                      follower === null
-                        ? <img className='icon-search-chat' src={require('assets/svgs/SendRequest.svg').default} alt="1" onClick={e => relationStatus('follow')} />
-                        : follower === 0
-                          ? <img className='icon-search-chat' src={require('assets/svgs/SentRequest.svg').default} alt="1" onClick={e => relationStatus('cancel_request')} />
-                          : (
-                              follower === 3 && 'Blocked'
-                            )
-                    }</small>
-                      )
-                }
-                </button>
-                <button type='button' className='d-none btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                  <span className='sr-only'>Toggle Dropdown</span>
-                </button>
-                <div className='dropdown-menu d-none'>
-                  { follower === 0 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('cancel_request')}>
-                      <i className='fa fa-times'></i>&nbsp;Cancel Request
-                    </button>}
-                  { follower === 1 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('unfollow')}>
-                      <i className='fa fa-times'></i>&nbsp;Unfollow
-                    </button>}
-                  { follower !== 0 && follower !== 3 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('block')}>
-                      <i className='fa fa-ban'></i>&nbsp; Block
-                    </button>}
-                  { follower === 3 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('unblock')}>
-                      <i className='fa fa-ban'></i>&nbsp; Unblock
-                    </button>}
-                </div>
-                {
-                  follower !== 3 &&
-                  <button className='btn btn-link py-1 px-0 pull-right' onClick={e => msgUser()} title='Start chat'>
-                    <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
-                  </button>
-                }
+              <button className='btn btn-link'>
+              {
+                isFollowerLoading
+                  ? <i className='fa fa-spinner fa-spin'></i>
+                  : (
+                  <small className='pull-right'>{
+                    follower === null
+                      ? <img className='icon-search-chat' src={require('assets/svgs/SendRequest.svg').default} alt="1" onClick={e => relationStatus('follow')} />
+                      : follower === 0
+                        ? <img className='icon-search-chat' src={require('assets/svgs/SentRequest.svg').default} alt="1" onClick={e => relationStatus('cancel_request')} />
+                        : (
+                            follower === 3 && 'Blocked'
+                          )
+                  }</small>
+                    )
+              }
+              </button>
+              <button type='button' className='d-none btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                <span className='sr-only'>Toggle Dropdown</span>
+              </button>
+              <div className='dropdown-menu d-none'>
+                { follower === 0 &&
+                  <button className='dropdown-item' onClick={e => relationStatus('cancel_request')}>
+                    <i className='fa fa-times'></i>&nbsp;Cancel Request
+                  </button>}
+                { follower === 1 &&
+                  <button className='dropdown-item' onClick={e => relationStatus('unfollow')}>
+                    <i className='fa fa-times'></i>&nbsp;Unfollow
+                  </button>}
+                { follower !== 0 && follower !== 3 &&
+                  <button className='dropdown-item' onClick={e => relationStatus('block')}>
+                    <i className='fa fa-ban'></i>&nbsp; Block
+                  </button>}
+                { follower === 3 &&
+                  <button className='dropdown-item' onClick={e => relationStatus('unblock')}>
+                    <i className='fa fa-ban'></i>&nbsp; Unblock
+                  </button>}
               </div>
+              {
+                follower !== 3 &&
+                <button className='btn btn-link py-1 px-0 pull-right' onClick={e => msgUser()} title='Start chat'>
+                  <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
+                </button>
+              }
             </div>
           </div>
         </div>
