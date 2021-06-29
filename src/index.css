@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins&family=Quicksand:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Quicksand:wght@500&display=swap');
 @import 'assets/css/common.css';
 @import 'assets/css/headers.css';
 @import 'assets/css/settings.css';
@@ -911,27 +911,6 @@ button:active {
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
-}
-
-.conversation-list {
-  list-style-type: none;
-}
-
-.conversation-list li {
-  color: #000;
-  font-size: 14px;
-  border-bottom: 1px solid #f1f1f1;
-  transition: all 0.35s;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.conversation-list li:hover {
-  background-color: rgba(200, 200, 200, 0.5);
-}
-
-.conversation-list li.active {
-  background-color: rgba(200, 200, 200, 0.5);
 }
 
 

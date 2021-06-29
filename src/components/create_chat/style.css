@@ -1,0 +1,16 @@
+#createChatModal .user-list {
+  max-height: 50vh;
+  overflow: scroll;
+}
+
+#createChatModal .modal-body {
+  max-height: 70vh !important;
+}
+
+#createChatModal .chat-user {
+  padding: var(--spacing-4) 0;
+}
+
+#createChatModal .media-body {
+  align-items: baseline;
+}

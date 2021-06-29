@@ -1,5 +1,5 @@
 /* header css */
-a.search-active {
+a.chat-active {
   background-color: var(--color-white);
   border-radius: 50% 50% 0 0;
   padding: 0.85rem !important;
@@ -8,7 +8,7 @@ a.search-active {
   /* -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 10px, transparent 20px, black 21px); */
 }
 
-a.search-active::before {
+a.chat-active::before {
   content: "";
   position: absolute;
   background-color: transparent;
@@ -21,7 +21,7 @@ a.search-active::before {
   z-index: -99;
 }
 
-a.search-active::after {
+a.chat-active::after {
   content: "";
   position: absolute;
   background-color: transparent;
@@ -34,41 +34,41 @@ a.search-active::after {
   z-index: -99;
 }
 
-.search-input {
-  min-height: 4vh;
-  border-radius: 20px !important;
-  background-color: var(--color-violet-100) !important;
-  border: none !important;
-  font-size: var(--font-size) !important;
+/* body */
+.conversation-list {
+  list-style-type: none;
 }
 
-.profile-user a.username {
-  color: var(--color-black) !important;
-  font-size: var(--font-size-big);
-  float: left;
-}
-
-.profile-user a.username .actual-name {
+.conversation-list li {
   font-size: var(--font-size);
+  transition: all 0.35s;
+  cursor: pointer;
+}
+
+.conversation-list li:hover {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.conversation-list li.active {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.new-chat {
+  position: absolute;
+  top: 88vh;
+  right: 6vw;
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: var(--color-violet-400);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.new-chat .icon-chat {
+  width: 22px;
+  height: 22px;
   position: relative;
-  top: -5px;
-}
-
-.icon-search-chat {
-  width: 20px !important;
-  height: 20px !important;
-}
-
-@media (max-width: 576px) {
-  .search-subheader {
-    /* overflow-x: scroll !important; */
-  }
-
-  ::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  .search-subheader .tab-item {
-    min-width: 50vw;
-  }
+  top: var(--spacing-12);
+  left: var(--spacing-1);
 }

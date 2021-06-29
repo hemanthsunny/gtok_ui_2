@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { getId, firestore } from 'firebase_config'
 import { connect } from 'react-redux'
-import HeaderComponent from './header'
+import './style.css'
 
-import { LoadingComponent, CustomImageComponent, SidebarComponent } from 'components'
+import HeaderComponent from './header'
+import { LoadingComponent, CustomImageComponent, SidebarComponent, CreateChatComponent } from 'components'
 import { capitalizeFirstLetter, truncateText } from 'helpers'
 import { SetConvos } from 'store/actions'
 
@@ -124,19 +125,19 @@ class ParentComponent extends Component {
         return user.id !== this.state.currentUser.id && (
           <div className='media p-2' key={idx}>
             <CustomImageComponent user={user} />
+            {
+              con.usersRef.map(user => {
+                if (user.id === this.state.currentUser.id && user.unread) {
+                  return (
+                    <sup className='chat-dot ml-1'><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
+                  )
+                } else return ''
+              })
+            }
             <div className='media-body'>
               <h6 className='p-0 mb-0 pl-2'>{capitalizeFirstLetter(user.displayName)}</h6>
               <small className='p-0 pl-2'>
                 {con.lastMessage ? truncateText(con.lastMessage, 25) : 'No messages yet'}
-                {
-                  con.usersRef.map(user => {
-                    if (user.id === this.state.currentUser.id && user.unread) {
-                      return (
-                        <span className='badge badge-secondary pull-right' key={user.id}>1</span>
-                      )
-                    } else return ''
-                  })
-                }
               </small>
             </div>
           </div>
@@ -145,13 +146,13 @@ class ParentComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs pt-4' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <Link to='/app/chats' className='tab-item -active'>
           Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
         <Link to='/app/alerts' className='tab-item'>
-          Alerts {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+          Requests {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
       </div>
     </div>
@@ -163,9 +164,10 @@ class ParentComponent extends Component {
         <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
+          <CreateChatComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}
-            <div className='container mt-4'>
+            <div className='container mt-2'>
               { this.state.loading
                 ? <LoadingComponent />
                 : this.state.convos[0]
@@ -176,7 +178,7 @@ class ParentComponent extends Component {
                         </li>
                       ))}
                     </ul>
-                  : <div className='card p-2 text-center text-secondary'>
+                  : <div className='card p-1 text-center text-secondary'>
                       No chats found. <br/>
                       <Link to='/app/search'>
                         <button className='btn btn-sm btn-link'>
@@ -186,6 +188,9 @@ class ParentComponent extends Component {
                     </div>
               }
             </div>
+          </div>
+          <div className='new-chat' data-target='#createChatModal' data-toggle='modal'>
+            <img src={require('assets/svgs/Chat.svg').default} className='icon-chat' alt='Chats' />
           </div>
         </div>
       </div>

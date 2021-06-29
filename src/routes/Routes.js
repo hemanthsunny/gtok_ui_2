@@ -100,6 +100,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/chats" component={ChatsComponent} />
           <AuthRoute exact path="/app/chats/:id" component={ShowChatComponent} />
           <AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
+          <AuthRoute exact path="/app/new_chat" component={CreateChatComponent} />
           <AuthRoute exact path="/app/support" component={SupportComponent} />
           <AuthRoute exact path="/app/challenges" component={ChallengesComponent} />
           <Redirect to="/" />

@@ -19,6 +19,7 @@ a.bell-active::before {
   width: 25px;
   border-bottom-right-radius: 20px;
   box-shadow: 5px 9px 0 0 var(--color-white);
+  z-index: -99;
 }
 
 .alerts-wrapper {
