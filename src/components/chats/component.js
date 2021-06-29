@@ -19,7 +19,8 @@ class ParentComponent extends Component {
       selectedConvo: {},
       currentUser: props.currentUser,
       convos: [],
-      loading: true
+      loading: true,
+      activeTab: 'chats'
     }
     this.props = props
     this.unsubscribe = ''
@@ -148,10 +149,10 @@ class ParentComponent extends Component {
   subHeader = () => (
     <div className='dashboard-tabs pt-4' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/chats' className='tab-item -active'>
+        <Link to='/app/chats' className={`tab-item ${this.state.activeTab === 'chats' && '-active'}`} onClick={e => this.setState({ activeTab: 'chats' })}>
           Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
-        <Link to='/app/alerts' className='tab-item'>
+        <Link to='/app/chats' className={`tab-item ${this.state.activeTab === 'requests' && '-active'}`} onClick={e => this.setState({ activeTab: 'requests' })}>
           Requests {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
       </div>
@@ -189,9 +190,9 @@ class ParentComponent extends Component {
               }
             </div>
           </div>
-          <div className='new-chat' data-target='#createChatModal' data-toggle='modal'>
-            <img src={require('assets/svgs/Chat.svg').default} className='icon-chat' alt='Chats' />
-          </div>
+        </div>
+        <div className='new-chat' data-target='#createChatModal' data-toggle='modal'>
+          <img src={require('assets/svgs/Chat.svg').default} className='icon-chat' alt='Chats' />
         </div>
       </div>
     )

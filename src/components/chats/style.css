@@ -54,8 +54,8 @@ a.chat-active::after {
 }
 
 .new-chat {
-  position: absolute;
-  top: 88vh;
+  position: fixed;
+  bottom: 4vh;
   right: 6vw;
   width: 53px;
   height: 53px;
