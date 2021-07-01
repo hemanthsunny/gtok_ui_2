@@ -4,6 +4,7 @@
 }
 
 #createChatModal .modal-body {
+  min-height: 35vh !important;
   max-height: 70vh !important;
 }
 

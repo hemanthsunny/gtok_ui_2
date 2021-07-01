@@ -118,23 +118,27 @@ const CreateChatComponent = (props) => {
             </div>
             <div className='user-list'>
               {
-                userList[0] && userList.sort().map((user, idx) =>
-                  <div className='media chat-user' key={idx}>
-                    <Link to={'/app/profile/' + user.id}>
-                      <CustomImageComponent user={user} />
-                    </Link>
-                    <div className='media-body pl-1'>
-                      <div className='username pull-left'>
-                        @{user.username}
-                       </div>
-                      <div className='pull-right'>
-                        <button className='btn btn-link' onClick={e => startConvo(user.id)}>
-                          <img className='btn-play' src={require('assets/svgs/ArrowUp.svg').default} alt='1' />
-                        </button>
+                userList[0]
+                  ? userList.sort().map((user, idx) =>
+                    <div className='media chat-user' key={idx}>
+                      <Link to={'/app/profile/' + user.id}>
+                        <CustomImageComponent user={user} />
+                      </Link>
+                      <div className='media-body pl-1'>
+                        <div className='username pull-left'>
+                          @{user.username}
+                         </div>
+                        <div className='pull-right'>
+                          <button className='btn btn-link' onClick={e => startConvo(user.id)}>
+                            <img className='btn-play' src={require('assets/svgs/ArrowUp.svg').default} alt='1' />
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  )
+                  : <div className='text-center py-3'>
+                    No users found
                   </div>
-                )
               }
             </div>
           </div>
