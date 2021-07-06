@@ -11,7 +11,6 @@ import ActivitySubmit from './steps/submit/component'
 
 import { add, timestamp, batchWrite } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
-import { SidebarComponent } from 'components'
 
 const pageVariants = {
   initial: {
@@ -134,7 +133,6 @@ const ParentComponent = ({ currentUser, relations, history, prices, wallet }) =>
     <div>
       <HeaderComponent />
       <div>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
            {subHeader()}
            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>

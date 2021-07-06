@@ -6,7 +6,7 @@ import './style.css'
 
 import HeaderComponent from './header'
 import SearchUserComponent from './user/component'
-import { SidebarComponent, MobileFooterComponent } from 'components'
+import { MobileFooterComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const SearchComponent = ({
@@ -62,7 +62,6 @@ const SearchComponent = ({
     <div>
       <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
       <div className='container pt-4'>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
           {subHeader()}
           <div className='container'>
