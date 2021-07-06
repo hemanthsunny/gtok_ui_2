@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import $ from 'jquery'
 import './style.css'
+import SliderComponent from '../slider/component'
+import MenuComponent from '../menu/component'
+import ShareComponent from '../share/component'
 
 import {
   add,
@@ -16,7 +19,7 @@ import {
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { NotificationComponent, ReportPostComponent, CustomImageComponent } from 'components'
+import { NotificationComponent, CustomImageComponent } from 'components'
 import { PostCategories } from 'constants/categories'
 
 const PostComponent = ({
@@ -31,10 +34,12 @@ const PostComponent = ({
   const [playDetails, setPlayDetails] = useState({ currentTime: 0, duration: 0 })
   const [displayFullStory, setDisplayFullStory] = useState(false)
   const [hidePost, setHidePost] = useState(false)
+  const [menuDisplay, setMenuDisplay] = useState(false)
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
   const displayPostUrl = 'https://app.letsgtok.com/app/posts/' + displayPost.id
+  const audioRef = useRef()
 
   useEffect(() => {
     async function getPostedUser () {
@@ -190,7 +195,6 @@ const PostComponent = ({
   }
 
   const playAudio = (idx) => {
-    console.log('idx', idx)
     const audio = document.getElementById(`audio-player-${displayPost.id}-${idx}`)
     const duration = parseInt(audio.duration)
     let currentTime = parseInt(audio.currentTime)
@@ -203,25 +207,43 @@ const PostComponent = ({
 
     const interval = setInterval(() => {
       currentTime = parseInt(audio.currentTime)
-      setPlayDetails({ currentTime, duration })
+      setPlayDetails({
+        currentTime,
+        duration,
+        progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
+      })
       if (currentTime >= duration) {
         clearInterval(interval)
         setPlay(prev => { return true })
       }
     }, 1000)
 
-    setPlayDetails({ currentTime, duration })
+    setPlayDetails({
+      currentTime,
+      duration,
+      progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
+    })
     setPlay(prevState => {
       return !prevState
     })
   }
 
+  const onChangeAudio = (e) => {
+    const audio = audioRef.current
+    audio.currentTime = (audio.duration / 100) * e.target.value
+    setPlayDetails({ ...playDetails, progressPercent: e.target.value })
+  }
+
   const copyLink = () => {
     navigator.clipboard.writeText(displayPostUrl)
+    alert('link copied')
   }
 
   return !hidePost && postedUser && displayPost.stories && (
     <div className='d-flex ml-2 mt-3 mb-4'>
+      <div className={`d-none ${menuDisplay && 'd-none'}`}>
+        <MenuComponent displayPost={displayPost} currentUser={currentUser} sharePost={sharePost} copyLink={copyLink} editPost={editPost} deletePost={deletePost} />
+      </div>
       <div className=''>
         {displayPost.anonymous
           ? <CustomImageComponent user={postedUser} size='sm' />
@@ -232,7 +254,6 @@ const PostComponent = ({
         {
           result.status && <NotificationComponent result={result} setResult={setResult} />
         }
-        <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
         {
           (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId))
             ? <div className='card-body'>
@@ -252,6 +273,7 @@ const PostComponent = ({
                       <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
                       <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
                     </div>
+                    <div className='clearfix'></div>
                     <p className='card-text white-space-preline' onClick={e => followPost(e)}>
                       {story.text.length <= 150 || displayFullStory
                         ? story.text
@@ -260,7 +282,7 @@ const PostComponent = ({
                     </p>
                     { story.fileUrl &&
                       <div className='audio-player'>
-                        <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
+                        <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
                         <div className='audio-btn' onClick={e => playAudio(idx)}>
                           <button className='btn'>
                             { play
@@ -273,9 +295,7 @@ const PostComponent = ({
                           {playDetails && <span className='current'>{moment.utc(playDetails.currentTime * 1000).format('mm:ss')}</span>}
                           {playDetails && <span className='duration'>{moment.utc(playDetails.duration * 1000).format('mm:ss')}</span>}
                         </div>
-                        <div className='progress'>
-                          <div className='progress-bar' role='progressbar' style={{ width: playDetails.currentTime }} aria-valuenow={Math.floor(playDetails.currentTime)} aria-valuemin='0' aria-valuemax='100'></div>
-                        </div>
+                        <SliderComponent playDetails={playDetails} onChange={onChangeAudio} />
                       </div>
                     }
                     {
@@ -290,17 +310,22 @@ const PostComponent = ({
                   <div className='card-footer'>
                     {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
                     <div className='edit-options'>
-                        <button className='btn btn-link btn-heart' onClick={e => followPost(e)}>
+                        <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
                           {
                             follower
                               ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
                               : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
                           }
                         </button>
+                        <button className='btn btn-link' data-toggle='modal' data-target='#ShareOptionsModal'>
+                          <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
+                        </button>
+                        <button className='btn btn-link' onClick={e => setMenuDisplay(!menuDisplay)}>
+                          <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                        </button>
+                        <ShareComponent displayPost={displayPost} currentUser={currentUser} />
+
                         <div className='btn-group'>
-                          <button className='btn btn-link btn-sm btn-share' id='shareMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                            <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
-                          </button>
                           <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
                             <button className='dropdown-item' onClick={sharePost}>
                               Reshare
@@ -310,7 +335,7 @@ const PostComponent = ({
                             </button>
                           </div>
                         </div>
-                        <div className='btn-group'>
+                        <div className='btn-group d-none'>
                           <button className='btn btn-link btn-sm btn-more' id='optionsMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                             <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
                           </button>
