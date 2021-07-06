@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import './style.css'
 
 import HeaderComponent from './header'
-import { CustomImageComponent, SidebarComponent, CreateChatComponent } from 'components'
+import { CustomImageComponent, CreateChatComponent } from 'components'
 import ChatComponent from './chat/component'
 import RequestComponent from './request/component'
 import { capitalizeFirstLetter, truncateText } from 'helpers'
@@ -167,7 +167,6 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <CreateChatComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}

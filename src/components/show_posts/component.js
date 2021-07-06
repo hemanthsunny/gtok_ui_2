@@ -8,7 +8,6 @@ import PostComponent from './children/post/component'
 import {
   HeaderComponent,
   MobileFooterComponent,
-  SidebarComponent,
   LoadingComponent
 } from 'components'
 import { SetPosts } from 'store/actions'
@@ -147,7 +146,6 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {/* this.subHeader() */}
               <div className='feeling-wrapper'>

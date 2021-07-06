@@ -8,7 +8,7 @@ const HeaderComponent = ({
   pendingRelationsCount
 }) => {
   return (
-    <nav className='navbar fixed-top navbar-violet'>
+    <nav className={`navbar fixed-top navbar-violet ${window.innerWidth > 576 && 'd-none'}`}>
       <div className='container-fluid p-0'>
         <div className='navbar-brand mr-auto'>
           <Link to='/app/posts'>

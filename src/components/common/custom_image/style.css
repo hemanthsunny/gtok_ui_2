@@ -16,6 +16,18 @@
   text-align: center;
 }
 
+.custom-image.-sm {
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+}
+
+.custom-image-text.-sm {
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+  font-size: var(--font-size);
+  padding-top: var(--spacing-2);
+}
+
 .custom-image.-lg {
   width: var(--spacing-64);
   height: var(--spacing-64);

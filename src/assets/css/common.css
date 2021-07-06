@@ -35,6 +35,8 @@
   --color-green-400: #3dd48a;
   --color-green-500: #36ba79;
   --color-green-600: #1f6e48;
+  --color-pink-100: #e7c1ff;
+  --color-pink-400: #cb76ff;
   --color-primary-100: var(--color-blue-100);
   --color-primary-200: var(--color-blue-200);
   --color-primary-300: var(--color-blue-300);
@@ -298,7 +300,9 @@ input[type="text"], textarea {
 
 @media (min-width: 576px) {
   .dashboard-content {
-    margin-left: 16.25rem;
+    /* margin-left: 16.25rem; */
+    margin: 0px auto;
+    max-width: 50vw
   }
 
   .dashboard-content .desktop-align-center {

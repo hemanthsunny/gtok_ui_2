@@ -7,7 +7,7 @@ import './style.css'
 
 import HeaderComponent from './header'
 import { capitalizeFirstLetter } from 'helpers'
-import { SidebarComponent, LoadingComponent, CustomImageComponent, MobileFooterComponent } from 'components'
+import { LoadingComponent, CustomImageComponent, MobileFooterComponent } from 'components'
 import { SetAlerts, CreatePageVisits, SetNewAlertsCount } from 'store/actions'
 import { getQuery, firestore, batchUpdate, update } from 'firebase_config'
 import { pageVariants, pageTransition } from 'constants/framer-motion'
@@ -113,7 +113,6 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}
             <div className='container px-4'>

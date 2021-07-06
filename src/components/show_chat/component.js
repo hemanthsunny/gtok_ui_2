@@ -3,10 +3,10 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import _ from 'lodash'
-import HeaderComponent from './header'
+import './style.css'
 
-import { capitalizeFirstLetter } from 'helpers'
-import { SidebarComponent, LoadingComponent } from 'components'
+import HeaderComponent from './header'
+import { SidebarComponent, LoadingComponent, CustomImageComponent } from 'components'
 import { SetChatMessages, SetNewMessagesCount } from 'store/actions'
 import { gtokFavicon } from 'images'
 import { add, getQuery, getId, update, firestore, timestamp } from 'firebase_config'
@@ -60,7 +60,7 @@ class ParentComponent extends Component {
     this.setState({
       convoId: id,
       conversation: result,
-      chatUser,
+      chatUser: await getId('users', chatUser.id),
       status,
       chatUserLastSeen: chatUser.lastSeen.seconds
     })
@@ -191,11 +191,11 @@ class ParentComponent extends Component {
           : this.state.messagesList[0]
             ? this.state.messagesList.map((msg, idx) => (
             <div className='chat-messages' key={idx}>
-              <div className={`${this.isMsgAdmin(msg.admin) ? 'sender ml-2' : 'receiver'} mt-3 white-space-preline`}>
+              <div className={`${this.isMsgAdmin(msg.admin) ? 'sender ml-2 mt-1 mb-2' : 'receiver mt-1'} white-space-preline`}>
                 {msg.text}
                 <div className='msg-header'>
-                  <small className='pull-left msg-datetime'>{moment(msg.createdAt).format('HH:mm DD/MM/YY')}</small>
-                  <div className='dropdown p-0 pull-right'>
+                  <small className='pull-right msg-datetime'>{moment(msg.createdAt).format('HH:mm')}</small>
+                  <div className='dropdown p-0 pull-right d-none'>
                     <i className='fa fa-angle-down msg-menu-icon' data-toggle='dropdown'></i>
                     <div className='dropdown-menu'>
                       <button className='dropdown-item btn-link' onClick={e => this.copyText(msg.text)}>
@@ -222,25 +222,20 @@ class ParentComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/chats' className='tab-item'>
-          Back
-        </Link>
-        <div className='tab-item -active'>
-          {this.state.conversation && this.state.chatUser
-            ? <div className='text-center'>
-              {this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}<br/>
-              {
-                this.state.chatUser.lastSeen &&
-                <small>
-                  Last active {this.state.chatUserLastSeen && moment.unix(this.state.chatUserLastSeen).format('HH:mm DD/MM/YYYY')}
-                </small>
-              }
+    <div className='chat-subheader' aria-label='Subheader'>
+      <Link to='/app/chats'>
+        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+      </Link>
+      <div className='page-name'>
+      {this.state.conversation && this.state.chatUser
+        ? <div className='media'>
+            <CustomImageComponent user={this.state.chatUser} size='sm' />
+            <div className='media-body pl-2'>
+            @{this.state.chatUser.username}
             </div>
-            : <LoadingComponent />
-          }
         </div>
+        : <LoadingComponent />
+      }
       </div>
     </div>
   );
@@ -248,7 +243,7 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
+        <HeaderComponent />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content -opts'>

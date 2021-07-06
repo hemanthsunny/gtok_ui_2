@@ -20,7 +20,6 @@
 @import 'assets/css/sidebar.css';
 @import 'assets/css/auth.css';
 @import 'assets/css/show_open_posts.css';
-@import 'assets/css/show_chat.css';
 @import 'assets/css/modal.css';
 @import 'assets/css/alerts.css';
 
@@ -911,15 +910,6 @@ button:active {
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
-}
-
-
-.chat-window-dp {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  border: 1px solid (20, 20, 20, 0.45) !important;
-  object-fit: contain;
 }
 
 .login-page-clipart {
