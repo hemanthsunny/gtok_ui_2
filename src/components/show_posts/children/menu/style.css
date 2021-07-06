@@ -1,0 +1,28 @@
+.model {
+  width: 100%;
+  background: var(--color-white);
+  position: fixed;
+  top: 70vh;
+  border-radius: 25px 25px 0 0 !important;
+  z-index: 99;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.modal.fade .modal-dialog {
+  margin: 0px;
+  border-radius: 25px;
+  transform: translate3d(0, calc(100vh - 20vh), 0) !important;
+}
+
+.modal.fade .modal-content {
+  border-radius: 25px 25px 0 0 !important;
+}
+
+.modal-body .menu-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal-body .menu-list .menu-item {
+  padding: var(--spacing-4) var(--spacing-12);
+}
