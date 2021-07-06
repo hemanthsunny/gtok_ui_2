@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { getId, firestore } from 'firebase_config'
 import { connect } from 'react-redux'
-import HeaderComponent from './header'
+import './style.css'
 
-import { LoadingComponent, CustomImageComponent, SidebarComponent } from 'components'
+import HeaderComponent from './header'
+import { CustomImageComponent, CreateChatComponent } from 'components'
+import ChatComponent from './chat/component'
+import RequestComponent from './request/component'
 import { capitalizeFirstLetter, truncateText } from 'helpers'
 import { SetConvos } from 'store/actions'
 
@@ -18,7 +21,8 @@ class ParentComponent extends Component {
       selectedConvo: {},
       currentUser: props.currentUser,
       convos: [],
-      loading: true
+      loading: true,
+      activeTab: 'chats'
     }
     this.props = props
     this.unsubscribe = ''
@@ -93,7 +97,8 @@ class ParentComponent extends Component {
           }
         })
         this.setState({
-          convos: convosList.sort((a, b) => b.lastMessageTime - a.lastMessageTime),
+          convos: convosList.filter((c) => !c.requested).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
+          requestedConvos: convosList.filter((c) => c.requested).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
           loading: false
         })
         // this.bindConvos(this.convosList.sort((a,b) => a.updatedAt - b.updatedAt));
@@ -124,19 +129,19 @@ class ParentComponent extends Component {
         return user.id !== this.state.currentUser.id && (
           <div className='media p-2' key={idx}>
             <CustomImageComponent user={user} />
+            {
+              con.usersRef.map(user => {
+                if (user.id === this.state.currentUser.id && user.unread) {
+                  return (
+                    <sup className='chat-dot ml-1'><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
+                  )
+                } else return ''
+              })
+            }
             <div className='media-body'>
               <h6 className='p-0 mb-0 pl-2'>{capitalizeFirstLetter(user.displayName)}</h6>
               <small className='p-0 pl-2'>
                 {con.lastMessage ? truncateText(con.lastMessage, 25) : 'No messages yet'}
-                {
-                  con.usersRef.map(user => {
-                    if (user.id === this.state.currentUser.id && user.unread) {
-                      return (
-                        <span className='badge badge-secondary pull-right' key={user.id}>1</span>
-                      )
-                    } else return ''
-                  })
-                }
               </small>
             </div>
           </div>
@@ -145,13 +150,13 @@ class ParentComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs pt-4' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/chats' className='tab-item -active'>
+        <Link className={`tab-item ${this.state.activeTab === 'chats' && '-active'}`} onClick={e => this.setState({ activeTab: 'chats' })}>
           Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
-        <Link to='/app/alerts' className='tab-item'>
-          Alerts {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+        <Link className={`tab-item ${this.state.activeTab === 'requests' && '-active'}`} onClick={e => this.setState({ activeTab: 'requests' })}>
+          Requests {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
       </div>
     </div>
@@ -162,28 +167,14 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
+          <CreateChatComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}
-            <div className='container mt-4'>
-              { this.state.loading
-                ? <LoadingComponent />
-                : this.state.convos[0]
-                  ? <ul className='conversation-list p-0'>
-                      { this.state.convos.map((con, idx) => (
-                        <li onClick={e => this.selectConvo(con)} key={idx} className={`${con.id === this.state.convoId ? 'active' : ''}`}>
-                          {this.renderConvo(con)}
-                        </li>
-                      ))}
-                    </ul>
-                  : <div className='card p-2 text-center text-secondary'>
-                      No chats found. <br/>
-                      <Link to='/app/search'>
-                        <button className='btn btn-sm btn-link'>
-                          Start a chat now
-                        </button>
-                      </Link>
-                    </div>
+            <div className='mt-2'>
+              {
+                this.state.activeTab === 'chats'
+                  ? <ChatComponent convos={this.state.convos} loading={this.state.loading} selectConvo={this.selectConvo} renderConvo={this.renderConvo} convoId={this.state.convoId} />
+                  : <RequestComponent requestedConvos={this.state.requestedConvos} loading={this.state.loading} selectConvo={this.selectConvo} renderConvo={this.renderConvo} convoId={this.state.convoId} />
               }
             </div>
           </div>

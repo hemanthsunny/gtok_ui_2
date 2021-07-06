@@ -1,8 +1,12 @@
-.dashboard-content.-opts .dashboard-tabs {
-  background-color: var(--color-white);
+.chat-subheader {
   position: fixed;
-  width: calc(100vw - 16.25rem);
-  z-index: 99;
+  width: 100vw;
+  padding: 36px var(--spacing-24) var(--spacing-12);
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-white);
+  z-index: 9;
 }
 
 /* chat window */
@@ -32,18 +36,18 @@
 .chat-window .sender {
   border-radius: 0px 12px 12px;
   word-break: break-word;
-  color: var(--color-white);
-  background-color: var(--color-violet-400);
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-32);
+  color: var(--color-black-400);
+  background-color: var(--color-pink-100);
+  padding: var(--spacing-8) var(--spacing-8) var(--spacing-24);
 }
 
 .chat-window .receiver {
   margin-left: auto;
-  border-radius: 0px 12px 12px;
+  border-radius: 12px 12px 0px;
   word-break: break-word;
-  color: var(--color-black);
-  background-color: var(--color-violet-100);
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-32);
+  color: var(--color-black-400);
+  border: 1px solid var(--color-pink-400);
+  padding: var(--spacing-8) var(--spacing-8) var(--spacing-24);
   word-break: break-word;
 }
 
@@ -54,6 +58,8 @@
   position: fixed;
   background-color: var(--color-white);
   padding: 0 var(--spacing-16);
+  position: fixed;
+  bottom: 0px;
 }
 
 .chat-window-footer .fa {
@@ -65,21 +71,23 @@
 .chat-window-footer .reply-box {
   width: 100%;
   padding: var(--spacing-8);
-  border: 1px solid var(--color-violet-100);
+  border: 0px solid var(--color-violet-100);
+  border-radius: var(--spacing-24);
+  background-color: #F4EFFD;
+  text-indent: var(--spacing-4);
   resize: none;
   outline: none;
 }
 
+.chat-window-dp {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid (20, 20, 20, 0.45) !important;
+  object-fit: contain;
+}
+
 @media (max-width: 576px) {
-  .dashboard-content.-opts .dashboard-tabs {
-    top: 0px;
-    width: 100vw;
-  }
-
-  .dashboard-content.-opts .dashboard-tabs .tabs {
-    height: 9vh;
-  }
-
   .chat-window .sender {
     max-width: calc(100% / 1.5);
   }
@@ -90,14 +98,12 @@
   }
 
   .chat-window-footer {
-    bottom: 6.3vh;
     width: 100%;
   }
 
   .chat-window-footer .reply-box {
     width: 100%;
     padding: var(--spacing-8);
-    border: 2px solid var(--color-violet-100);
     resize: none;
     outline: none;
   }

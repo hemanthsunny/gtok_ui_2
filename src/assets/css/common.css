@@ -1,6 +1,7 @@
 :root {
   --color-white: #fff;
   --color-black: #000;
+  --color-black-400: #2b2b2b;
   --color-gray-100: #f7f8fa;
   --color-gray-200: #f1f2f5;
   --color-gray-300: #e4e6eb;
@@ -34,6 +35,8 @@
   --color-green-400: #3dd48a;
   --color-green-500: #36ba79;
   --color-green-600: #1f6e48;
+  --color-pink-100: #e7c1ff;
+  --color-pink-400: #cb76ff;
   --color-primary-100: var(--color-blue-100);
   --color-primary-200: var(--color-blue-200);
   --color-primary-300: var(--color-blue-300);
@@ -194,37 +197,6 @@ input[type="text"], textarea {
   box-shadow: none !important;
 }
 
-/* Custom image */
-.custom-image {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.custom-image-text {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  color: var(--color-white);
-  background-color: var(--color-violet-400);
-  font-size: var(--font-size-big);
-  padding-top: var(--spacing-8);
-  text-align: center;
-}
-
-.custom-image.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-}
-
-.custom-image-text.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-  font-size: var(--font-size-bigger);
-  padding-top: var(--spacing-16);
-}
-
 /* Dashboard header - >576px */
 .header {
   min-height: var(--spacing-64);
@@ -263,12 +235,14 @@ input[type="text"], textarea {
 
 .tab-item.-active {
   color: var(--color-text);
-  box-shadow: inset 0 -0.125rem 0 var(--color-violet-400);
+  border-bottom: 3px solid var(--color-black-400);
+  border-radius: 2px;
+  /* box-shadow: inset 0 -0.125rem 0 var(--color-black-400); */
 }
 
 /* Dashboard content - >576px */
 .dashboard-content {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-white);
   min-height: 100vh;
 }
 
@@ -326,7 +300,9 @@ input[type="text"], textarea {
 
 @media (min-width: 576px) {
   .dashboard-content {
-    margin-left: 16.25rem;
+    /* margin-left: 16.25rem; */
+    margin: 0px auto;
+    max-width: 50vw
   }
 
   .dashboard-content .desktop-align-center {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins&family=Quicksand:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Quicksand:wght@500&display=swap');
 @import 'assets/css/common.css';
 @import 'assets/css/headers.css';
 @import 'assets/css/settings.css';
@@ -17,23 +17,21 @@
 @import 'assets/css/add_price.css';
 @import 'assets/css/unlock_profile.css';
 @import 'assets/css/purchase_orders.css';
-@import 'assets/css/search.css';
 @import 'assets/css/sidebar.css';
 @import 'assets/css/auth.css';
 @import 'assets/css/show_open_posts.css';
-@import 'assets/css/show_chat.css';
 @import 'assets/css/modal.css';
 @import 'assets/css/alerts.css';
 
 * {
   /* font-family: var(--font-family-display); */
   /* font-family: 'Roboto', sans-serif; */
-  /*font-family: 'Poppins', sans-serif;*/
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
   margin: 0;
-  /*font-family: 'Poppins', sans-serif;*/
+  /* font-family: 'Poppins', sans-serif; */
   /* font-family: 'Roboto', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -777,7 +775,7 @@ button:active {
   margin-bottom: 0px !important;
 }
 
-.profile-card-img {
+/* .profile-card-img {
   position: relative;
   color: #fff;
 }
@@ -825,7 +823,7 @@ button:active {
   width: 100% !important;
   height: 125px !important;
   object-fit: contain !important;
-}
+} */
 
 .btn_follow small {
   padding: 1px 7px !important;
@@ -914,36 +912,6 @@ button:active {
   overflow: hidden;
 }
 
-.conversation-list {
-  list-style-type: none;
-}
-
-.conversation-list li {
-  color: #000;
-  font-size: 14px;
-  border-bottom: 1px solid #f1f1f1;
-  transition: all 0.35s;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.conversation-list li:hover {
-  background-color: rgba(200, 200, 200, 0.5);
-}
-
-.conversation-list li.active {
-  background-color: rgba(200, 200, 200, 0.5);
-}
-
-
-.chat-window-dp {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  border: 1px solid (20, 20, 20, 0.45) !important;
-  object-fit: contain;
-}
-
 .login-page-clipart {
   font-family: 'Poppins' !important;
   text-align: center;
@@ -983,54 +951,6 @@ button:active {
 
   .login-page-clipart .login-page-caption {
     font-size: large;
-  }
-
-  /* Mobile navbar */
-  .bottom-sm-padding {
-    padding-top: 25px;
-    padding-bottom: 25px;
-  }
-
-  .navbar-bottom {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    background-color: #FFFFFF;
-    z-index: 99;
-    font-size: 12px;
-    box-shadow: 0px 0px 2px rgba(50, 50, 50, 0.75);
-  }
-
-  .navbar-bottom .nav-item {
-    border-bottom: 3px solid transparent;
-  }
-
-  .navbar-bottom .nav-item-active {
-    border-bottom: 3px solid #fff;
-  }
-
-  .navbar-bottom .nav-link a {
-    color: #000;
-    text-decoration: none;
-  }
-
-  .navbar-bottom .nav-link a:hover {
-    text-decoration: none;
-  }
-
-  .navbar-bottom .nav-link a .fa {
-    font-size: 24px;
-  }
-
-  .navbar-bottom .bell-icon {
-    position: relative;
-    left: 7px;
-  }
-
-  .navbar-bottom .count-badge {
-    position: relative;
-    top: -6px;
-    right: -10px;
   }
 
   .bot-chat-window-footer {

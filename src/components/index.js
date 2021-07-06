@@ -9,11 +9,11 @@ import AlertsComponent from 'components/alerts/component'
 import DisplayComponent from 'components/display_question/DisplayComponent'
 import PaymentsComponent from 'components/payments/PaymentsComponent'
 import SearchComponent from 'components/search/component'
-import SearchRequestsComponent from 'components/search_requests/component'
+import PendingRequestsComponent from 'components/pending_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
 import DefaultLayout from 'components/common/DefaultLayout'
-import HeaderComponent from 'components/common/HeaderComponent'
+import HeaderComponent from 'components/common/header/component'
 import BottomHeaderComponent from 'components/common/BottomHeaderComponent'
 import StaticHeaderComponent from 'components/common/static_header/component'
 import ErrorComponent from 'components/common/ErrorComponent'
@@ -22,7 +22,7 @@ import NoInternetNotification from 'components/common/NoInternetNotification'
 import CookieNotification from 'components/common/cookie_notification/component'
 import ModalComponent from 'components/common/ModalComponent'
 import FormFieldsComponent from 'components/common/FormFieldsComponent'
-import CreateChatComponent from 'components/chats/CreateChatComponent'
+import CreateChatComponent from 'components/create_chat/component'
 import SupportComponent from 'components/support/SupportComponent'
 import PermissionsComponent from 'components/permissions/component'
 import LoadingComponent from 'components/common/LoadingComponent'
@@ -32,10 +32,6 @@ import CreatePostComponent from 'components/create_post/component'
 import CreateActivityComponent from 'components/create_activity/component'
 import SortComponent from 'components/common/SortComponent'
 import ProfileSettingsComponent from 'components/profile/SettingsComponent'
-import AlertHeaderComponent from 'components/common/headers/AlertHeaderComponent'
-import HomeHeaderComponent from 'components/common/headers/HomeHeaderComponent'
-import MessageHeaderComponent from 'components/common/headers/MessageHeaderComponent'
-import ProfileHeaderComponent from 'components/common/headers/ProfileHeaderComponent'
 import SettingsComponent from 'components/settings/component'
 import ChangePasswordComponent from 'components/change_password/component'
 import EditProfileComponent from 'components/edit_profile/component'
@@ -60,6 +56,7 @@ import ShowOpenPostsComponent from 'components/common/show_open_posts/component'
 import ShowOpenActivitiesComponent from 'components/common/show_open_activities/component'
 import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
+import MobileFooterComponent from 'components/common/mobile_footer/component'
 
 export {
   VerifyEmailComponent,
@@ -71,7 +68,7 @@ export {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchRequestsComponent,
+  PendingRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
   DefaultLayout,
@@ -96,10 +93,6 @@ export {
   CreateActivityComponent,
   SortComponent,
   ProfileSettingsComponent,
-  AlertHeaderComponent,
-  HomeHeaderComponent,
-  MessageHeaderComponent,
-  ProfileHeaderComponent,
   SettingsComponent,
   ChangePasswordComponent,
   EditProfileComponent,
@@ -123,5 +116,6 @@ export {
   ShowOpenPostsComponent,
   ShowOpenActivitiesComponent,
   ReportPostComponent,
-  ScrollIntoViewComponent
+  ScrollIntoViewComponent,
+  MobileFooterComponent
 }

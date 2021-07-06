@@ -13,7 +13,6 @@ import { add, update, timestamp, uploadFile, removeFile, batchWrite } from 'fire
 import { PostCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
-import { SidebarComponent } from 'components'
 
 const pageVariants = {
   initial: {
@@ -243,7 +242,6 @@ const ParentComponent = (props) => {
     <div>
       <HeaderComponent />
       <div>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           {subHeader()}
           <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>

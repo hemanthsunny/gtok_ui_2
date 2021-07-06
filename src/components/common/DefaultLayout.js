@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 
-import { HeaderComponent, BottomHeaderComponent, UserPermissionsComponent } from 'components'
+import { HeaderComponent, UserPermissionsComponent } from 'components'
 
 const pageTransition = {
   in: {
@@ -16,9 +16,9 @@ const pageTransition = {
 const DefaultLayout = ({ children, dbUser }) => {
   return (
     <div>
-      {(window.innerWidth < 576) ? <BottomHeaderComponent currentUser={dbUser} /> : <HeaderComponent currentUser={dbUser} />}
+      {(window.innerWidth > 576) && <HeaderComponent currentUser={dbUser} />}
       <UserPermissionsComponent />
-      <div className='mt-5 mb-5 pt-3 bottom-sm-padding'>
+      <div className='mt-4 mb-5 bottom-sm-padding'>
         <motion.div initial='out' animate='in' exit='out' variants={pageTransition}>
           {children}
         </motion.div>

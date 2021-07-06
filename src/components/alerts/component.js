@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 import moment from 'moment'
+import './style.css'
 
 import HeaderComponent from './header'
-import { gtokFavicon } from 'images'
 import { capitalizeFirstLetter } from 'helpers'
-import { SidebarComponent, LoadingComponent } from 'components'
+import { LoadingComponent, CustomImageComponent, MobileFooterComponent } from 'components'
 import { SetAlerts, CreatePageVisits, SetNewAlertsCount } from 'store/actions'
 import { getQuery, firestore, batchUpdate, update } from 'firebase_config'
 import { pageVariants, pageTransition } from 'constants/framer-motion'
@@ -95,18 +95,14 @@ class ParentComponent extends Component {
     // }
   }
 
-  setDefaultImg = (e) => {
-    e.target.src = gtokFavicon
-  }
-
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/chats' className='tab-item'>
-          Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-        </Link>
         <Link to='/app/alerts' className='tab-item -active'>
           Alerts {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
+        </Link>
+        <Link to='/app/chats' className='tab-item'>
+          Trading {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
         </Link>
       </div>
     </div>
@@ -115,52 +111,65 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
+        <HeaderComponent />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}
-            <div className='container mt-4'>
-            {
-              this.state.loading
-                ? <LoadingComponent />
-                : (
-                    this.state.alerts[0]
-                      ? <div className='alerts-wrapper'>
-                        <div className='btn btn-violet btn-sm pointer font-small mb-2' onClick={this.updateUnreadAlerts}>
-                          Mark all alerts as read
-                        </div>
-                        <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
-                        {
-                        this.state.alerts.map((alert, idx) => (
-                          <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
-                            <div className={`card br-0 ${alert.unread && 'active-alert'}`} onClick={e => this.updateAlert(alert)}>
-                              <div className='media p-3'>
-                                <img className='mr-2' src={alert.photoURL || gtokFavicon} alt='Card img cap' onError={this.setDefaultImg} style={{ width: '37px', height: '37px', objectFit: 'cover', borderRadius: '50%' }} />
-                                <div className='media-body font-xs-small'>
-                                  {capitalizeFirstLetter(alert.text)}<br/>
-                                  <small className='pull-right text-secondary'>
-                                    {moment(alert.createdAt).fromNow()}
-                                  </small>
+            <div className='container px-4'>
+              <div className='alerts-wrapper'>
+              {
+                this.props.pendingRelationsCount > 0 &&
+                  <div className='media pending-request'>
+                    <CustomImageComponent user={this.props.currentUser} />
+                    <sup className='badge badge-danger pending-count'>{this.props.pendingRelationsCount}</sup>
+                    <Link to='/app/requests' className='media-body align-self-center font-small'>
+                      Pending requests
+                    </Link>
+                  </div>
+              }
+              {
+                this.state.loading
+                  ? <LoadingComponent />
+                  : (
+                      this.state.alerts[0]
+                        ? <div className='mt-2'>
+                          <div className='mark-alerts' onClick={this.updateUnreadAlerts}>
+                            Mark all alerts as read
+                          </div>
+                          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
+                          {
+                          this.state.alerts.map((alert, idx) => (
+                            <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
+                              <div className='card br-0' onClick={e => this.updateAlert(alert)}>
+                                <div className='media py-2'>
+                                  <CustomImageComponent user={alert} />
+                                  <sup className={`alert-dot ${!alert.unread && 'd-none'}`}><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
+                                  <div className='media-body pl-2 font-xs-small'>
+                                    <span className={`${alert.unread && 'fw-900'}`}>{capitalizeFirstLetter(alert.text)}</span>
+                                    <div className='created-at'>
+                                      {moment(alert.createdAt).fromNow()}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))
-                      }
-                        </motion.div>
-                        <div className={`text-center my-3 ${(this.state.alerts.length < (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
-                          <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
+                            </Link>
+                          ))
+                        }
+                          </motion.div>
+                          <div className={`text-center my-3 ${(this.state.alerts.length < (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+                            <button className='btn btn-violet btn-sm' onClick={this.loadMoreAlerts}>Load more</button>
+                          </div>
                         </div>
-                      </div>
-                      : <div className='text-center mt-5'>
-                        You haven't received any alerts yet.
-                      </div>
-                  )
-            }
+                        : <div className='text-center mt-5'>
+                          You haven't received any alerts yet.
+                        </div>
+                    )
+              }
+              </div>
             </div>
           </div>
         </div>
+        <MobileFooterComponent currentUser={this.props.currentUser} />
       </div>
     )
   }
@@ -168,8 +177,8 @@ class ParentComponent extends Component {
 
 const mapStateToProps = (state) => {
   const { alerts, newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { alerts, newAlertsCount, newMessagesCount }
+  const { pendingRelationsCount } = state.relationships
+  return { alerts, newAlertsCount, pendingRelationsCount }
 }
 
 const mapDispatchToProps = (dispatch) => {

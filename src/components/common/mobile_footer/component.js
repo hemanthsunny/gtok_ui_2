@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import './style.css'
 
 import { Metadata } from 'constants/index'
 import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList, SetRelationships, SetPurchaseOrders, SetPrices, SetWallet } from 'store/actions'
 import { HelmetMetaDataComponent } from 'components'
 
-const HeaderComponent = ({
+const MobileFooterComponent = ({
   currentUser,
   newMessagesCount,
   bindNewMessagesCount,
@@ -16,10 +17,10 @@ const HeaderComponent = ({
   bindRelationships,
   bindPurchaseOrders,
   bindWallet,
-  bindPrices,
-  pendingRelationsCount
+  bindPrices
 }) => {
   const [metaDetails, setMetaDetails] = useState({})
+
   useEffect(() => {
     const path = window.location.pathname
     if (path.includes('/app/chats')) {
@@ -28,6 +29,8 @@ const HeaderComponent = ({
       setMetaDetails(Metadata['/app/similarities'])
     } else if (path.includes('/app/profile')) {
       setMetaDetails(Metadata['/app/profile'])
+    } else if (path.includes('/app/create_post')) {
+      setMetaDetails(Metadata['/app/create_post'])
     } else {
       setMetaDetails(Metadata[path || 'default'])
     }
@@ -41,34 +44,36 @@ const HeaderComponent = ({
   }, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser, bindRelationships, bindPurchaseOrders, bindPrices, bindWallet])
 
   return (
-    <div>
+    <div className={window.innerWidth > 576 && 'd-none'}>
       {
         metaDetails && metaDetails.title &&
         <HelmetMetaDataComponent title={metaDetails.title} keywords={metaDetails.keywords} description={metaDetails.description}/>
       }
-      <nav className='navbar fixed-top header'>
-        <div className='container-fluid'>
-          <div className='navbar-brand mr-auto'>
-            <Link to='/app/posts'>
-              <span className='home-page-title'>Lets Gtok</span>
-            </Link>
+      <div className='navbar-bottom'>
+        <div className='footer-wrapper d-flex flex-row align-items-center align-self-center justify-content-around'>
+          <div className='nav-item ml-1' title='Home'>
+            <div className='nav-link'>
+              <Link to='/app/posts'>
+                <img src={(metaDetails && (metaDetails.path === 'posts' || metaDetails.path === 'activities')) ? require('assets/svgs/HomeActive.svg').default : require('assets/svgs/Home.svg').default} className='home-icon' alt='Home' />
+              </Link>
+            </div>
           </div>
-          <ul className='navbar-nav ml-auto'>
-            <li className='nav-item'>
-              <div className='nav-link p-0'>
-                <Link to='/app/search' title='Search'>
-                  Search
-                  {(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-                </Link>
-                <Link to='/app/chats' title='Notifications'>
-                  Notifications
-                  {(newMessagesCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-                </Link>
-              </div>
-            </li>
-          </ul>
+          <div className='nav-item ml-1' title='Create post'>
+            <div className='nav-link create-post'>
+              <Link to='/app/create_post'>
+                <img src={(metaDetails && (metaDetails.path === 'create_post' || metaDetails.path === 'create_activity')) ? require('assets/svgs/PlusActive.svg').default : require('assets/svgs/Plus.svg').default} className='plus-c-icon' alt='Create post' />
+              </Link>
+            </div>
+          </div>
+          <div className='nav-item ml-1' title='Profile'>
+            <div className='nav-link'>
+              <Link to='/app/profile'>
+                <img src={(metaDetails && metaDetails.path === 'profile') ? require('assets/svgs/ProfileActive.svg').default : require('assets/svgs/Profile.svg').default} className='profile-icon' alt='Profile' />
+              </Link>
+            </div>
+          </div>
         </div>
-      </nav>
+      </div>
     </div>
   )
 }
@@ -76,8 +81,7 @@ const HeaderComponent = ({
 const mapStateToProps = (state) => {
   const { newMessagesCount } = state.chatMessages
   const { newAlertsCount } = state.alerts
-  const { pendingRelationsCount } = state.relationships
-  return { newAlertsCount, newMessagesCount, pendingRelationsCount }
+  return { newMessagesCount, newAlertsCount }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -95,4 +99,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HeaderComponent)
+)(MobileFooterComponent)

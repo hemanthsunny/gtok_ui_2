@@ -35,9 +35,14 @@ export const Metadata = {
     path: 'alerts'
   },
   '/app/chats': {
-    title: 'Messages | Lets Gtok',
-    description: 'GTOK Messages is a places where you can chat each other',
+    title: 'Chats | Lets Gtok',
+    description: 'Chat easily',
     path: 'chats'
+  },
+  '/app/chat_requests': {
+    title: 'Requests | Lets Gtok',
+    description: 'Request chat anyone',
+    path: 'chat_requests'
   },
   '/app/payments': {
     title: 'Payments | Lets Gtok',

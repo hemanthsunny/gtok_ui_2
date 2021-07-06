@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import './style.css'
 
 import HeaderComponent from './header'
 import UserComponent from './user/component'
@@ -11,7 +12,6 @@ import { SetAllUsers } from 'store/actions'
 const ParentComponent = ({
   currentUser, allUsers, bindAllUsers, relations, pendingRelationsCount
 }) => {
-  const [pendingRelations, setPendingRelations] = useState([])
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -21,21 +21,18 @@ const ParentComponent = ({
     if (relations[0]) {
       // status must be 0
       const rlns = relations.filter(rln => rln.userIdTwo === currentUser.id && rln.status === 0)
-      setPendingRelations(rlns)
       const uIds = _.map(rlns, 'userIdOne')
       setUsers(_.filter(allUsers, (u) => _.indexOf(uIds, u.id) !== -1))
     }
   }, [currentUser, allUsers, bindAllUsers, relations])
 
   const subHeader = () => (
-    <div className='dashboard-tabs search-subheader' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/search' className='tab-item'>Find a new search</Link>
-        <Link to='/app/search/followers' className='tab-item'>Your followers</Link>
-        <Link to='/app/search/requests' className='tab-item -active'>
-          Pending requests{(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-        </Link>
-        <Link to='/app/search/following' className='tab-item'>You following</Link>
+    <div className='requests-subheader' aria-label='Subheader'>
+      <Link to='/app/alerts'>
+        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+      </Link>
+      <div className='page-name'>
+        Pending requests
       </div>
     </div>
   )
@@ -47,11 +44,11 @@ const ParentComponent = ({
         <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
           {subHeader()}
-          <div className='container mt-3'>
-            {pendingRelations.length > 0 && <small>{pendingRelations.length} requests</small>}
+          <hr className='m-0 p-0'/>
+          <div className='user-container'>
             {
               users[0]
-                ? <div className='row'> {
+                ? <div> {
                 users.map((u, idx) =>
                 <UserComponent displayUser={u} currentUser={currentUser} key={idx} />
                 )}

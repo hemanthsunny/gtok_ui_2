@@ -1,0 +1,39 @@
+/* header */
+.navbar-violet {
+  background-color: var(--color-violet-400);
+  border-radius: 0 0 1rem 1rem;
+}
+
+.navbar-violet .nav-link img.icon-search,
+.navbar-violet .nav-link img.icon-chat,
+.navbar-violet .nav-link img.icon-alert {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.navbar-violet .nav-link img.icon-search,
+.navbar-violet .nav-link img.icon-chat,
+.navbar-violet .nav-link img.icon-alert {
+  width: 27px;
+  height: 27px;
+}
+
+.nav-link sup {
+  position: relative;
+}
+
+.dot-chat-icon {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 5px;
+  left: -12px;
+}
+
+.dot-alert-icon {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 5px;
+  left: -15px;
+}
