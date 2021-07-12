@@ -75,9 +75,9 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
                   : (
                   <small className='pull-right'>{
                     follower === null
-                      ? <img className='icon-search-chat' src={require('assets/svgs/SendRequest.svg').default} alt="1" onClick={e => relationStatus('follow')} />
+                      ? <img className='icon-search-chat' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" onClick={e => relationStatus('follow')} />
                       : follower === 0
-                        ? <img className='icon-search-chat' src={require('assets/svgs/SentRequest.svg').default} alt="1" onClick={e => relationStatus('cancel_request')} />
+                        ? <img className='icon-search-chat' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" onClick={e => relationStatus('cancel_request')} />
                         : (
                             follower === 3 && 'Blocked'
                           )

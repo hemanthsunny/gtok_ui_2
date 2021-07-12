@@ -6,7 +6,7 @@ import _ from 'lodash'
 import './style.css'
 
 import HeaderComponent from './header'
-import { SidebarComponent, LoadingComponent, CustomImageComponent } from 'components'
+import { LoadingComponent, CustomImageComponent } from 'components'
 import { SetChatMessages, SetNewMessagesCount } from 'store/actions'
 import { gtokFavicon } from 'images'
 import { add, getQuery, getId, update, firestore, timestamp } from 'firebase_config'
@@ -245,7 +245,6 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content -opts'>
             {this.subHeader()}
             <div className='mob-single-chat-window'>
@@ -256,15 +255,11 @@ class ParentComponent extends Component {
                   <div>
                     {this.renderMessageWindow()}
                     <div className='chat-window-footer'>
-                      <div className='p-2 d-none'>
-                        <i className='fa fa-paperclip'></i>
-                      </div>
-                      <div className='flex-grow-1 p-2'>
-                        <textarea className='reply-box' rows='1' placeholder='Write message here..' value={this.state.message} onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus}>
-                        </textarea>
-                      </div>
-                      <div className='p-2'>
-                        <i className='fa fa-paper-plane' onClick={e => this.sendMessage()}></i>
+                      <div className='input-group mb-3'>
+                        <input type='text' className='form-control' placeholder='Type message' aria-label='Type message' aria-describedby='reply-message' onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus} />
+                        <div className='input-group-append'>
+                          <img className='send-btn' src={require('assets/svgs/ArrowUp.svg').default} alt='1' onClick={e => this.sendMessage()} />
+                        </div>
                       </div>
                     </div>
                   </div>

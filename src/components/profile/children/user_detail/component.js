@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { getId, getQuery, add, update, uploadFile, timestamp, firestore } from 'firebase_config'
@@ -16,6 +16,7 @@ function Component (props) {
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === userId && order.purchaseOrderStatus === 'active'))
   const [follower, setFollower] = useState('')
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     async function getUser (uid) {
@@ -110,9 +111,46 @@ function Component (props) {
     setIsFollowerLoading(false)
   }
 
+  const goBack = () => {
+    if (userId) history.goBack()
+    else history.push('/')
+  }
+
   return (
-    <div className='container profile-wrapper pt-sm-4'>
-      <div className='card container profile-card'>
+    <div className='profile-wrapper pt-sm-4'>
+      <div className='container'>
+        <div className='d-flex justify-content-between align-items-baseline py-3 px-3'>
+          <div onClick={goBack}>
+            <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='posts-icon pull-left' alt='Posts' />
+          </div>
+          <div className='fw-500'>
+            @{user.username}
+          </div>
+          <Link to='/app/settings'>
+            <img src={require('assets/svgs/Settings.svg').default} className='posts-icon pull-left' alt='Posts' />
+          </Link>
+        </div>
+        <div className='row text-center pt-3 align-items-baseline'>
+          <Link to='/app/followers' className='col-4'>
+            Followers
+            250
+          </Link>
+          <div className='col-4'>
+            <div className='display-picture'>
+              <CustomImageComponent user={user} size='lg' />
+            </div>
+            {capitalizeFirstLetter(user.displayName)}
+          </div>
+          <Link to='/app/following' className='col-4'>
+            Following
+            50
+          </Link>
+        </div>
+        {
+          user.bio && <p>{user.bio}</p>
+        }
+      </div>
+      <div className='container profile-card d-none'>
         <div className='media profile-body'>
           {
             (!userId || (userId === currentUser.id))
@@ -180,7 +218,12 @@ function Component (props) {
           </div>
         }
       </div>
-      <div className='card posts-wrapper my-2 p-2'>
+      <div className='text-center'>
+        <button className='btn btn-violet col-4 mr-2'>Wallet</button>
+        <button className='btn btn-violet col-2 d-none'></button>
+        <button className='btn btn-violet col-4 ml-2'>Edit profile</button>
+      </div>
+      <div className='card posts-wrapper my-2 p-2 d-none'>
         <div className='p-3 d-none'>
           <Link to={`/app/profile/${userId || currentUser.id}/posts`} className='d-flex align-items-center'>
             <img src={require('assets/svgs/Plus.svg').default} className='posts-icon pull-left' alt='Posts' />

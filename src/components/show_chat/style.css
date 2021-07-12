@@ -69,8 +69,7 @@
 }
 
 .chat-window-footer .reply-box {
-  width: 100%;
-  padding: var(--spacing-8);
+  /* padding: var(--spacing-8); */
   border: 0px solid var(--color-violet-100);
   border-radius: var(--spacing-24);
   background-color: #F4EFFD;
@@ -102,7 +101,7 @@
   }
 
   .chat-window-footer .reply-box {
-    width: 100%;
+    /* width: 100%; */
     padding: var(--spacing-8);
     resize: none;
     outline: none;

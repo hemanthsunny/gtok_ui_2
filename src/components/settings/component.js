@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { HeaderComponent } from 'components'
+import HeaderComponent from './header'
 import { signout } from 'firebase_config'
 import { SetUser, SetLoggedIn, SetDbUser } from 'store/actions'
 

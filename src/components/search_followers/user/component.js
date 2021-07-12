@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { getQuery, firestore } from 'firebase_config'
@@ -9,7 +9,6 @@ import { createRelationships } from 'lib/api'
 import { SetRelationships } from 'store/actions'
 
 const UserComponent = ({ displayUser, currentUser, relations, bindRelationships }) => {
-  const history = useHistory()
   const [follower, setFollower] = useState(null)
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
   const [result, setResult] = useState({})
@@ -46,74 +45,35 @@ const UserComponent = ({ displayUser, currentUser, relations, bindRelationships 
     setResult(res)
   }
 
-  const msgUser = async () => {
-    history.push('/app/chats/new/' + displayUser.id)
-  }
-
   return (
     <div className='col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3'>
-      <div className='card p-3 card-br-0'>
+      <div className='p-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
-        <div className='media profile_card_img'>
+        <div className='media profile-user'>
           <Link to={'/app/profile/' + displayUser.id}>
-            <CustomImageComponent user={displayUser} size='lg' />
+            <CustomImageComponent user={displayUser} />
           </Link>
           <div className='media-body pl-3'>
-            <h6 className='mt-0 text-camelcase'>
-              <Link to={'/app/profile/' + displayUser.id}>
-                {(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}
-               </Link>
-            </h6>
-            <div>
-              <div className='btn-group'>
-                <button className='btn btn-sm btn-violet-outline' onClick={e => relationStatus('follow')}>
-                {
-                  isFollowerLoading
-                    ? <i className='fa fa-spinner fa-spin'></i>
+            <Link className='username' to={'/app/profile/' + displayUser.id}>
+              @{displayUser.username}<br/>
+              <span className='actual-name'>{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}</span>
+            </Link>
+            <button className='btn btn-link px-0 pull-right'>
+            {
+              isFollowerLoading
+                ? <i className='fa fa-spinner fa-spin'></i>
+                : (
+                <small>{
+                  follower === 0
+                    ? <img className='icon-search-chat' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" onClick={e => relationStatus('cancel_request')} />
                     : (
-                    <small>{
-                      follower === 0
-                        ? 'Pending'
-                        : (
-                            follower === 1
-                              ? 'Following'
-                              : (
-                                  follower === 3 ? 'Blocked' : 'Follow'
-                                )
-                          )
-                    }</small>
+                        follower === null &&
+                          <img className='icon-search-chat' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" onClick={e => relationStatus('follow')} />
                       )
-                }
-                </button>
-                <button type='button' className='btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                  <span className='sr-only'>Toggle Dropdown</span>
-                </button>
-                <div className='dropdown-menu'>
-                  { follower === 0 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('cancel_request')}>
-                      <i className='fa fa-times'></i>&nbsp;Cancel Request
-                    </button>}
-                  { follower === 1 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('unfollow')}>
-                      <i className='fa fa-times'></i>&nbsp;Unfollow
-                    </button>}
-                  { follower !== 0 && follower !== 3 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('block')}>
-                      <i className='fa fa-ban'></i>&nbsp; Block
-                    </button>}
-                  { follower === 3 &&
-                    <button className='dropdown-item' onClick={e => relationStatus('unblock')}>
-                      <i className='fa fa-ban'></i>&nbsp; Unblock
-                    </button>}
-                </div>
-              </div>
-              {
-                follower !== 3 &&
-                <button className='btn btn-sm btn-outline-secondary ml-3' onClick={e => msgUser()} title='Start chat'>
-                  <i className='fa fa-comment'></i>
-                </button>
-              }
-            </div>
+                }</small>
+                  )
+            }
+            </button>
           </div>
         </div>
       </div>
