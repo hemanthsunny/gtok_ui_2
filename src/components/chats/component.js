@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { getId, firestore } from 'firebase_config'
 import { connect } from 'react-redux'
 import './style.css'
@@ -152,12 +152,12 @@ class ParentComponent extends Component {
   subHeader = () => (
     <div className='dashboard-tabs pt-4' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link className={`tab-item ${this.state.activeTab === 'chats' && '-active'}`} onClick={e => this.setState({ activeTab: 'chats' })}>
+        <a className={`tab-item ${this.state.activeTab === 'chats' && '-active'}`} onClick={e => this.setState({ activeTab: 'chats' })}>
           Chats {this.props.newMessagesCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-        </Link>
-        <Link className={`tab-item ${this.state.activeTab === 'requests' && '-active'}`} onClick={e => this.setState({ activeTab: 'requests' })}>
+        </a>
+        <a className={`tab-item ${this.state.activeTab === 'requests' && '-active'}`} onClick={e => this.setState({ activeTab: 'requests' })}>
           Requests {this.props.newAlertsCount > 0 && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-        </Link>
+        </a>
       </div>
     </div>
   );

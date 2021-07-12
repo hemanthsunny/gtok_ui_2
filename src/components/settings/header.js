@@ -29,9 +29,9 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
       </div>
     </nav>)
     : (
-    <nav className='navbar fixed-top header'>
+    <nav className='navbar fixed-top navbar-violet header'>
       <Link to='/app/profile'>
-        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+        <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
       </Link>
       <div className='navbar-brand mr-auto fs-18'>
         Settings

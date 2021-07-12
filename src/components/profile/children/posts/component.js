@@ -60,7 +60,7 @@ class PostsComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <div className='tab-item -active'>Feelings</div>
         <div className='tab-item' onClick={e => this.props.setActiveTab('activities')}>Activities</div>
@@ -70,8 +70,25 @@ class PostsComponent extends Component {
 
   render () {
     return (
-      <div className='pt-2'>
+      <div className='pt-2' style={{ position: 'relative', top: '32vh' }}>
         {this.subHeader()}
+        <div className='filter-wrapper'>
+          <div className='filter-icon' onClick={e => this.setState({ showFilters: !this.state.showFilters })}>
+          Filter <img className='btn-play' src={require('assets/svgs/Filter.svg').default} alt="1" />
+          </div>
+          <div className={`filter-names ${this.state.showFilters ? 'show-filter-names' : 'hide-filter-names'}`}>
+            {
+              this.state.selectedFilters && this.state.selectedFilters.map((name, i) => (
+                <div className='btn btn-violet-outline btn-sm mx-1 selected' key={i} onClick={e => this.handleFilters('unselected', name)}>{name}</div>
+              ))
+            }
+            {
+              this.state.unselectedFilters && this.state.unselectedFilters.map((name, i) => (
+                <div className='btn btn-sm mx-1 unselected' key={i} onClick={e => this.handleFilters('selected', name)}>{name}</div>
+              ))
+            }
+          </div>
+        </div>
         <div className='feeling-wrapper'>
           {
             this.state.posts[0] && this.state.posts.map((post, idx) =>

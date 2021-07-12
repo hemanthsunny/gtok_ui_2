@@ -44,7 +44,7 @@ const MobileFooterComponent = ({
   }, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser, bindRelationships, bindPurchaseOrders, bindPrices, bindWallet])
 
   return (
-    <div className={window.innerWidth > 576 && 'd-none'}>
+    <div className={window.innerWidth > 576 ? 'd-none' : ''}>
       {
         metaDetails && metaDetails.title &&
         <HelmetMetaDataComponent title={metaDetails.title} keywords={metaDetails.keywords} description={metaDetails.description}/>

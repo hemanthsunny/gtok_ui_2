@@ -5,30 +5,23 @@ import { connect } from 'react-redux'
 const HeaderComponent = ({
   newMessagesCount,
   newAlertsCount,
-  pendingRelationsCount
+  pendingRelationsCount,
+  currentUser
 }) => {
   return (
     <nav className={`navbar fixed-top navbar-violet ${window.innerWidth > 576 && 'd-none'}`}>
-      <div className='container-fluid'>
-        <div className='navbar-brand mr-auto'>
+      <div className='container-fluid p-0'>
+        <div className='navbar-brand d-flex'>
           <Link to='/app/posts'>
-            <span className='home-page-title'>Lets Gtok</span>
+            <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='icon-logo' alt='Filters' />
+          </Link>
+          <Link to='/app/profile' className='flex-grow-1'>
+            @{currentUser && currentUser.username}
+          </Link>
+          <Link to='/'>
+            <img src={require('assets/svgs/Settings.svg').default} className='icon-logo' alt='Filters' />
           </Link>
         </div>
-        <ul className='navbar-nav ml-auto'>
-          <li className='nav-item'>
-            <div className='nav-link p-0'>
-              <Link to='/app/search' title='Search'>
-                Search
-                {(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-              </Link>
-              <Link to='/app/chats' title='Notifications'>
-                Notifications
-                {(newMessagesCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-              </Link>
-            </div>
-          </li>
-        </ul>
       </div>
     </nav>
   )
