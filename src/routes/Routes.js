@@ -82,7 +82,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/profile/:user_id/activities" component={ShowUserActivitiesComponent} />
           <AuthRoute exact path="/app/profile/:user_id/unlock_profile" component={UnlockProfileComponent} />
           <AuthRoute exact path="/app/profile/:user_id/add_price" component={AddPriceComponent} />
-          <AuthRoute exact path="/app/profile/:user_id/wallet" component={WalletComponent} />
+          <AuthRoute exact path="/app/wallet" component={WalletComponent} />
           {/* <AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} /> */}
           <AuthRoute exact path="/app/settings" component={SettingsComponent} />
           <AuthRoute exact path="/app/settings/edit_profile" component={EditProfileComponent} />

@@ -12,10 +12,13 @@ function Component (props) {
   const { currentUser, purchaseOrders, bindDbUser } = props
   const [user, setUser] = useState(currentUser)
   const [btnUpload, setBtnUpload] = useState('upload')
-  const userId = props.match.params.user_id
+  const userId = props.match.params.user_id || currentUser.id
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === userId && order.purchaseOrderStatus === 'active'))
   const [follower, setFollower] = useState('')
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
+  const [isAdminUser, setIsAdminUser] = useState(false)
+  const [followersCount, setFollowersCount] = useState('')
+  const [followingCount, setFollowingCount] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -26,14 +29,32 @@ function Component (props) {
     }
     getUser(userId || currentUser.id)
 
-    async function getFollowingStatus () {
+    async function getRelationships () {
+      /* get relationship status */
       const rlns = await getQuery(
         firestore.collection('userRelationships').where('userIdOne', '==', currentUser.id).where('userIdTwo', '==', userId).get()
       )
       if (rlns[0]) setFollower(rlns[0])
+
+      const uid = userId || currentUser.id
+      /* get followers count */
+      const ersCount = await getQuery(
+        firestore.collection('userRelationships').where('userIdTwo', '==', uid).where('status', '==', 1).get()
+      )
+      setFollowersCount(ersCount.length)
+
+      /* get following count */
+      const ingCount = await getQuery(
+        firestore.collection('userRelationships').where('userIdOne', '==', uid).where('status', '==', 1).get()
+      )
+      setFollowingCount(ingCount.length)
     }
-    if (userId) {
-      getFollowingStatus()
+    /* get relationships */
+    getRelationships()
+
+    /* setIsAdminUser when current user is not equal to view profile user */
+    if ((currentUser.id === userId) || !userId) {
+      setIsAdminUser(true)
     }
   }, [userId])
 
@@ -127,27 +148,27 @@ function Component (props) {
             @{user.username}
           </div>
           <Link to='/app/settings'>
-            <img src={require('assets/svgs/Settings.svg').default} className='posts-icon pull-left' alt='Posts' />
+            <img src={require('assets/svgs/Settings.svg').default} className={`posts-icon pull-left ${!isAdminUser && 'd-none'}`} alt='Posts' />
           </Link>
         </div>
-        <div className='row text-center pt-3 align-items-baseline'>
+        <div className='row profile-info'>
           <Link to='/app/followers' className='col-4'>
-            Followers
-            250
+            Followers <br/>
+            {followersCount}
           </Link>
-          <div className='col-4'>
+          <div className='col-4 fw-500 px-2'>
             <div className='display-picture'>
               <CustomImageComponent user={user} size='lg' />
             </div>
-            {capitalizeFirstLetter(user.displayName)}
+            <span className='py-2'>{capitalizeFirstLetter(user.displayName)}</span>
           </div>
-          <Link to='/app/following' className='col-4'>
-            Following
-            50
+          <Link to='/app/following' className='col-4 px-2'>
+            Following <br/>
+            {followingCount}
           </Link>
         </div>
         {
-          user.bio && <p>{user.bio}</p>
+          user.bio && <p className='profile-bio'>{user.bio}</p>
         }
       </div>
       <div className='container profile-card d-none'>
@@ -218,11 +239,25 @@ function Component (props) {
           </div>
         }
       </div>
-      <div className='text-center'>
-        <button className='btn btn-violet col-4 mr-2'>Wallet</button>
-        <button className='btn btn-violet col-2 d-none'></button>
-        <button className='btn btn-violet col-4 ml-2'>Edit profile</button>
-      </div>
+      {
+        isAdminUser
+          ? <div className='text-center'>
+              <Link to='/app/wallet' className='btn btn-custom col-4 mr-2'>Wallet</Link>
+              <button className='btn btn-violet col-2 d-none'></button>
+              <Link to='/app/settings/edit_profile' className='btn btn-custom col-4 ml-2'>Edit profile</Link>
+            </div>
+          : !follower
+              ? <div className='text-center'>
+                  <button className='btn btn-custom col-4 mr-2'>Follow</button>
+                  <button className='btn btn-violet col-2 d-none'></button>
+                  <button className='btn btn-custom col-4 ml-2'>Message</button>
+                </div>
+              : <div className='text-center'>
+                  <button className='btn btn-custom col-4 mr-2'>Following</button>
+                  <button className='btn btn-violet col-2 d-none'></button>
+                  <button className='btn btn-custom col-4 ml-2'>Message</button>
+                </div>
+      }
       <div className='card posts-wrapper my-2 p-2 d-none'>
         <div className='p-3 d-none'>
           <Link to={`/app/profile/${userId || currentUser.id}/posts`} className='d-flex align-items-center'>
