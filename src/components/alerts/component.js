@@ -145,7 +145,7 @@ class ParentComponent extends Component {
                                   <CustomImageComponent user={alert} />
                                   <sup className={`alert-dot ${!alert.unread && 'd-none'}`}><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>
                                   <div className='media-body pl-2 font-xs-small'>
-                                    <span className={`${alert.unread && 'fw-900'}`}>{capitalizeFirstLetter(alert.text)}</span>
+                                    <span className={`${alert.unread && 'fw-500'}`}>{capitalizeFirstLetter(alert.text)}</span>
                                     <div className='created-at'>
                                       {moment(alert.createdAt).fromNow()}
                                     </div>

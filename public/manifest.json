@@ -3,17 +3,17 @@
   "name": "Lets Gtok",
   "icons": [
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "../assets/images/favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "../assets/images/favicon.png",
       "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "../assets/images/favicon.png",
       "type": "image/jpg",
       "sizes": "512x512"
     }
