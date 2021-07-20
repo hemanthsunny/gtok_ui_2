@@ -1,7 +1,16 @@
-.profile-wrapper {
-  position: absolute;
+.profile-page-wrapper {
+  position: relative;
+  top: -3.5vh;
+  /* position: absolute;
   width: 100vw;
-  min-height: 35vh;
+  height: 100vh;
+  top: 0px; */
+}
+
+.profile-wrapper {
+  position: relative;
+  width: 100vw;
+  min-height: 25vh;
   left: 0px;
   top: 0px;
   background: linear-gradient(180deg, #6930DB -49.99%, #FFB47E 208.18%);
@@ -10,8 +19,6 @@
 }
 
 .profile-wrapper .display-picture .custom-image-text {
-  /* width: 75px !important;
-  height: 75px !important; */
   border-radius: 20px !important;
 }
 
@@ -38,7 +45,7 @@
   font-size: var(--font-size);
   font-weight: 500;
   /* offset-x | offset-y | blur-radius | spread-radius | color */
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 15px -4px rgb(0 0 0 / 20%);
   position: relative;
   top: 2.25vh;
 }
@@ -55,6 +62,11 @@
   font-size: var(--font-size);
 }
 
+.profile-wrapper .icon-request-sent {
+  width: 15px;
+  height: 15px;
+}
+
 /* wallet code */
 .wallet-wrapper a {
   color: rgba(0, 0, 0, 0.9);
@@ -63,6 +75,13 @@
 .wallet-icon {
   width: 27px;
   transform: scale(1.4);
+}
+
+/* Private profile text */
+.private-profile-text {
+  text-align: center;
+  position: relative;
+  top: calc(15vh + 50px);
 }
 
 @media (max-width: 576px) {

@@ -70,7 +70,7 @@ class PostsComponent extends Component {
 
   render () {
     return (
-      <div className='pt-2' style={{ position: 'relative', top: '32vh' }}>
+      <div className='pt-2'>
         {this.subHeader()}
         <div className='filter-wrapper'>
           <div className='filter-icon' onClick={e => this.setState({ showFilters: !this.state.showFilters })}>

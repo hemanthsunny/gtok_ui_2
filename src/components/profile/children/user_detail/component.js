@@ -113,7 +113,12 @@ function Component (props) {
   //   }
   // }
 
-  const updateFollowStatus = async (status) => {
+  const relationStatus = async (status) => {
+    if (status === 'follow') {
+      status = user.private ? 0 : 1
+    } else {
+      status = null
+    }
     setIsFollowerLoading(true)
     if (follower) {
       await update('userRelationships', follower.id, { status: status })
@@ -137,8 +142,30 @@ function Component (props) {
     else history.push('/')
   }
 
+  const unfollow = async () => {
+    if (window.confirm(`Are you sure to unfollow ${user.username}?`)) {
+      await relationStatus('unfollow')
+    }
+  }
+
+  const seeFollowers = async () => {
+    if (isAdminUser) {
+      history.push('/app/followers')
+    } else {
+      alert(`You cannot see @${user.username} followers`)
+    }
+  }
+
+  const seeFollowing = async () => {
+    if (isAdminUser) {
+      history.push('/app/following')
+    } else {
+      alert(`You cannot see @${user.username} followers`)
+    }
+  }
+
   return (
-    <div className='profile-wrapper pt-sm-4'>
+    <div className='profile-wrapper'>
       <div className='container'>
         <div className='d-flex justify-content-between align-items-baseline py-3 px-3'>
           <div onClick={goBack}>
@@ -152,20 +179,20 @@ function Component (props) {
           </Link>
         </div>
         <div className='row profile-info'>
-          <Link to='/app/followers' className='col-4'>
+          <div className='col-4' onClick={seeFollowers}>
             Followers <br/>
             {followersCount}
-          </Link>
+          </div>
           <div className='col-4 fw-500 px-2'>
             <div className='display-picture'>
-              <CustomImageComponent user={user} size='lg' />
+              <CustomImageComponent user={user} size='lg' style={{ margin: '0px auto' }} />
             </div>
-            <span className='py-2'>{capitalizeFirstLetter(user.displayName)}</span>
+            <div className='my-2'>{capitalizeFirstLetter(user.displayName)}</div>
           </div>
-          <Link to='/app/following' className='col-4 px-2'>
+          <div className='col-4 px-2' onClick={seeFollowing}>
             Following <br/>
             {followingCount}
-          </Link>
+          </div>
         </div>
         {
           user.bio && <p className='profile-bio'>{user.bio}</p>
@@ -201,7 +228,7 @@ function Component (props) {
                         ? <i className='fa fa-spinner fa-spin'></i>
                         : (follower.status === 0
                             ? 'Pending'
-                            : follower.status === 1 ? 'Following' : <span onClick={e => updateFollowStatus(0)}>Follow</span>
+                            : follower.status === 1 ? 'Following' : <span onClick={e => relationStatus(0)}>Follow</span>
                           )
                         }
                     </div>
@@ -213,11 +240,11 @@ function Component (props) {
                     }
                     <div className='dropdown-menu'>
                       { follower.status === 0 &&
-                        <button className='dropdown-item' onClick={e => updateFollowStatus(null)}>
+                        <button className='dropdown-item' onClick={e => relationStatus(null)}>
                           <i className='fa fa-times'></i>&nbsp;Cancel request
                         </button> }
                       { follower.status === 1 &&
-                        <button className='dropdown-item' onClick={e => updateFollowStatus(null)}>
+                        <button className='dropdown-item' onClick={e => relationStatus(null)}>
                           <i className='fa fa-times'></i>&nbsp;Unfollow
                         </button> }
                     </div>
@@ -240,24 +267,43 @@ function Component (props) {
         }
       </div>
       {
-        isAdminUser
-          ? <div className='text-center'>
-              <Link to='/app/wallet' className='btn btn-custom col-4 mr-2'>Wallet</Link>
-              <button className='btn btn-violet col-2 d-none'></button>
-              <Link to='/app/settings/edit_profile' className='btn btn-custom col-4 ml-2'>Edit profile</Link>
-            </div>
-          : !follower
-              ? <div className='text-center'>
-                  <button className='btn btn-custom col-4 mr-2'>Follow</button>
-                  <button className='btn btn-violet col-2 d-none'></button>
-                  <button className='btn btn-custom col-4 ml-2'>Message</button>
-                </div>
-              : <div className='text-center'>
-                  <button className='btn btn-custom col-4 mr-2'>Following</button>
-                  <button className='btn btn-violet col-2 d-none'></button>
-                  <button className='btn btn-custom col-4 ml-2'>Message</button>
-                </div>
+        isAdminUser &&
+          <div className='text-center'>
+            <Link to='/app/wallet' className='btn btn-custom col-4 mr-2'>Wallet</Link>
+            <div className='btn btn-violet col-2 d-none'></div>
+            <Link to='/app/settings/edit_profile' className='btn btn-custom col-4 ml-2'>Edit profile</Link>
+          </div>
       }
+      {
+        !isAdminUser && follower.status === 1 &&
+          <div className='text-center'>
+            <div className='btn btn-custom col-4 mr-2' onClick={unfollow}>Following</div>
+            <div className='btn btn-violet col-2 d-none'></div>
+            <div className='btn btn-custom col-4 ml-2'>Message</div>
+          </div>
+      }
+      {
+        !isAdminUser && follower.status === 0 &&
+          <div className='text-center'>
+            <div className='btn btn-custom col-1 d-none'></div>
+            <div className='btn btn-custom col-7 mr-1' onClick={e => relationStatus('cancel_request')}>
+              Request sent &nbsp;
+              <img className='icon-request-sent' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" />
+            </div>
+            <div className='btn btn-custom col-2 ml-1'>
+              <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
+            </div>
+          </div>
+      }
+      {
+        !isAdminUser && (follower.status === undefined || follower.status === null) &&
+          <div className='text-center'>
+            <div className='btn btn-custom col-4 mr-2' onClick={e => relationStatus('follow')}>Follow</div>
+            <div className='btn btn-violet col-2 d-none'></div>
+            <div className='btn btn-custom col-4 ml-2'>Message</div>
+          </div>
+      }
+
       <div className='card posts-wrapper my-2 p-2 d-none'>
         <div className='p-3 d-none'>
           <Link to={`/app/profile/${userId || currentUser.id}/posts`} className='d-flex align-items-center'>

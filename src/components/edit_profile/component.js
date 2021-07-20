@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import MultiSelect from 'react-multi-select-component'
 
 import HeaderComponent from './header'
-import { SidebarComponent } from 'components'
 import { SetDbUser } from 'store/actions'
 import { InterestedCategories } from 'constants/categories'
 import { add, update, getQuery, firestore, timestamp } from 'firebase_config'
@@ -29,7 +27,7 @@ function EditProfileComponent (props) {
       return null
     }
     let data = {}
-    if (name) { data = Object.assign(data, { displayName: name.toLowerCase().trim() }) }
+    if (name) { data = Object.assign(data, { displayName: name.trim() }) }
     if (username) { data = Object.assign(data, { username: username.toLowerCase().trim().replace(/ /g, '_') }) }
     data = Object.assign(data, { interestedTopics: selected, bio })
 
@@ -67,22 +65,11 @@ function EditProfileComponent (props) {
     }, 3000)
   }
 
-  const subHeader = () => (
-    <div className='dashboard-tabs -xs-d-none' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/settings' className='tab-item'>Back</Link>
-        <div className='tab-item -active'>Edit Profile</div>
-      </div>
-    </div>
-  )
-
   return (
     <div>
-      <HeaderComponent newMessagesCount={props.newMessagesCount} newAlertsCount={props.newAlertsCount}/>
+      <HeaderComponent save={saveDetails}/>
       <div>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
-          {subHeader()}
           <div className='container edit-profile-wrapper desktop-align-center'>
             <div className='form-group'>
               <label htmlFor='name' className='form-label'>Name</label>
@@ -148,9 +135,7 @@ function EditProfileComponent (props) {
 
 const mapStateToProps = (state) => {
   const { user } = state.authUsers
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { user, newAlertsCount, newMessagesCount }
+  return { user }
 }
 
 const mapDispatchToProps = (dispatch) => {

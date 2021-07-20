@@ -2,51 +2,24 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount }) => {
-  return (window.innerWidth > 576)
-    ? (
-    <nav className='navbar fixed-top header'>
-      <div className='container-fluid'>
-        <div className='navbar-brand mr-auto'>
-          <Link to='/app/posts'>
-            <span className='home-page-title'>Lets Gtok</span>
-          </Link>
-        </div>
-        <ul className='navbar-nav ml-auto'>
-          <li className='nav-item'>
-            <div className='nav-link p-0'>
-              <Link to='/app/search' title='Search'>
-                Search
-                {(pendingRelationsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-              </Link>
-              <Link to='/app/chats' title='Notifications'>
-                Notifications
-                {(newMessagesCount > 0 || newAlertsCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className={'dot-icon'} alt='Dot' /></sup>}
-              </Link>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>)
-    : (
-    <nav className='navbar fixed-top header'>
-      <Link to='/app/settings'>
-        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save }) => {
+  return (
+    <nav className='navbar fixed-top navbar-violet-md px-4'>
+      <Link to='/app/profile'>
+        <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>
-      <div className='navbar-brand mr-auto fs-18'>
-        Edit profile
+      <div className='navbar-brand mr-auto pt-2'>
+        &nbsp; &nbsp; Edit profile
       </div>
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
-          <div className='nav-link p-0 d-none'>
-            <Link to='/app/settings/change_password' title='Permission'>
-              <img src={require('assets/svgs/Save.svg').default} className='save-icon' alt='Save' />
-            </Link>
+          <div className='nav-link p-0 text-white fw-500' onClick={save}>
+            Save
           </div>
         </li>
       </ul>
     </nav>
-      )
+  )
 }
 
 const mapStateToProps = (state) => {

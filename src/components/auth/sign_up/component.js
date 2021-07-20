@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { signup, add, getQuery, firestore } from 'firebase_config'
 import { StaticHeaderComponent } from 'components'
 import { validateEmail } from 'helpers'
-import './index.css'
+import './style.css'
 
 const SignupComponent = () => {
   const [username, setUsername] = useState('')
@@ -117,7 +117,7 @@ const SignupComponent = () => {
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/feelings.svg').default} alt='Feelings' />
                 </div>
-                <div className='media-body'>
+                <div className='media-body option-text'>
                   Share your feelings
                 </div>
               </div>
@@ -125,7 +125,7 @@ const SignupComponent = () => {
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/activities.svg').default} alt='Activities' />
                 </div>
-                <div className='media-body'>
+                <div className='media-body option-text'>
                   Post your activities
                 </div>
               </div>
@@ -133,7 +133,7 @@ const SignupComponent = () => {
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/earn.svg').default} alt='Earn' />
                 </div>
-                <div className='media-body'>
+                <div className='media-body option-text'>
                   Earn
                 </div>
               </div>
@@ -143,19 +143,19 @@ const SignupComponent = () => {
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/feelings.svg').default} alt='Feelings' />
                 </div>
-                <div className='col-12 mt-3 mb-5'>
+                <div className='col-12 mt-3 mb-5 option-text'>
                   Share your feelings
                 </div>
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/activities.svg').default} alt='Feelings' />
                 </div>
-                <div className='col-12 mt-3 mb-5'>
+                <div className='col-12 mt-3 mb-5 option-text'>
                   Post your activities
                 </div>
                 <div className='icon'>
                   <img src={require('assets/svgs/signup/earn.svg').default} alt='Feelings' />
                 </div>
-                <div className='col-12 mt-3 mb-5'>
+                <div className='col-12 mt-3 mb-5 option-text'>
                   Earn
                 </div>
               </div>

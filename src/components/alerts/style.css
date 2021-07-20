@@ -40,7 +40,7 @@ a.bell-active::before {
 }
 
 .alerts-wrapper .alert-dot {
-  left: 7px;
+  left: 4px;
 }
 
 .alerts-wrapper .card {
