@@ -88,13 +88,15 @@ function EditProfileComponent (props) {
       return null
     }
     setUploading(true)
+    console.log('file', file)
     await uploadFile(file, 'image', async (url, err) => {
+      console.log('url', url)
       if (err) {
         alert(err)
         return null
       }
-      await update('users', user.id, { photoURL: url })
-      bindDbUser(user)
+      await update('users', currentUser.id, { photoURL: url })
+      bindDbUser({ ...currentUser })
     })
     setUploading(false)
   }
