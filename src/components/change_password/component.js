@@ -25,7 +25,6 @@ function ChangePasswordComponent ({ currentUser }) {
   }
 
   const updatePassword = async () => {
-    console.log('res', newPassword, confirmNewPassword)
     if (!newPassword) {
       setResult({
         status: 400,
