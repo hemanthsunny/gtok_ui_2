@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import './style.css'
 
 import HeaderComponent from './header'
-import { SidebarComponent } from 'components'
 import { changePassword } from 'firebase_config'
 
-function ChangePasswordComponent ({ currentUser, newMessagesCount, newAlertsCount }) {
+function ChangePasswordComponent ({ currentUser }) {
   const [eyeIcon, setEyeIcon] = useState('hide')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
@@ -27,46 +25,52 @@ function ChangePasswordComponent ({ currentUser, newMessagesCount, newAlertsCoun
   }
 
   const updatePassword = async () => {
+    console.log('res', newPassword, confirmNewPassword)
+    if (!newPassword) {
+      setResult({
+        status: 400,
+        message: 'New password should be filled'
+      })
+      return null
+    }
+    if (!confirmNewPassword) {
+      setResult({
+        status: 400,
+        message: 'Confirm password should be filled'
+      })
+      return null
+    }
     if (newPassword !== confirmNewPassword) {
-      alert('Passwords donot match')
+      setResult({
+        status: 400,
+        message: 'Passwords didn\'t match'
+      })
       return null
     }
     const res = await changePassword(newPassword)
     setResult(res)
-    await setNewPassword(null)
-    await setConfirmNewPassword(null)
     setTimeout(() => {
       setResult('')
+      setNewPassword(null)
+      setConfirmNewPassword(null)
     }, 3000)
   }
 
-  const subHeader = () => (
-    <div className='dashboard-tabs -xs-d-none' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/settings' className='tab-item'>Back</Link>
-        <div className='tab-item -active'>Update password</div>
-      </div>
-    </div>
-  )
-
   return (
     <div>
-      <HeaderComponent newMessagesCount={newMessagesCount} newAlertsCount={newAlertsCount}/>
+      <HeaderComponent save={updatePassword}/>
       <div>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content -xs-bg-none'>
-          {subHeader()}
-          <div className='container change-pw-wrapper desktop-align-center'>
+          <div className='change-pw-wrapper desktop-align-center'>
             <div className='form-group'>
-              <label>New Password</label>
+              <label className='form-label'>New Password</label>
               <input type='password' className='form-control' id='newPass' onChange={e => setNewPassword(e.target.value)} placeholder='New password'/>
-              <img src={(eyeIcon === 'hide') ? require('assets/svgs/VisibilityOff.svg').default : require('assets/svgs/VisibilityOn.svg').default} className='pw-visibility-icon' alt='Visibility' onClick={e => showPassword()} />
+              <img src={(eyeIcon === 'hide') ? require('assets/svgs/Eye.svg').default : require('assets/svgs/EyeOpen.svg').default} className='pw-visibility-icon' alt='Visibility' onClick={e => showPassword()} />
             </div>
             <div className='form-group'>
-              <label>Repeat New Password</label>
+              <label className='form-label'>Confirm Password</label>
               <input type='password' className='form-control' id='confirmNewPass' onChange={e => setConfirmNewPassword(e.target.value)} placeholder='Confirm new password'/>
             </div>
-            <button className='btn btn-sm btn-violet col-12' onClick={updatePassword}>Update</button>
             <div className='text-center'>
               {
                 result.status &&
@@ -82,10 +86,4 @@ function ChangePasswordComponent ({ currentUser, newMessagesCount, newAlertsCoun
   )
 }
 
-const mapStateToProps = (state) => {
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { newAlertsCount, newMessagesCount }
-}
-
-export default connect(mapStateToProps, null)(ChangePasswordComponent)
+export default ChangePasswordComponent
