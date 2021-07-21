@@ -20,7 +20,6 @@ function ParentComponent ({ currentUser, computedMatch }) {
       let u = await getId('users', userId)
       u = Object.assign(u, { id: userId })
       setDisplayUser(u)
-      console.log('u', u)
     }
 
     async function getRelationship () {
@@ -28,7 +27,6 @@ function ParentComponent ({ currentUser, computedMatch }) {
         firestore.collection('userRelationships').where('userIdOne', '==', currentUser.id).where('userIdTwo', '==', userId).get()
       )
       if (rlns[0]) setRelationship(rlns[0])
-      console.log('rln', rlns[0])
     }
 
     if (userId) {

@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Link, withRouter, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { getId, getQuery, add, update, uploadFile, timestamp, firestore } from 'firebase_config'
+import { getId, getQuery, add, update, firestore } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
 import { CustomImageComponent } from 'components'
 
 import { SetDbUser } from 'store/actions'
 
 function Component (props) {
-  const { currentUser, purchaseOrders, bindDbUser } = props
+  const { currentUser, purchaseOrders } = props
   const [user, setUser] = useState(currentUser)
-  const [btnUpload, setBtnUpload] = useState('upload')
   const userId = props.match.params.user_id || currentUser.id
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === userId && order.purchaseOrderStatus === 'active'))
   const [follower, setFollower] = useState('')
@@ -63,56 +62,6 @@ function Component (props) {
     return null
   }
 
-  const uploadImage = async (file) => {
-    if (!file) {
-      alert('A new image required')
-      return null
-    }
-    setBtnUpload('uploading...')
-    await uploadFile(file, 'image', async (url, err) => {
-      if (err) {
-        alert(err)
-        return null
-      }
-      await update('users', user.id, { photoURL: url })
-      bindDbUser(user)
-    })
-    setBtnUpload('upload')
-    /* Log the activity */
-    await add('logs', {
-      text: `${user.displayName} added profile image`,
-      photoURL: user.photoURL,
-      receiverId: '',
-      userId: user.id,
-      actionType: 'update',
-      collection: 'users',
-      actionId: user.id,
-      actionKey: 'photoURL',
-      timestamp
-    })
-    // window.location.reload();
-  }
-
-  // const deleteImage = async () => {
-  //   if (window.confirm('Are you sure you want to remove profile image?')) {
-  //     /* Don't remove source image. Affects in chats & alerts */
-  //     // await removeImage(fileUrl);
-  //     /* Log the activity */
-  //     await add('logs', {
-  //       text: `${user.displayName} removed profile image`,
-  //       photoURL: '',
-  //       receiverId: '',
-  //       userId: user.id,
-  //       actionType: 'update',
-  //       collection: 'users',
-  //       actionId: user.id,
-  //       actionKey: 'photoURL',
-  //       timestamp
-  //     })
-  //     await update('users', user.id, { photoURL: '' })
-  //   }
-  // }
-
   const relationStatus = async (status) => {
     if (status === 'follow') {
       status = user.private ? 0 : 1
@@ -138,7 +87,7 @@ function Component (props) {
   }
 
   const goBack = () => {
-    if (userId) history.goBack()
+    if (userId !== currentUser.id) history.goBack()
     else history.push('/')
   }
 
@@ -197,73 +146,8 @@ function Component (props) {
         {
           user.bio && <p className='profile-bio'>{user.bio}</p>
         }
-      </div>
-      <div className='container profile-card d-none'>
-        <div className='media profile-body'>
-          {
-            (!userId || (userId === currentUser.id))
-              ? <label htmlFor='staticImage'>
-              {
-                btnUpload === 'upload'
-                  ? <CustomImageComponent user={user} size='lg' />
-                  : <i className='fa fa-spinner fa-spin'></i>
-              }
-            </label>
-              : <label>
-              <CustomImageComponent user={user} size='lg' />
-            </label>
-          }
-          <input type='file' className='form-control-plaintext d-none' id='staticImage' onChange={e => uploadImage(e.target.files[0])} accept='image/*' />
-          <div className='media-body pl-3 pt-1'>
-            <div className='profile-header'>
-              <h6 className='mb-0'>
-              {user && capitalizeFirstLetter(user.displayName)}
-              {
-                (!userId || (userId === currentUser.id))
-                  ? <Link to='/app/settings' className='float-right pr-2'><i className='fa fa-cog fs-24 text-violet'></i></Link>
-                  : <div className='d-flex flex-row float-right'>
-                  <div className='btn-group'>
-                    <div className='btn btn-violet-outline btn-sm'>
-                      {isFollowerLoading
-                        ? <i className='fa fa-spinner fa-spin'></i>
-                        : (follower.status === 0
-                            ? 'Pending'
-                            : follower.status === 1 ? 'Following' : <span onClick={e => relationStatus(0)}>Follow</span>
-                          )
-                        }
-                    </div>
-                    {
-                      follower.status >= 0 && follower.status !== null &&
-                      <button type='button' className='btn btn-sm btn-violet-outline dropdown-toggle dropdown-toggle-split pt-0 pb-0' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                        <span className='sr-only'>Toggle Dropdown</span>
-                      </button>
-                    }
-                    <div className='dropdown-menu'>
-                      { follower.status === 0 &&
-                        <button className='dropdown-item' onClick={e => relationStatus(null)}>
-                          <i className='fa fa-times'></i>&nbsp;Cancel request
-                        </button> }
-                      { follower.status === 1 &&
-                        <button className='dropdown-item' onClick={e => relationStatus(null)}>
-                          <i className='fa fa-times'></i>&nbsp;Unfollow
-                        </button> }
-                    </div>
-                  </div>
-                  <Link to={`/app/chats/new/${userId}`} className='btn btn-violet-outline btn-sm ml-2'><i className='fa fa-comment'></i></Link>
-                </div>
-              }
-              </h6>
-            </div>
-            <div className='profile-uniq-name'>
-              @{user.username}
-            </div>
-          </div>
-        </div>
-        {user.bio &&
-          <div className='profile-bio'>
-            <div className='label'>About me</div>
-            <div className='value'>{user.bio}</div>
-          </div>
+        {
+          isFollowerLoading && <i className='fa fa-spinner fa-spin'></i>
         }
       </div>
       {
@@ -298,9 +182,13 @@ function Component (props) {
       {
         !isAdminUser && (follower.status === undefined || follower.status === null) &&
           <div className='text-center'>
-            <div className='btn btn-custom col-4 mr-2' onClick={e => relationStatus('follow')}>Follow</div>
-            <div className='btn btn-violet col-2 d-none'></div>
-            <div className='btn btn-custom col-4 ml-2'>Message</div>
+            <div className='btn btn-custom col-7 mr-1' onClick={e => relationStatus('follow')}>
+              Follow &nbsp;
+              <img className='icon-request-sent' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" />
+            </div>
+            <div className='btn btn-custom col-2 ml-1'>
+              <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
+            </div>
           </div>
       }
 
