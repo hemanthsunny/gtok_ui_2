@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save }) => {
+const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading }) => {
   return (
     <nav className='navbar fixed-top navbar-violet-md px-4'>
       <Link to='/app/profile'>
@@ -14,7 +14,7 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
           <div className='nav-link p-0 text-white fw-500' onClick={save}>
-            Save
+            {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Save'}
           </div>
         </li>
       </ul>
