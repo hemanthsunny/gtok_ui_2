@@ -17,8 +17,8 @@ function EditProfileComponent (props) {
   const [dob, setDob] = useState(currentUser.dob)
   const [selected, setSelected] = useState(currentUser.interestedTopics || [])
   const [result, setResult] = useState({})
-  const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const saveDetails = async (e) => {
     e.preventDefault()
@@ -40,7 +40,8 @@ function EditProfileComponent (props) {
     let data = {}
     if (name) { data = Object.assign(data, { displayName: name.trim() }) }
     if (username) { data = Object.assign(data, { username: username.toLowerCase().trim().replace(/ /g, '_') }) }
-    data = Object.assign(data, { interestedTopics: selected, bio, dob })
+    if (dob) { data = Object.assign(data, { dob }) }
+    data = Object.assign(data, { interestedTopics: selected, bio })
 
     // Verify username in database: Only if its different
     if (data.username !== currentUser.username) {
@@ -88,17 +89,15 @@ function EditProfileComponent (props) {
       return null
     }
     setUploading(true)
-    console.log('file', file)
     await uploadFile(file, 'image', async (url, err) => {
-      console.log('url', url)
       if (err) {
         alert(err)
         return null
       }
       await update('users', currentUser.id, { photoURL: url })
-      bindDbUser({ ...currentUser })
+      bindDbUser({ ...currentUser, photoURL: url })
+      setUploading(false)
     })
-    setUploading(false)
   }
 
   // const deleteImage = async () => {
@@ -127,11 +126,19 @@ function EditProfileComponent (props) {
       <div>
         <div className='dashboard-content'>
           <div className='edit-profile-wrapper desktop-align-center'>
+            <div className='text-center'>
+              {
+                result.status &&
+                <div className={`text-${result.status === 200 ? 'violet' : 'danger'} my-2`}>
+                  {result.message}
+                </div>
+              }
+            </div>
             <div className='upload-image'>
                 <label htmlFor='staticImage'>
                   {
                     !uploading
-                      ? <CustomImageComponent user={user} size='lg' style={{ textAlign: 'center' }} />
+                      ? <CustomImageComponent user={currentUser} size='lg' style={{ textAlign: 'center' }} />
                       : <i className='fa fa-spinner fa-spin'></i>
                   }
                 </label>
@@ -172,7 +179,7 @@ function EditProfileComponent (props) {
                 <i className={`ml-2 fa fa-${user && user.emailVerified ? 'check text-success' : 'warning text-warning'}`} data-container='body' data-toggle='tooltip' data-placement='top' title={`${user.emailVerified ? 'Verified' : 'Not verified'}`}></i>
               </label>
               <div className=''>
-                <input type='text' className='form-control' id='name' value={currentUser.email} readOnly />
+                <input type='text' className='form-control' id='email' value={currentUser.email} readOnly />
               </div>
             </div>
             <div className='form-group d-none'>
@@ -185,14 +192,6 @@ function EditProfileComponent (props) {
                   labelledBy={'select'}
                 />
               </div>
-            </div>
-            <div className='text-center'>
-              {
-                result.status &&
-                <div className={`text-${result.status === 200 ? 'violet' : 'danger'} my-2`}>
-                  {result.message}
-                </div>
-              }
             </div>
           </div>
         </div>
