@@ -5,8 +5,8 @@ import moment from 'moment'
 import $ from 'jquery'
 import './style.css'
 import SliderComponent from '../slider/component'
-import MenuComponent from '../menu/component'
-import ShareComponent from '../share/component'
+import MenuModalComponent from '../menu_modal/component'
+import ShareModalComponent from '../share_modal/component'
 
 import {
   add,
@@ -33,7 +33,6 @@ const PostComponent = ({
   const [playDetails, setPlayDetails] = useState({ currentTime: 0, duration: 0 })
   const [displayFullStory, setDisplayFullStory] = useState(false)
   const [hidePost, setHidePost] = useState(false)
-  const [menuDisplay, setMenuDisplay] = useState(false)
 
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
   const history = useHistory()
@@ -232,9 +231,6 @@ const PostComponent = ({
 
   return !hidePost && postedUser && displayPost.stories && (
     <div className='d-flex ml-2 mt-3 mb-4'>
-      <div className={`d-none ${menuDisplay && 'd-none'}`}>
-        <MenuComponent displayPost={displayPost} currentUser={currentUser} sharePost={sharePost} copyLink={copyLink} editPost={editPost} deletePost={deletePost} />
-      </div>
       <div className=''>
         {displayPost.anonymous
           ? <CustomImageComponent user={postedUser} size='sm' />
@@ -311,10 +307,11 @@ const PostComponent = ({
                         <button className='btn btn-link' data-toggle='modal' data-target='#ShareOptionsModal'>
                           <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
                         </button>
-                        <button className='btn btn-link' onClick={e => setMenuDisplay(!menuDisplay)}>
+                        <ShareModalComponent displayPost={displayPost} currentUser={currentUser} />
+                        <button className='btn btn-link' data-toggle='modal' data-target='#MenuModal'>
                           <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
                         </button>
-                        <ShareComponent displayPost={displayPost} currentUser={currentUser} />
+                        <MenuModalComponent displayPost={displayPost} currentUser={currentUser} sharePost={sharePost} copyLink={copyLink} editPost={editPost} deletePost={deletePost} />
 
                         <div className='btn-group'>
                           <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
