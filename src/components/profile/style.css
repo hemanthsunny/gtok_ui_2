@@ -9,7 +9,7 @@
 
 .profile-wrapper {
   position: relative;
-  width: 100vw;
+  /* width: 100vw; */
   min-height: 25vh;
   left: 0px;
   top: 0px;

@@ -57,6 +57,7 @@ import ShowOpenActivitiesComponent from 'components/common/show_open_activities/
 import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
 import MobileFooterComponent from 'components/common/mobile_footer/component'
+import AudioPlayerComponent from 'components/audio_player/component'
 
 export {
   VerifyEmailComponent,
@@ -117,5 +118,6 @@ export {
   ShowOpenActivitiesComponent,
   ReportPostComponent,
   ScrollIntoViewComponent,
-  MobileFooterComponent
+  MobileFooterComponent,
+  AudioPlayerComponent
 }

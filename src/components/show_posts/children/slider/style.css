@@ -22,13 +22,13 @@
   z-index: 99;
 }
 
-.post-card-wrapper .audio-player .progress {
+.audio-player .progress {
   height: 2px;
   position: relative;
   top: -15px;
   background: #2b2b2b;
 }
 
-.post-card-wrapper .audio-player .progress-bar {
+.audio-player .progress-bar {
   background-color: var(--color-violet-400);
 }

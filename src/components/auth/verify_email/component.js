@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { SetUser, SetLoggedIn, SetDbUser } from 'store/actions'
 import { update, verifyEmail, signout } from 'firebase_config'
-import HeaderComponent from './header'
+import { HeaderComponent } from 'components'
 
 const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser }) => {
   const [resendEmail, setResendEmail] = useState('Resend verification email')
@@ -50,7 +50,7 @@ const EmailVerifyComponent = ({ currentUser, bindLoggedIn, bindDbUser, bindUser 
   return (
     <div className='verify-email' id='verify_email'>
       <HeaderComponent />
-      <div className='container login-form text-center pt-5 mt-4'>
+      <div className='container login-form text-center pt-5 mt-5'>
         <h5 className='page-header'>
           Please verify your email before you continue.
         </h5>

@@ -1,3 +1,34 @@
+export const FeelingCategories = [
+  {
+    title: 'Current feeling',
+    key: 'current_feeling'
+  },
+  {
+    title: 'Happy',
+    key: 'happy'
+  },
+  {
+    title: 'Sad',
+    key: 'sad'
+  },
+  {
+    title: 'Surprise',
+    key: 'surprise'
+  },
+  {
+    title: 'Fear',
+    key: 'fear'
+  },
+  {
+    title: 'Anger',
+    key: 'angry'
+  },
+  {
+    title: 'Other',
+    key: 'other'
+  }
+]
+
 export const PostCategories = [
   {
     title: 'Anxiety',

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import $ from 'jquery'
-import './style.css'
 
 function ShareOptions ({ displayPost, currentUser }) {
   useEffect(() => {

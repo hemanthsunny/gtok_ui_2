@@ -28,6 +28,46 @@
   animation: hideFilter 0.35s 1;
 }
 
+/* Modal css */
+.modal.fade .modal-dialog {
+  margin: 0px;
+  border-radius: 25px;
+  transform: translate3d(0, calc(100vh - 29vh), 0) !important;
+}
+
+.modal.fade .modal-content {
+  border-radius: 25px 25px 0 0 !important;
+}
+
+.modal-body .menu-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal-body .menu-list .menu-item {
+  padding: var(--spacing-8) var(--spacing-12);
+}
+
+#ShareOptionsModal .modal-dialog {
+  transform: translate3d(0, calc(100vh - 14vh), 0) !important;
+}
+
+#ShareOptionsModal .modal-body {
+  min-height: 17vh !important;
+  max-height: 70vh !important;
+}
+
+
+#MenuModal .modal-dialog {
+  transform: translate3d(0, calc(100vh - 20vh), 0) !important;
+}
+
+#MenuModal .modal-body {
+  min-height: 20vh !important;
+  max-height: 70vh !important;
+}
+
+
 @keyframes showFilter {
   from {
     transform: translateX(+200vw);

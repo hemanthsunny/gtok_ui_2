@@ -9,6 +9,9 @@ import WalletDetailsComponent from './steps/wallet_details/component'
 
 import { add, update } from 'firebase_config'
 
+// https://stackoverflow.com/questions/41658552/how-to-create-a-7-character-underline-input-text-field-in-html-and-cssscreensho
+// https://stackoverflow.com/questions/41698357/how-to-partition-input-field-to-appear-as-separate-input-fields-on-screen
+
 function WalletComponent ({ currentUser, wallet }) {
   const [loading, setLoading] = useState(true)
   const [walletExists, setWalletExists] = useState(true)
