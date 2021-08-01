@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 import _ from 'lodash'
+import './style.css'
 
 import HeaderComponent from './header'
 import DetailComponent from './steps/detail/component'
 import CategoryComponent from './steps/category/component'
-import SubmitComponent from './steps/submit/component'
 
 import { add, update, timestamp, uploadFile, removeFile, batchWrite } from 'firebase_config'
-import { PostCategories } from 'constants/categories'
+import { FeelingCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
 
@@ -50,31 +50,15 @@ const ParentComponent = (props) => {
   const [postText, setPostText] = useState(story.text)
   const [category, setCategory] = useState(sharePost.category || {
     title: 'Current feeling',
-    key: 'current_activity',
-    id: 3
+    key: 'current_feeling'
   })
   const [result, setResult] = useState({})
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
   const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
-
-  useEffect(() => {
-    if (touchStart && touchEnd && (touchStart - touchEnd > 75)) {
-      props.history.push('/app/create_activity')
-    }
-  }, [touchStart, touchEnd, props])
+  const [tradePrice, setTradePrice] = useState(sharePost.tradePrice || 10)
 
   const savePost = async (opts) => {
-    if (opts && opts.premium && (!props.prices || !props.prices[0])) {
-      alert('Before you do a premium post, set a price in your profile')
-      return null
-    }
-    if (opts && opts.premium && (!props.wallet || !props.wallet[0])) {
-      alert('Just before doing a premium post, please create a wallet')
-      return null
-    }
     if (!postText) {
       alert('Write something before you post')
       return null
@@ -90,7 +74,7 @@ const ParentComponent = (props) => {
       postData = Object.assign(postData, {
         stories: sharePost.stories,
         category,
-        categoryId: category.id,
+        tradePrice,
         ...opts
       })
       result = await update('posts', sharePost.id, postData)
@@ -107,8 +91,8 @@ const ParentComponent = (props) => {
         followers: [],
         followersCount: 0,
         category,
-        categoryId: category.id,
         timestamp,
+        tradePrice,
         ...opts
       })
       result = await add('posts', postData)
@@ -220,35 +204,24 @@ const ParentComponent = (props) => {
   //   })
   // }
 
-  const onTouchStart = (e) => {
-    setTouchStart(e.changedTouches[0].clientX)
-    setTouchEnd(0)
-  }
-
-  const onTouchEnd = (e) => {
-    setTouchEnd(e.changedTouches[0].clientX)
-  }
-
   const subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/create_post' className='tab-item -active'>Share Feeling</Link>
-        <Link to='/app/create_activity' className='tab-item'>Share Activity</Link>
+        <Link to='/app/create_post' className='tab-item -active'>Feelings</Link>
+        <Link to='/app/create_activity' className='tab-item'>Activities</Link>
       </div>
     </div>
   )
 
   return (
     <div>
-      <HeaderComponent />
+      <HeaderComponent save={savePost} />
       <div>
-        <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className='dashboard-content pt-4'>
           {subHeader()}
-          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
             <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} />
-              <CategoryComponent postCategories={PostCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
-              <SubmitComponent save={savePost} anonymous={anonymous} setAnonymous={setAnonymous} />
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} />
+              <CategoryComponent postCategories={FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               <div className='text-center'>
                 {
                   result.status &&
@@ -258,6 +231,7 @@ const ParentComponent = (props) => {
                 }
               </div>
             </div>
+          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
           </motion.div>
         </div>
       </div>

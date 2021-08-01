@@ -1,0 +1,58 @@
+/* Category modal */
+#selectPostCategoryModal .post-category {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: var(--spacing-12);
+}
+
+#selectPostCategoryModal .other-category-box {
+  padding-left: var(--spacing-12);
+  padding-right: var(--spacing-12);
+}
+
+#selectPostCategoryModal .other-category-box textarea {
+  border: none;
+  resize: none;
+  background-color: var(--color-violet-100);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Detail page */
+.w-100-p {
+  width: 100%;
+}
+
+.microphone-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.create-post-wrapper .card-badge {
+  border: 0px;
+}
+
+.create-post-wrapper .create-post-box {
+  width: 100%;
+  border-width: 0px;
+  resize: none;
+  padding-top: var(--spacing-12);
+}
+
+.create-post-wrapper .trade-section-wrapper .slider-block {
+  display: block;
+  font-size: var(--font-size-small);
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -20,7 +20,6 @@ import {
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
-import { PostCategories } from 'constants/categories'
 
 const PostComponent = ({
   currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, purchaseOrders
@@ -106,14 +105,6 @@ const PostComponent = ({
       $(`.icon-heart-${displayPost.id}`).removeClass('scaleInImgFollow')
       $(`.icon-heart-${displayPost.id}`).removeClass('scaleInImgUnfollow')
     }, 2000)
-  }
-
-  const selectCategory = (key) => {
-    const category = PostCategories.find(c => c.key === key)
-    if (!category) {
-      return
-    }
-    return category.title
   }
 
   const getUpdatedPost = async (id) => {
@@ -270,7 +261,7 @@ const PostComponent = ({
                 <div key={idx}>
                   <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
                     <div>
-                      <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
+                      <span className='card-badge'>{displayPost.category.title}</span>
                       <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
                     </div>
                     <div className='clearfix'></div>
@@ -281,7 +272,7 @@ const PostComponent = ({
                       }
                     </p>
                     { story.fileUrl &&
-                      <div className='audio-player'>
+                      <div className='audio-player-wrapper'>
                         <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
                         <div className='audio-btn' onClick={e => playAudio(idx)}>
                           <button className='btn'>

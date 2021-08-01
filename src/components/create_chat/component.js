@@ -103,7 +103,6 @@ const CreateChatComponent = (props) => {
   }
 
   return (
-    <div>
     <div className='modal fade' id='createChatModal' tabIndex='-1' role='dialog' aria-labelledby='createChatModalLabel' aria-hidden='true'>
       <div className='modal-dialog'>
         <div className='modal-content'>
@@ -144,7 +143,6 @@ const CreateChatComponent = (props) => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   )
 }

@@ -91,16 +91,16 @@
 
 /* Start: Toggle switch colors */
 /* Ref: https://stackoverflow.com/questions/64435290/how-can-i-change-the-checked-background-color-of-this-bootstrap-4-toggle-switc */
-.settings-wrapper .custom-control-input:focus~.custom-control-label::before {
+.custom-control-input:focus~.custom-control-label::before {
   box-shadow: none !important;
 }
 
-.settings-wrapper .custom-control-input:checked~.custom-control-label::before {
+.custom-control-input:checked~.custom-control-label::before {
   border-color: var(--color-violet-400) !important;
   background-color: var(--color-violet-400) !important;
 }
 
-.settings-wrapper .custom-control-input:active~.custom-control-label::before {
+.custom-control-input:active~.custom-control-label::before {
   border-color: var(--color-violet-400) !important;
   background-color: var(--color-violet-400) !important;
 }
