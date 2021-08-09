@@ -23,16 +23,16 @@ const DetailComponent = ({
             </button>
             <span className={`${!tradePost && 'd-none'}`}>&#8377; {tradePrice}</span>
           </div>
-          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='How are you feeling today?' rows={7} autoFocus></textarea>
+          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Hey dear! type here about your feeling!!' rows={7} autoFocus></textarea>
         </div>
         <div className='card-footer'>
-          {anonymous ? <span className='author'>@Anonymous</span> : <span className='author'>@{currentUser.username}</span>}
+          {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}
           <div className='edit-options'>
-            <button className='btn btn-link btn-heart pr-0' onClick={e => setAnonymous(!anonymous)}>
+            <button className='btn btn-link btn-heart' onClick={e => setAnonymous(!anonymous)}>
               {
                 anonymous
-                  ? <img className='icon-heart icon-heart' src={require('assets/svgs/Eye.svg').default} alt="1" />
-                  : <img className='icon-heart icon-heart' src={require('assets/svgs/EyeOpen.svg').default} alt="1" />
+                  ? <img className='icon-heart icon-heart' src={require('assets/svgs/EyeballClosed.svg').default} alt="1" />
+                  : <img className='icon-heart icon-heart' src={require('assets/svgs/Eyeball.svg').default} alt="1" />
               }
             </button>
           </div>
@@ -60,14 +60,14 @@ const DetailComponent = ({
           { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} /> }
         </div>
         <hr className='mt-2' />
-        <div className='trade-section-wrapper'>
+        <div className={`trade-section-wrapper ${anonymous && '-disabled'}`}>
           <div className='d-flex flex-row'>
             <div className='flex-grow-1'>
               <img src={require('assets/svgs/login/right_lock_icon.svg').default} className='attachment-icon' alt='Audio' /> &nbsp;
               <span className='option-name' htmlFor="customSwitch1">Trade post</span>
             </div>
             <div className="custom-control custom-switch">
-              <input type="checkbox" className="custom-control-input" id="private" onChange={e => setTradePost(!tradePost)} checked={tradePost || false} />
+              <input type="checkbox" className="custom-control-input" id="private" onChange={e => setTradePost(!tradePost)} checked={tradePost || false} disabled={anonymous} />
               <label className="custom-control-label" htmlFor="private"></label>
             </div>
           </div>

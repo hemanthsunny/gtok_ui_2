@@ -45,6 +45,7 @@ import ShowUserActivitiesComponent from 'components/show_user_activities/compone
 import PaymentCardsComponent from 'components/payment_cards/component'
 import AddPaymentCardComponent from 'components/add_payment_card/component'
 import WalletComponent from 'components/wallet/component'
+import WalletSettingsComponent from 'components/wallet_settings/component'
 import AddPriceComponent from 'components/add_price/component'
 import UnlockProfileComponent from 'components/unlock_profile/component'
 import PurchaseOrdersComponent from 'components/purchase_orders/component'
@@ -58,6 +59,7 @@ import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
 import MobileFooterComponent from 'components/common/mobile_footer/component'
 import AudioPlayerComponent from 'components/audio_player/component'
+import ChangePasscodeComponent from 'components/change_passcode/component'
 
 export {
   VerifyEmailComponent,
@@ -107,6 +109,7 @@ export {
   PaymentCardsComponent,
   AddPaymentCardComponent,
   WalletComponent,
+  WalletSettingsComponent,
   AddPriceComponent,
   UnlockProfileComponent,
   PurchaseOrdersComponent,
@@ -119,5 +122,6 @@ export {
   ReportPostComponent,
   ScrollIntoViewComponent,
   MobileFooterComponent,
-  AudioPlayerComponent
+  AudioPlayerComponent,
+  ChangePasscodeComponent
 }

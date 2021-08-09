@@ -37,12 +37,14 @@ import {
   PaymentCardsComponent,
   AddPaymentCardComponent,
   WalletComponent,
+  WalletSettingsComponent,
   AddPriceComponent,
   UnlockProfileComponent,
   PurchaseOrdersComponent,
   ShowPostComponent,
   ShowOpenPostsComponent,
-  ShowOpenActivitiesComponent
+  ShowOpenActivitiesComponent,
+  ChangePasscodeComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -83,6 +85,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/profile/:user_id/unlock_profile" component={UnlockProfileComponent} />
           <AuthRoute exact path="/app/profile/:user_id/add_price" component={AddPriceComponent} />
           <AuthRoute exact path="/app/wallet" component={WalletComponent} />
+          <AuthRoute exact path="/app/wallet_settings" component={WalletSettingsComponent} />
           {/* <AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} /> */}
           <AuthRoute exact path="/app/settings" component={SettingsComponent} />
           <AuthRoute exact path="/app/settings/edit_profile" component={EditProfileComponent} />
@@ -103,6 +106,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/new_chat" component={CreateChatComponent} />
           <AuthRoute exact path="/app/support" component={SupportComponent} />
           <AuthRoute exact path="/app/challenges" component={ChallengesComponent} />
+          <AuthRoute exact path="/app/change_passcode" component={ChangePasscodeComponent} />
           <Redirect to="/" />
         </Switch>
       </AnimatePresence>

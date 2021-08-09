@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 
 import { getQuery, firestore } from 'firebase_config'
@@ -20,6 +21,34 @@ function WalletDetailsComponent ({ wallet }) {
 
   return (
     <div className='wallet-details-wrapper'>
+    <div className='profile-wrapper'>
+      <div className='container'>
+        <div className='d-flex justify-content-between align-items-baseline py-3 px-3'>
+          <Link to='/app/profile'>
+            <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='posts-icon pull-left' alt='Posts' />
+          </Link>
+          <div className='fw-500'>
+            Wallet
+          </div>
+          <Link to='/app/wallet_settings'>
+            <img src={require('assets/svgs/Settings.svg').default} className='posts-icon pull-left' alt='Settings' />
+          </Link>
+        </div>
+        <div className='text-center'>
+          <h3>
+            <div className='display-picture'>
+              100
+            </div>
+            <div className='my-2'>Balance</div>
+          </h3>
+        </div>
+      </div>
+      <div className='text-center'>
+        <div className='btn btn-custom col-4 mr-2'>Recharge</div>
+        <div className='btn btn-violet col-2 d-none'></div>
+        <div className='btn btn-custom col-4 ml-2'>Withdraw</div>
+      </div>
+    </div>
       <div className='card p-3'>
         <div className='flex-row'>
           <div className='pull-left'>Amount</div>

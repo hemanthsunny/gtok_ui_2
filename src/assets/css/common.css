@@ -212,6 +212,12 @@
   border-color: var(--color-violet-400)!important;
 }
 
+.btn-violet-rounded {
+  color: var(--color-white) !important;
+  background-color: var(--color-violet-400)!important;
+  border-radius: var(--spacing-32) !important;
+}
+
 .text-capitalize {
   text-transform: capitalize !important;
 }

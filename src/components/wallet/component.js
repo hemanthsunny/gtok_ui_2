@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import './style.css'
 
 import { LoadingComponent } from 'components'
-import HeaderComponent from './header'
 import CreateWalletComponent from './steps/create_wallet/component'
 import DuplicateWalletComponent from './steps/duplicate_wallet/component'
 import WalletDetailsComponent from './steps/wallet_details/component'
@@ -72,19 +72,19 @@ function WalletComponent ({ currentUser, wallet }) {
   // }
 
   return (
-    <div>
-      <HeaderComponent />
-      <div className='container wallet-wrapper'>
-        {
-          loading
-            ? <LoadingComponent />
-            : <div>
+    <div className='wallet-wrapper'>
+      {
+        loading
+          ? <LoadingComponent />
+          : <div>
+          <WalletDetailsComponent wallet={walletDetails[0] || {}} />
+          <div className='d-none'>
             {!walletExists && <CreateWalletComponent save={createWallet} />}
             {duplicateWallet && <DuplicateWalletComponent requestSent={requestSent} save={unlockRequest} />}
             {walletExists && !duplicateWallet && <WalletDetailsComponent wallet={walletDetails[0]} />}
           </div>
-        }
-      </div>
+        </div>
+      }
     </div>
   )
 }

@@ -84,6 +84,84 @@
   top: calc(15vh + 50px);
 }
 
+.wallet-wrapper {
+  background: rgba(0, 0, 0, 0.025);
+  margin-top: -1.5rem;
+}
+
+/* create wallet */
+.create-wallet-wrapper {
+  font-size: 13px;
+  padding: 3rem 0;
+  min-height: 100vh;
+}
+
+.create-wallet-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+  margin: 2rem 0;
+}
+
+/* duplicate wallet */
+.duplicate-wallet-wrapper {
+  font-size: 13px;
+  padding: 3rem 0;
+  min-height: 100vh;
+}
+
+.duplicate-wallet-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+  margin: 2rem 0;
+}
+
+/* wallet details */
+.wallet-details-wrapper {
+  font-size: 13px;
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+.wallet-details-wrapper .btn-next {
+  font-size: 12px;
+  border: 1px solid #1a1a2e;
+  margin: 2rem 0;
+}
+
+.wallet-wrapper .header {
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+.wallet-wrapper .transaction-card .transaction-date {
+  font-size: smaller;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.wallet-wrapper .transaction-card .transaction-name {
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.wallet-wrapper .transaction-card .transaction-amount {
+  font-size: 14px;
+  padding-top: 5px;
+}
+
+.wallet-wrapper .transaction-card .credit {
+  color: rgba(0, 128, 0, 0.9);
+}
+
+.wallet-wrapper .transaction-card .debit {
+  color: rgba(250, 0, 0, 0.9);
+}
+
+.wallet-wrapper .transaction-card .transaction-divider {
+  margin: 7px 0px !important;
+}
+
+
 @media (max-width: 576px) {
   .posts-footer {
     text-align: center;
