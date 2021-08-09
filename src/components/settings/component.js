@@ -116,7 +116,7 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                   </Link>
                 </li>
                 <li>
-                  <Link to='/app/settings' className='d-flex flex-row align-items-center justify-content-between'>
+                  <Link to='/app/wallet_settings' className='d-flex flex-row align-items-center justify-content-between'>
                     <span className='option-name'>Wallet settings</span>
                   </Link>
                 </li>

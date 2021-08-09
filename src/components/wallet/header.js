@@ -13,7 +13,7 @@ const HeaderComponent = ({ username }) => {
       <ul className='navbar-nav ml-auto d-none'>
         <li className=''>
           <div className='nav-link p-0'>
-            <Link to='/app/settings' title='Settings'>
+            <Link to='/app/wallet_settings' title='Settings'>
               <img src={require('assets/svgs/Settings.svg').default} className='settings-icon' alt='Settings' />
             </Link>
           </div>

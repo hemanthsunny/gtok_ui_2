@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import $ from 'jquery'
 
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
   const [other, setOther] = useState('')

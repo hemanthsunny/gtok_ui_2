@@ -29,6 +29,37 @@ export const FeelingCategories = [
   }
 ]
 
+export const ActivityCategories = [
+  {
+    title: 'Current activity',
+    key: 'current_activity'
+  },
+  {
+    title: 'Eating',
+    key: 'eating'
+  },
+  {
+    title: 'Playing',
+    key: 'playing'
+  },
+  {
+    title: 'Working',
+    key: 'working'
+  },
+  {
+    title: 'Reading',
+    key: 'reading'
+  },
+  {
+    title: 'Watching',
+    key: 'watching'
+  },
+  {
+    title: 'Other',
+    key: 'other'
+  }
+]
+
 export const PostCategories = [
   {
     title: 'Anxiety',

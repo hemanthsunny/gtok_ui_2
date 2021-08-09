@@ -1,15 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading }) => {
+const HeaderComponent = ({ save, loading, wallet }) => {
   return (
     <nav className='navbar fixed-top navbar-violet-md px-4'>
-      <Link to='/app/settings'>
+      <Link to='/app/wallet_settings'>
         <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>
       <div className='navbar-brand mr-auto pt-2'>
-        &nbsp; &nbsp; Change password
+        &nbsp; &nbsp; {wallet.length < 1 ? 'Create' : 'Change'} passcode
       </div>
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
@@ -23,10 +23,8 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
 }
 
 const mapStateToProps = (state) => {
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  const { pendingRelationsCount } = state.relationships
-  return { newAlertsCount, newMessagesCount, pendingRelationsCount }
+  const { wallet } = state.wallet
+  return { wallet }
 }
 
 export default connect(
