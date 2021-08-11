@@ -242,115 +242,120 @@ const PostComponent = ({
           result.status && <NotificationComponent result={result} setResult={setResult} />
         }
         {
-          (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId))
-            ? <div className='card-body'>
-            <div className='blur-post'>
-              This post is locked. <br/> To unlock this post, purchase premium of the profile user.
-            </div>
-            <Link to={`/app/profile/${displayPost.userId}/unlock_profile`} className='unlock-post d-flex'>
-              <i className='fa fa-lock'></i> &nbsp; Premium post. Unlock now
-            </Link>
-          </div>
-            : <div>
-              {
-              displayPost.stories.map((story, idx) => (
-                <div key={idx}>
-                  <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
-                    <div>
-                      <span className='card-badge'>{displayPost.category.title}</span>
-                      <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
-                    </div>
-                    <div className='clearfix'></div>
-                    <p className='card-text white-space-preline' onClick={e => followPost(e)}>
-                      {story.text.length <= 150 || displayFullStory
-                        ? story.text
-                        : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
-                      }
-                    </p>
-                    { story.fileUrl &&
-                      <div className='audio-player-wrapper'>
-                        <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
-                        <div className='audio-btn' onClick={e => playAudio(idx)}>
-                          <button className='btn'>
-                            { play
-                              ? <img className='btn-play' src={require('assets/svgs/Play.svg').default} alt="1" />
-                              : <img className='btn-pause' src={require('assets/svgs/Pause.svg').default} alt="1" />
-                            }
-                          </button>
-                        </div>
-                        <div className='audio-time'>
-                          {playDetails && <span className='current'>{moment.utc(playDetails.currentTime * 1000).format('mm:ss')}</span>}
-                          {playDetails && <span className='duration'>{moment.utc(playDetails.duration * 1000).format('mm:ss')}</span>}
-                        </div>
-                        <SliderComponent playDetails={playDetails} onChange={onChangeAudio} />
-                      </div>
-                    }
-                    {
-                      displayPost.stories.length > 1 &&
-                      <div className='carousel-effect'>
-                        <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
-                        <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
-                      </div>
-                    }
-                    <div className='clearfix my-3'></div>
-                  </div>
-                  <div className='card-footer'>
-                    {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
-                    <div className='edit-options'>
-                        <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
-                          {
-                            follower
-                              ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
-                              : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
-                          }
-                        </button>
-                        <button className='btn btn-link' data-toggle='modal' data-target='#ShareOptionsModal'>
-                          <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
-                        </button>
-                        <ShareModalComponent displayPost={displayPost} currentUser={currentUser} />
-                        <button className='btn btn-link' data-toggle='modal' data-target='#MenuModal'>
-                          <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
-                        </button>
-                        <MenuModalComponent displayPost={displayPost} currentUser={currentUser} sharePost={sharePost} copyLink={copyLink} editPost={editPost} deletePost={deletePost} />
-
-                        <div className='btn-group'>
-                          <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
-                            <button className='dropdown-item' onClick={sharePost}>
-                              Reshare
-                            </button>
-                            <button className='dropdown-item' onClick={copyLink}>
-                              Send to...
-                            </button>
-                          </div>
-                        </div>
-                        <div className='btn-group d-none'>
-                          <button className='btn btn-link btn-sm btn-more' id='optionsMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                            <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
-                          </button>
-                          <div className='dropdown-menu' aria-labelledby='optionsMenuDropdown'>
-                            <button className='dropdown-item' onClick={sharePost}>
-                              Share to...
-                            </button>
-                            <button className='dropdown-item' onClick={copyLink}>
-                              Copy link
-                            </button>
-                            <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
-                              Edit
-                            </button>
-                            <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
-                              Delete
-                            </button>
-                            <button className={`dropdown-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
-                              Report
-                            </button>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
+          displayPost.stories.map((story, idx) => (
+            <div key={idx}>
+              <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
+                <div>
+                  <span className='card-badge'>{displayPost.category.title}</span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
                 </div>
-              ))
-            }
-          </div>
+                <div className='clearfix'></div>
+                {
+                  (displayPost.tradePrice && !purchaseFound && (currentUser.id !== displayPost.userId))
+                    ? <div className='card-body hidden-post'>
+                    <div className='blur-text'>
+                      This is a trading post. Trade it, to unlock.
+                    </div>
+                    <Link to={`/app/profile/${displayPost.userId}/unlock_post`} className='locked-post'>
+                      <div className='locked-post-text'>
+                        Unlock for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                      </div>
+                      <div>
+                        <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                      </div>
+                    </Link>
+                  </div>
+                    : <div>
+                      <p className='card-text white-space-preline' onClick={e => followPost(e)}>
+                        {story.text.length <= 150 || displayFullStory
+                          ? story.text
+                          : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
+                        }
+                      </p>
+                      { story.fileUrl &&
+                        <div className='audio-player-wrapper'>
+                          <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
+                          <div className='audio-btn' onClick={e => playAudio(idx)}>
+                            <button className='btn'>
+                              { play
+                                ? <img className='btn-play' src={require('assets/svgs/Play.svg').default} alt="1" />
+                                : <img className='btn-pause' src={require('assets/svgs/Pause.svg').default} alt="1" />
+                              }
+                            </button>
+                          </div>
+                          <div className='audio-time'>
+                            {playDetails && <span className='current'>{moment.utc(playDetails.currentTime * 1000).format('mm:ss')}</span>}
+                            {playDetails && <span className='duration'>{moment.utc(playDetails.duration * 1000).format('mm:ss')}</span>}
+                          </div>
+                          <SliderComponent playDetails={playDetails} onChange={onChangeAudio} />
+                        </div>
+                      }
+                      {
+                        displayPost.stories.length > 1 &&
+                        <div className='carousel-effect'>
+                          <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
+                          <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
+                        </div>
+                      }
+                      <div className='clearfix my-3'></div>
+                    </div>
+              }
+              </div>
+              <div className='card-footer'>
+                {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
+                <div className='edit-options'>
+                    <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
+                      {
+                        follower
+                          ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
+                          : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
+                      }
+                    </button>
+                    <button className='btn btn-link' data-toggle='modal' data-target='#ShareOptionsModal'>
+                      <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
+                    </button>
+                    <ShareModalComponent displayPost={displayPost} currentUser={currentUser} />
+                    <button className='btn btn-link' data-toggle='modal' data-target='#MenuModal'>
+                      <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                    </button>
+                    <MenuModalComponent displayPost={displayPost} currentUser={currentUser} sharePost={sharePost} copyLink={copyLink} editPost={editPost} deletePost={deletePost} />
+
+                    <div className='btn-group'>
+                      <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
+                        <button className='dropdown-item' onClick={sharePost}>
+                          Reshare
+                        </button>
+                        <button className='dropdown-item' onClick={copyLink}>
+                          Send to...
+                        </button>
+                      </div>
+                    </div>
+                    <div className='btn-group d-none'>
+                      <button className='btn btn-link btn-sm btn-more' id='optionsMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                        <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                      </button>
+                      <div className='dropdown-menu' aria-labelledby='optionsMenuDropdown'>
+                        <button className='dropdown-item' onClick={sharePost}>
+                          Share to...
+                        </button>
+                        <button className='dropdown-item' onClick={copyLink}>
+                          Copy link
+                        </button>
+                        <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
+                          Edit
+                        </button>
+                        <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
+                          Delete
+                        </button>
+                        <button className={`dropdown-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
+                          Report
+                        </button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          ))
         }
       </div>
     </div>

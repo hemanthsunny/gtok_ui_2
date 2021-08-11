@@ -18,7 +18,7 @@ function AddPriceComponent (props) {
   const [totalPrice, setTotalPrice] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [cardDetails, setCardDetails] = useState('')
-  const userId = props.computedMatch.params.user_id
+  const userId = props.computedMatch.params.post_id
   const [stepNumber, setStepNumber] = useState(1)
   const [loading, setLoading] = useState(false)
   const [recentActiveOrder, setRecentActiveOrder] = useState(false)

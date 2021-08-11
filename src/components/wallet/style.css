@@ -1,45 +1,85 @@
-.profile-page-wrapper {
-  position: relative;
-  top: -3.75vh;
-  /* position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0px; */
+.wallet-wrapper {
+  margin-top: -1.5rem;
 }
 
-.profile-wrapper {
+.wallet-details-wrapper .page-header {
+  font-size: var(--font-size);
+  font-weight: 500;
+}
+
+/* Total amount section */
+.wallet-details-wrapper .total-amount-section {
   position: relative;
-  /* width: 100vw; */
-  min-height: 25vh;
   left: 0px;
-  top: 0px;
+  top: -5vh;
+  min-height: 28vh;
   background: linear-gradient(180deg, #6930DB -49.99%, #FFB47E 208.18%);
   border-radius: 0px 0px 42px 42px;
   color: var(--color-white);
 }
 
-.profile-wrapper .display-picture .custom-image-text {
-  border-radius: 20px !important;
-}
-
-.profile-wrapper .profile-info {
+.total-amount-section .balance-details {
   text-align: center;
-  align-items: center;
-  padding-top: var(--spacing-12);
+  margin-top: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
 }
 
-.profile-wrapper .profile-info a {
-  color: var(--color-white);
+.total-amount-section .balance-details .balance-amount {
+  align-items: center;
+}
+
+.total-amount-section .balance-details .balance-amount .text {
+  font-size: 24px;
+  position: relative;
+  top: 4px;
+  padding-left: var(--spacing-4);
+}
+
+.total-amount-section .balance-details .balance-text {
+  font-size: var(--font-size-bigger);
+  margin-top: var(--spacing-8);
   font-weight: 500;
 }
 
-.profile-wrapper .profile-bio {
-  padding: var(--spacing-4) var(--spacing-16) 0;
+/* Enter passcode section */
+.wallet-details-wrapper .enter-passcode-section {
   text-align: center;
-  font-size: var(--font-size);
 }
 
-.profile-wrapper .btn-custom {
+.enter-passcode-section .passcode-text {
+  font-size: var(--font-size-bigger);
+  margin-top: var(--spacing-64);
+  margin-bottom: var(--spacing-64);
+}
+
+.enter-passcode-section .passcode-card {
+  text-align: center;
+}
+
+.enter-passcode-section .passcode-input {
+  font-size: var(--font-size-bigger);
+  border-width: 0;
+  border-bottom: 3px solid #D5D5D5;
+  border-radius: 0;
+  margin-left: var(--spacing-12);
+  margin-right: var(--spacing-12);
+  outline: none !important;
+  max-width: 24vw;
+  letter-spacing: var(--spacing-12);
+  text-indent: var(--spacing-8);
+}
+
+.enter-passcode-section .passcode-input:focus {
+  border-bottom: 2px solid var(--color-violet-400);
+}
+
+.enter-passcode-section .submit-passcode {
+  margin-top: var(--spacing-64);
+}
+
+
+/* Extra code */
+.wallet-details-wrapper .btn-custom {
   background-color: var(--color-white);
   border-radius: var(--spacing-32);
   font-size: var(--font-size);
@@ -62,7 +102,7 @@
   font-size: var(--font-size);
 }
 
-.profile-wrapper .icon-request-sent {
+.wallet-details-wrapper .icon-request-sent {
   width: 15px;
   height: 15px;
 }
@@ -82,11 +122,6 @@
   text-align: center;
   position: relative;
   top: calc(15vh + 50px);
-}
-
-.wallet-wrapper {
-  background: rgba(0, 0, 0, 0.025);
-  margin-top: -1.5rem;
 }
 
 /* create wallet */
@@ -128,7 +163,12 @@
   margin: 2rem 0;
 }
 
-.wallet-wrapper .header {
+/* Transactions section */
+.wallet-wrapper .transactions-section {
+  text-align: center;
+}
+
+.wallet-wrapper .transactions-section .all-transactions-text {
   font-size: 14px;
   padding: 10px 0;
 }
