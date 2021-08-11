@@ -112,18 +112,27 @@
   }
 }
 
-.blur-post {
+.hidden-post .blur-text {
   filter: blur(10px);
   padding: 1.5rem !important;
 }
 
-.unlock-post {
-  font-size: 12px;
+.hidden-post .locked-post {
   text-align: center;
   color: var(--color-violet-400);
-  position: absolute;
-  top: 60%;
-  left: 40%;
+}
+
+.hidden-post .locked-post-text {
+}
+
+.hidden-post .locked-post-text .inr-icon {
+  width: var(--spacing-12);
+  height: var(--spacing-12);
+}
+
+.hidden-post .locked-post-icon {
+  width: var(--spacing-48);
+  height: var(--spacing-48);
 }
 
 .icon-share {

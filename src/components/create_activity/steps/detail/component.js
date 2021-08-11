@@ -21,7 +21,7 @@ const DetailComponent = ({
             <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
               {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
             </button>
-            <span className={`${!tradePost && 'd-none'}`}>&#8377; {tradePrice}</span>
+            <span className={`${!tradePost && 'd-none'}`}><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}</span>
           </div>
           <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Hi der! type here about your activity!!' rows={7} autoFocus></textarea>
         </div>
@@ -73,12 +73,12 @@ const DetailComponent = ({
           </div>
           <div className={`${tradePost ? 'slider-block mt-3' : 'd-none'}`}>
             <div className='text-center'>
-              &#8377; {tradePrice}
+              <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}
             </div>
             <input type='range' value={tradePrice} step='5' className='range' min='10' max='10000' onChange={e => setTradePrice(e.target.value)}/>
             <div className='d-flex flex-row justify-content-between'>
-              <span>&#8377; {tradePriceMinimum}</span>
-              <span>&#8377; {tradePriceMaximum}</span>
+              <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMinimum}</span>
+              <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMaximum}</span>
             </div>
             <div className='text-center'>
               Choose your trade amount
