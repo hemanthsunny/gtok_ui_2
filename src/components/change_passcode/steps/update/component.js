@@ -33,7 +33,7 @@ function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPassc
         </div>
       </div>
       <button className='btn btn-violet-rounded col-6' onClick={handleUpdate}>
-        Update
+        {wallet ? 'Update' : 'Create'}
       </button>
     </div>
   )
