@@ -32,7 +32,7 @@ function ChangePasscodeComponent ({ currentUser }) {
   }, [])
 
   const savePasscode = async () => {
-    if (passcodeState.oldPasscode !== selectedWallet.passcode) {
+    if (selectedWallet && (passcodeState.oldPasscode !== selectedWallet.passcode)) {
       setResult({
         status: 400,
         message: 'Old passcode is wrong'
