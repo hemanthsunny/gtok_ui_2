@@ -1,0 +1,62 @@
+.navbar-gradient-md {
+  background: linear-gradient(180deg, #6930DB -49.99%, #FFB47E 208.18%);;
+  border-radius: 0 0 1rem 1rem;
+  min-height: var(--spacing-48);
+  padding-left: var(--spacing-24);
+}
+
+.navbar-gradient-md .go-back-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.navbar-gradient-md .navbar-brand {
+  color: var(--color-white);
+  font-size: var(--font-size-big) !important;
+  font-weight: 500 !important;
+}
+
+.trade-post-wrapper {
+  text-align: center;
+}
+
+.trade-post-wrapper .invoice-table {
+  border: 2px solid #D5D5D5;
+  border-radius: var(--spacing-24);
+  margin-top: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
+}
+
+.trade-post-wrapper .invoice-table table {
+  text-align: left;
+  border-style: hidden;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: var(--font-size);
+  margin-bottom: 0 !important;
+}
+
+.trade-post-wrapper .invoice-table table thead {
+  font-weight: var(--font-weight-medium);
+}
+
+.trade-post-wrapper .invoice-table table td.value {
+  text-align: right;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 0px solid white !important;
+  padding: 0;
+}
+
+.table-bordered th, .table-bordered td {
+  border-bottom: 1px solid #D5D5D5 !important;
+}
+
+.trade-post-wrapper .recharge-section {
+  
+}
+
+.trade-post-wrapper .recharge-section small {
+  font-size: var(--font-size-smaller);
+}

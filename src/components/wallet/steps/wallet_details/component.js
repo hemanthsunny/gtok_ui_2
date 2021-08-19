@@ -7,9 +7,10 @@ import { getQuery, firestore } from 'firebase_config'
 function WalletDetailsComponent ({ wallet }) {
   const [transactions, setTransactions] = useState('')
   const [passcode, setPasscode] = useState('')
-  const [walletVerification, setWalletVerification] = useState(JSON.parse(localStorage.getItem('walletVerification')))
+  const [walletVerification, setWalletVerification] = useState(JSON.parse(sessionStorage.getItem('walletVerification')))
 
   useEffect(() => {
+    console.log('walletDetails', wallet)
     async function getTransactions () {
       const trns = await getQuery(
         firestore.collection('transactions').where('toUserWalletId', '==', wallet.id).get()
@@ -19,11 +20,26 @@ function WalletDetailsComponent ({ wallet }) {
     if (wallet.id) {
       getTransactions()
     }
+    if (walletVerification) {
+      const currentTime = new Date().getTime()
+      const walletSessionDuration = currentTime - parseInt(walletVerification.loginTime)
+      /* Expire session after every 10 minutes / 600 seconds */
+      if (walletSessionDuration > 600000) {
+        sessionStorage.setItem('walletVerification', JSON.stringify({
+          verified: false,
+          loginTime: new Date().getTime()
+        }))
+        setWalletVerification({
+          verified: false,
+          loginTime: new Date().getTime()
+        })
+      }
+    }
   }, [])
 
   const verifyPasscode = () => {
     // if (wallet.passcode === passcode) {
-    localStorage.setItem('walletVerification', JSON.stringify({
+    sessionStorage.setItem('walletVerification', JSON.stringify({
       verified: true,
       loginTime: new Date().getTime()
     }))
@@ -32,6 +48,11 @@ function WalletDetailsComponent ({ wallet }) {
       loginTime: new Date().getTime()
     })
     // }
+  }
+
+  const handleChange = (pc) => {
+    setPasscode(pc)
+    if (pc.length === 4) verifyPasscode()
   }
 
   return (
@@ -51,18 +72,18 @@ function WalletDetailsComponent ({ wallet }) {
         <div className='balance-details'>
           <div className='balance-amount'>
             <img src={require('assets/svgs/currency/inr.svg').default} className='posts-icon' alt='Posts' />
-            {walletVerification.verified && <span className='text'>{wallet.balance || 0}</span>}
+            {walletVerification && walletVerification.verified && <span className='text'>{wallet.balance || 0}</span>}
           </div>
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
-          <button className='btn btn-custom col-4 mr-2' disabled={!walletVerification.verified}>Recharge</button>
+          <button className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</button>
           <div className='btn btn-violet col-2 d-none'></div>
-          <button className='btn btn-custom col-4 ml-2' disabled={!walletVerification.verified}>Withdraw</button>
+          <button className='btn btn-custom col-4 ml-2' disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
         </div>
       </div>
       {
-        walletVerification.verified
+        walletVerification && walletVerification.verified
           ? <div className='transactions-section'>
               <div className='all-transactions-text'>All transactions</div>
               <div className='transaction-card'>
@@ -91,7 +112,7 @@ function WalletDetailsComponent ({ wallet }) {
           : <div className='enter-passcode-section'>
             <div className='passcode-text'>Enter passcode</div>
             <div className='passcode-card'>
-              <input type='password' className='passcode-input' placeholder='....' onChange={e => setPasscode(e.target.value)} maxLength='4' />
+              <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' />
             </div>
             <button className='btn btn-violet-rounded btn-sm col-3 submit-passcode' disabled={passcode.length !== 4} onClick={verifyPasscode}>Done</button>
           </div>
