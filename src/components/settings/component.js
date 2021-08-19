@@ -34,6 +34,7 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
     await bindLoggedIn(false)
     await bindDbUser(null)
     await bindUser(null)
+    sessionStorage.clear()
     history.push('/')
   }
 
