@@ -1,31 +1,36 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber }) {
+function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber, savePasscode }) {
   const handleChange = (key, val) => {
     setPasscodeState({ ...passcodeState, [key]: val })
   }
 
   const handleUpdate = () => {
-    setStepNumber(2)
+    savePasscode()
   }
 
   return (
-    <div className='change-pc-wrapper desktop-align-center'>
+    <div className='change-pc-wrapper desktop-align-center enter-passcode-section'>
       <div className='text-center my-4'>
         <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
       </div>
       <div className={`form-group ${wallet.length < 1 && 'd-none'}`}>
         <label className='form-label'>Old passcode</label>
-        <input type='number' className='form-control' id='oldPc' maxLength='4' onChange={e => handleChange('oldPc', e.target.value)} placeholder='xxxx' value={passcodeState.oldPasscode}/>
+        <div className='passcode-card'>
+          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('oldPasscode', e.target.value)} value={passcodeState.oldPasscode} />
+        </div>
       </div>
       <div className='form-group'>
         <label className='form-label'>New passcode</label>
-        <input type='number' className='form-control' id='newPc' maxLength='4' onChange={e => handleChange('newPc', e.target.value)} placeholder='xxxx' value={passcodeState.newPasscode}/>
+        <div className='passcode-card'>
+          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('newPasscode', e.target.value)} value={passcodeState.newPasscode} maxLength='4' />
+        </div>
       </div>
       <div className='form-group'>
         <label className='form-label'>Confirm passcode</label>
-        <input type='number' className='form-control' id='confirmPc' maxLength='4' onChange={e => handleChange('confirmPc', e.target.value)} placeholder='xxxx' value={passcodeState.confirmPasscode}/>
+        <div className='passcode-card'>
+          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('confirmPasscode', e.target.value)} value={passcodeState.confirmPasscode} maxLength='4' />
+        </div>
       </div>
       <button className='btn btn-violet-rounded col-6' onClick={handleUpdate}>
         Update
@@ -34,12 +39,4 @@ function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPassc
   )
 }
 
-const mapStateToProps = (state) => {
-  const { wallet } = state.wallet
-  return { wallet }
-}
-
-export default connect(
-  mapStateToProps,
-  null
-)(UpdatePasscodeComponent)
+export default UpdatePasscodeComponent

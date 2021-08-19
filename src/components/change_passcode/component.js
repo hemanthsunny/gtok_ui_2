@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useState, useEffect } from 'react'
 import './style.css'
 
 import HeaderComponent from './header'
 import UpdatePasscodeComponent from './steps/update/component'
 import OtpComponent from './steps/otp/component'
-import { add, update } from 'firebase_config'
+import { add, update, getQuery, firestore } from 'firebase_config'
 
-function ChangePasscodeComponent ({ currentUser, wallet }) {
+function ChangePasscodeComponent ({ currentUser }) {
   const [passcodeState, setPasscodeState] = useState({
     oldPasscode: '',
     newPasscode: '',
@@ -15,9 +14,31 @@ function ChangePasscodeComponent ({ currentUser, wallet }) {
   })
   const [stepNumber, setStepNumber] = useState(1)
   const [result, setResult] = useState({})
-  const selectedWallet = (wallet && wallet[0]) || ''
+  const [selectedWallet, setSelectedWallet] = useState('')
 
-  const updatePassword = async () => {
+  useEffect(() => {
+    async function getWalletDetails () {
+      const wallet = await getQuery(
+        firestore.collection('wallets').where('userId', '==', currentUser.id).get()
+      )
+      if (wallet[0]) {
+        setSelectedWallet(wallet[0])
+      }
+    }
+
+    if (!selectedWallet) {
+      getWalletDetails()
+    }
+  }, [])
+
+  const savePasscode = async () => {
+    if (passcodeState.oldPasscode !== selectedWallet.passcode) {
+      setResult({
+        status: 400,
+        message: 'Old passcode is wrong'
+      })
+      return null
+    }
     if (!passcodeState.newPasscode) {
       setResult({
         status: 400,
@@ -40,19 +61,25 @@ function ChangePasscodeComponent ({ currentUser, wallet }) {
       return null
     }
 
+    const wallet = await getQuery(
+      firestore.collection('wallets').where('userId', '==', currentUser.id).get()
+    )
+
     let res
-    if (!selectedWallet) {
+    if (selectedWallet || wallet[0]) {
+      const data = {
+        passcode: passcodeState.newPasscode
+      }
+      res = await update('wallets', (selectedWallet.id || wallet[0].id), data)
+    } else {
       const data = {
         userId: currentUser.id,
         amount: 0,
-        passcode: passcodeState.newPasscode
+        passcode: passcodeState.newPasscode,
+        otp: null,
+        verified: false
       }
       res = await add('wallets', data)
-    } else {
-      const data = {
-        passcode: passcodeState.newPasscode
-      }
-      res = await update('wallets', selectedWallet.id, data)
     }
     setResult(res)
     setTimeout(() => {
@@ -63,16 +90,17 @@ function ChangePasscodeComponent ({ currentUser, wallet }) {
         confirmPasscode: ''
       })
     }, 3000)
+    if (res.status === 200) {
+      setStepNumber(2)
+    }
   }
 
   return (
     <div>
-      <HeaderComponent save={updatePassword}/>
+      <HeaderComponent/>
       <div>
         <div className='dashboard-content -xs-bg-none'>
           <div className='change-pc-wrapper desktop-align-center'>
-            { stepNumber === 1 && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} /> }
-            { stepNumber === 2 && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} /> }
             <div className='text-center'>
               {
                 result.status &&
@@ -81,6 +109,8 @@ function ChangePasscodeComponent ({ currentUser, wallet }) {
                 </div>
               }
             </div>
+            { stepNumber === 1 && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} savePasscode={savePasscode} wallet={selectedWallet} /> }
+            { stepNumber === 2 && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} wallet={selectedWallet} /> }
           </div>
         </div>
       </div>
@@ -88,12 +118,4 @@ function ChangePasscodeComponent ({ currentUser, wallet }) {
   )
 }
 
-const mapStateToProps = (state) => {
-  const { wallet } = state.wallet
-  return { wallet }
-}
-
-export default connect(
-  mapStateToProps,
-  null
-)(ChangePasscodeComponent)
+export default ChangePasscodeComponent

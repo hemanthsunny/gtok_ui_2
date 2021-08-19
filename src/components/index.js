@@ -47,7 +47,7 @@ import AddPaymentCardComponent from 'components/add_payment_card/component'
 import WalletComponent from 'components/wallet/component'
 import WalletSettingsComponent from 'components/wallet_settings/component'
 import AddPriceComponent from 'components/add_price/component'
-import UnlockPostComponent from 'components/unlock_post/component'
+import TradePostComponent from 'components/trade_post/component'
 import PurchaseOrdersComponent from 'components/purchase_orders/component'
 import ChatsComponent from 'components/chats/component'
 import ShowChatComponent from 'components/show_chat/component'
@@ -111,7 +111,7 @@ export {
   WalletComponent,
   WalletSettingsComponent,
   AddPriceComponent,
-  UnlockPostComponent,
+  TradePostComponent,
   PurchaseOrdersComponent,
   ChatsComponent,
   ShowChatComponent,

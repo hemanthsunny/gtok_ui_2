@@ -11,7 +11,7 @@ const HeaderComponent = ({ save, loading, wallet }) => {
       <div className='navbar-brand mr-auto pt-2'>
         &nbsp; &nbsp; {wallet.length < 1 ? 'Create' : 'Change'} passcode
       </div>
-      <ul className='navbar-nav ml-auto'>
+      <ul className='navbar-nav ml-auto d-none'>
         <li className='nav-item'>
           <div className='nav-link p-0 text-white fw-500' onClick={save}>
             {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Update'}

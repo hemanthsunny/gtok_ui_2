@@ -39,7 +39,7 @@ import {
   WalletComponent,
   WalletSettingsComponent,
   AddPriceComponent,
-  UnlockPostComponent,
+  TradePostComponent,
   PurchaseOrdersComponent,
   ShowPostComponent,
   ShowOpenPostsComponent,
@@ -82,7 +82,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/profile/:user_id" component={ProfileComponent} />
           <AuthRoute exact path="/app/profile/:user_id/posts" component={ShowUserPostsComponent} />
           <AuthRoute exact path="/app/profile/:user_id/activities" component={ShowUserActivitiesComponent} />
-          <AuthRoute exact path="/app/profile/:post_id/unlock_post" component={UnlockPostComponent} />
+          <AuthRoute exact path="/app/trade/:post_id" component={TradePostComponent} />
           <AuthRoute exact path="/app/profile/:user_id/add_price" component={AddPriceComponent} />
           <AuthRoute exact path="/app/wallet" component={WalletComponent} />
           <AuthRoute exact path="/app/wallet_settings" component={WalletSettingsComponent} />

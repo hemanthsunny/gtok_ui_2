@@ -256,7 +256,7 @@ const PostComponent = ({
                     <div className='blur-text'>
                       This is a trading post. Trade it, to unlock.
                     </div>
-                    <Link to={`/app/profile/${displayPost.userId}/unlock_post`} className='locked-post'>
+                    <Link to={`/app/trade/${displayPost.id}`} className='locked-post'>
                       <div className='locked-post-text'>
                         Unlock for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
                       </div>
@@ -266,7 +266,7 @@ const PostComponent = ({
                     </Link>
                   </div>
                     : <div>
-                      <p className='card-text white-space-preline' onClick={e => followPost(e)}>
+                      <p className='card-text white-space-preline'>
                         {story.text.length <= 150 || displayFullStory
                           ? story.text
                           : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
