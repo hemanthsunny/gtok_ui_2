@@ -1,0 +1,16 @@
+.wallet-recharge-wrapper {
+  padding: var(--spacing-48) var(--spacing-32);
+}
+
+.wallet-recharge-wrapper .form-label {
+  font-size: var(--font-size-small);
+  margin: 0;
+}
+
+.wallet-recharge-wrapper .form-control {
+  border: none;
+  border-bottom: 2px solid #D5D5D5;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none !important;
+}

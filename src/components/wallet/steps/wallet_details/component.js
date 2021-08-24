@@ -72,12 +72,12 @@ function WalletDetailsComponent ({ wallet }) {
         <div className='balance-details'>
           <div className='balance-amount'>
             <img src={require('assets/svgs/currency/inr.svg').default} className='posts-icon' alt='Posts' />
-            {walletVerification && walletVerification.verified && <span className='text'>{wallet.balance || 0}</span>}
+            {walletVerification && walletVerification.verified && <span className='text'>{wallet.amount || 0}</span>}
           </div>
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
-          <button className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</button>
+          <Link to='/app/wallet_recharge' className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</Link>
           <div className='btn btn-violet col-2 d-none'></div>
           <button className='btn btn-custom col-4 ml-2' disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
         </div>

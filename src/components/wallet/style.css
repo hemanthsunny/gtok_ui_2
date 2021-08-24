@@ -67,6 +67,7 @@
   max-width: 24vw;
   letter-spacing: var(--spacing-12);
   text-indent: var(--spacing-8);
+  text-align: center;
 }
 
 .enter-passcode-section .passcode-input:focus {

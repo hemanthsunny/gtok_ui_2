@@ -3,20 +3,12 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { Metadata } from 'constants/index'
-import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList, SetRelationships, SetPurchaseOrders, SetPrices, SetWallet } from 'store/actions'
 import { HelmetMetaDataComponent } from 'components'
 
 const BottomHeaderComponent = ({
   currentUser,
   newMessagesCount,
-  bindNewMessagesCount,
-  newAlertsCount,
-  bindNewAlertsCount,
-  bindSurveysList,
-  bindRelationships,
-  bindPurchaseOrders,
-  bindWallet,
-  bindPrices
+  newAlertsCount
 }) => {
   const [metaDetails, setMetaDetails] = useState({})
 
@@ -33,14 +25,7 @@ const BottomHeaderComponent = ({
     } else {
       setMetaDetails(Metadata[path || 'default'])
     }
-    bindNewMessagesCount(currentUser)
-    bindNewAlertsCount(currentUser)
-    // bindSurveysList(currentUser);
-    bindRelationships(currentUser)
-    bindPurchaseOrders(currentUser)
-    bindWallet(currentUser)
-    bindPrices(currentUser)
-  }, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser, bindRelationships, bindPurchaseOrders, bindPrices, bindWallet])
+  }, [metaDetails, currentUser])
 
   return (
     <div>
@@ -81,19 +66,7 @@ const mapStateToProps = (state) => {
   return { newMessagesCount, newAlertsCount }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    bindNewMessagesCount: (content) => dispatch(SetNewMessagesCount(content)),
-    bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content)),
-    bindSurveysList: (content) => dispatch(SetSurveysList(content)),
-    bindRelationships: (content) => dispatch(SetRelationships(content)),
-    bindPurchaseOrders: (content) => dispatch(SetPurchaseOrders(content)),
-    bindWallet: (content) => dispatch(SetWallet(content)),
-    bindPrices: (content) => dispatch(SetPrices(content))
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(BottomHeaderComponent)

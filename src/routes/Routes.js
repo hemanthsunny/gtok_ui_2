@@ -44,7 +44,8 @@ import {
   ShowPostComponent,
   ShowOpenPostsComponent,
   ShowOpenActivitiesComponent,
-  ChangePasscodeComponent
+  ChangePasscodeComponent,
+  WalletRechargeComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -107,6 +108,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/support" component={SupportComponent} />
           <AuthRoute exact path="/app/challenges" component={ChallengesComponent} />
           <AuthRoute exact path="/app/change_passcode" component={ChangePasscodeComponent} />
+          <AuthRoute exact path="/app/wallet_recharge" component={WalletRechargeComponent} />
           <Redirect to="/" />
         </Switch>
       </AnimatePresence>
