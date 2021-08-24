@@ -1,20 +1,18 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import HeaderComponent from './header'
-import PostComponent from './post/component'
+import './style.css'
 
+import HeaderComponent from 'components/common/header/component'
+import PostComponent from 'components/show_posts/children/post/component'
 import {
   SidebarComponent,
   LoadingComponent
 } from 'components'
-import { SetPosts } from 'store/actions'
 import { getId } from 'firebase_config'
 
 class ParentComponent extends Component {
   constructor (props) {
     super(props)
-    this.bindPosts = props.bindPosts
     this.propsState = props.history.location.state || {}
     this.state = {
       postId: props.computedMatch.params.post_id,
@@ -25,10 +23,6 @@ class ParentComponent extends Component {
 
   componentDidMount () {
     this.loadPost()
-  }
-
-  onSortOptionChange = async (val) => {
-    await this.bindPosts(this.props.currentUser, 'all', { sort: val })
   }
 
   loadPost = async () => {
@@ -42,10 +36,12 @@ class ParentComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/posts' className='tab-item -active'>Feelings</Link>
-        <Link to='/app/activities' className='tab-item'>Activities</Link>
+    <div className='show-post-subheader' aria-label='Subheader'>
+      <Link to='/'>
+        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+      </Link>
+      <div className='page-name'>
+        Feeling/Activity
       </div>
     </div>
   );
@@ -53,7 +49,7 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
+        <HeaderComponent />
         <div>
           <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
@@ -66,10 +62,11 @@ class ParentComponent extends Component {
                   <h5 className="pt-4">Oh no! The post has been removed.</h5>
                 </div>
               }
-              {this.state.post && this.state.post.status !== 404 && <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>}
-              <div className='text-center my-4'>
-                <button className='btn btn-violet btn-sm' onClick={this.props.history.goBack}>Go Back</button>
-              </div>
+              {this.state.post && this.state.post.status !== 404 &&
+                <div className='pt-5'>
+                  <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>
+                </div>
+              }
             </div>
             {this.state.loading && <LoadingComponent />}
           </div>
@@ -79,20 +76,4 @@ class ParentComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { posts } = state.posts
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { posts, newAlertsCount, newMessagesCount }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    bindPosts: (currentUser, type, ops) => dispatch(SetPosts(currentUser, type, ops))
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(ParentComponent))
+export default (withRouter(ParentComponent))

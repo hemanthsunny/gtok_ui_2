@@ -32,7 +32,7 @@ function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPassc
           <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('confirmPasscode', e.target.value)} value={passcodeState.confirmPasscode} maxLength='4' />
         </div>
       </div>
-      <button className='btn btn-violet-rounded col-6' onClick={handleUpdate}>
+      <button className='btn btn-sm btn-violet-rounded col-6' onClick={handleUpdate}>
         {wallet ? 'Update' : 'Create'}
       </button>
     </div>

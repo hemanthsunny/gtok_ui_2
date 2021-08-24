@@ -22,7 +22,7 @@ import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, purchaseOrders
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions
 }) => {
   const [displayPost, setDisplayPost] = useState(post)
   const [postedUser, setPostedUser] = useState('')
@@ -34,7 +34,7 @@ const PostComponent = ({
   const [displayFullStory, setDisplayFullStory] = useState(false)
   const [hidePost, setHidePost] = useState(false)
 
-  const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
+  const trans = transactions.find(trans => trans.userId === currentUser.id && trans.postId === displayPost.id)
   const history = useHistory()
   const displayPostUrl = 'https://app.letsgtok.com/app/posts/' + displayPost.id
   const audioRef = useRef()
@@ -247,11 +247,11 @@ const PostComponent = ({
               <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
                 <div>
                   <span className='card-badge'>{displayPost.category.title}</span>
-                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('DD-MM-YY')}</span>
                 </div>
                 <div className='clearfix'></div>
                 {
-                  (displayPost.tradePrice && !purchaseFound && (currentUser.id !== displayPost.userId))
+                  (displayPost.tradePrice && !trans && (currentUser.id !== displayPost.userId))
                     ? <div className='card-body hidden-post'>
                     <div className='blur-text'>
                       This is a trading post. Trade it, to unlock.
@@ -364,8 +364,8 @@ const PostComponent = ({
 
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
-  const { purchaseOrders } = state.purchaseOrders
-  return { allUsers, purchaseOrders }
+  const { transactions } = state.transactions
+  return { allUsers, transactions }
 }
 
 const mapDispatchToProps = (dispatch) => {

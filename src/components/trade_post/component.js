@@ -2,19 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import HeaderComponent from './header.js'
 import './style.css'
 
+import HeaderComponent from './header.js'
+import InvoiceComponent from './steps/invoice/component'
+import ConfirmComponent from './steps/confirm/component'
 import { CustomImageComponent } from 'components'
-import { getId } from 'firebase_config'
+import { getId, getQuery, firestore, add, update } from 'firebase_config'
 
 function TradePostComponent (props) {
-  const { currentUser, wallet } = props
+  const { currentUser } = props
   const [result, setResult] = useState('')
   const [displayPost, setDisplayPost] = useState('')
   const [postedUser, setPostedUser] = useState('')
   const postId = props.computedMatch.params.post_id
   const [loading, setLoading] = useState(false)
+  const [wallet, setWallet] = useState(props.wallet[0])
+  const [stepNumber, setStepNumber] = useState(1)
   const history = useHistory()
 
   useEffect(() => {
@@ -29,7 +33,19 @@ function TradePostComponent (props) {
     if (postId) {
       getPost()
     }
-  }, [postId])
+
+    // get walletDetails
+    async function getWalletDetails () {
+      const w = await getQuery(
+        firestore.collection('wallets').where('userId', '==', currentUser.id).get()
+      )
+      setWallet(w[0])
+    }
+
+    if (!wallet) {
+      getWalletDetails()
+    }
+  }, [postId, wallet])
 
   const saveTransaction = async () => {
     setLoading(true)
@@ -45,9 +61,9 @@ function TradePostComponent (props) {
     const data = {
       userId: currentUser.id,
       postId,
-      currency: currentUser.currency,
+      currency: currentUser.currency || 'inr',
       tradePrice: displayPost.tradePrice,
-      status: 'pending',
+      status: 'success',
       trackDetails: {
         location: {
           country: null,
@@ -59,9 +75,22 @@ function TradePostComponent (props) {
         }
       }
     }
-    console.log('data', data)
     /* Call API here */
-    // API should take care of completing the transaction status
+    // API 1: create a transaction
+    // API 2: debit amount from current user wallet
+    // API 3: credit amount to posted user wallet
+    // API 4: display the post completely
+
+    // API 1
+    await update('wallets', wallet.id, { amount: (wallet.amount - displayPost.tradePrice) })
+
+    // API 2
+    const sellerWallet = await getQuery(
+      firestore.collection('wallets').where('userId', '==', displayPost.userId).limit(1).get()
+    )
+    await update('wallets', sellerWallet[0].id, { amount: (wallet.amount + displayPost.tradePrice) })
+    const res = await add('transactions', data)
+
     // API should update the wallet balance after successful transaction
     // API should return a response on
     // const walletBalance = wallet[0].amount + (+totalPrice)
@@ -76,9 +105,13 @@ function TradePostComponent (props) {
     // });
     setLoading(false)
     setResult('result')
-    if (result.status === 200) {
+    if (res.status === 200) {
       history.push({
-        pathname: '/app/posts/displayPost.id'
+        pathname: `/app/posts/${displayPost.id}`,
+        state: {
+          traded: true,
+          result
+        }
       })
     }
   }
@@ -118,42 +151,8 @@ function TradePostComponent (props) {
           }
         </div>
       </div>
-      <div className='container desktop-align-center trade-post-wrapper'>
-        <div className='pt-3'>
-          <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
-        </div>
-        <h5 className='pt-5'>Invoice details</h5>
-        <div className='invoice-table'>
-          <table className='table table-bordered'>
-            <thead>
-              <tr>
-                <td className='key'>Wallet amount</td>
-                <td className='value'>
-                  <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
-                  {wallet.amount || 0}
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className='key'>Purchase amount</td>
-                <td className='value'>
-                  <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
-                  {displayPost.tradePrice}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        {
-          (!wallet[0].amount || (wallet[0].amount < displayPost.tradePrice))
-            ? <div className='recharge-section'>
-              <small className='text-danger'>Your wallet has insufficient balance. Recharge to proceed.</small><br/>
-              <button className='btn btn-sm btn-violet-rounded col-5'>Recharge</button>
-            </div>
-            : <button className='btn btn-sm btn-link'>Next</button>
-        }
-      </div>
+      { stepNumber === 1 && <InvoiceComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} /> }
+      { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} /> }
     </div>
   )
 }

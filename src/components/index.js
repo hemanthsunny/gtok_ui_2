@@ -12,7 +12,7 @@ import SearchComponent from 'components/search/component'
 import PendingRequestsComponent from 'components/pending_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
-import DefaultLayout from 'components/common/DefaultLayout'
+import DefaultLayout from 'components/common/default_layout/component'
 import HeaderComponent from 'components/common/header/component'
 import BottomHeaderComponent from 'components/common/BottomHeaderComponent'
 import StaticHeaderComponent from 'components/common/static_header/component'
@@ -60,6 +60,7 @@ import ScrollIntoViewComponent from 'components/common/scroll_into_view/componen
 import MobileFooterComponent from 'components/common/mobile_footer/component'
 import AudioPlayerComponent from 'components/audio_player/component'
 import ChangePasscodeComponent from 'components/change_passcode/component'
+import WalletRechargeComponent from 'components/wallet_recharge/component'
 
 export {
   VerifyEmailComponent,
@@ -123,5 +124,6 @@ export {
   ScrollIntoViewComponent,
   MobileFooterComponent,
   AudioPlayerComponent,
-  ChangePasscodeComponent
+  ChangePasscodeComponent,
+  WalletRechargeComponent
 }

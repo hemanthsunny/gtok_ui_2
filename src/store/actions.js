@@ -25,7 +25,8 @@ import {
   SET_UPDATED_POST,
   SET_PURCHASE_ORDERS,
   SET_WALLET,
-  SET_PRICES
+  SET_PRICES,
+  SET_TRANSACTIONS
 } from './types.js'
 import {
   getNewMessagesCount,
@@ -39,6 +40,7 @@ import {
   getPurchaseOrders,
   getWallet,
   getPrices,
+  getTransactions,
   createPageVisits,
   createRelationships
 } from 'lib/api'
@@ -345,6 +347,19 @@ export const SetPurchaseOrders = (currentUser) => {
     getPurchaseOrders(currentUser).then(res => {
       dispatch({
         type: SET_PURCHASE_ORDERS,
+        payload: {
+          po: res
+        }
+      })
+    })
+  }
+}
+
+export const SetTransactions = (currentUser) => {
+  return (dispatch) => {
+    getTransactions(currentUser).then(res => {
+      dispatch({
+        type: SET_TRANSACTIONS,
         payload: {
           po: res
         }

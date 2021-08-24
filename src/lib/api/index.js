@@ -9,6 +9,7 @@ import { getRelationships } from './get/GetRelationships'
 import { getPurchaseOrders } from './get/GetPurchaseOrders'
 import { getWallet } from './get/GetWallet'
 import { getPrices } from './get/GetPrices'
+import { getTransactions } from './get/GetTransactions'
 import { createPageVisits } from './create/CreatePageVisits'
 import { createRelationships } from './create/CreateRelationships'
 
@@ -24,6 +25,7 @@ export {
   getPurchaseOrders,
   getWallet,
   getPrices,
+  getTransactions,
   createPageVisits,
   createRelationships
 }

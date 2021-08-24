@@ -1,45 +1,49 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-function InvoiceComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber }) {
-  const handleChange = (key, val) => {
-    setPasscodeState({ ...passcodeState, [key]: val })
-  }
-
+function InvoiceComponent ({ currentUser, wallet, displayPost, setStepNumber }) {
   const handleUpdate = () => {
     setStepNumber(2)
   }
 
   return (
-    <div className='change-pc-wrapper desktop-align-center'>
-      <div className='text-center my-4'>
+    <div className='container desktop-align-center trade-post-wrapper'>
+      <div className='pt-3'>
         <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
       </div>
-      <div className={`form-group ${wallet.length < 1 && 'd-none'}`}>
-        <label className='form-label'>Old passcode</label>
-        <input type='number' className='form-control' id='oldPc' maxLength='4' onChange={e => handleChange('oldPc', e.target.value)} placeholder='xxxx' value={passcodeState.oldPasscode}/>
+      <h5 className='pt-5'>Invoice details</h5>
+      <div className='invoice-table'>
+        <table className='table table-bordered'>
+          <thead>
+            <tr>
+              <td className='key'>Wallet amount</td>
+              <td className='value'>
+                <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
+                {wallet.amount || 0}
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className='key'>Purchase amount</td>
+              <td className='value'>
+                <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
+                {displayPost.tradePrice}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div className='form-group'>
-        <label className='form-label'>New passcode</label>
-        <input type='number' className='form-control' id='newPc' maxLength='4' onChange={e => handleChange('newPc', e.target.value)} placeholder='xxxx' value={passcodeState.newPasscode}/>
-      </div>
-      <div className='form-group'>
-        <label className='form-label'>Confirm passcode</label>
-        <input type='number' className='form-control' id='confirmPc' maxLength='4' onChange={e => handleChange('confirmPc', e.target.value)} placeholder='xxxx' value={passcodeState.confirmPasscode}/>
-      </div>
-      <button className='btn btn-violet-rounded col-6' onClick={handleUpdate}>
-        Update
-      </button>
+      {
+        (!wallet.amount || (wallet.amount < displayPost.tradePrice))
+          ? <div className='recharge-section'>
+            <small className='text-danger'>Your wallet has insufficient balance. Recharge to proceed.</small><br/>
+            <Link to='/app/wallet_recharge' className='btn btn-sm btn-violet-rounded col-5'>Recharge</Link>
+          </div>
+          : <button className='btn btn-sm btn-link text-black align-self-center' onClick={handleUpdate}>Next <img src={require('assets/svgs/AngleRightDark.svg').default} className='inr-black-icon' alt='Inr' /></button>
+      }
     </div>
   )
 }
 
-const mapStateToProps = (state) => {
-  const { wallet } = state.wallet
-  return { wallet }
-}
-
-export default connect(
-  mapStateToProps,
-  null
-)(InvoiceComponent)
+export default InvoiceComponent
