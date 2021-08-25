@@ -1,0 +1,17 @@
+#menuOptionsModal .user-list {
+  max-height: 50vh;
+  overflow: scroll;
+}
+
+#menuOptionsModal .modal-body {
+  min-height: 35vh !important;
+  max-height: 70vh !important;
+}
+
+#menuOptionsModal .chat-user {
+  padding: var(--spacing-4) 0;
+}
+
+#menuOptionsModal .media-body {
+  align-items: baseline;
+}

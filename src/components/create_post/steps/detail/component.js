@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-
+import React from 'react'
 import { AudioPlayerComponent } from 'components'
 
 const DetailComponent = ({
-  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous
+  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost
 }) => {
-  const [tradePost, setTradePost] = useState(false)
   const tradePriceMinimum = 10
   const tradePriceMaximum = 10000
 

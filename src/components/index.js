@@ -61,6 +61,7 @@ import MobileFooterComponent from 'components/common/mobile_footer/component'
 import AudioPlayerComponent from 'components/audio_player/component'
 import ChangePasscodeComponent from 'components/change_passcode/component'
 import WalletRechargeComponent from 'components/wallet_recharge/component'
+import MenuOptionsComponent from 'components/menu_options/component'
 
 export {
   VerifyEmailComponent,
@@ -125,5 +126,6 @@ export {
   MobileFooterComponent,
   AudioPlayerComponent,
   ChangePasscodeComponent,
-  WalletRechargeComponent
+  WalletRechargeComponent,
+  MenuOptionsComponent
 }

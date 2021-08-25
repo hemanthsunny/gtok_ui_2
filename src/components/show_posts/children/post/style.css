@@ -24,6 +24,11 @@
   border-radius: 1.5rem;
 }
 
+.post-card-wrapper .inr-icon {
+  width: 13px;
+  height: 13px;
+}
+
 .post-card-wrapper .created-at {
   float: right;
   font-size: var(--font-size-small);
