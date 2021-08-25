@@ -8,7 +8,8 @@ import PostComponent from './children/post/component'
 import {
   HeaderComponent,
   MobileFooterComponent,
-  LoadingComponent
+  LoadingComponent,
+  MenuOptionsComponent
 } from 'components'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
@@ -173,6 +174,8 @@ class ParentComponent extends Component {
                 }
               </div>
               <MobileFooterComponent currentUser={this.props.currentUser} />
+              <MenuOptionsComponent currentUser={this.props.currentUser} />
+
               {this.state.loading && <LoadingComponent />}
             <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
             </motion.div>
