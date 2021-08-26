@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import $ from 'jquery'
+import './style.css'
 
+import { ReportOptions } from 'constants/report_options'
 import {
   add,
   getQuery,
@@ -9,25 +12,27 @@ import {
 } from 'firebase_config'
 
 const ParentComponent = ({
-  currentUser, postId, collection
+  currentUser, sharePost, sharePost: displayPost
 }) => {
-  const [comment, setComment] = useState('')
+  const [report, setReport] = useState('')
   const [other, setOther] = useState(false)
+  const [otherValue, setOtherValue] = useState('')
 
-  const reportPost = async (e) => {
-    if (!comment) {
+  const save = async (e) => {
+    if (!report) {
       alert('Please choose a suitable option.')
       return null
     }
-    const report = await getQuery(
-      firestore.collection('reportPosts').where('postId', '==', postId).where('userId', '==', currentUser.id).get()
+    const isAlreadyReported = await getQuery(
+      firestore.collection('reportPosts').where('postId', '==', displayPost.id).where('userId', '==', currentUser.id).get()
     )
-    if (!report[0]) {
+    if (isAlreadyReported[0]) {
+      alert('This post has already been reported by you.')
+    } else {
       await add('reportPosts', {
         userId: currentUser.id,
-        postId,
-        comment,
-        collection
+        postId: sharePost.id,
+        report
       })
       /* Log the activity */
       await add('logs', {
@@ -35,65 +40,62 @@ const ParentComponent = ({
         userId: currentUser.id,
         actionType: 'add',
         collection: 'reportPosts',
-        actionLink: '/app/reportPosts/' + postId,
+        actionLink: '/app/reportPosts/' + sharePost.id,
         timestamp
       })
       alert('Thanks for informing us. Your report has been received.')
-    } else {
-      alert('This post has already been reported by you.')
     }
-    $('[data-dismiss=modal]').trigger({ type: 'click' })
+    closeModal()
+    // $('[data-dismiss=modal]').trigger({ type: 'click' })
   }
 
-  const handleChange = (e) => {
-    if (e.target.value === 'Other') {
-      setOther(true)
-      setComment('')
-    } else {
-      setOther(false)
-      setComment(e.target.value)
+  const handleChange = (rep) => {
+    if (rep) {
+      setReport(rep)
+      if (rep.key === 'other') {
+        setOther(true)
+      } else {
+        setOther(false)
+      }
     }
+  }
+
+  const closeModal = () => {
+    $('#reportPostModal').hide()
+    $('.modal-backdrop').remove()
   }
 
   return (
-    <div className='modal' tabIndex='-1' role='dialog' id='reportPostModal' aria-labelledby='reportPostModalLabel'>
-      <div className='modal-dialog' role='document'>
+    <div className='modal fade' id='reportPostModal' tabIndex='-1' role='dialog' aria-labelledby='reportPostModalLabel' aria-hidden='true'>
+      <div className='modal-dialog'>
         <div className='modal-content'>
-          <div className='modal-header'>
-            <h5 className='modal-title'>Report post</h5>
-            <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-          </div>
-          <div className='modal-body'>
-            <p>Why are you reporting this post?</p>
-            <div>
-              <div className=''>
-                <input type='radio' id='report1' name='report' value='Spam / Promotional' onChange={e => handleChange(e)} />
-                <label className='custom-control-label' htmlFor='report1'>Spam / Promotional</label>
-              </div>
-              <div className='my-2'>
-                <input type='radio' id='report2' name='report' value='Hate Speech' onChange={e => handleChange(e)} />
-                <label className='custom-control-label' htmlFor='report2'>Hate Speech</label>
-              </div>
-              <div className='my-2'>
-                <input type='radio' id='report3' name='report' value='Violence' onChange={e => handleChange(e)} />
-                <label className='custom-control-label' htmlFor='report3'>Violence</label>
-              </div>
-              <div className='my-2'>
-                <input type='radio' id='report4' name='report' value='Inappropriate' onChange={e => handleChange(e)} />
-                <label className='custom-control-label' htmlFor='report4'>Inappropriate</label>
-              </div>
-              <div className='my-2'>
-                <input type='radio' id='report5' name='report' value='Other' onChange={e => handleChange(e)} />
-                <label className='custom-control-label' htmlFor='report5'>Other</label>
-              </div>
-              {other && <textarea className='form-control my-2' value={comment} onChange={e => setComment(e.target.value)} placeholder="Comment" autoFocus='true'></textarea>}
+          <div className='modal-body pt-0'>
+            <div className='text-center'>
+              <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
             </div>
-          </div>
-          <div className='modal-footer'>
-            <button type='button' className='btn btn-outline-secondary' data-dismiss='modal'>Close</button>
-            <button type='button' className='btn btn-violet' onClick={reportPost}>Save changes</button>
+            <div className='user-list'>
+              <p className='title'>Why are you reporting this post?</p>
+              {
+                ReportOptions.map((rep, idx) =>
+                  <div className='post-category' key={idx} onClick={e => handleChange(rep)}>
+                    <div className='username pull-left'>
+                      {rep.title}
+                     </div>
+                    <div className={`${rep.key === report.key ? '' : 'd-none'}`}>
+                      <img className='btn-play' src={require('assets/svgs/Tick.svg').default} alt='1' />
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+            <div className={`${other ? 'other-category-box' : 'd-none'}`}>
+              <textarea className='form-control' value={otherValue} onChange={e => setOtherValue(e.target.value)} placeholder='Type here'></textarea>
+            </div>
+            <div className='text-center mt-3'>
+              <button className='btn btn-violet-rounded btn-sm' onClick={save}>
+                Done
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -101,4 +103,12 @@ const ParentComponent = ({
   )
 }
 
-export default ParentComponent
+const mapStateToProps = (state) => {
+  const { sharePost } = state.posts
+  return { sharePost }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(ParentComponent)

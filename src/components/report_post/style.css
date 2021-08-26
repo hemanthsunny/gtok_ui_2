@@ -1,0 +1,25 @@
+#reportPostModal .title {
+  padding: var(--spacing-12);
+  margin-bottom: 0;
+}
+
+#reportPostModal .post-category {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: var(--spacing-12);
+}
+
+#reportPostModal .other-category-box {
+  padding-left: var(--spacing-12);
+  padding-right: var(--spacing-12);
+}
+
+#reportPostModal .other-category-box textarea {
+  border: none;
+  resize: none;
+  background-color: var(--color-violet-100);
+  padding-left: 0;
+  padding-right: 0;
+  text-indent: var(--spacing-8);
+}
