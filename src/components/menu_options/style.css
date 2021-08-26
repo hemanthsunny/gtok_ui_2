@@ -5,7 +5,7 @@
 
 #menuOptionsModal .modal-body {
   min-height: 35vh !important;
-  max-height: 70vh !important;
+  max-height: 50vh !important;
 }
 
 #menuOptionsModal .chat-user {

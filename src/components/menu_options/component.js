@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import $ from 'jquery'
@@ -13,12 +13,15 @@ import {
 } from 'firebase_config'
 
 const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }) => {
+  const [copied, setCopied] = useState(false)
   const history = useHistory()
 
   const copyLink = () => {
     navigator.clipboard.writeText(`https://app.letsgtok.com/app/posts/${displayPost.id}`)
-    alert('Link copied')
-    closeModal()
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 5000)
   }
 
   const editPost = async (post, idx) => {
@@ -84,9 +87,9 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
                 Share to...
               </li>
               <li className='menu-item' onClick={e => copyLink()}>
-                Copy link
+                Copy link <small className={`btn btn-violet btn-sm pull-right fade-in ${!copied && 'd-none'}`}>Copied</small>
               </li>
-              <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`}>Report</li>
+              <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost()}>Delete</li>
             </ul>
