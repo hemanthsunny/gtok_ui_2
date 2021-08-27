@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import $ from 'jquery'
 import './style.css'
-import SliderComponent from '../slider/component'
-import ShareModalComponent from '../share_modal/component'
 
 import {
   add,
@@ -19,9 +17,10 @@ import {
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
+import SliderComponent from '../slider/component'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions
 }) => {
   const [displayPost, setDisplayPost] = useState(post)
   const [postedUser, setPostedUser] = useState('')
@@ -229,14 +228,14 @@ const PostComponent = ({
   }
 
   return !hidePost && postedUser && displayPost.stories && (
-    <div className='d-flex ml-2 mt-3 mb-4'>
-      <div className=''>
+    <div className={`d-flex ${reshare ? 'm-0' : 'ml-2 mt-3 mb-4'}`}>
+      <div className={`${reshare && 'd-none'}`}>
         {displayPost.anonymous
           ? <CustomImageComponent user={postedUser} size='sm' />
           : <CustomImageComponent user={postedUser} size='sm' />
         }
       </div>
-      <div className='card post-card-wrapper'>
+      <div className={`card post-card-wrapper ${reshare ? 'reshare-box' : 'add-filter'}`}>
         {
           result.status && <NotificationComponent result={result} setResult={setResult} />
         }
@@ -245,12 +244,18 @@ const PostComponent = ({
             <div key={idx}>
               <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
                 <div>
+                  <span className={`${reshare ? 'pull-left mr-2' : 'd-none'}`}>
+                    {displayPost.anonymous
+                      ? <CustomImageComponent user={postedUser} size='sm' />
+                      : <CustomImageComponent user={postedUser} size='sm' />
+                    }
+                  </span>
                   <span className='card-badge'>{displayPost.category.title}</span>
                   <span className={`${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <img className='inr-icon' src={require('assets/svgs/currency/inr_black.svg').default} alt="1" />
                     {displayPost.tradePrice}
                   </span>
-                  <span className='created-at'>{moment(displayPost.createdAt).format('H:mm')} &middot; {moment(displayPost.createdAt).format('DD-MM-YY')}</span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
                 </div>
                 <div className='clearfix'></div>
                 {
@@ -306,7 +311,7 @@ const PostComponent = ({
               </div>
               <div className='card-footer'>
                 {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
-                <div className='edit-options'>
+                <div className={`edit-options ${hideEditOptions && 'd-none'}`}>
                     <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
                       {
                         follower
@@ -314,10 +319,9 @@ const PostComponent = ({
                           : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
                       }
                     </button>
-                    <button className='btn btn-link' data-toggle='modal' data-target='#ShareOptionsModal'>
+                    <button className='btn btn-link' data-toggle='modal' data-target='#shareOptionsModal' onClick={sharePost}>
                       <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
                     </button>
-                    <ShareModalComponent displayPost={displayPost} currentUser={currentUser} />
                     <button className='btn btn-link' data-toggle='modal' data-target='#menuOptionsModal' onClick={sharePost}>
                       <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
                     </button>

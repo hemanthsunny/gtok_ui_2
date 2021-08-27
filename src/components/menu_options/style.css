@@ -15,3 +15,13 @@
 #menuOptionsModal .media-body {
   align-items: baseline;
 }
+
+/* Extra code */
+#MenuModal .modal-dialog {
+  transform: translate3d(0, calc(100vh - 20vh), 0) !important;
+}
+
+#MenuModal .modal-body {
+  min-height: 20vh !important;
+  max-height: 70vh !important;
+}
