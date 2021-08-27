@@ -30,6 +30,7 @@ import HelmetMetaDataComponent from 'components/common/HelmetMetaDataComponent'
 import UserPermissionsComponent from 'components/common/UserPermissionsComponent'
 import CreatePostComponent from 'components/create_post/component'
 import CreateActivityComponent from 'components/create_activity/component'
+import ResharePostComponent from 'components/reshare_post/component'
 import SortComponent from 'components/common/SortComponent'
 import ProfileSettingsComponent from 'components/profile/SettingsComponent'
 import SettingsComponent from 'components/settings/component'
@@ -62,6 +63,7 @@ import AudioPlayerComponent from 'components/audio_player/component'
 import ChangePasscodeComponent from 'components/change_passcode/component'
 import WalletRechargeComponent from 'components/wallet_recharge/component'
 import MenuOptionsComponent from 'components/menu_options/component'
+import ShareOptionsComponent from 'components/share_options/component'
 
 export {
   VerifyEmailComponent,
@@ -96,6 +98,7 @@ export {
   UserPermissionsComponent,
   CreatePostComponent,
   CreateActivityComponent,
+  ResharePostComponent,
   SortComponent,
   ProfileSettingsComponent,
   SettingsComponent,
@@ -127,5 +130,6 @@ export {
   AudioPlayerComponent,
   ChangePasscodeComponent,
   WalletRechargeComponent,
-  MenuOptionsComponent
+  MenuOptionsComponent,
+  ShareOptionsComponent
 }

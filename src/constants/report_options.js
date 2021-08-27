@@ -1,5 +1,9 @@
 export const ReportOptions = [
   {
+    key: 'copyright',
+    title: 'Copyrights Violated'
+  },
+  {
     key: 'spam',
     title: 'Spam / Promotional'
   },

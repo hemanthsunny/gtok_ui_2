@@ -24,6 +24,7 @@ import {
   ShowChatComponent,
   CreatePostComponent,
   CreateActivityComponent,
+  ResharePostComponent,
   SettingsComponent,
   PermissionsComponent,
   ChangePasswordComponent,
@@ -75,6 +76,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app" component={LandingComponent} />
           <AuthRoute exact path="/app/alerts" component={AlertsComponent} />
           <AuthRoute exact path="/app/create_post" component={CreatePostComponent} />
+          <AuthRoute exact path="/app/reshare_post" component={ResharePostComponent} />
           <AuthRoute exact path="/app/create_activity" component={CreateActivityComponent} />
           <AuthRoute exact path="/app/posts" component={ShowPostsComponent} />
           <AuthRoute exact path="/app/posts/:post_id" component={ShowPostComponent} />

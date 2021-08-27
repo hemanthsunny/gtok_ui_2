@@ -5,11 +5,13 @@ import { motion } from 'framer-motion'
 import './style.css'
 
 import PostComponent from './children/post/component'
+import ResharePostComponent from './children/reshare/component'
 import {
   HeaderComponent,
   MobileFooterComponent,
   LoadingComponent,
   MenuOptionsComponent,
+  ShareOptionsComponent,
   ReportPostComponent
 } from 'components'
 import { SetPosts } from 'store/actions'
@@ -169,13 +171,21 @@ class ParentComponent extends Component {
                   </div>
                 </div>
                 {
-                  this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
-                    <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-                  ))
+                  this.state.posts[0] && this.state.posts.map((post, idx) => {
+                    if (post.resharePostId) {
+                      return (
+                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                      )
+                    }
+                    return post.stories && (
+                      <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                    )
+                  })
                 }
               </div>
               <MobileFooterComponent currentUser={this.props.currentUser} />
               <MenuOptionsComponent currentUser={this.props.currentUser} />
+              <ShareOptionsComponent currentUser={this.props.currentUser} />
               <ReportPostComponent currentUser={this.props.currentUser} />
 
               {this.state.loading && <LoadingComponent />}
