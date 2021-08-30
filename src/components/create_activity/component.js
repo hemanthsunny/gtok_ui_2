@@ -31,6 +31,7 @@ const ParentComponent = (props) => {
   const [btnUpload, setBtnUpload] = useState('upload')
   const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
   const [tradePrice, setTradePrice] = useState(sharePost.tradePrice || 10)
+  const [tradePost, setTradePost] = useState(false)
 
   const save = async (opts) => {
     if (!postText) {
@@ -48,7 +49,7 @@ const ParentComponent = (props) => {
       postData = Object.assign(postData, {
         stories: sharePost.stories,
         category,
-        tradePrice,
+        tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })
       result = await update('posts', sharePost.id, postData)
@@ -67,7 +68,7 @@ const ParentComponent = (props) => {
         followersCount: 0,
         category,
         timestamp,
-        tradePrice,
+        tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })
       result = await add('posts', postData)
@@ -149,12 +150,12 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent save={save} />
+      <HeaderComponent save={save} sharePost={sharePost} />
       <div>
         <div className='dashboard-content pt-4'>
-          {subHeader()}
+          {!sharePost.id && subHeader()}
             <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} />
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} />
               <CategoryComponent postCategories={ActivityCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               <div className='text-center'>
                 {

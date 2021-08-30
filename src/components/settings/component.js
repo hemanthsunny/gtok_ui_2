@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import './style.css'
 
 import HeaderComponent from './header'
+import AdminZoneComponent from './admin_zone/component'
 import { signout, update } from 'firebase_config'
 import { SetUser, SetLoggedIn, SetDbUser } from 'store/actions'
 
@@ -248,7 +249,7 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                     <span className='option-name' htmlFor="customSwitch1" onClick={signoutUser}>Logout</span>
                   </div>
                 </li>
-                <li>
+                <li className='d-none'>
                   <div className='d-flex flex-row align-items-center justify-content-between'>
                     <span className='option-name' htmlFor="customSwitch1" onClick={deactivateUser}>Deactivate account</span>
                   </div>
@@ -262,6 +263,9 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                 </li>
               </ul>
             </div>
+            {
+              currentUser.admin && <AdminZoneComponent currentUser={currentUser} />
+            }
           </div>
         </div>
       </div>
