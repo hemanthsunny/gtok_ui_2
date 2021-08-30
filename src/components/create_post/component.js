@@ -216,10 +216,10 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent save={savePost} />
+      <HeaderComponent save={savePost} sharePost={sharePost} />
       <div>
         <div className='dashboard-content pt-4'>
-          {subHeader()}
+          {!sharePost.id && subHeader()}
             <div className='container create-post-wrapper'>
               <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} />
               <CategoryComponent postCategories={FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />

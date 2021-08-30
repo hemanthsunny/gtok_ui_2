@@ -16,11 +16,11 @@ const DetailComponent = ({
     <div>
       <div className='card create-post-card-wrapper'>
         <div className='card-body'>
-          <div className='d-flex flex-row align-items-center justify-content-between'>
+          <div className='d-flex flex-row align-items-center'>
             <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
               {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
             </button>
-            <span className={`${!tradePost && 'd-none'}`}>
+            <span className={`${tradePost ? 'ml-2' : 'd-none'}`}>
               <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon p-0' alt='Inr' />{tradePrice}
             </span>
           </div>
@@ -67,7 +67,7 @@ const DetailComponent = ({
               <div className='d-flex flex-row'>
                 <div className='flex-grow-1'>
                   <img src={require('assets/svgs/login/right_lock_icon.svg').default} className='attachment-icon' alt='Audio' /> &nbsp;
-                  <span className='option-name' htmlFor="customSwitch1">Trade post</span>
+                  <span className='option-name' htmlFor="customSwitch1">Trade asset</span>
                 </div>
                 <div className="custom-control custom-switch">
                   <input type="checkbox" className="custom-control-input" id="private" onChange={e => setTradePost(!tradePost)} checked={tradePost || false} disabled={anonymous} />

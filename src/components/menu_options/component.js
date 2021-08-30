@@ -25,9 +25,19 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
   }
 
   const editPost = async (post, idx) => {
-    if (displayPost.id) {
+    if (displayPost.id && !displayPost.type) {
       history.push({
         pathname: '/app/create_post',
+        state: {
+          sharePost,
+          story: sharePost.stories[0],
+          storyIdx: idx || 0
+        }
+      })
+    }
+    if (displayPost.id && displayPost.type === 'activity') {
+      history.push({
+        pathname: '/app/create_activity',
         state: {
           sharePost,
           story: sharePost.stories[0],
