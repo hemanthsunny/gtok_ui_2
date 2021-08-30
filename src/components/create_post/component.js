@@ -221,7 +221,7 @@ const ParentComponent = (props) => {
         <div className='dashboard-content pt-4'>
           {subHeader()}
             <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} />
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} />
               <CategoryComponent postCategories={FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               <div className='text-center'>
                 {
