@@ -36,7 +36,7 @@ const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost 
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} onClick={e => resharePost()}>
                 Reshare
               </li>
-              <li className='menu-item' data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Send to...</li>
+              <li className='menu-item' data-toggle='modal' data-target='#createChatModal' onClick={e => closeModal()}>Send to...</li>
             </ul>
           </div>
         </div>

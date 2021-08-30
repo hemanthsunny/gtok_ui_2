@@ -9,6 +9,19 @@
   filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.25));
 }
 
+.reshare-post-card-wrapper .card-badge {
+  font-size: var(--font-size-small);
+  color: var(--color-white);
+  background-color: var(--color-violet-400);
+  padding: 0.25rem 0.7rem;
+  border-radius: 1.5rem;
+}
+
 .reshare-post-card-wrapper .created-at {
   font-size: var(--font-size-small);
+}
+
+.reshare-post-card-wrapper .author {
+  font-size: var(--font-size);
+  font-weight: 500;
 }
