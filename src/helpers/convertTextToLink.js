@@ -9,7 +9,7 @@ const convertTextToLink = (text) => {
   replacedText = replacedText.replace(replacePatternTwo, '$1<a href="http://$2" target="_blank"  style="color: var(--color-violet-400);">$2</a>')
   replacedText = replacedText.replace(replacePatternThree, '<br>')
 
-  return <div dangerouslySetInnerHTML={{ __html: replacedText }}></div>
+  return <span dangerouslySetInnerHTML={{ __html: replacedText }}></span>
 }
 
 export default convertTextToLink
