@@ -44,11 +44,14 @@ const ParentComponent = ({
       <div className='card reshare-post-card-wrapper'>
         <div className='card-body pb-3'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
-            <div className='text-violet'>@{postedUser.username}'s same pinch</div> <br/>
+            <span className='card-badge'>Same pinch</span>
             <div className='created-at'>{moment(post.createdAt).format('h:mm a')} &middot; {moment(post.createdAt).format('D MMM \'YY')}</div>
           </div>
           <div className='mt-2'>
             {post.stories[0].text}
+          </div>
+          <div className='mt-2 author'>
+            @{postedUser.username}
           </div>
         </div>
         {

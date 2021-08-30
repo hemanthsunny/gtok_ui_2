@@ -12,7 +12,8 @@ import {
   LoadingComponent,
   MenuOptionsComponent,
   ShareOptionsComponent,
-  ReportPostComponent
+  ReportPostComponent,
+  CreateChatComponent
 } from 'components'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
@@ -187,6 +188,7 @@ class ParentComponent extends Component {
               <MenuOptionsComponent currentUser={this.props.currentUser} />
               <ShareOptionsComponent currentUser={this.props.currentUser} />
               <ReportPostComponent currentUser={this.props.currentUser} />
+              <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>
 
               {this.state.loading && <LoadingComponent />}
             <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
@@ -199,8 +201,8 @@ class ParentComponent extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { posts } = state.posts
-  return { posts }
+  const { posts, sharePost } = state.posts
+  return { posts, sharePost }
 }
 
 const mapDispatchToProps = (dispatch) => {

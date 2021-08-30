@@ -76,7 +76,7 @@
 }
 
 .post-card-wrapper .card-footer .author {
-  font-size: var(--font-size-big);
+  font-size: var(--font-size);
   font-weight: 500;
 }
 

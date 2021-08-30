@@ -24,6 +24,7 @@
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": "off",
       "react/prop-types": 0,
-      "react/no-unescaped-entities": 0
+      "react/no-unescaped-entities": 0,
+      "no-useless-escape": "off"
     }
 }

@@ -11,18 +11,16 @@ import {
   arrayRemove,
   getId,
   update,
-  remove,
-  removeFile,
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
 import SliderComponent from '../slider/component'
+import { convertTextToLink } from 'helpers'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost
 }) => {
-  const [displayPost, setDisplayPost] = useState(post)
   const [postedUser, setPostedUser] = useState('')
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
   const [result, setResult] = useState({})
@@ -30,11 +28,9 @@ const PostComponent = ({
   const [play, setPlay] = useState(true)
   const [playDetails, setPlayDetails] = useState({ currentTime: 0, duration: 0 })
   const [displayFullStory, setDisplayFullStory] = useState(false)
-  const [hidePost, setHidePost] = useState(false)
 
   const trans = transactions.find(trans => trans.userId === currentUser.id && trans.postId === displayPost.id)
   const history = useHistory()
-  const displayPostUrl = 'https://app.letsgtok.com/app/posts/' + displayPost.id
   const audioRef = useRef()
 
   useEffect(() => {
@@ -109,39 +105,10 @@ const PostComponent = ({
     await getId('posts', id)
   }
 
-  const deletePost = async (post, idx) => {
-    if (displayPost.id && window.confirm('Are you sure to delete this post?')) {
-      let result
-      if (displayPost.stories.length === 1) {
-        result = await remove('posts', displayPost.id)
-      } else {
-        if (post.fileUrl) {
-          await removeFile(post.fileUrl)
-        }
-        displayPost.stories.splice(idx, 1)
-        result = await update('posts', displayPost.id, { stories: displayPost.stories })
-        setDisplayPost(displayPost)
-      }
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} removed the post`,
-        photoURL: currentUser.photoURL,
-        receiverId: '',
-        userId: currentUser.id,
-        actionType: 'delete',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'id',
-        actionLink: '/app/profile/' + currentUser.id,
-        timestamp
-      })
-      setResult(result)
-      setHidePost(true)
-      // await bindPosts(currentUser)
+  const sharePost = async (opt) => {
+    if (opt === 'shareOptions') {
+      localStorage.setItem('sharePostText', `Hey! I want to share this asset with you. Have a look ${process.env.REACT_APP_URL}app/posts/${post.id}`)
     }
-  }
-
-  const sharePost = async () => {
     await bindSharePost(currentUser, 'id', { post })
     // history.push('/app/posts/' + displayPost.id)
   }
@@ -149,19 +116,6 @@ const PostComponent = ({
   const redirectToProfile = async () => {
     if (!hideRedirects) {
       history.push('/app/profile/' + displayPost.userId)
-    }
-  }
-
-  const editPost = (post, idx) => {
-    if (displayPost.id) {
-      history.push({
-        pathname: '/app/create_post',
-        state: {
-          sharePost: displayPost,
-          story: post,
-          storyIdx: idx
-        }
-      })
     }
   }
 
@@ -222,12 +176,7 @@ const PostComponent = ({
     setPlayDetails({ ...playDetails, progressPercent: e.target.value })
   }
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(displayPostUrl)
-    alert('link copied')
-  }
-
-  return !hidePost && postedUser && displayPost.stories && (
+  return postedUser && displayPost.stories && (
     <div className={`d-flex ${reshare ? 'm-0' : 'ml-2 mt-3 mb-4'}`}>
       <div className={`${reshare && 'd-none'}`}>
         {displayPost.anonymous
@@ -276,8 +225,8 @@ const PostComponent = ({
                     : <div>
                       <p className='card-text white-space-preline'>
                         {story.text.length <= 150 || displayFullStory
-                          ? story.text
-                          : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
+                          ? convertTextToLink(story.text)
+                          : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{convertTextToLink(story.text.slice(0, 149))} <small>. . . See full story</small></span>
                         }
                       </p>
                       { story.fileUrl &&
@@ -312,52 +261,19 @@ const PostComponent = ({
               <div className='card-footer'>
                 {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
                 <div className={`edit-options ${hideEditOptions && 'd-none'}`}>
-                    <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
-                      {
-                        follower
-                          ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
-                          : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
-                      }
-                    </button>
-                    <button className='btn btn-link' data-toggle='modal' data-target='#shareOptionsModal' onClick={sharePost}>
-                      <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
-                    </button>
-                    <button className='btn btn-link' data-toggle='modal' data-target='#menuOptionsModal' onClick={sharePost}>
-                      <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
-                    </button>
-
-                    <div className='btn-group'>
-                      <div className='dropdown-menu' aria-labelledby='shareMenuDropdown'>
-                        <button className='dropdown-item' onClick={sharePost}>
-                          Reshare
-                        </button>
-                        <button className='dropdown-item' onClick={copyLink}>
-                          Send to...
-                        </button>
-                      </div>
-                    </div>
-                    <div className='btn-group d-none'>
-                      <button className='btn btn-link btn-sm btn-more' id='optionsMenuDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                        <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
-                      </button>
-                      <div className='dropdown-menu' aria-labelledby='optionsMenuDropdown'>
-                        <button className='dropdown-item' onClick={sharePost}>
-                          Share to...
-                        </button>
-                        <button className='dropdown-item' onClick={copyLink}>
-                          Copy link
-                        </button>
-                        <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
-                          Edit
-                        </button>
-                        <button className={`dropdown-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
-                          Delete
-                        </button>
-                        <button className={`dropdown-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
-                          Report
-                        </button>
-                      </div>
-                    </div>
+                  <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
+                    {
+                      follower
+                        ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
+                        : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
+                    }
+                  </button>
+                  <button className='btn btn-link' data-toggle='modal' data-target='#shareOptionsModal' onClick={e => sharePost('shareOptions')}>
+                    <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
+                  </button>
+                  <button className='btn btn-link' data-toggle='modal' data-target='#menuOptionsModal' onClick={e => sharePost('menuOptions')}>
+                    <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                  </button>
                 </div>
               </div>
             </div>
