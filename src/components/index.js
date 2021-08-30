@@ -32,7 +32,6 @@ import CreatePostComponent from 'components/create_post/component'
 import CreateActivityComponent from 'components/create_activity/component'
 import ResharePostComponent from 'components/reshare_post/component'
 import SortComponent from 'components/common/SortComponent'
-import ProfileSettingsComponent from 'components/profile/SettingsComponent'
 import SettingsComponent from 'components/settings/component'
 import ChangePasswordComponent from 'components/change_password/component'
 import EditProfileComponent from 'components/edit_profile/component'
@@ -100,7 +99,6 @@ export {
   CreateActivityComponent,
   ResharePostComponent,
   SortComponent,
-  ProfileSettingsComponent,
   SettingsComponent,
   ChangePasswordComponent,
   EditProfileComponent,

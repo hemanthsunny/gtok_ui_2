@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { AudioPlayerComponent } from 'components'
 
 const DetailComponent = ({
-  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost
+  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet
 }) => {
   const tradePriceMinimum = 10
   const tradePriceMaximum = 10000
@@ -13,7 +14,7 @@ const DetailComponent = ({
 
   return (
     <div>
-      <div className='card post-card-wrapper'>
+      <div className='card create-post-card-wrapper'>
         <div className='card-body'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
             <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
@@ -60,31 +61,37 @@ const DetailComponent = ({
           { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} /> }
         </div>
         <hr className='mt-2' />
-        <div className={`trade-section-wrapper ${anonymous && '-disabled'}`}>
-          <div className='d-flex flex-row'>
-            <div className='flex-grow-1'>
-              <img src={require('assets/svgs/login/right_lock_icon.svg').default} className='attachment-icon' alt='Audio' /> &nbsp;
-              <span className='option-name' htmlFor="customSwitch1">Trade post</span>
+        {
+          wallet && wallet[0]
+            ? <div className={`trade-section-wrapper ${anonymous && '-disabled'}`}>
+              <div className='d-flex flex-row'>
+                <div className='flex-grow-1'>
+                  <img src={require('assets/svgs/login/right_lock_icon.svg').default} className='attachment-icon' alt='Audio' /> &nbsp;
+                  <span className='option-name' htmlFor="customSwitch1">Trade post</span>
+                </div>
+                <div className="custom-control custom-switch">
+                  <input type="checkbox" className="custom-control-input" id="private" onChange={e => setTradePost(!tradePost)} checked={tradePost || false} disabled={anonymous} />
+                  <label className="custom-control-label" htmlFor="private"></label>
+                </div>
+              </div>
+              <div className={`${tradePost ? 'slider-block mt-3' : 'd-none'}`}>
+                <div className='text-center'>
+                  <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}
+                </div>
+                <input type='range' value={tradePrice} step='5' className='range' min='10' max='10000' onChange={e => setTradePrice(e.target.value)}/>
+                <div className='d-flex flex-row justify-content-between'>
+                  <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMinimum}</span>
+                  <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMaximum}</span>
+                </div>
+                <div className='text-center'>
+                  Choose your trade amount
+                </div>
+              </div>
             </div>
-            <div className="custom-control custom-switch">
-              <input type="checkbox" className="custom-control-input" id="private" onChange={e => setTradePost(!tradePost)} checked={tradePost || false} disabled={anonymous} />
-              <label className="custom-control-label" htmlFor="private"></label>
+            : <div className='text-center font-small'>
+              <Link to='/app/change_passcode' className='text-violet'> Create a wallet passcode </Link> to start trading.
             </div>
-          </div>
-          <div className={`${tradePost ? 'slider-block mt-3' : 'd-none'}`}>
-            <div className='text-center'>
-              <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}
-            </div>
-            <input type='range' value={tradePrice} step='5' className='range' min='10' max='10000' onChange={e => setTradePrice(e.target.value)}/>
-            <div className='d-flex flex-row justify-content-between'>
-              <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMinimum}</span>
-              <span><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePriceMaximum}</span>
-            </div>
-            <div className='text-center'>
-              Choose your trade amount
-            </div>
-          </div>
-        </div>
+        }
         <hr className='' />
       </div>
     </div>

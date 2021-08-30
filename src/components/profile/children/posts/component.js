@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import PostComponent from 'components/show_posts/children/post/component'
+import ResharePostComponent from 'components/show_posts/children/reshare/component'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
 
@@ -91,11 +92,19 @@ class PostsComponent extends Component {
         </div>
         <div className='feeling-wrapper'>
           {
-            this.state.posts[0] && this.state.posts.map((post, idx) =>
-              (post.anonymous && post.userId !== this.props.currentUser.id)
-                ? <div key={idx}></div>
-                : <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-            )
+            this.state.posts[0] && this.state.posts.map((post, idx) => {
+              if (post.anonymous && post.userId !== this.props.currentUser.id) {
+                return (<div key={idx}></div>)
+              }
+              if (post.resharePostId) {
+                return (
+                  <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                )
+              }
+              return post.stories && (
+                <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+              )
+            })
           }
           <div className={`text-center my-3 ${(this.state.posts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
             <button className='btn btn-violet btn-sm' onClick={this.loadMorePosts}>Load more</button>
