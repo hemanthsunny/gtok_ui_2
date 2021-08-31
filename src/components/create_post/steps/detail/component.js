@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AudioPlayerComponent } from 'components'
 
 const DetailComponent = ({
-  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet
+  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet, sharePost
 }) => {
   const tradePriceMinimum = 10
   const tradePriceMaximum = 10000
@@ -12,8 +12,12 @@ const DetailComponent = ({
     setPostText(val)
   }
 
-  return (
-    <div>
+  const handleAnonymousChange = () => {
+    setTradePost(false)
+    setAnonymous(!anonymous)
+  }
+
+  return <div>
       <div className='card create-post-card-wrapper'>
         <div className='card-body'>
           <div className='d-flex flex-row align-items-center'>
@@ -29,7 +33,7 @@ const DetailComponent = ({
         <div className='card-footer'>
           {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}
           <div className='edit-options'>
-            <button className='btn btn-link btn-heart' onClick={e => setAnonymous(!anonymous)}>
+            <button className='btn btn-link btn-heart' onClick={handleAnonymousChange}>
               {
                 anonymous
                   ? <img className='icon-heart icon-heart' src={require('assets/svgs/EyeballClosed.svg').default} alt="1" />
@@ -95,7 +99,6 @@ const DetailComponent = ({
         <hr className='' />
       </div>
     </div>
-  )
 }
 
 export default DetailComponent

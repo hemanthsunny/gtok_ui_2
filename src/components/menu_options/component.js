@@ -25,26 +25,14 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
   }
 
   const editPost = async (post, idx) => {
-    if (displayPost.id && !displayPost.type) {
-      history.push({
-        pathname: '/app/create_post',
-        state: {
-          sharePost,
-          story: sharePost.stories[0],
-          storyIdx: idx || 0
-        }
-      })
-    }
-    if (displayPost.id && displayPost.type === 'activity') {
-      history.push({
-        pathname: '/app/create_activity',
-        state: {
-          sharePost,
-          story: sharePost.stories[0],
-          storyIdx: idx || 0
-        }
-      })
-    }
+    history.push({
+      pathname: '/app/create_post',
+      state: {
+        sharePost,
+        story: sharePost.stories[0],
+        storyIdx: idx || 0
+      }
+    })
     await closeModal()
   }
 
@@ -82,6 +70,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
   const closeModal = () => {
     $('#menuOptionsModal').hide()
     $('.modal-backdrop').remove()
+    // $('.modal-open').remove()
   }
 
   return (
@@ -101,7 +90,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>
-              <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost()}>Delete</li>
+              <li className={`menu-item ${((displayPost.userId !== currentUser.id) || displayPost.tradePrice) && 'd-none'}`} onClick={e => deletePost()}>Delete</li>
             </ul>
           </div>
         </div>

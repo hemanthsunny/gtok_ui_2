@@ -13,22 +13,27 @@ const DetailComponent = ({
     setPostText(val)
   }
 
+  const handleAnonymousChange = () => {
+    setTradePost(false)
+    setAnonymous(!anonymous)
+  }
+
   return (
     <div>
       <div className='card create-post-card-wrapper'>
         <div className='card-body'>
-          <div className='d-flex flex-row align-items-center justify-content-between'>
+          <div className='d-flex flex-row align-items-center'>
             <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
               {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
             </button>
-            <span className={`${!tradePost && 'd-none'}`}><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}</span>
+            <span className={`${tradePost ? 'ml-2' : 'd-none'}`}><img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />{tradePrice}</span>
           </div>
           <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Hi der! type here about your activity!!' rows={7} autoFocus></textarea>
         </div>
         <div className='card-footer'>
           {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}
           <div className='edit-options'>
-            <button className='btn btn-link btn-heart' onClick={e => setAnonymous(!anonymous)}>
+            <button className='btn btn-link btn-heart' onClick={handleAnonymousChange}>
               {
                 anonymous
                   ? <img className='icon-heart icon-heart' src={require('assets/svgs/EyeballClosed.svg').default} alt="1" />
