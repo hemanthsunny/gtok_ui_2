@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
 import _ from 'lodash'
@@ -10,7 +10,7 @@ import DetailComponent from './steps/detail/component'
 import CategoryComponent from './steps/category/component'
 
 import { add, update, timestamp, uploadFile, removeFile, batchWrite } from 'firebase_config'
-import { FeelingCategories } from 'constants/categories'
+import { FeelingCategories, ActivityCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
 
@@ -57,7 +57,8 @@ const ParentComponent = (props) => {
   const [btnUpload, setBtnUpload] = useState('upload')
   const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
   const [tradePrice, setTradePrice] = useState(sharePost.tradePrice || 10)
-  const [tradePost, setTradePost] = useState(false)
+  const [tradePost, setTradePost] = useState(sharePost.tradePrice > 0)
+  const [activeTab, setActiveTab] = useState(sharePost.type || 'feelings')
 
   const savePost = async (opts) => {
     if (!postText) {
@@ -69,7 +70,9 @@ const ParentComponent = (props) => {
       return null
     }
     let result = ''
-    let postData = {}
+    let postData = {
+      type: activeTab === 'activity' ? activeTab : ''
+    }
     if (sharePost.id) {
       sharePost.stories.splice(storyIdx, 1, { text: capitalizeFirstLetter(postText.trim()), fileUrl })
       postData = Object.assign(postData, {
@@ -205,11 +208,27 @@ const ParentComponent = (props) => {
   //   })
   // }
 
+  const handleActiveTab = (tab) => {
+    setActiveTab(tab)
+    if (tab === 'activity' && !sharePost.id) {
+      setCategory({
+        title: 'Current activity',
+        key: 'current_activity'
+      })
+    }
+    if (tab === 'feelings' && !sharePost.id) {
+      setCategory({
+        title: 'Current feeling',
+        key: 'current_feeling'
+      })
+    }
+  }
+
   const subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/create_post' className='tab-item -active'>Feelings</Link>
-        <Link to='/app/create_activity' className='tab-item'>Activities</Link>
+        <div className={`tab-item ${activeTab === 'feelings' && '-active'}`} onClick={e => handleActiveTab('feelings')}>Feelings</div>
+        <div className={`tab-item ${activeTab === 'activity' && '-active'}`} onClick={e => handleActiveTab('activity')}>Activities</div>
       </div>
     </div>
   )
@@ -221,8 +240,8 @@ const ParentComponent = (props) => {
         <div className='dashboard-content pt-4'>
           {!sharePost.id && subHeader()}
             <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} />
-              <CategoryComponent postCategories={FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} />
+              <CategoryComponent postCategories={((sharePost && sharePost.type === 'activity') || (activeTab === 'activity')) ? ActivityCategories : FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               <div className='text-center'>
                 {
                   result.status &&
