@@ -14,6 +14,7 @@ import {
 
 const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }) => {
   const [copied, setCopied] = useState(false)
+  const [popup, setPopup] = useState(false)
   const history = useHistory()
 
   const copyLink = () => {
@@ -25,6 +26,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
   }
 
   const editPost = async (post, idx) => {
+    await closeModal()
     history.push({
       pathname: '/app/create_post',
       state: {
@@ -33,10 +35,12 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
         storyIdx: idx || 0
       }
     })
-    await closeModal()
   }
 
   const deletePost = async (post, idx) => {
+    if (displayPost.tradePrice) {
+      return
+    }
     if (displayPost.id && window.confirm('Are you sure to delete this post?')) {
       let result
       if (displayPost.stories.length === 1) {
@@ -70,7 +74,20 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
   const closeModal = () => {
     $('#menuOptionsModal').hide()
     $('.modal-backdrop').remove()
+    $('body').removeClass('modal-open')
     // $('.modal-open').remove()
+  }
+
+  const shareTo = async () => {
+    await closeModal()
+    history.push({
+      pathname: `/app/posts/${sharePost.id}`,
+      state: {
+        sharePost,
+        story: sharePost.stories[0],
+        storyIdx: 0
+      }
+    })
   }
 
   return (
@@ -82,7 +99,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
               <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
             </div>
             <ul className='menu-list'>
-              <li className='menu-item' onClick={e => sharePost()}>
+              <li className='menu-item' onClick={e => shareTo()}>
                 Share to...
               </li>
               <li className='menu-item' onClick={e => copyLink()}>
@@ -90,7 +107,17 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>
-              <li className={`menu-item ${((displayPost.userId !== currentUser.id) || displayPost.tradePrice) && 'd-none'}`} onClick={e => deletePost()}>Delete</li>
+              <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'} ${displayPost.tradePrice && 'btn-disabled'}`}>
+                <span onClick={e => deletePost()}>Delete</span>
+                {
+                  popup &&
+                  <div id='tooltip' role='tooltip'>d
+                    Trading asset can't be deleted
+                    <div id='arrow' data-popper-arrow></div>
+                  </div>
+                }
+                <img className='info pull-right' src={require('assets/svgs/InfoViolet.svg').default} alt='1' onClick={e => setPopup(!popup)} />
+              </li>
             </ul>
           </div>
         </div>
