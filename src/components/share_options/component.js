@@ -22,6 +22,8 @@ const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost 
   const closeModal = () => {
     $('#shareOptionsModal').hide()
     $('.modal-backdrop').remove()
+    $('body').removeClass('modal-open')
+    // $('.modal-open').remove()
   }
 
   return (

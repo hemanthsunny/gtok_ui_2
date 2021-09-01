@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import {
+  FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton, LinkedinIcon, LinkedinShareButton
+} from 'react-share'
 import './style.css'
 
 import HeaderComponent from 'components/common/header/component'
@@ -17,7 +20,8 @@ class ParentComponent extends Component {
     this.state = {
       postId: props.computedMatch.params.post_id,
       post: '',
-      loading: true
+      loading: true,
+      postUrl: process.env.REACT_APP_URL + '/' + props.computedMatch.params.post_id
     }
   }
 
@@ -65,6 +69,20 @@ class ParentComponent extends Component {
               {this.state.post && this.state.post.status !== 404 &&
                 <div className='pt-5'>
                   <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>
+                  <div className='text-center'>
+                    <FacebookShareButton url={this.state.postUrl} title={this.state.post.category.title} quote={this.state.post.text} hashtag='#letsgtok' className='socialMediaButton'>
+                      <FacebookIcon size={36}/>
+                    </FacebookShareButton>
+                    <TwitterShareButton url={this.state.postUrl} title={this.state.post.text} hashtags='#letsgtok' className='socialMediaButton'>
+                     <TwitterIcon size={36} />
+                   </TwitterShareButton>
+                   <WhatsappShareButton url={this.state.postUrl} title={this.state.post.text} separator=':: ' className='socialMediaButton'>
+                     <WhatsappIcon size={36} />
+                   </WhatsappShareButton>
+                   <LinkedinShareButton url={this.state.postUrl} title={this.state.post.text} summary={this.state.post.category.title} source='Lets Gtok' className='socialMediaButton'>
+                     <LinkedinIcon size={36} />
+                   </LinkedinShareButton>
+                  </div>
                 </div>
               }
             </div>

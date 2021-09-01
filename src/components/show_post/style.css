@@ -16,4 +16,5 @@
 .show-post-subheader .page-name {
   font-weight: 500;
   font-size: var(--font-size);
+  padding-top: 2px;
 }

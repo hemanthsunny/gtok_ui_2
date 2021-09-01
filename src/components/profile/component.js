@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
-import { MobileFooterComponent } from 'components'
+import { MobileFooterComponent, ShowPostsComponent } from 'components'
 // import HeaderComponent from './header'
 import UserDetailComponent from './children/user_detail/component'
-import PostsComponent from './children/posts/component'
-import ActivitiesComponent from './children/activities/component'
 import './style.css'
 
 import { getId, getQuery, firestore } from 'firebase_config'
 
 function ParentComponent ({ currentUser, computedMatch }) {
-  const [activeTab, setActiveTab] = useState('posts')
   const userId = computedMatch.params.user_id || ''
   const [displayUser, setDisplayUser] = useState('')
   const [relationship, setRelationship] = useState('')
@@ -49,10 +46,9 @@ function ParentComponent ({ currentUser, computedMatch }) {
                 ? <div className='private-profile-text'>
                   @{displayUser.username} feelings are private. <br/> Follow to view what they are sharing.
                 </div>
-                : <PostsComponent currentUser={currentUser} setActiveTab={setActiveTab} />
-              : <PostsComponent currentUser={currentUser} setActiveTab={setActiveTab} />
+                : <ShowPostsComponent currentUser={currentUser} hideHeader={true} />
+              : <ShowPostsComponent currentUser={currentUser} hideHeader={true} />
           }
-          {activeTab === 'acstivities' && <ActivitiesComponent currentUser={currentUser} setActiveTab={setActiveTab} />}
         </div>
       </div>
       <MobileFooterComponent currentUser={currentUser} />

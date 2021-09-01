@@ -149,7 +149,7 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent />
+        {!this.props.hideHeader && <HeaderComponent />}
         <div>
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {/* this.subHeader() */}
