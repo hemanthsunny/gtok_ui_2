@@ -1,0 +1,66 @@
+.wallet-withdraw-wrapper {
+  padding: var(--spacing-48) var(--spacing-16);
+  text-align: left;
+}
+
+.wallet-withdraw-wrapper .withdraw-danger-alert {
+  color: var(--color-red-400);
+  font-size: var(--font-size-smaller);
+  margin-top: var(--spacing-4);
+}
+
+.wallet-withdraw-wrapper .withdraw-success-alert {
+  margin-top: var(--spacing-4);
+  color: var(--color-green-600);
+  font-size: var(--font-size-smaller);
+}
+
+.wallet-withdraw-wrapper .form-label {
+  font-size: var(--font-size-small);
+  margin: 0;
+}
+
+.wallet-withdraw-wrapper .form-control {
+  border: none;
+  border-bottom: 2px solid #D5D5D5;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+.wallet-withdraw-wrapper .form-control:focus {
+  border-bottom: 2px solid var(--color-violet-400);
+}
+
+/*  */
+.wallet-withdraw-wrapper .step-header {
+  text-align: center;
+}
+
+.wallet-withdraw-wrapper .step-header .header-text {
+  margin: var(--spacing-32) 0;
+}
+
+.wallet-withdraw-wrapper .invoice-table {
+  border: 2px solid #D5D5D5;
+  border-radius: var(--spacing-24);
+  margin-top: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
+}
+
+.wallet-withdraw-wrapper .invoice-table .invoice-table-section {
+  padding: var(--spacing-16) var(--spacing-16);
+  font-size: var(--font-size);
+}
+
+.wallet-withdraw-wrapper .invoice-table .invoice-table-divider {
+  margin: 0;
+}
+
+.wallet-withdraw-wrapper .invoice-table .col-header {
+  padding-bottom: var(--spacing-12);
+}
+
+.wallet-withdraw-wrapper .invoice-table .font-bold {
+  font-weight: 500;
+}

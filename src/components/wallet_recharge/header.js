@@ -5,7 +5,7 @@ const HeaderComponent = ({ save, loading }) => {
   return (
     <nav className='navbar fixed-top navbar-gradient-md'>
       <div className='container'>
-        <Link to='/'>
+        <Link to='/app/wallet'>
           <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
         </Link>
         <div className='navbar-brand mx-auto pt-2'>
