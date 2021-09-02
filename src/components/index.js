@@ -61,6 +61,7 @@ import MobileFooterComponent from 'components/common/mobile_footer/component'
 import AudioPlayerComponent from 'components/audio_player/component'
 import ChangePasscodeComponent from 'components/change_passcode/component'
 import WalletRechargeComponent from 'components/wallet_recharge/component'
+import WalletWithdrawComponent from 'components/wallet_withdraw/component'
 import MenuOptionsComponent from 'components/menu_options/component'
 import ShareOptionsComponent from 'components/share_options/component'
 
@@ -128,6 +129,7 @@ export {
   AudioPlayerComponent,
   ChangePasscodeComponent,
   WalletRechargeComponent,
+  WalletWithdrawComponent,
   MenuOptionsComponent,
   ShareOptionsComponent
 }

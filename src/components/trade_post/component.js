@@ -127,7 +127,7 @@ function TradePostComponent (props) {
             : <CustomImageComponent user={postedUser} size='sm' />
           }
         </div>
-        <div className='card post-card-wrapper'>
+        <div className='card post-card-wrapper add-filter'>
           {
             displayPost && displayPost.stories.map((story, idx) => (
               <div key={idx}>
@@ -137,10 +137,18 @@ function TradePostComponent (props) {
                     <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
                   </div>
                   <div className='clearfix'></div>
-                  <div>
-                    <p className='card-text white-space-preline'>
-                      {story.text.substring(0, 25)} . . .
-                    </p>
+                  <div className='card-body hidden-post'>
+                    <div className='blur-text'>
+                      This is a trading post. Trade it, to unlock.
+                    </div>
+                    <div className='locked-post'>
+                      <div className='locked-post-text'>
+                        Trade for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                      </div>
+                      <div>
+                        <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className='card-footer'>

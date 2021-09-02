@@ -10,7 +10,6 @@ function WalletDetailsComponent ({ wallet }) {
   const [walletVerification, setWalletVerification] = useState(JSON.parse(sessionStorage.getItem('walletVerification')))
 
   useEffect(() => {
-    console.log('walletDetails', wallet)
     async function getTransactions () {
       const trns = await getQuery(
         firestore.collection('transactions').where('toUserWalletId', '==', wallet.id).get()
@@ -77,9 +76,9 @@ function WalletDetailsComponent ({ wallet }) {
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
-          <Link to='/app/wallet_recharge' className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</Link>
+          <Link to='/app/recharge' className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</Link>
           <div className='btn btn-violet col-2 d-none'></div>
-          <button className='btn btn-custom col-4 ml-2' disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
+          <Link to='/app/withdraw' className='btn btn-custom col-4 ml-2' disabled={walletVerification && !walletVerification.verified}>Withdraw</Link>
         </div>
       </div>
       {

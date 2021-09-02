@@ -9,7 +9,7 @@ const HeaderComponent = ({ save, loading }) => {
           <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
         </Link>
         <div className='navbar-brand mx-auto pt-2'>
-          Trade post
+          Trade asset
         </div>
         <ul className='navbar-nav ml-auto d-none'>
           <li className='nav-item'>
