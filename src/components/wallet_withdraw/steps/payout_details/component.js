@@ -4,7 +4,7 @@ function InvoiceComponent ({
   currentUser, wallet, setStepNumber, withdrawAmount, setWithdrawAmount, accountName, setAccountName, accountNumber, setAccountNumber, ifscCode, setIfscCode
 }) {
   const [withdrawAmountAlerts, setWithdrawAmountAlerts] = useState('')
-  const [disableBtn, setDisableBtn] = useState(true)
+  const [disableBtn, setDisableBtn] = useState(!(withdrawAmount && accountName && accountNumber && ifscCode))
 
   const handleWithdrawAmount = (val) => {
     setWithdrawAmount(val)

@@ -69,7 +69,7 @@ function InvoiceComponent ({
                 </div>
                 <div className='d-flex flex-row'>
                   <div className='value text-left'>
-                    {accountName} <br/>
+                    <span className='text-uppercase'>{accountName}</span> <br/>
                     {accountNumber} &middot; {ifscCode}
                   </div>
                 </div>
