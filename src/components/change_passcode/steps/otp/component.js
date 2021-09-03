@@ -48,12 +48,12 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState }) {
 
   return (
     <div className='change-pc-wrapper desktop-align-center text-center'>
-      <div className='my-4'>
+      <div className=''>
         <img src={require('assets/svgs/StepTwo.svg').default} className='' alt='Visibility' />
       </div>
-      <p className='otp-message'>
+      <div className='otp-message'>
       OTP will be sent on your registered email id
-      </p>
+      </div>
       {
         otpSent
           ? <button className='btn btn-sm btn-rounded col-6'>
