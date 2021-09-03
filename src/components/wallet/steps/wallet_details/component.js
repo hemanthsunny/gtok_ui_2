@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import moment from 'moment'
 
 import { getQuery, firestore } from 'firebase_config'
@@ -8,6 +8,9 @@ function WalletDetailsComponent ({ wallet }) {
   const [transactions, setTransactions] = useState('')
   const [passcode, setPasscode] = useState('')
   const [walletVerification, setWalletVerification] = useState(JSON.parse(sessionStorage.getItem('walletVerification')))
+  const [btnDisable, setBtnDisable] = useState(passcode !== 4)
+  const [result, setResult] = useState({})
+  const history = useHistory()
 
   useEffect(() => {
     async function getTransactions () {
@@ -36,22 +39,44 @@ function WalletDetailsComponent ({ wallet }) {
     }
   }, [])
 
-  const verifyPasscode = () => {
-    // if (wallet.passcode === passcode) {
-    sessionStorage.setItem('walletVerification', JSON.stringify({
-      verified: true,
-      loginTime: new Date().getTime()
-    }))
-    setWalletVerification({
-      verified: true,
-      loginTime: new Date().getTime()
-    })
-    // }
+  const verifyPasscode = (pc) => {
+    if (wallet.passcode === pc) {
+      sessionStorage.setItem('walletVerification', JSON.stringify({
+        verified: true,
+        loginTime: new Date().getTime()
+      }))
+      setWalletVerification({
+        verified: true,
+        loginTime: new Date().getTime()
+      })
+      setBtnDisable(false)
+    } else {
+      setResult({
+        status: 400,
+        message: 'Incorrect passcode'
+      })
+      sessionStorage.setItem('walletVerification', JSON.stringify({
+        verified: false,
+        loginTime: new Date().getTime()
+      }))
+      setWalletVerification({
+        verified: false,
+        loginTime: new Date().getTime()
+      })
+      setBtnDisable(true)
+    }
   }
 
   const handleChange = (pc) => {
     setPasscode(pc)
-    if (pc.length === 4) verifyPasscode()
+    if (pc.length === 4) verifyPasscode(pc)
+  }
+
+  const redirectTo = (link) => {
+    if (walletVerification && !walletVerification.verified) {
+      return
+    }
+    history.push(link)
   }
 
   return (
@@ -76,9 +101,9 @@ function WalletDetailsComponent ({ wallet }) {
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
-          <Link to='/app/recharge' className='btn btn-custom col-4 mr-2' disabled={walletVerification && !walletVerification.verified}>Recharge</Link>
+          <button className='btn btn-custom col-4 mr-2' onClick={e => redirectTo('/app/recharge')} disabled={walletVerification && !walletVerification.verified}>Recharge</button>
           <div className='btn btn-violet col-2 d-none'></div>
-          <Link to='/app/withdraw' className='btn btn-custom col-4 ml-2' disabled={walletVerification && !walletVerification.verified}>Withdraw</Link>
+          <button className='btn btn-custom col-4 ml-2' onClick={e => redirectTo('/app/withdraw')} disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
         </div>
       </div>
       {
@@ -113,7 +138,15 @@ function WalletDetailsComponent ({ wallet }) {
             <div className='passcode-card'>
               <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' />
             </div>
-            <button className='btn btn-violet-rounded btn-sm col-3 submit-passcode' disabled={passcode.length !== 4} onClick={verifyPasscode}>Done</button>
+            <div className='text-center'>
+              {
+                result.status &&
+                <div className={`text-${result.status === 200 ? 'violet' : 'danger'} mt-3`}>
+                  {result.message}
+                </div>
+              }
+            </div>
+            <button className='btn btn-violet-rounded btn-sm col-3 submit-passcode' disabled={btnDisable} onClick={verifyPasscode}>Done</button>
           </div>
       }
     </div>
