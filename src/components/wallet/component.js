@@ -14,7 +14,6 @@ import WalletDetailsComponent from './steps/wallet_details/component'
 function WalletComponent ({ currentUser, wallet }) {
   const [loading, setLoading] = useState(true)
   const [walletDetails, setWalletDetails] = useState('')
-  // const [result, setResult] = useState({})
   const history = useHistory()
 
   useEffect(() => {

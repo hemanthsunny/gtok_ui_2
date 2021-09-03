@@ -68,8 +68,8 @@ function InvoiceComponent ({
                   </div>
                 </div>
                 <div className='d-flex flex-row'>
-                  <div className='value text-left'>
-                    <span className='text-uppercase'>{accountName}</span> <br/>
+                  <div className='value text-left text-uppercase'>
+                    {accountName}<br/>
                     {accountNumber} &middot; {ifscCode}
                   </div>
                 </div>
@@ -77,7 +77,7 @@ function InvoiceComponent ({
             </div>
           </div>
           <div className='text-center mt-4'>
-            <button className='btn btn-sm btn-violet-rounded col-5' onClick={save}>
+            <button className='btn btn-sm btn-violet-rounded col-5' data-target='#alertModal' data-toggle='modal' onClick={save}>
               Confirm
             </button>
           </div>

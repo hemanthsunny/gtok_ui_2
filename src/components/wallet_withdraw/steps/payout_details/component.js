@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function InvoiceComponent ({
+function PayoutComponent ({
   currentUser, wallet, setStepNumber, withdrawAmount, setWithdrawAmount, accountName, setAccountName, accountNumber, setAccountNumber, ifscCode, setIfscCode
 }) {
   const [withdrawAmountAlerts, setWithdrawAmountAlerts] = useState('')
@@ -63,7 +63,7 @@ function InvoiceComponent ({
             </div>
             <div className='form-group'>
               <label className='form-label'>Account number</label>
-              <input type='text' className='form-control' placeholder='account number' onChange={e => setAccountNumber(e.target.value)} value={accountNumber} />
+              <input type='number' className='form-control' placeholder='account number' onChange={e => setAccountNumber(e.target.value)} value={accountNumber} />
             </div>
             <div className='form-group'>
               <label className='form-label'>IFSC code</label>
@@ -81,4 +81,4 @@ function InvoiceComponent ({
   )
 }
 
-export default InvoiceComponent
+export default PayoutComponent
