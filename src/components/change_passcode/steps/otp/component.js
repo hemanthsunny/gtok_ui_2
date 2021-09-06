@@ -19,12 +19,11 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
   }
 
   const sendOtp = async () => {
-    const w = await getWallet()
+    await getWallet()
     const res = await post('/wallet/otp', {
       otpLength: otpLength,
       otpType: 'numeric'
     })
-    console.log('res2', res)
     // const res = await update('wallets', w.id, { otp: 1234 })
     if (res.status === 201) {
       await getWallet()
