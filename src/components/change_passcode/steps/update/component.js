@@ -11,7 +11,7 @@ function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPassc
 
   return (
     <div className='change-pc-wrapper desktop-align-center enter-passcode-section'>
-      <div className='text-center my-4'>
+      <div className=''>
         <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
       </div>
       <div className={`form-group ${wallet.length < 1 && 'd-none'}`}>

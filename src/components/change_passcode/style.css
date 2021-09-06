@@ -48,6 +48,9 @@
   box-shadow: none !important;
 }
 
+.change-pc-wrapper .otp-message {
+  padding: var(--spacing-32) 0;
+}
 
 .pw-visibility-icon {
   width: 20px;
@@ -55,7 +58,4 @@
   position: absolute;
   top: 33px;
   right: 10px;
-}
-
-@media (max-width: 576px) {
 }
