@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { getQuery, firestore, update } from 'firebase_config'
+import { post } from 'services'
 
-function OtpComponent ({ currentUser, passcodeState, setPasscodeState }) {
+function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedWallet }) {
   const [otp, setOtp] = useState('')
-  const [otpSent, setOtpSent] = useState(false)
+  const [otpSent, setOtpSent] = useState(selectedWallet.otp)
   const history = useHistory()
+  const otpLength = 6
 
   const getWallet = async () => {
     const wallet = await getQuery(
@@ -18,8 +20,13 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState }) {
 
   const sendOtp = async () => {
     const w = await getWallet()
-    const res = await update('wallets', w.id, { otp: 1234 })
-    if (res.status === 200) {
+    const res = await post('/wallet/otp', {
+      otpLength: otpLength,
+      otpType: 'numeric'
+    })
+    console.log('res2', res)
+    // const res = await update('wallets', w.id, { otp: 1234 })
+    if (res.status === 201) {
       await getWallet()
       setOtpSent(true)
     } else {
@@ -29,14 +36,14 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState }) {
 
   const handleChange = async (val) => {
     setOtp(val)
-    if (val.length === 4) {
+    if (val.length === otpLength) {
       await verifyOtp(val)
     }
   }
 
   const verifyOtp = async (val) => {
     const w = await getWallet()
-    if (w.otp === +val) {
+    if (w.otp === val) {
       const res = await update('wallets', w.id, { otp: null, verified: true })
       if (res.status === 200 && window.confirm('Passcode verified successfully')) {
         history.push('/app/wallet')
@@ -66,7 +73,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState }) {
       <div className={`form-group enter-passcode-section ${otpSent ? 'd-block' : 'd-none'}`}>
         <label className='form-label'>Enter OTP</label>
         <div className='passcode-card'>
-          <input type='text' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} value={otp} maxLength='4' />
+          <input type='text' className='passcode-input' placeholder='......' onChange={e => handleChange(e.target.value)} value={otp} maxLength={otpLength} />
         </div>
       </div>
     </div>

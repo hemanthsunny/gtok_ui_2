@@ -68,7 +68,9 @@ function ChangePasscodeComponent ({ currentUser }) {
     let res
     if (selectedWallet || wallet[0]) {
       const data = {
-        passcode: passcodeState.newPasscode
+        passcode: passcodeState.newPasscode,
+        otp: null,
+        verified: false
       }
       res = await update('wallets', (selectedWallet.id || wallet[0].id), data)
     } else {
@@ -109,8 +111,8 @@ function ChangePasscodeComponent ({ currentUser }) {
                 </div>
               }
             </div>
-            { stepNumber === 1 && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} savePasscode={savePasscode} wallet={selectedWallet} /> }
-            { stepNumber === 2 && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} wallet={selectedWallet} /> }
+            { stepNumber === 1 && !selectedWallet.otp && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} savePasscode={savePasscode} wallet={selectedWallet} /> }
+            { (stepNumber === 2 || selectedWallet.otp) && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} selectedWallet={selectedWallet} /> }
           </div>
         </div>
       </div>
