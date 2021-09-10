@@ -38,13 +38,15 @@ function WalletComponent ({ currentUser, wallet }) {
 
   return (
     <div className='wallet-wrapper'>
-      {
-        loading
-          ? <LoadingComponent />
-          : <div>
-          <WalletDetailsComponent wallet={walletDetails} />
-        </div>
-      }
+      <div className='dashboard-content'>
+        {
+          loading
+            ? <LoadingComponent />
+            : <div>
+            <WalletDetailsComponent wallet={walletDetails} />
+          </div>
+        }
+      </div>
     </div>
   )
 }

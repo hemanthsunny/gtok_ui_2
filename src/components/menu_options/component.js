@@ -94,7 +94,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
     <div className='modal fade' id='menuOptionsModal' tabIndex='-1' role='dialog' aria-labelledby='menuOptionsModalLabel' aria-hidden='true'>
       <div className='modal-dialog'>
         <div className='modal-content'>
-          <div className='modal-body pt-0'>
+          <div className='modal-body p-0'>
             <div className='text-center'>
               <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
             </div>
@@ -103,7 +103,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
                 Share to...
               </li>
               <li className='menu-item' onClick={e => copyLink()}>
-                Copy link <small className={`btn btn-violet btn-sm pull-right fade-in ${!copied && 'd-none'}`}>Copied</small>
+                Copy link <small className={`text-violet btn-sm pull-right fade-in ${!copied && 'd-none'}`}>Copied</small>
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>

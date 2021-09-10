@@ -1,17 +1,44 @@
-#createChatModal .user-list {
-  max-height: 50vh;
-  overflow: scroll;
+#createChatModal .chat-user .username {
+  position: relative;
+  top: -2px;
 }
 
-#createChatModal .modal-body {
-  min-height: 35vh !important;
-  max-height: 70vh !important;
+.btn-send {
+  width: 17px;
+  height: 17px;
 }
 
-#createChatModal .chat-user {
-  padding: var(--spacing-4) 0;
+#createChatModal .btn-send {
+  position: relative;
+  top: -10px;
 }
 
-#createChatModal .media-body {
-  align-items: baseline;
+@media (max-width: 767.98px) {
+  #createChatModal .user-list {
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  #createChatModal .modal-body {
+    min-height: 35vh !important;
+    max-height: 70vh !important;
+  }
+
+  #createChatModal .chat-user {
+    padding: var(--spacing-4) 0;
+  }
+
+  #createChatModal .media-body {
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 768px) {
+  #createChatModal .media-body {
+    min-width: 15vw !important;
+  }
+
+  #createChatModal .chat-user {
+    padding: var(--spacing-12) 0;
+  }
 }

@@ -121,15 +121,15 @@ const CreateChatComponent = (props) => {
                   ? userList.sort().map((user, idx) =>
                     <div className='media chat-user' key={idx}>
                       <Link to={'/app/profile/' + user.id}>
-                        <CustomImageComponent user={user} />
+                        <CustomImageComponent user={user} size='sm'/>
                       </Link>
                       <div className='media-body pl-1'>
                         <div className='username pull-left'>
-                          @{user.username}
+                          <small>@{user.username}</small>
                          </div>
                         <div className='pull-right'>
                           <button className='btn btn-link' onClick={e => startConvo(user.id)}>
-                            <img className='btn-play' src={require('assets/svgs/ArrowUp.svg').default} alt='1' />
+                            <img className='btn-send' src={require('assets/svgs/ArrowUp.svg').default} alt='1' />
                           </button>
                         </div>
                       </div>
