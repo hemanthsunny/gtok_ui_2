@@ -95,3 +95,10 @@
     display: flex;
   }
 }
+
+@media (min-width: 768px) {
+  .profile-page-wrapper {
+    position: relative;
+    top: var(--spacing-24);
+  }
+}

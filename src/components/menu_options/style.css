@@ -1,31 +1,3 @@
-#menuOptionsModal .user-list {
-  max-height: 50vh;
-  overflow: scroll;
-}
-
-#menuOptionsModal .modal-body {
-  min-height: 35vh !important;
-  max-height: 50vh !important;
-}
-
-#menuOptionsModal .chat-user {
-  padding: var(--spacing-4) 0;
-}
-
-#menuOptionsModal .media-body {
-  align-items: baseline;
-}
-
-/* Extra code */
-#MenuModal .modal-dialog {
-  transform: translate3d(0, calc(100vh - 20vh), 0) !important;
-}
-
-#MenuModal .modal-body {
-  min-height: 20vh !important;
-  max-height: 70vh !important;
-}
-
 .btn-disabled {
   cursor: not-allowed;
   pointer-events: none;
@@ -36,6 +8,10 @@
 .btn-disabled .info {
   width: 17px;
   height: 17px;
+}
+
+.menu-list .menu-item {
+  cursor: pointer;
 }
 
 #tooltip {
@@ -84,4 +60,30 @@
 
 #tooltip[data-popper-placement^='right'] > #arrow {
   left: -4px;
+}
+
+@media (max-width: 767.98px) {
+  #menuOptionsModal .user-list {
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  #menuOptionsModal .modal-body {
+    font-size: var(--font-size);
+    padding-left: var(--spacing-12) !important;
+    min-height: 29vh !important;
+    max-height: 50vh !important;
+  }
+
+  #menuOptionsModal .chat-user {
+    padding: var(--spacing-4) 0;
+  }
+
+  #menuOptionsModal .media-body {
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 768px) {
+
 }
