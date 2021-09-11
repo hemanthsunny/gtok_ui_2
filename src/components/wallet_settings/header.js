@@ -6,7 +6,7 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
   const history = useHistory()
 
   return (
-    <nav className='navbar fixed-top navbar-violet-md px-4'>
+    <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <div className='' onClick={e => history.push('/app/settings')}>
         <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
       </div>
