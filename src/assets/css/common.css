@@ -349,7 +349,7 @@ input[type="text"], textarea {
   }
 
   .dashboard-content .desktop-align-center {
-    margin-top: var(--spacing-32);
+    margin-top: var(--spacing-80) !important;
     padding: var(--spacing-16);
     background-color: var(--color-white);
     width: 40vw !important;
@@ -357,5 +357,11 @@ input[type="text"], textarea {
 
   .tabs.-big {
     height: calc(var(--spacing-64) + 0.0625rem);
+  }
+
+  .fixed-top-lg {
+    top: 48px !important;
+    max-width: 50vw !important;
+    margin: 0px auto !important;
   }
 }

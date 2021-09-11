@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const HeaderComponent = ({ save, loading, wallet }) => {
   return (
-    <nav className='navbar fixed-top navbar-violet-md px-4'>
+    <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <Link to='/app/wallet_settings'>
         <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>
