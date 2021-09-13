@@ -4,6 +4,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: var(--spacing-12);
+  cursor: pointer;
 }
 
 #selectPostCategoryModal .other-category-box {
@@ -156,5 +157,12 @@
   .post-card-wrapper {
     padding: 1.5rem 1.5rem 1rem;
     margin: 2rem 0;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Category modal */
+  #selectPostCategoryModal .modal-body {
+    min-width: 35vw;
   }
 }

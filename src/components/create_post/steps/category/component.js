@@ -50,9 +50,11 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
               }
             </div>
             <div className={`${other ? 'other-category-box' : 'd-none'}`}>
-              <textarea className='form-control' value={otherValue} onChange={e => setOtherValue(e.target.value)} placeholder='Type here'></textarea>
+              <textarea className='form-control' value={otherValue} onChange={e => setOtherValue(e.target.value)} placeholder='Type here' maxLength='15'></textarea>
+              <small className='pull-right'>{15 - otherValue.length} chars left</small>
             </div>
-            <div className='text-center mt-3'>
+            <br/>
+            <div className='text-center'>
               <button className='btn btn-violet-rounded btn-sm' onClick={submitCategory}>
                 Done
               </button>

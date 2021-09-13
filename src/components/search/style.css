@@ -44,12 +44,13 @@ a.search-active::after {
 
 .profile-user a.username {
   color: var(--color-black) !important;
-  font-size: var(--font-size-big);
+  font-size: var(--font-size);
   float: left;
 }
 
 .profile-user a.username .actual-name {
-  font-size: var(--font-size);
+  color: var(--color-gray-900);
+  font-size: var(--font-size-small);
   position: relative;
   top: -5px;
 }
@@ -57,6 +58,27 @@ a.search-active::after {
 .icon-search-chat {
   width: 20px !important;
   height: 20px !important;
+}
+
+/* Priority users */
+.priority-user-list {
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--spacing-16);
+  padding: var(--spacing-12) var(--spacing-16) 0;
+}
+
+.priority-user-list .priority-user-list-header {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+.priority-user-list .priority-user {
+  margin: var(--spacing-12) 0;
+}
+
+.priority-user-list .priority-user .search-user {
+  padding: 0 !important;
 }
 
 @media (max-width: 576px) {
