@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading, sharePost }) => {
   return (
-    <nav className='navbar fixed-top navbar-violet-md px-4'>
+    <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <Link to='/'>
         <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>

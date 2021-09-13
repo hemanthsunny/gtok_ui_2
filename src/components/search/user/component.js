@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { getQuery, firestore } from 'firebase_config'
 import { NotificationComponent, CustomImageComponent } from 'components'
-import { capitalizeFirstLetter } from 'helpers'
+import { capitalizeFirstLetter, truncateText } from 'helpers'
 import { createRelationships } from 'lib/api'
 import { SetRelationships } from 'store/actions'
 
@@ -55,17 +55,17 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
   }
 
   return (
-    <div className='col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3'>
+    <div className='search-user col-12 my-2 my-md-3'>
       <div className='p-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile-user'>
           <Link to={'/app/profile/' + displayUser.id}>
             <CustomImageComponent user={displayUser} />
           </Link>
-          <div className='media-body pl-3'>
+          <div className='media-body pl-2'>
             <Link className='username' to={'/app/profile/' + displayUser.id}>
               {displayUser.username}<br/>
-              <span className='actual-name'>{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}</span>
+              <span className='actual-name'>{displayUser.bio ? truncateText(displayUser.bio, 15) : (displayUser.displayName && capitalizeFirstLetter(displayUser.displayName))}</span>
              </Link>
             <div className='pull-right'>
               <button className='btn btn-link'>
