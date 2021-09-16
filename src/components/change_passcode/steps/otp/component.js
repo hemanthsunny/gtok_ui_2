@@ -8,6 +8,7 @@ import { post } from 'services'
 function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedWallet }) {
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(selectedWallet.otp)
+  const [resendTimer, setResendTimer] = useState('')
   const history = useHistory()
   const otpLength = 6
 
@@ -18,16 +19,26 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     return wallet[0]
   }
 
-  const sendOtp = async () => {
+  const sendOtp = async (resend) => {
     await getWallet()
     const res = await post('/wallet/otp', {
       otpLength: otpLength,
       otpType: 'numeric'
     })
-    // const res = await update('wallets', w.id, { otp: 1234 })
     if (res.status === 201) {
       await getWallet()
       setOtpSent(true)
+      if (resend) {
+        alert('OTP is resent to your email address.')
+      }
+      var timer = 120
+      var timerInterval = setInterval(() => {
+        setResendTimer(--timer)
+        if (timer < 1) {
+          setResendTimer('')
+          clearInterval(timerInterval)
+        }
+      }, 1000)
     } else {
       alert('Something went wrong. Try again later!')
     }
@@ -62,9 +73,16 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
       </div>
       {
         otpSent
-          ? <button className='btn btn-sm btn-rounded col-6'>
+          ? <div>
+            <button className='btn btn-sm btn-rounded col-6'>
               OTP Sent
             </button>
+            <div>
+              <button className='btn' disabled={resendTimer} onClick={e => sendOtp(true)}>
+                <small className='text-violet'>Resend {resendTimer && <span>({resendTimer}s)</span>}</small>
+              </button>
+            </div>
+          </div>
           : <button className='btn btn-sm btn-violet-rounded col-6' onClick={sendOtp}>
               Send OTP
             </button>

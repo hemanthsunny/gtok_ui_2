@@ -250,29 +250,27 @@ class ParentComponent extends Component {
     return (
       <div>
         <HeaderComponent />
-        <div>
-          <div className='dashboard-content -opts'>
-            {this.subHeader()}
-            <div className='mob-single-chat-window'>
-              {this.state.copied && this.copiedTextAlert() }
-              {
-                this.state.conversation && this.state.chatUser
-                  ? (
-                  <div>
-                    {this.renderMessageWindow()}
-                    <div className='chat-window-footer'>
-                      <div className='input-group mb-3'>
-                        <textarea size='5' className='form-control' placeholder='Type message' aria-label='Type message' aria-describedby='reply-message' onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus} value={this.state.message}></textarea>
-                        <div className='input-group-append'>
-                          <img className='send-btn' src={require('assets/svgs/ArrowUp.svg').default} alt='1' onClick={e => this.sendMessage()} />
-                        </div>
+        <div className='dashboard-content -opts'>
+          {this.subHeader()}
+          <div className='mob-single-chat-window'>
+            {this.state.copied && this.copiedTextAlert() }
+            {
+              this.state.conversation && this.state.chatUser
+                ? (
+                <div>
+                  {this.renderMessageWindow()}
+                  <div className='chat-window-footer'>
+                    <div className='input-group mb-sm-3'>
+                      <textarea className='form-control' placeholder='Type message' aria-label='Type message' aria-describedby='reply-message' onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus} value={this.state.message}></textarea>
+                      <div className='input-group-append'>
+                        <img className='' src={require('assets/svgs/ArrowUp.svg').default} alt='1' onClick={e => this.sendMessage()} />
                       </div>
                     </div>
                   </div>
-                    )
-                  : <LoadingComponent />
-              }
-            </div>
+                </div>
+                  )
+                : <LoadingComponent />
+            }
           </div>
         </div>
       </div>
