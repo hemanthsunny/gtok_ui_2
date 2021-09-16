@@ -65,6 +65,7 @@ import WalletWithdrawComponent from 'components/wallet_withdraw/component'
 import MenuOptionsComponent from 'components/menu_options/component'
 import ShareOptionsComponent from 'components/share_options/component'
 import AlertModalComponent from 'components/alert_modal/component'
+import InviteFriendsComponent from 'components/invite_friends/component'
 
 export {
   VerifyEmailComponent,
@@ -133,5 +134,6 @@ export {
   WalletWithdrawComponent,
   MenuOptionsComponent,
   ShareOptionsComponent,
-  AlertModalComponent
+  AlertModalComponent,
+  InviteFriendsComponent
 }

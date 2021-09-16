@@ -77,6 +77,10 @@ export const Metadata = {
     title: 'Signup | Lets Gtok',
     description: 'Signup into our lets GTOK application.'
   },
+  '/signup/:username': {
+    title: 'Signup | Lets Gtok',
+    description: 'Signup into our lets GTOK application.'
+  },
   '/signup_success': {
     title: 'Signup success | Lets Gtok'
   },

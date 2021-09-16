@@ -168,6 +168,16 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                 </li>
               </ul>
             </div>
+            <div className='section'>
+              <div className='section-header'>Support zone</div>
+              <ul className='section-list'>
+                <li>
+                  <Link to='/app/invite_friends' className='d-flex flex-row align-items-center justify-content-between'>
+                    <span className='option-name'>Invite friends</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <div className='section d-none'>
               <div className='section-header'>Legal zone</div>
               <ul className='section-list'>
@@ -214,7 +224,7 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                 <li>
                   <Link to='/app/settings' className='row' onClick={inviteFriend}>
                     <img src={require('assets/svgs/Workflow.svg').default} className='scale-0-9 col-2' alt='Workflow' />
-                    <span className='option-name col-8'>Invite my friend</span>
+                    <span className='option-name col-8'>Invite my friends</span>
                     <img src={require('assets/svgs/AngleRight.svg').default} className='option-open col-2 d-none' alt='Open' />
                   </Link>
                 </li>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, withRouter } from 'react-router-dom'
 
 import { signup, add, getQuery, firestore } from 'firebase_config'
 import { StaticHeaderComponent } from 'components'
 import { validateEmail } from 'helpers'
 import './style.css'
 
-const SignupComponent = () => {
+const SignupComponent = (props) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,6 +16,7 @@ const SignupComponent = () => {
   const [error, setErrors] = useState('')
   const [eyeIcon, setEyeIcon] = useState('fa-eye')
   const history = useHistory()
+  const inviteeUsername = props.match.params.username
 
   const handleForm = async (e) => {
     setErrors('')
@@ -79,6 +80,14 @@ const SignupComponent = () => {
       verifyEmailSentTime: new Date()
     }
     const createDbUser = await add('users', userData)
+
+    if (inviteeUsername) {
+      /* Invited by a user */
+      await add('referals', {
+        username: data.username,
+        invitedBy: inviteeUsername
+      })
+    }
     setBtnSave('Submit')
     if (createDbUser.status !== 200) {
       setErrors(createDbUser.message)
@@ -275,4 +284,4 @@ const SignupComponent = () => {
   )
 }
 
-export default SignupComponent
+export default withRouter(SignupComponent)

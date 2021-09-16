@@ -10,7 +10,12 @@ const StaticHeaderComponent = ({ routes }) => {
   const [metaDetails, setMetaDetails] = useState({})
   useEffect(() => {
     const path = window.location.pathname
-    setMetaDetails(Metadata[path])
+    Object.keys(Metadata).map((key) => {
+      if (key.includes(path)) {
+        setMetaDetails(Metadata[key])
+      }
+      return key
+    })
   }, [metaDetails])
 
   return (
