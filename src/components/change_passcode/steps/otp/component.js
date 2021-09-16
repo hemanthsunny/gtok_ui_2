@@ -19,7 +19,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     return wallet[0]
   }
 
-  const sendOtp = async () => {
+  const sendOtp = async (resend) => {
     await getWallet()
     const res = await post('/wallet/otp', {
       otpLength: otpLength,
@@ -28,7 +28,10 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     if (res.status === 201) {
       await getWallet()
       setOtpSent(true)
-      var timer = 60
+      if (resend) {
+        alert('OTP is resent to your email address.')
+      }
+      var timer = 120
       var timerInterval = setInterval(() => {
         setResendTimer(--timer)
         if (timer < 1) {
@@ -75,7 +78,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
               OTP Sent
             </button>
             <div>
-              <button className='btn' disabled={resendTimer} onClick={sendOtp}>
+              <button className='btn' disabled={resendTimer} onClick={e => sendOtp(true)}>
                 <small className='text-violet'>Resend {resendTimer && <span>({resendTimer}s)</span>}</small>
               </button>
             </div>
