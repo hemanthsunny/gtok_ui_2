@@ -47,7 +47,8 @@ import {
   ShowOpenActivitiesComponent,
   ChangePasscodeComponent,
   WalletRechargeComponent,
-  WalletWithdrawComponent
+  WalletWithdrawComponent,
+  InviteFriendsComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -68,6 +69,7 @@ export const Routes = (props) => {
           <Route path="/login" component={LoginComponent} />
           <Route path="/logout" component={LogoutComponent} />
           <Route exact path="/signup" component={SignupComponent} />
+          <Route exact path="/signup/:username" component={SignupComponent} />
           <Route exact path="/signup_success" component={SignupSuccessComponent} />
           <Route exact path="/forgot_password" component={ForgotPasswordComponent} />
           <Route exact path="/profile_deleted" component={DeleteProfileComponent} />
@@ -113,6 +115,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/change_passcode" component={ChangePasscodeComponent} />
           <AuthRoute exact path="/app/recharge" component={WalletRechargeComponent} />
           <AuthRoute exact path="/app/withdraw" component={WalletWithdrawComponent} />
+          <AuthRoute exact path="/app/invite_friends" component={InviteFriendsComponent} />
           <Redirect to="/" />
         </Switch>
       </AnimatePresence>
