@@ -8,7 +8,6 @@ import './style.css'
 import HeaderComponent from 'components/common/header/component'
 import PostComponent from 'components/show_posts/children/post/component'
 import {
-  SidebarComponent,
   LoadingComponent
 } from 'components'
 import { getId } from 'firebase_config'
@@ -55,7 +54,6 @@ class ParentComponent extends Component {
       <div>
         <HeaderComponent />
         <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
           <div className='dashboard-content'>
             {this.subHeader()}
             <div className='feeling-wrapper'>

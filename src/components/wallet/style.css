@@ -162,12 +162,21 @@
 
 /* Transactions section */
 .wallet-wrapper .transactions-section {
-  text-align: center;
+  margin: 0 var(--spacing-24);
 }
 
 .wallet-wrapper .transactions-section .all-transactions-text {
-  font-size: 14px;
+  text-align: center;
+  font-size: var(--font-size);
   padding: 10px 0;
+}
+
+.wallet-wrapper .transactions-section .transaction-card {
+  border: 2px solid var(--color-white-600);
+  border-radius: var(--spacing-24);
+  padding: var(--spacing-8) var(--spacing-8);
+  height: 50vh;
+  overflow-y: scroll;
 }
 
 .wallet-wrapper .transaction-card .transaction-date {

@@ -9,9 +9,9 @@ import { CustomImageComponent } from 'components'
 import { SetDbUser } from 'store/actions'
 
 function Component (props) {
-  const { currentUser, purchaseOrders } = props
+  const { currentUser, displayUser, purchaseOrders } = props
   const [user, setUser] = useState(currentUser)
-  const userId = props.match.params.user_id || currentUser.id
+  const userId = props.match.params.username ? displayUser.id : currentUser.id
   const purchaseFound = purchaseOrders.find(order => (order.profileUserId === userId && order.purchaseOrderStatus === 'active'))
   const [follower, setFollower] = useState('')
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
@@ -48,8 +48,10 @@ function Component (props) {
       )
       setFollowingCount(ingCount.length)
     }
-    /* get relationships */
-    getRelationships()
+    if (userId) {
+      /* get relationships */
+      getRelationships()
+    }
 
     /* setIsAdminUser when current user is not equal to view profile user */
     if ((currentUser.id === userId) || !userId) {

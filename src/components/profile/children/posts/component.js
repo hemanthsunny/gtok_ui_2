@@ -18,12 +18,14 @@ class PostsComponent extends Component {
       reloadPosts: this.propsState.reloadPosts || false,
       pageId: 1,
       pageLimit: 10,
-      userId: props.match.params.user_id || props.currentUser.id
+      userId: props.match.params.username ? props.displayUser.id : props.currentUser.id
     }
   }
 
   componentDidMount () {
-    this.loadPosts()
+    if (this.state.userId) {
+      this.loadPosts()
+    }
   }
 
   UNSAFE_componentWillMount () {
@@ -73,7 +75,7 @@ class PostsComponent extends Component {
     return (
       <div className='pt-2'>
         {this.subHeader()}
-        <div className='filter-wrapper'>
+        <div className='filter-wrapper d-none'>
           <div className='filter-icon' onClick={e => this.setState({ showFilters: !this.state.showFilters })}>
           Filter <img className='btn-play' src={require('assets/svgs/Filter.svg').default} alt="1" />
           </div>
@@ -106,7 +108,7 @@ class PostsComponent extends Component {
               )
             })
           }
-          <div className={`text-center my-3 ${(this.state.posts.length >= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
+          <div className={`text-center my-3 ${(this.state.posts.length <= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
             <button className='btn btn-violet btn-sm' onClick={this.loadMorePosts}>Load more</button>
           </div>
         </div>

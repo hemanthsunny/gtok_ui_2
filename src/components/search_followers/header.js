@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save }) => {
   return (
-    <nav className='navbar fixed-top navbar-linear-violet px-4'>
+    <nav className='navbar fixed-top fixed-top-lg navbar-linear-violet px-4'>
       <Link to='/app/profile'>
         <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
       </Link>

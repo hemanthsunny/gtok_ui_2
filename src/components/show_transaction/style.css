@@ -1,0 +1,53 @@
+.show-transaction-wrapper {
+  padding: var(--spacing-48) var(--spacing-16);
+  text-align: left;
+}
+
+.show-transaction-wrapper .invoice-table {
+  border: 2px solid #D5D5D5;
+  border-radius: var(--spacing-24);
+  margin-top: var(--spacing-24);
+  margin-bottom: var(--spacing-24);
+}
+
+.show-transaction-wrapper .invoice-table .invoice-table-section {
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--font-size);
+}
+
+.show-transaction-wrapper .invoice-table .invoice-table-divider {
+  margin: 0;
+}
+
+.show-transaction-wrapper .transaction-details {
+  text-align: center;
+}
+
+.show-transaction-wrapper .transaction-details .transaction-amount {
+  margin-bottom: 0;
+}
+
+.show-transaction-wrapper .transaction-details small {
+  text-transform: capitalize;
+  font-size: var(--font-size-smaller);
+}
+
+.show-transaction-wrapper .transaction-details .debit {
+  color: var(--color-red-400);
+}
+
+.show-transaction-wrapper .transaction-details .credit {
+  color: var(--color-green-500);
+}
+
+.show-transaction-wrapper .transaction-note {
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .show-transaction-wrapper {
+    margin-top: var(--spacing-64);
+    padding-top: var(--spacing-64);
+  }
+}

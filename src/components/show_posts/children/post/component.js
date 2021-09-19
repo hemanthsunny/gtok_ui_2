@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import $ from 'jquery'
@@ -19,7 +19,7 @@ import SliderComponent from '../slider/component'
 import { convertTextToLink } from 'helpers'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
@@ -115,7 +115,7 @@ const PostComponent = ({
 
   const redirectToProfile = async () => {
     if (!hideRedirects) {
-      history.push('/app/profile/' + displayPost.userId)
+      history.push('/app/profile/' + postedUser.username)
     }
   }
 
@@ -176,6 +176,14 @@ const PostComponent = ({
     setPlayDetails({ ...playDetails, progressPercent: e.target.value })
   }
 
+  const tradePostAction = () => {
+    if (!wallet.length) {
+      history.push('/app/change_passcode')
+    } else {
+      history.push(`/app/trade/${displayPost.id}`)
+    }
+  }
+
   return postedUser && displayPost.stories && (
     <div className={`d-flex ${reshare ? 'm-0' : 'ml-2 mt-3 mb-4'}`}>
       <div className={`${reshare && 'd-none'}`}>
@@ -213,14 +221,14 @@ const PostComponent = ({
                     <div className='blur-text'>
                       This is a trading post. Trade it, to unlock.
                     </div>
-                    <Link to={`/app/trade/${displayPost.id}`} className='locked-post'>
+                    <div className='locked-post pointer' onClick={e => tradePostAction(displayPost.id)}>
                       <div className='locked-post-text'>
                         Unlock for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
                       </div>
                       <div>
                         <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
                       </div>
-                    </Link>
+                    </div>
                   </div>
                     : <div>
                       <p className='card-text white-space-preline'>
@@ -259,7 +267,7 @@ const PostComponent = ({
               }
               </div>
               <div className='card-footer'>
-                {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
+                {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={redirectToProfile}>@{postedUser.username}</span>}
                 <div className={`edit-options ${hideEditOptions && 'd-none'}`}>
                   <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
                     {
@@ -287,7 +295,8 @@ const PostComponent = ({
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
   const { transactions } = state.transactions
-  return { allUsers, transactions }
+  const { wallet } = state.wallet
+  return { allUsers, transactions, wallet }
 }
 
 const mapDispatchToProps = (dispatch) => {
