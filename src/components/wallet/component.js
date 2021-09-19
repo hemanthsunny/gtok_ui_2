@@ -43,7 +43,7 @@ function WalletComponent ({ currentUser, wallet }) {
           loading
             ? <LoadingComponent />
             : <div>
-            <WalletDetailsComponent wallet={walletDetails} />
+            <WalletDetailsComponent wallet={walletDetails} currentUser={currentUser} />
           </div>
         }
       </div>

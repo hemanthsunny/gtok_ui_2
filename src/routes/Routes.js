@@ -48,7 +48,8 @@ import {
   ChangePasscodeComponent,
   WalletRechargeComponent,
   WalletWithdrawComponent,
-  InviteFriendsComponent
+  InviteFriendsComponent,
+  ShowTransactionComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -85,7 +86,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/posts/:post_id" component={ShowPostComponent} />
           <AuthRoute exact path="/app/activities" component={ShowActivitiesComponent} />
           <AuthRoute exact path="/app/profile" component={ProfileComponent} />
-          <AuthRoute exact path="/app/profile/:user_id" component={ProfileComponent} />
+          <AuthRoute exact path="/app/profile/:username" component={ProfileComponent} />
           <AuthRoute exact path="/app/profile/:user_id/posts" component={ShowUserPostsComponent} />
           <AuthRoute exact path="/app/profile/:user_id/activities" component={ShowUserActivitiesComponent} />
           <AuthRoute exact path="/app/trade/:post_id" component={TradePostComponent} />
@@ -115,6 +116,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/change_passcode" component={ChangePasscodeComponent} />
           <AuthRoute exact path="/app/recharge" component={WalletRechargeComponent} />
           <AuthRoute exact path="/app/withdraw" component={WalletWithdrawComponent} />
+          <AuthRoute exact path="/app/transactions/:id" component={ShowTransactionComponent} />
           <AuthRoute exact path="/app/invite_friends" component={InviteFriendsComponent} />
           <Redirect to="/" />
         </Switch>

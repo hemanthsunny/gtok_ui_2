@@ -1,53 +1,55 @@
 import React, { useState, useEffect } from 'react'
 
-import { MobileFooterComponent, ShowPostsComponent } from 'components'
+import { MobileFooterComponent } from 'components'
 // import HeaderComponent from './header'
 import UserDetailComponent from './children/user_detail/component'
+import PostsComponent from './children/posts/component'
 import './style.css'
 
-import { getId, getQuery, firestore } from 'firebase_config'
+import { getQuery, firestore } from 'firebase_config'
 
 function ParentComponent ({ currentUser, computedMatch }) {
-  const userId = computedMatch.params.user_id || ''
+  const username = computedMatch.params.username || ''
   const [displayUser, setDisplayUser] = useState('')
   const [relationship, setRelationship] = useState('')
 
   useEffect(() => {
     async function getDisplayUser () {
-      let u = await getId('users', userId)
-      u = Object.assign(u, { id: userId })
-      setDisplayUser(u)
+      const u = await getQuery(
+        firestore.collection('users').where('username', '==', username).get()
+      )
+      setDisplayUser(u[0])
+      /* get relationship status */
+      getRelationship(u[0])
     }
 
-    async function getRelationship () {
+    async function getRelationship (u) {
       const rlns = await getQuery(
-        firestore.collection('userRelationships').where('userIdOne', '==', currentUser.id).where('userIdTwo', '==', userId).get()
+        firestore.collection('userRelationships').where('userIdOne', '==', currentUser.id).where('userIdTwo', '==', u.id).get()
       )
       if (rlns[0]) setRelationship(rlns[0])
     }
 
-    if (userId) {
-      /* get relationship status */
-      getRelationship()
+    if (username) {
       /* get user private status */
       getDisplayUser()
     }
-  }, [userId])
+  }, [username])
 
   return (
     <div style={{ background: 'rgba(0,0,0,0.01)' }}>
       {/* <HeaderComponent userId={userId} currentUserId={currentUser.id} currentUser={currentUser} /> */}
       <div className='profile-page-wrapper'>
         <div className='dashboard-content pt-sm-0'>
-          <UserDetailComponent currentUser={currentUser} />
+          <UserDetailComponent currentUser={currentUser} displayUser={displayUser} />
           {
-            userId
+            username
               ? relationship.status !== 1 && displayUser.private
                 ? <div className='private-profile-text'>
                   @{displayUser.username} feelings are private. <br/> Follow to view what they are sharing.
                 </div>
-                : <ShowPostsComponent currentUser={currentUser} hideHeader={true} />
-              : <ShowPostsComponent currentUser={currentUser} hideHeader={true} />
+                : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
+              : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
           }
         </div>
       </div>

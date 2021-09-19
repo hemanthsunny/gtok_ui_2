@@ -66,6 +66,7 @@ import MenuOptionsComponent from 'components/menu_options/component'
 import ShareOptionsComponent from 'components/share_options/component'
 import AlertModalComponent from 'components/alert_modal/component'
 import InviteFriendsComponent from 'components/invite_friends/component'
+import ShowTransactionComponent from 'components/show_transaction/component'
 
 export {
   VerifyEmailComponent,
@@ -135,5 +136,6 @@ export {
   MenuOptionsComponent,
   ShareOptionsComponent,
   AlertModalComponent,
-  InviteFriendsComponent
+  InviteFriendsComponent,
+  ShowTransactionComponent
 }

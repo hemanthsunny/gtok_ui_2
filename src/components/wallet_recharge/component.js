@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import './style.css'
 
 import HeaderComponent from './header'
-import { update, getQuery, firestore } from 'firebase_config'
+import { add, update, getQuery, firestore } from 'firebase_config'
 
 function WalletRechargeComponent ({ currentUser }) {
   const [rechargeAmount, setRechargeAmount] = useState(10)
@@ -61,15 +61,31 @@ function WalletRechargeComponent ({ currentUser }) {
       return null
     }
 
-    let data = {
-      amount: selectedWallet.amount + rechargeAmount
-    }
-
-    if (process.env.REACT_APP_ENV === 'development') {
-      data = Object.assign(data, { amount: selectedWallet.amount + 100 })
+    const data = {
+      amount: (isNaN(selectedWallet.amount) ? 0 : selectedWallet.amount) + +rechargeAmount
     }
 
     const res = await update('wallets', selectedWallet.id, data)
+    await add('transactions', {
+      userId: currentUser.id,
+      walletId: selectedWallet.id,
+      postId: '',
+      currency: currentUser.currency || 'inr',
+      amount: +rechargeAmount,
+      type: 'credit',
+      status: 'success',
+      trackDetails: {
+        location: {
+          country: null,
+          address: null
+        },
+        system: {
+          ipAddress: null,
+          browser: null
+        }
+      }
+    })
+
     setResult(res)
     setTimeout(() => {
       setResult('')
@@ -95,7 +111,7 @@ function WalletRechargeComponent ({ currentUser }) {
   return (
     <div>
       <HeaderComponent/>
-      <div className='dashboard-content -xs-bg-none'>
+      <div className='dashboard-content -xs-bg-none pt-md-1'>
         <div className='wallet-recharge-wrapper desktop-align-center'>
           <div className=''>
             <div className=''>
@@ -127,7 +143,7 @@ function WalletRechargeComponent ({ currentUser }) {
               {
                 result.status &&
                 <small className={`text-${result.status === 200 ? 'violet' : 'danger'} my-2`}>
-                  {result.message}
+                  {result.message} <br/>
                 </small>
               }
               <button className='btn btn-sm btn-violet-rounded col-5' onClick={saveRecharge}>

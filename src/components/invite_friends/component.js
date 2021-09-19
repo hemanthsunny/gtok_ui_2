@@ -29,7 +29,7 @@ function InviteFriendsComponent ({ currentUser }) {
       <HeaderComponent />
       <div className='dashboard-content -xs-bg-none'>
         <div className='invite-friends-wrapper text-center'>
-          <input type='text' className='lg-input' value={inviteLink} disabled/>
+          <input type='text' className='lg-input col-9' value={inviteLink} disabled/>
           <div className='my-3'>
             {
               copyText

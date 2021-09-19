@@ -58,11 +58,21 @@ function TradePostComponent (props) {
         a. update transaction
     */
     // let result
-    const data = {
-      userId: currentUser.id,
-      postId,
+    /* Call API here */
+    // API 1: create a transaction
+    // API 2: debit amount from current user wallet
+    // API 3: credit amount to posted user wallet
+    // API 4: display the post completely
+
+    // API 1
+    await update('wallets', wallet.id, { amount: (wallet.amount - displayPost.tradePrice) })
+    await add('transactions', {
+      userId: displayPost.userId,
+      postId: postId,
+      walletId: wallet.id,
       currency: currentUser.currency || 'inr',
-      tradePrice: displayPost.tradePrice,
+      amount: displayPost.tradePrice,
+      type: 'debit',
       status: 'success',
       trackDetails: {
         location: {
@@ -74,22 +84,32 @@ function TradePostComponent (props) {
           browser: null
         }
       }
-    }
-    /* Call API here */
-    // API 1: create a transaction
-    // API 2: debit amount from current user wallet
-    // API 3: credit amount to posted user wallet
-    // API 4: display the post completely
-
-    // API 1
-    await update('wallets', wallet.id, { amount: (wallet.amount - displayPost.tradePrice) })
+    })
 
     // API 2
     const sellerWallet = await getQuery(
       firestore.collection('wallets').where('userId', '==', displayPost.userId).limit(1).get()
     )
     await update('wallets', sellerWallet[0].id, { amount: (wallet.amount + displayPost.tradePrice) })
-    const res = await add('transactions', data)
+    const res = await add('transactions', {
+      userId: currentUser.id,
+      walletId: sellerWallet[0].id,
+      postId: postId,
+      currency: currentUser.currency || 'inr',
+      amount: displayPost.tradePrice,
+      type: 'credit',
+      status: 'success',
+      trackDetails: {
+        location: {
+          country: null,
+          address: null
+        },
+        system: {
+          ipAddress: null,
+          browser: null
+        }
+      }
+    })
 
     // API should update the wallet balance after successful transaction
     // API should return a response on
@@ -119,48 +139,50 @@ function TradePostComponent (props) {
   return (
     <div>
       <HeaderComponent />
-      {loading && <div onClick={saveTransaction}>Save</div>}
-      <div className='d-flex ml-2 mt-5 pt-3 mb-4'>
-        <div className=''>
-          {displayPost.anonymous
-            ? <CustomImageComponent user={postedUser} size='sm' />
-            : <CustomImageComponent user={postedUser} size='sm' />
-          }
-        </div>
-        <div className='card post-card-wrapper add-filter'>
-          {
-            displayPost && displayPost.stories.map((story, idx) => (
-              <div key={idx}>
-                <div className='card-body'>
-                  <div>
-                    <span className='card-badge'>{displayPost.category.title}</span>
-                    <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
+      <div className='dashboard-content pt-4 mt-md-5'>
+        {loading && <div onClick={saveTransaction}>Save</div>}
+        <div className='d-flex ml-2 mt-4 mt-md-5'>
+          <div className=''>
+            {displayPost.anonymous
+              ? <CustomImageComponent user={postedUser} size='sm' />
+              : <CustomImageComponent user={postedUser} size='sm' />
+            }
+          </div>
+          <div className='card post-card-wrapper add-filter'>
+            {
+              displayPost && displayPost.stories.map((story, idx) => (
+                <div key={idx}>
+                  <div className='card-body'>
+                    <div>
+                      <span className='card-badge'>{displayPost.category.title}</span>
+                      <span className='created-at'>{moment(displayPost.createdAt).format('h:mm A')} &middot; {moment(displayPost.createdAt).format('MMMM DD, YYYY')}</span>
+                    </div>
+                    <div className='clearfix'></div>
+                    <div className='card-body hidden-post'>
+                      <div className='blur-text'>
+                        This is a trading post. Trade it, to unlock.
+                      </div>
+                      <div className='locked-post'>
+                        <div className='locked-post-text'>
+                          Trade for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                        </div>
+                        <div>
+                          <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className='clearfix'></div>
-                  <div className='card-body hidden-post'>
-                    <div className='blur-text'>
-                      This is a trading post. Trade it, to unlock.
-                    </div>
-                    <div className='locked-post'>
-                      <div className='locked-post-text'>
-                        Trade for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
-                      </div>
-                      <div>
-                        <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
-                      </div>
-                    </div>
+                  <div className='card-footer'>
+                    <span className='author pointer'>@{postedUser.username}</span>
                   </div>
                 </div>
-                <div className='card-footer'>
-                  <span className='author pointer'>@{postedUser.username}</span>
-                </div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
+        { stepNumber === 1 && <InvoiceComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} /> }
+        { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} /> }
       </div>
-      { stepNumber === 1 && <InvoiceComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} /> }
-      { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} /> }
     </div>
   )
 }

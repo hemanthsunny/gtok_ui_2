@@ -29,7 +29,7 @@ const ParentComponent = ({
     <div>
       <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
       <div className='dashboard-content'>
-        <div className='container mt-5 pt-2 px-4'>
+        <div className='container mt-5 pt-2 pt-md-5 px-4'>
           {
             followers[0]
               ? <div className='row'> {

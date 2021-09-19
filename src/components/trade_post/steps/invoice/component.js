@@ -8,9 +8,7 @@ function InvoiceComponent ({ currentUser, wallet, displayPost, setStepNumber }) 
 
   return (
     <div className='container desktop-align-center trade-post-wrapper'>
-      <div className='pt-3'>
-        <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
-      </div>
+      <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
       <h5 className='pt-5'>Invoice details</h5>
       <div className='invoice-table'>
         <table className='table table-bordered'>

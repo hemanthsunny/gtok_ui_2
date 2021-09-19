@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import moment from 'moment'
 
 import { getQuery, firestore } from 'firebase_config'
+import TransactionComponent from '../transaction/component'
 
-function WalletDetailsComponent ({ wallet }) {
+function WalletDetailsComponent ({ currentUser, wallet }) {
+  const [selectedWallet, setSelectedWallet] = useState(wallet)
   const [transactions, setTransactions] = useState('')
   const [passcode, setPasscode] = useState('')
   const [walletVerification, setWalletVerification] = useState(JSON.parse(sessionStorage.getItem('walletVerification')))
@@ -13,14 +14,24 @@ function WalletDetailsComponent ({ wallet }) {
   const history = useHistory()
 
   useEffect(() => {
-    async function getTransactions () {
-      const trns = await getQuery(
-        firestore.collection('transactions').where('toUserWalletId', '==', wallet.id).get()
-      )
-      setTransactions(trns)
+    console.log('llll', selectedWallet)
+    if (!selectedWallet) {
+      getWallet()
     }
-    if (wallet.id) {
-      getTransactions()
+    async function getWallet () {
+      const w = await getQuery(
+        firestore.collection('wallets').where('userId', '==', currentUser.id).get()
+      )
+      if (w && w[0]) {
+        setSelectedWallet(w[0])
+      }
+      getTransactions(w[0] || selectedWallet)
+    }
+    async function getTransactions (w) {
+      const trns = await getQuery(
+        firestore.collection('transactions').where('walletId', '==', w.id).orderBy('createdAt', 'desc').get()
+      )
+      setTransactions(trns.sort((a, b) => b.createdAt - a.createdAt))
     }
     if (walletVerification) {
       const currentTime = new Date().getTime()
@@ -40,7 +51,7 @@ function WalletDetailsComponent ({ wallet }) {
   }, [])
 
   const verifyPasscode = (pc) => {
-    if (wallet.passcode === pc) {
+    if (selectedWallet.passcode === pc) {
       sessionStorage.setItem('walletVerification', JSON.stringify({
         verified: true,
         loginTime: new Date().getTime()
@@ -96,7 +107,7 @@ function WalletDetailsComponent ({ wallet }) {
         <div className='balance-details'>
           <div className='balance-amount'>
             <img src={require('assets/svgs/currency/inr.svg').default} className='posts-icon' alt='Posts' />
-            {walletVerification && walletVerification.verified && <span className='text'>{wallet.amount || 0}</span>}
+            {walletVerification && walletVerification.verified && <span className='text'>{selectedWallet.amount || 0}</span>}
           </div>
           <div className='balance-text'>Balance</div>
         </div>
@@ -114,18 +125,7 @@ function WalletDetailsComponent ({ wallet }) {
                 {
                   transactions[0]
                     ? transactions.map((trn, i) => (
-                    <div className='card p-2' key={i}>
-                      <div className='flex-row'>
-                        <div className='pull-left pl-0 transaction-name'>{trn.toUserName}</div>
-                        <div className='pull-right transaction-amount credit'>
-                          {trn.currency} {trn.amount}
-                        </div>
-                      </div>
-                      <div className='text-secondary pt-2'>
-                        <div className='transaction-date'>Purchase order id: {trn.orderId}</div>
-                        <div className='transaction-date'>Transaction date: {moment(trn.createdAt).format('DD-MM-YYYY HH:MM:SS')}</div>
-                      </div>
-                    </div>
+                      <TransactionComponent wallet={wallet} transaction={trn} key={i}/>
                     ))
                     : <div className='text-center'>
                     <small>No transactions yet</small>

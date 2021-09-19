@@ -9,4 +9,5 @@
   border-radius: var(--spacing-24);
   min-width: 30vw;
   text-align: center;
+  font-size: var(--font-size);
 }

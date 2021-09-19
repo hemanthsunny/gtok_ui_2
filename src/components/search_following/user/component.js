@@ -50,7 +50,7 @@ const UserComponent = ({ displayUser, currentUser, relations, bindRelationships 
       <div className='p-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile-user'>
-          <Link to={'/app/profile/' + displayUser.id}>
+          <Link to={'/app/profile/' + displayUser.username}>
             <CustomImageComponent user={displayUser} />
           </Link>
           <div className='media-body pl-3'>

@@ -59,11 +59,11 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
       <div className='p-0'>
         {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile-user'>
-          <Link to={'/app/profile/' + displayUser.id}>
+          <Link to={'/app/profile/' + displayUser.username}>
             <CustomImageComponent user={displayUser} />
           </Link>
           <div className='media-body pl-2'>
-            <Link className='username' to={'/app/profile/' + displayUser.id}>
+            <Link className='username' to={'/app/profile/' + displayUser.username}>
               {displayUser.username}<br/>
               <span className='actual-name'>{displayUser.bio ? truncateText(displayUser.bio, 15) : (displayUser.displayName && capitalizeFirstLetter(displayUser.displayName))}</span>
              </Link>
