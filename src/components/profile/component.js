@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 
 import { MobileFooterComponent } from 'components'
 // import HeaderComponent from './header'
-import UserDetailComponent from './children/user_detail/component'
-import PostsComponent from './children/posts/component'
+import UserDetailComponent from './steps/user_detail/component'
+import PostsComponent from './steps/posts/component'
 import './style.css'
 
 import { getQuery, firestore } from 'firebase_config'

@@ -56,6 +56,8 @@ function Component (props) {
     /* setIsAdminUser when current user is not equal to view profile user */
     if ((currentUser.id === userId) || !userId) {
       setIsAdminUser(true)
+    } else {
+      setIsAdminUser(false)
     }
   }, [userId])
 
@@ -119,15 +121,19 @@ function Component (props) {
     <div className='profile-wrapper'>
       <div className='container'>
         <div className='d-flex justify-content-between align-items-baseline py-3 px-3'>
-          <div onClick={goBack}>
+          <div onClick={goBack} className={`${user.username !== currentUser.username && 'flex-grow-1'}`}>
             <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='posts-icon pull-left' alt='Posts' />
           </div>
           <div className='fw-500'>
             @{user.username}
           </div>
-          <Link to='/app/settings'>
-            <img src={require('assets/svgs/Settings.svg').default} className={`posts-icon pull-left ${!isAdminUser && 'd-none'}`} alt='Posts' />
-          </Link>
+          {
+            user.username === currentUser.username
+              ? <Link to='/app/settings'>
+                <img src={require('assets/svgs/Settings.svg').default} className={`posts-icon pull-left ${!isAdminUser && 'd-none'}`} alt='Posts' />
+              </Link>
+              : <div className='flex-grow-1'></div>
+          }
         </div>
         <div className='row profile-info'>
           <div className='col-4' onClick={seeFollowers}>

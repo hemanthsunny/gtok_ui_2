@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
-import $ from 'jquery'
+// import $ from 'jquery'
 import './style.css'
 
 import HeaderComponent from './header'
 import PayoutDetailsComponent from './steps/payout_details/component'
 import ConfirmComponent from './steps/confirm/component'
-import { AlertModalComponent } from 'components'
-import { add, getQuery, firestore } from 'firebase_config'
+import { add, getQuery, update, firestore } from 'firebase_config'
 
 function WalletWithdrawComponent ({ currentUser }) {
   const [withdrawAmount, setWithdrawAmount] = useState('')
@@ -18,7 +17,7 @@ function WalletWithdrawComponent ({ currentUser }) {
   const [stepNumber, setStepNumber] = useState(1)
   const [result, setResult] = useState({})
   const [selectedWallet, setSelectedWallet] = useState('')
-  const [withdrawalDate, setWithdrawalDate] = useState('')
+  const [withdrawTransaction, setWithdrawTransaction] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -28,6 +27,16 @@ function WalletWithdrawComponent ({ currentUser }) {
       )
       if (wallet[0]) {
         setSelectedWallet(wallet[0])
+        getWithdrawTransaction()
+      }
+    }
+
+    async function getWithdrawTransaction () {
+      const trn = await getQuery(
+        firestore.collection('transactions').where('userId', '==', currentUser.id).where('withdrawRequest', '==', true).get()
+      )
+      if (trn[0]) {
+        setWithdrawTransaction(trn[0])
       }
     }
 
@@ -69,16 +78,32 @@ function WalletWithdrawComponent ({ currentUser }) {
 
     const data = {
       userId: currentUser.id,
-      amount: withdrawAmount,
+      walletId: selectedWallet.id,
+      amount: +withdrawAmount,
       currency: currentUser.currency || 'inr',
-      type: 'withdraw',
+      type: 'debit',
       status: 'pending',
-      withdrawalDate: getWithdrawalDate()
+      withdrawRequest: true,
+      withdrawalDate: getWithdrawalDate(),
+      trackDetails: {
+        location: {
+          country: null,
+          address: null
+        },
+        system: {
+          ipAddress: null,
+          browser: null
+        }
+      }
     }
 
+    await update('wallets', selectedWallet.id, {
+      amount: selectedWallet.amount - +withdrawAmount
+    })
     const res = await add('transactions', data)
     setResult(res)
     setStepNumber(3)
+    setWithdrawTransaction(data)
     setTimeout(() => {
       setResult('')
       setWithdrawAmount(0)
@@ -86,27 +111,29 @@ function WalletWithdrawComponent ({ currentUser }) {
   }
 
   const getWithdrawalDate = () => {
-    const date = new Date()
+    let date = new Date()
     const getDate = date.getDate()
     date.setDate(15)
     if (getDate >= 15) {
-      date.setMonth(date.getMonth() + 1)
+      date = `15/${moment().add(1, 'months').format('MM/YYYY')}`
+      // date.setMonth(date.getMonth() + 1)
+    } else {
+      date = `15/${moment().format('MM/YYYY')}`
     }
-    setWithdrawalDate(date)
     return date
   }
 
   const closeModal = () => {
     history.push('/app/wallet')
-    $('#alertModal').hide()
-    $('.modal-backdrop').remove()
-    $('body').removeClass('modal-open')
+    // $('#alertModal').hide()
+    // $('.modal-backdrop').remove()
+    // $('body').removeClass('modal-open')
   }
 
   const alertTemplate = () => (
-    <div className='p-3 text-center'>
+    <div className='p-3 pt-5 text-center'>
       <p className='p-2'>
-        Your request for a withdrawal has been received. The withdraw amount will be credited by {moment(withdrawalDate).format('DD/MM/YYYY')}.
+        Your request for a withdrawal has been received. The withdraw amount will be credited by {withdrawTransaction.withdrawalDate}.
       </p>
       <button className='btn btn-sm btn-violet-rounded mb-3' onClick={closeModal}>
         Done
@@ -126,9 +153,21 @@ function WalletWithdrawComponent ({ currentUser }) {
             </div>
           }
         </div>
-        { stepNumber === 1 && <PayoutDetailsComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} withdrawAmount={withdrawAmount} setWithdrawAmount={setWithdrawAmount} accountName={accountName} setAccountName={setAccountName} accountNumber={accountNumber} setAccountNumber={setAccountNumber} ifscCode={ifscCode} setIfscCode={setIfscCode} /> }
-        { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} save={save} withdrawAmount={withdrawAmount} accountName={accountName} accountNumber={accountNumber} ifscCode={ifscCode} /> }
-        <AlertModalComponent currentUser={currentUser} withdrawalDate={withdrawalDate} template={alertTemplate} />
+        {
+          !withdrawTransaction
+            ? <div>
+              { stepNumber === 1 && <PayoutDetailsComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} withdrawAmount={withdrawAmount} setWithdrawAmount={setWithdrawAmount} accountName={accountName} setAccountName={setAccountName} accountNumber={accountNumber} setAccountNumber={setAccountNumber} ifscCode={ifscCode} setIfscCode={setIfscCode} /> }
+              { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} save={save} withdrawAmount={withdrawAmount} accountName={accountName} accountNumber={accountNumber} ifscCode={ifscCode} /> }
+              {
+                stepNumber === 3 && <div className='container desktop-align-center'>
+                  {alertTemplate()}
+                </div>
+              }
+            </div>
+            : <div className='container desktop-align-center'>
+            {alertTemplate()}
+            </div>
+        }
       </div>
     </div>
   )
