@@ -4,17 +4,11 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import './style.css'
 
-import {
-  add,
-  update,
-  remove,
-  removeFile,
-  timestamp
-} from 'firebase_config'
+import { update } from 'firebase_config'
+import { SetPosts } from 'store/actions'
 
-const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }) => {
+const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, bindPosts }) => {
   const [copied, setCopied] = useState(false)
-  const [popup, setPopup] = useState(false)
   const history = useHistory()
 
   const copyLink = () => {
@@ -37,6 +31,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
     })
   }
 
+  /*
   const deletePost = async (post, idx) => {
     if (displayPost.tradePrice) {
       return
@@ -52,7 +47,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
         displayPost.stories.splice(idx, 1)
         result = await update('posts', displayPost.id, { stories: displayPost.stories })
       }
-      /* Log the activity */
+      // Log the activity
       await add('logs', {
         text: `${currentUser.displayName} removed the post`,
         photoURL: currentUser.photoURL,
@@ -70,6 +65,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
     }
     await closeModal()
   }
+  */
 
   const closeModal = () => {
     $('#menuOptionsModal').hide()
@@ -90,6 +86,12 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
     })
   }
 
+  const hidePost = async () => {
+    await update('posts', sharePost.id, { active: false })
+    await bindPosts(currentUser)
+    await closeModal()
+  }
+
   return (
     <div className='modal fade' id='menuOptionsModal' tabIndex='-1' role='dialog' aria-labelledby='menuOptionsModalLabel' aria-hidden='true'>
       <div className='modal-dialog'>
@@ -107,16 +109,11 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>
-              <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'} ${displayPost.tradePrice && 'btn-disabled'}`}>
-                <span onClick={e => deletePost()}>Delete</span>
+              <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`}>
+                <span onClick={e => hidePost()}>Hide</span>
                 {
-                  popup &&
-                  <div id='tooltip' role='tooltip'>d
-                    Trading asset can't be deleted
-                    <div id='arrow' data-popper-arrow></div>
-                  </div>
+                  displayPost.tradePrice >= 10 && <div className='fs-10'>Purchased assets cannot be hidden</div>
                 }
-                <img className='info pull-right' src={require('assets/svgs/InfoViolet.svg').default} alt='1' onClick={e => setPopup(!popup)} />
               </li>
             </ul>
           </div>
@@ -131,7 +128,13 @@ const mapStateToProps = (state) => {
   return { sharePost }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    bindPosts: (content) => dispatch(SetPosts(content))
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MenuOptionsComponent)

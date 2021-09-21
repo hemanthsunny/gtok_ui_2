@@ -73,7 +73,23 @@ const CreateChatComponent = (props) => {
           groupName: null,
           photoURL: null,
           group: false,
-          chatRequest: !userRelationship
+          chatRequest: !userRelationship,
+          usersRef: [
+            {
+              ref: 'users/' + currentUser.id,
+              id: currentUser.id,
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+              lastSeen: new Date().getTime()
+            },
+            {
+              ref: 'users/' + chatUserId,
+              id: chatUserId,
+              displayName: resultUser.displayName,
+              photoURL: resultUser.photoURL,
+              lastSeen: new Date().getTime()
+            }
+          ]
         }
 
         await add('conversations', data)

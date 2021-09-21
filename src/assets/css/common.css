@@ -147,6 +147,10 @@
   color: var(--color-gray-600)
 }
 
+.fs-10 {
+  font-size: 10px !important;
+}
+
 .fs-16 {
   font-size: 16px !important;
 }

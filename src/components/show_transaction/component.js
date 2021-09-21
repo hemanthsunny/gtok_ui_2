@@ -95,7 +95,7 @@ function ShowTransactionComponent (props) {
           </div>
           <hr className={`invoice-table-divider ${!transaction.postId && 'd-none'}`}/>
           <div className={`flex-row justify-content-between invoice-table-section ${transaction.postId ? 'd-flex' : 'd-none'}`}>
-            <div className='key'>Post ID:</div>
+            <div className='key'>Asset ID:</div>
             <div className='value'>
               {transaction.postId}
             </div>
