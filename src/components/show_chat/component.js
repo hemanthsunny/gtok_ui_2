@@ -9,7 +9,7 @@ import HeaderComponent from './header'
 import { LoadingComponent, CustomImageComponent } from 'components'
 import { SetChatMessages, SetNewMessagesCount } from 'store/actions'
 import { gtokFavicon } from 'images'
-import { add, getQuery, getId, update, firestore, timestamp } from 'firebase_config'
+import { add, getId, update, firestore, timestamp } from 'firebase_config'
 import { convertTextToLink } from 'helpers'
 
 class ParentComponent extends Component {
@@ -53,21 +53,10 @@ class ParentComponent extends Component {
     const result = await getId('conversations', id)
     result.id = id
     const chatUser = result.usersRef.find(u => u.id !== this.state.currentUser.id)
-    let status = null
-    if (this.props.relations[0]) {
-      const rln = this.props.relations.find(rln => rln.userIdOne === this.state.currentUser.id && rln.userIdTwo === chatUser.id)
-      if (rln && rln.status) { status = rln.status }
-    } else {
-      const rln = await getQuery(
-        firestore.collection('userRelationships').where('userIdOne', '==', this.state.currentUser.id).where('userIdTwo', '==', chatUser.id).get()
-      )
-      if (rln[0] && rln[0].status) { status = rln[0].status }
-    }
     this.setState({
       convoId: id,
       conversation: result,
       chatUser: await getId('users', chatUser.id),
-      status,
       chatUserLastSeen: chatUser.lastSeen.seconds
     })
     this.getMessagesSnapshot()
@@ -142,10 +131,6 @@ class ParentComponent extends Component {
   }
 
   sendMessage = async () => {
-    if (this.state.status !== 1) {
-      alert('You must follow this user in order to send a message.')
-      return null
-    }
     if (!this.state.message.trim()) { return }
     const data = {
       conversationId: this.state.conversation.id,
