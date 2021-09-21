@@ -76,10 +76,11 @@ a.chat-active::after {
 .request-note {
   position: fixed;
   bottom: 0px;
-  width: 100vw;
   background-color: var(--color-violet-100);
-  margin: 0px !important;
+  margin: 0 auto;
   font-size: var(--font-size);
   padding: var(--spacing-12);
   text-align: center;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
 }

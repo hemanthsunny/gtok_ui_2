@@ -35,7 +35,7 @@ function TransactionComponent ({ wallet, transaction, allUsers }) {
       <CustomImageComponent user={transactionUser} />
       <div className='media-body pl-2'>
         <div className='flex-row'>
-          <div className='pull-left transaction-name'>{transactionUser.username}</div>
+          <div className='pull-left transaction-name'>{transactionUser.username} {transaction.status === 'pending' && <small className='text-warning'>&middot; Pending</small>}</div>
           <div className={`pull-right transaction-amount ${transaction.type === 'debit' ? 'debit' : 'credit'}`}>
             <span>{transaction.type === 'debit' ? '-' : '+'}</span>{transaction.amount} <span className='text-uppercase'>{transaction.currency}</span>
           </div>

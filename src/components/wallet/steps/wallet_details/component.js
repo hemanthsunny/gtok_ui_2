@@ -14,7 +14,6 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
   const history = useHistory()
 
   useEffect(() => {
-    console.log('llll', selectedWallet)
     if (!selectedWallet) {
       getWallet()
     }

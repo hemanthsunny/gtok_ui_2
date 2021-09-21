@@ -18,14 +18,15 @@ class PostsComponent extends Component {
       reloadPosts: this.propsState.reloadPosts || false,
       pageId: 1,
       pageLimit: 10,
-      userId: props.match.params.username ? props.displayUser.id : props.currentUser.id
+      userId: props.currentUser.id
     }
   }
 
   componentDidMount () {
-    if (this.state.userId) {
-      this.loadPosts()
+    if (this.props.match.params.username) {
+      this.loadUser()
     }
+    this.loadPosts()
   }
 
   UNSAFE_componentWillMount () {
@@ -34,6 +35,15 @@ class PostsComponent extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.loadMorePosts)
+  }
+
+  loadUser = async () => {
+    this.setState({ loading: true })
+    const u = await getQuery(
+      firestore.collection('users').where('username', '==', this.props.match.params.username).get()
+    )
+    this.setState({ displayUser: u[0], userId: u[0].id, loading: false })
+    this.loadPosts()
   }
 
   loadPosts = async () => {
@@ -94,19 +104,23 @@ class PostsComponent extends Component {
         </div>
         <div className='feeling-wrapper'>
           {
-            this.state.posts[0] && this.state.posts.map((post, idx) => {
-              if (post.anonymous && post.userId !== this.props.currentUser.id) {
-                return (<div key={idx}></div>)
-              }
-              if (post.resharePostId) {
-                return (
-                  <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+            this.state.posts[0]
+              ? this.state.posts.map((post, idx) => {
+                if (post.anonymous && post.userId !== this.props.currentUser.id) {
+                  return (<div key={idx}></div>)
+                }
+                if (post.resharePostId) {
+                  return (
+                    <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                  )
+                }
+                return post.stories && (
+                  <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
                 )
-              }
-              return post.stories && (
-                <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-              )
-            })
+              })
+              : <div className='text-center mt-5'>
+                No assets found
+              </div>
           }
           <div className={`text-center my-3 ${(this.state.posts.length <= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
             <button className='btn btn-violet btn-sm' onClick={this.loadMorePosts}>Load more</button>

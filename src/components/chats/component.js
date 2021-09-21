@@ -97,8 +97,8 @@ class ParentComponent extends Component {
           }
         })
         this.setState({
-          convos: convosList.filter((c) => !c.requested).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
-          requestedConvos: convosList.filter((c) => c.requested).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
+          convos: convosList.filter((c) => !c.chatRequest).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
+          requestedConvos: convosList.filter((c) => c.chatRequest).sort((a, b) => b.lastMessageTime - a.lastMessageTime),
           loading: false
         })
         // this.bindConvos(this.convosList.sort((a,b) => a.updatedAt - b.updatedAt));

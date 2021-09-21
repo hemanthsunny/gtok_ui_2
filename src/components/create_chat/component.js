@@ -4,7 +4,7 @@ import $ from 'jquery'
 import _ from 'lodash'
 import './style.css'
 
-import { add, getId, getQuery, firestore } from 'firebase_config'
+import { add, update, getId, getQuery, firestore } from 'firebase_config'
 import { CustomImageComponent } from 'components'
 
 const CreateChatComponent = (props) => {
@@ -53,8 +53,16 @@ const CreateChatComponent = (props) => {
       )
       return convo
     }
+    async function checkForRelationship () {
+      const rln = await getQuery(
+        firestore.collection('userRelationships').where('userIdOne', '==', chatUserId).where('userIdTwo', '==', currentUser.id).get()
+      )
+      return rln[0] && rln[0].status === 1
+    }
+
     async function getInitialConversation () {
       let convo = await checkForConvo()
+      const userRelationship = await checkForRelationship()
 
       if (!convo[0]) {
         const resultUser = await getUser(chatUserId)
@@ -65,6 +73,7 @@ const CreateChatComponent = (props) => {
           groupName: null,
           photoURL: null,
           group: false,
+          chatRequest: !userRelationship,
           usersRef: [
             {
               ref: 'users/' + currentUser.id,
@@ -86,6 +95,9 @@ const CreateChatComponent = (props) => {
         await add('conversations', data)
         convo = await checkForConvo()
       }
+      await update('conversations', convo[0].id, {
+        chatRequest: !userRelationship
+      })
       $('#createChatModal').hide()
       $('.modal-backdrop').remove()
       props.history.push('/app/chats/' + convo[0].id)

@@ -36,6 +36,10 @@
   color: var(--color-red-400);
 }
 
+.show-transaction-wrapper .transaction-details .pending {
+  color: var(--color-yellow-400);
+}
+
 .show-transaction-wrapper .transaction-details .credit {
   color: var(--color-green-500);
 }

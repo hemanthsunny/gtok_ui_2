@@ -59,7 +59,7 @@ function ShowTransactionComponent (props) {
           </div>
         </div>
         <div className='transaction-details'>
-          <h4 className={`transaction-amount ${transaction.type === 'debit' ? 'debit' : 'credit'}`}>
+          <h4 className={`transaction-amount ${transaction.status === 'pending' ? 'pending' : (transaction.type === 'debit' ? 'debit' : 'credit')}`}>
             {transaction.amount} <span className='text-uppercase'>{transaction.currency}</span>
           </h4>
           <small>
@@ -76,20 +76,26 @@ function ShowTransactionComponent (props) {
           <hr className='invoice-table-divider'/>
           <div className='d-flex flex-row justify-content-between invoice-table-section'>
             <div className='key'>From:</div>
-            <div className='value pointer' onClick={e => redirectToUser(transactionUser.username)}>
-              @{transactionUser.username}
+            <div className='value' onClick={e => redirectToUser(transactionUser.username)}>
+              <div className='d-flex pointer'>
+                <CustomImageComponent user={transactionUser} size='sm' />
+                <span className='pl-1'>{transactionUser.username}</span>
+              </div>
             </div>
           </div>
           <hr className='invoice-table-divider'/>
           <div className='d-flex flex-row justify-content-between invoice-table-section'>
             <div className='key'>To:</div>
-            <div className='value pointer' onClick={e => redirectToUser(currentUser.username)}>
-              @{currentUser.username}
+            <div className='value' onClick={e => redirectToUser(currentUser.username)}>
+              <div className='d-flex pointer'>
+                <CustomImageComponent user={currentUser} size='sm' />
+                <span className='pl-1'>{currentUser.username}</span>
+              </div>
             </div>
           </div>
           <hr className={`invoice-table-divider ${!transaction.postId && 'd-none'}`}/>
           <div className={`flex-row justify-content-between invoice-table-section ${transaction.postId ? 'd-flex' : 'd-none'}`}>
-            <div className='key'>Post ID:</div>
+            <div className='key'>Asset ID:</div>
             <div className='value'>
               {transaction.postId}
             </div>

@@ -72,7 +72,7 @@ class ParentComponent extends Component {
   loadPosts = async () => {
     this.setState({ loading: true })
     let posts = await getQuery(
-      firestore.collection('posts').orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
+      firestore.collection('posts').where('active', '==', true).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
     )
     posts = posts.sort((a, b) => b.createdAt - a.createdAt)
     this.setState({
@@ -90,7 +90,7 @@ class ParentComponent extends Component {
     ) {
       this.setState({ loading: true })
       let posts = await getQuery(
-        firestore.collection('posts').orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
+        firestore.collection('posts').where('active', '==', true).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
       )
       posts = posts.sort((a, b) => b.createdAt - a.createdAt)
       this.setState({
