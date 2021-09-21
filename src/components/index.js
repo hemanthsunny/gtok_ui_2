@@ -23,6 +23,7 @@ import CookieNotification from 'components/common/cookie_notification/component'
 import ModalComponent from 'components/common/ModalComponent'
 import FormFieldsComponent from 'components/common/FormFieldsComponent'
 import CreateChatComponent from 'components/create_chat/component'
+import CreateChatLayerComponent from 'components/create_chat_layer/component'
 import SupportComponent from 'components/support/SupportComponent'
 import PermissionsComponent from 'components/permissions/component'
 import LoadingComponent from 'components/common/LoadingComponent'
@@ -94,6 +95,7 @@ export {
   FormFieldsComponent,
   LogoutComponent,
   CreateChatComponent,
+  CreateChatLayerComponent,
   SupportComponent,
   PermissionsComponent,
   LoadingComponent,

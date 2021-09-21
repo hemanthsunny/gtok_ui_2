@@ -117,6 +117,10 @@ function Component (props) {
     }
   }
 
+  const msgUser = async () => {
+    history.push(`/app/chats/new/${userId}`)
+  }
+
   return (
     <div className='profile-wrapper'>
       <div className='container'>
@@ -171,7 +175,7 @@ function Component (props) {
           <div className='text-center'>
             <div className='btn btn-custom col-4 mr-2' onClick={unfollow}>Following</div>
             <div className='btn btn-violet col-2 d-none'></div>
-            <div className='btn btn-custom col-4 ml-2'>Message</div>
+            <div className='btn btn-custom col-4 ml-2' onClick={msgUser}>Message</div>
           </div>
       }
       {
@@ -182,7 +186,7 @@ function Component (props) {
               Request sent &nbsp;
               <img className='icon-request-sent' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" />
             </div>
-            <div className='btn btn-custom col-2 ml-1'>
+            <div className='btn btn-custom col-2 ml-1' onClick={msgUser}>
               <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
             </div>
           </div>
@@ -194,7 +198,7 @@ function Component (props) {
               Follow &nbsp;
               <img className='icon-request-sent' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" />
             </div>
-            <div className='btn btn-custom col-2 ml-1'>
+            <div className='btn btn-custom col-2 ml-1' onClick={msgUser}>
               <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
             </div>
           </div>
