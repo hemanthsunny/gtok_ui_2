@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { getQuery, firestore } from 'firebase_config'
@@ -9,7 +9,6 @@ import { createRelationships } from 'lib/api'
 import { SetRelationships } from 'store/actions'
 
 const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelationships }) => {
-  const history = useHistory()
   const [follower, setFollower] = useState(null)
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
   const [result, setResult] = useState({})
@@ -44,14 +43,6 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
     if (rlns[0]) setFollower(rlns[0].status)
     setIsFollowerLoading(false)
     setResult(res)
-  }
-
-  const msgUser = async () => {
-    if (!follower) {
-      alert('You must be a follower before sending a message')
-      return null
-    }
-    history.push('/app/chats/new/' + displayUser.id)
   }
 
   return (
@@ -106,12 +97,6 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
                     <i className='fa fa-ban'></i>&nbsp; Unblock
                   </button>}
               </div>
-              {
-                follower !== 3 &&
-                <button className='btn btn-link py-1 px-0 pull-right' onClick={e => msgUser()} title='Start chat'>
-                  <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
-                </button>
-              }
             </div>
           </div>
         </div>
