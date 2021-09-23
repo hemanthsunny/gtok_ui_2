@@ -21,7 +21,6 @@ const HeaderComponent = ({
             <div className='nav-link p-0'>
               <Link to='/app/create_post' className={`${window.innerWidth < 576 && 'd-none'}`} title='Create'>
                 <img src={require('assets/svgs/Plus.svg').default} className='icon-post' alt='Chats' />
-                {(newMessagesCount > 0) && <sup><img src={require('assets/svgs/DotActive.svg').default} className='dot-chat-icon' alt='Dot' /></sup>}
               </Link>
               <Link to='/app/posts' className={`${window.innerWidth < 576 && 'd-none'}`} title='Home'>
                 <img src={require('assets/svgs/HomeWhite.svg').default} className='icon-home' alt='Home' />
