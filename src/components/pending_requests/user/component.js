@@ -27,7 +27,7 @@ const PendingUserComponent = ({
   }
 
   return (
-    <div className='col-xs-12 col-sm-6 col-lg-4 my-2 my-md-3'>
+    <div className='search-user col-12 my-2 my-md-3'>
       <div className='p-0'>
         <div className='media profile-user'>
           <Link to={'/app/profile/' + displayUser.id}>
@@ -43,8 +43,8 @@ const PendingUserComponent = ({
                 isFollowerLoading
                   ? <div className='request-result'>Request {status === 'accept_request' ? 'accepted' : 'cancelled'}</div>
                   : <div>
-                      <img className='icon-request' src={require('assets/svgs/RequestAccept.svg').default} alt="1" onClick={e => relationStatus('accept_request')} />
-                      <img className='icon-request ml-3' src={require('assets/svgs/RequestDecline.svg').default} alt="1" onClick={e => relationStatus('decline_request')} />
+                      <img className='icon-request pointer' src={require('assets/svgs/RequestAccept.svg').default} alt="1" onClick={e => relationStatus('accept_request')} />
+                      <img className='icon-request ml-3 pointer' src={require('assets/svgs/RequestDecline.svg').default} alt="1" onClick={e => relationStatus('decline_request')} />
                   </div>
               }
             </div>

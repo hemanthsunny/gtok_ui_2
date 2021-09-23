@@ -6,6 +6,12 @@ import PostComponent from 'components/show_posts/children/post/component'
 import ResharePostComponent from 'components/show_posts/children/reshare/component'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
+import {
+  MenuOptionsComponent,
+  ShareOptionsComponent,
+  ReportPostComponent,
+  CreateChatComponent
+} from 'components'
 
 class PostsComponent extends Component {
   constructor (props) {
@@ -122,6 +128,10 @@ class PostsComponent extends Component {
                 No assets found
               </div>
           }
+          <MenuOptionsComponent currentUser={this.props.currentUser} />
+          <ShareOptionsComponent currentUser={this.props.currentUser} />
+          <ReportPostComponent currentUser={this.props.currentUser} />
+          <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>
           <div className={`text-center my-3 ${(this.state.posts.length <= (this.state.pageId * this.state.pageLimit)) && 'd-none'}`}>
             <button className='btn btn-violet btn-sm' onClick={this.loadMorePosts}>Load more</button>
           </div>

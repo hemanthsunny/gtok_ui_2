@@ -6,7 +6,6 @@ import './style.css'
 
 import HeaderComponent from './header'
 import UserComponent from './user/component'
-import { SidebarComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const ParentComponent = ({
@@ -41,7 +40,6 @@ const ParentComponent = ({
     <div>
       <HeaderComponent />
       <div>
-        <SidebarComponent currentUser={currentUser} />
         <div className='dashboard-content'>
           {subHeader()}
           <hr className='m-0 p-0'/>

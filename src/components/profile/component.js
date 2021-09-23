@@ -46,7 +46,7 @@ function ParentComponent ({ currentUser, computedMatch }) {
             username
               ? relationship.status !== 1 && displayUser.private
                 ? <div className='private-profile-text'>
-                  @{displayUser.username} feelings are private. <br/> Follow to view what they are sharing.
+                  @{displayUser.username} assets are private. <br/> Follow to view what they are sharing.
                 </div>
                 : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
               : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
