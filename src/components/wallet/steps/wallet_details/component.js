@@ -23,8 +23,8 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
       )
       if (w && w[0]) {
         setSelectedWallet(w[0])
+        getTransactions(w[0] || selectedWallet)
       }
-      getTransactions(w[0] || selectedWallet)
     }
     async function getTransactions (w) {
       const trns = await getQuery(

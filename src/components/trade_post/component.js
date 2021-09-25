@@ -8,7 +8,8 @@ import HeaderComponent from './header.js'
 import InvoiceComponent from './steps/invoice/component'
 import ConfirmComponent from './steps/confirm/component'
 import { CustomImageComponent } from 'components'
-import { getId, getQuery, firestore, add, update } from 'firebase_config'
+import { getId, getQuery, firestore } from 'firebase_config'
+import { post } from 'services'
 
 function TradePostComponent (props) {
   const { currentUser } = props
@@ -49,83 +50,20 @@ function TradePostComponent (props) {
 
   const saveTransaction = async () => {
     setLoading(true)
-    /* Steps to follow -
-      1. Create transaction
-      2. If transaction success,
-        a. update amount in wallet
-        b. change 'purchaseActiveStatus' to 'active' in 'purchaseOrder' table
-      3. If transaction fails,
-        a. update transaction
-    */
-    // let result
-    /* Call API here */
-    // API 1: create a transaction
-    // API 2: debit amount from current user wallet
-    // API 3: credit amount to posted user wallet
-    // API 4: display the post completely
-
-    // API 1
-    await update('wallets', wallet.id, { amount: (wallet.amount - displayPost.tradePrice) })
-    await add('transactions', {
-      userId: displayPost.userId,
+    let pos
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        pos = `${position.coords.latitude},${position.coords.longitude}`
+      })
+    }
+    const res = await post('/transaction/exchange', {
       postId: postId,
-      walletId: wallet.id,
-      currency: currentUser.currency || 'inr',
-      amount: displayPost.tradePrice,
-      type: 'debit',
-      status: 'success',
-      trackDetails: {
-        location: {
-          country: null,
-          address: null
-        },
-        system: {
-          ipAddress: null,
-          browser: null
-        }
-      }
+      latLong: pos
     })
 
-    // API 2
-    const sellerWallet = await getQuery(
-      firestore.collection('wallets').where('userId', '==', displayPost.userId).limit(1).get()
-    )
-    await update('wallets', sellerWallet[0].id, { amount: (wallet.amount + displayPost.tradePrice) })
-    const res = await add('transactions', {
-      userId: currentUser.id,
-      walletId: sellerWallet[0].id,
-      postId: postId,
-      currency: currentUser.currency || 'inr',
-      amount: displayPost.tradePrice,
-      type: 'credit',
-      status: 'success',
-      trackDetails: {
-        location: {
-          country: null,
-          address: null
-        },
-        system: {
-          ipAddress: null,
-          browser: null
-        }
-      }
-    })
-
-    // API should update the wallet balance after successful transaction
-    // API should return a response on
-    // const walletBalance = wallet[0].amount + (+totalPrice)
-    // result = await update('wallets', wallet[0].id, { amount: walletBalance })
-
-    /* Log the activity */
-    // await add('logs', {
-    //   text: `${currentUser.displayName} posted an activity`,
-    //   userId: currentUser.id,
-    //   collection: 'paymentCards',
-    //   timestamp
-    // });
     setLoading(false)
-    setResult('result')
-    if (res.status === 200) {
+    setResult(res)
+    if (res.status === 201) {
       history.push({
         pathname: `/app/posts/${displayPost.id}`,
         state: {
