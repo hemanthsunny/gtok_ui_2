@@ -21,7 +21,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
 
   const sendOtp = async (resend) => {
     await getWallet()
-    const res = await post('/wallet/otp', {
+    const res = await post('/wallet/verify', {
       otpLength: otpLength,
       otpType: 'numeric'
     })
