@@ -9,6 +9,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(selectedWallet.otp)
   const [resendTimer, setResendTimer] = useState('')
+  const [loading, setLoading] = useState(false)
   const history = useHistory()
   const otpLength = 6
 
@@ -20,6 +21,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
   }
 
   const sendOtp = async (resend) => {
+    setLoading(true)
     await getWallet()
     const res = await post('/wallet/verify', {
       otpLength: otpLength,
@@ -42,6 +44,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     } else {
       alert('Something went wrong. Try again later!')
     }
+    setLoading(false)
   }
 
   const handleChange = async (val) => {
@@ -52,6 +55,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
   }
 
   const verifyOtp = async (val) => {
+    setLoading(true)
     const w = await getWallet()
     if (w.otp === val) {
       const res = await update('wallets', w.id, { otp: null, verified: true })
@@ -61,6 +65,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     } else {
       alert('Otp is wrong. Please try again!')
     }
+    setLoading(false)
   }
 
   return (
@@ -84,14 +89,25 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
             </div>
           </div>
           : <button className='btn btn-sm btn-violet-rounded col-6' onClick={sendOtp}>
-              Send OTP
+              {
+                loading
+                  ? <div className='spinner-border spinner-border-sm' role='status'>
+                    <span className='sr-only'>Loading...</span>
+                  </div>
+                  : 'Send OTP'
+              }
             </button>
       }
       <div className={`form-group enter-passcode-section ${otpSent ? 'd-block' : 'd-none'}`}>
         <label className='form-label'>Enter OTP</label>
         <div className='passcode-card'>
-          <input type='text' className='passcode-input' placeholder='......' onChange={e => handleChange(e.target.value)} value={otp} maxLength={otpLength} />
+          <input type='text' className='passcode-input' placeholder='......' onChange={e => handleChange(e.target.value)} value={otp} maxLength={otpLength} disabled={loading} />
         </div>
+        {
+          loading && <div className='spinner-border spinner-border-sm' role='status'>
+            <span className='sr-only'>Loading...</span>
+          </div>
+        }
       </div>
     </div>
   )

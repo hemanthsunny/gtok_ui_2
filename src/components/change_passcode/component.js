@@ -15,6 +15,7 @@ function ChangePasscodeComponent ({ currentUser }) {
   const [stepNumber, setStepNumber] = useState(1)
   const [result, setResult] = useState({})
   const [selectedWallet, setSelectedWallet] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     async function getWalletDetails () {
@@ -60,7 +61,7 @@ function ChangePasscodeComponent ({ currentUser }) {
       })
       return null
     }
-
+    setLoading(true)
     const wallet = await getQuery(
       firestore.collection('wallets').where('userId', '==', currentUser.id).get()
     )
@@ -95,6 +96,7 @@ function ChangePasscodeComponent ({ currentUser }) {
     if (res.status === 200) {
       setStepNumber(2)
     }
+    setLoading(false)
   }
 
   return (
@@ -103,6 +105,8 @@ function ChangePasscodeComponent ({ currentUser }) {
       <div>
         <div className='dashboard-content -xs-bg-none'>
           <div className='change-pc-wrapper desktop-align-center'>
+            { stepNumber === 1 && !selectedWallet.otp && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} savePasscode={savePasscode} wallet={selectedWallet} loading={loading} /> }
+            { (stepNumber === 2 || selectedWallet.otp) && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} selectedWallet={selectedWallet} /> }
             <div className='text-center'>
               {
                 result.status &&
@@ -111,8 +115,6 @@ function ChangePasscodeComponent ({ currentUser }) {
                 </div>
               }
             </div>
-            { stepNumber === 1 && !selectedWallet.otp && <UpdatePasscodeComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} savePasscode={savePasscode} wallet={selectedWallet} /> }
-            { (stepNumber === 2 || selectedWallet.otp) && <OtpComponent currentUser={currentUser} passcodeState={passcodeState} setPasscodeState={setPasscodeState} setStepNumber={setStepNumber} selectedWallet={selectedWallet} /> }
           </div>
         </div>
       </div>

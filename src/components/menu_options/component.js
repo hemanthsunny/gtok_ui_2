@@ -87,7 +87,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   }
 
   const hidePost = async () => {
-    await update('posts', sharePost.id, { active: false })
+    await update('posts', sharePost.id, { active: !sharePost.active })
     await bindPosts(currentUser)
     await closeModal()
   }
@@ -110,7 +110,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`}>
-                <span onClick={e => hidePost()}>Hide</span>
+                <span onClick={e => hidePost()}>{displayPost.active ? 'Hide' : 'Unhide'}</span>
                 {
                   displayPost.tradePrice >= 10 && <div className='fs-10'>Purchased assets cannot be hidden</div>
                 }

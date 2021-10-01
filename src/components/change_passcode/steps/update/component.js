@@ -1,6 +1,6 @@
 import React from 'react'
 
-function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber, savePasscode }) {
+function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber, savePasscode, loading }) {
   const handleChange = (key, val) => {
     setPasscodeState({ ...passcodeState, [key]: val })
   }
@@ -33,7 +33,13 @@ function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPassc
         </div>
       </div>
       <button className='btn btn-sm btn-violet-rounded col-6' onClick={handleUpdate}>
-        {wallet ? 'Update' : 'Create'}
+        {
+          loading
+            ? <div className='spinner-border spinner-border-sm' role='status'>
+              <span className='sr-only'>Loading...</span>
+            </div>
+            : (wallet ? 'Update' : 'Create')
+        }
       </button>
     </div>
   )
