@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 import _ from 'lodash'
 import './style.css'
 
@@ -119,6 +120,10 @@ const ParentComponent = (props) => {
         pathname: '/app/posts',
         state: { postingSuccess: true, reloadPosts: true }
       })
+      toast.success(<div>
+        <img src={require('assets/svgs/ZenaColored.svg').default} className='go-back-icon' alt='Zena' />
+        Your asset is live!
+      </div>)
     } else {
       setResult(result)
     }
