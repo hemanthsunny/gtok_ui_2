@@ -310,6 +310,41 @@ input[type="text"], textarea {
   animation: rotate360 2s infinite;
 }
 
+/* Toastify overriding colors */
+.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--success,
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  /* background-color: var(--color-violet-400) !important; */
+}
+
+.Toastify__close-button {
+  color: var(--color-white) !important;
+}
+
+.Toastify--animate-icon {
+  display: none !important;
+}
+
+.Toastify__toast--success {
+  background: var(--color-violet-400) !important;
+}
+
+.Toastify__toast--warning {
+  background: var(--color-yellow-400) !important;
+}
+
+.Toastify__toast--error {
+  background: var(--color-red-400) !important;
+}
+
+.toast-progress {
+  background-color: var(--color-white) !important;
+}
+
+.toast-body {
+  text-align: center;
+  color: var(--color-white) !important;
+}
+
 @keyframes rotate360 {
   from {
     transform: rotate(0deg);

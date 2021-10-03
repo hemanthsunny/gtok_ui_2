@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function ConfirmComponent ({ wallet, currentUser, save, displayPost }) {
+function ConfirmComponent ({ wallet, currentUser, save, displayPost, loading }) {
   const [passcode, setPasscode] = useState('')
 
   return (
@@ -13,7 +13,20 @@ function ConfirmComponent ({ wallet, currentUser, save, displayPost }) {
         <div className='passcode-card'>
           <input type='password' className='passcode-input' placeholder='....' onChange={e => setPasscode(e.target.value)} maxLength='4' />
         </div>
-        <button className='btn btn-violet-rounded btn-sm col-5 submit-passcode' disabled={passcode.length !== 4} onClick={save}>Pay <img src={require('assets/svgs/currency/inr.svg').default} className='inr-black-icon' alt='Inr' /> {displayPost.tradePrice} </button>
+        <button className='btn btn-violet-rounded btn-sm col-5 submit-passcode' disabled={(passcode.length !== 4) || loading} onClick={save}>
+          {
+            loading
+              ? <span>
+                Paying... &nbsp;
+                <div className='spinner-border spinner-border-sm' role='status'>
+                  <span className='sr-only'>Paying...</span>
+                </div>
+              </span>
+              : <span>
+              Pay <img src={require('assets/svgs/currency/inr.svg').default} className='inr-black-icon' alt='Inr' /> {displayPost.tradePrice}
+              </span>
+          }
+        </button>
       </div>
     </div>
   )

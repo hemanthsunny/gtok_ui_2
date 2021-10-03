@@ -60,6 +60,7 @@ const ParentComponent = (props) => {
   const [tradePrice, setTradePrice] = useState(sharePost.tradePrice || 10)
   const [tradePost, setTradePost] = useState(sharePost.tradePrice > 0)
   const [activeTab, setActiveTab] = useState(sharePost.type || 'feelings')
+  const [loading, setLoading] = useState(false)
 
   const savePost = async (opts) => {
     if (!postText) {
@@ -70,6 +71,7 @@ const ParentComponent = (props) => {
       alert('Please select a category')
       return null
     }
+    setLoading(true)
     let result = ''
     let postData = {
       type: activeTab === 'activity' ? activeTab : ''
@@ -115,16 +117,19 @@ const ParentComponent = (props) => {
     //   timestamp
     // })
 
+    setLoading(false)
     if (result.status === 200) {
       props.history.push({
         pathname: '/app/posts',
         state: { postingSuccess: true, reloadPosts: true }
       })
-      toast.success(<div>
-        <img src={require('assets/svgs/ZenaColored.svg').default} className='go-back-icon' alt='Zena' />
-        Your asset is live!
-      </div>)
+      if (sharePost.id) {
+        toast.success('Your asset has been updated')
+      } else {
+        toast.success('Your asset is now live')
+      }
     } else {
+      toast.error('Something went wrong. Try later!')
       setResult(result)
     }
   }
@@ -240,7 +245,7 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent save={savePost} sharePost={sharePost} />
+      <HeaderComponent save={savePost} sharePost={sharePost} loading={loading} />
       <div>
         <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
           {!sharePost.id && subHeader()}
