@@ -70,8 +70,10 @@ class App extends Component {
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={true}
-            closeOnClick
+            closeOnClick={false}
             pauseOnHover
+            progressClassName='toast-progress'
+            bodyClassName='toast-body'
           />
           <CookieNotification />
           <NoInternetNotification />

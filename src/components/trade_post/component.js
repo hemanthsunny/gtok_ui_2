@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 import './style.css'
 
@@ -64,6 +65,7 @@ function TradePostComponent (props) {
     setLoading(false)
     setResult(res)
     if (res.status === 201) {
+      toast.success(`You've successfully traded @${postedUser.username} asset`)
       history.push({
         pathname: `/app/posts/${displayPost.id}`,
         state: {
@@ -71,6 +73,8 @@ function TradePostComponent (props) {
           result
         }
       })
+    } else {
+      toast.error('Something went wrong. Try later')
     }
   }
 
@@ -119,7 +123,7 @@ function TradePostComponent (props) {
           </div>
         </div>
         { stepNumber === 1 && <InvoiceComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} /> }
-        { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} /> }
+        { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} loading={loading} /> }
       </div>
     </div>
   )

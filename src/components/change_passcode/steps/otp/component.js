@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { getQuery, firestore, update } from 'firebase_config'
 import { post } from 'services'
@@ -30,9 +31,8 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     if (res.status === 201) {
       await getWallet()
       setOtpSent(true)
-      if (resend) {
-        alert('OTP is resent to your email address.')
-      }
+      toast.success(`OTP is ${resend ? 're' : ''}sent to your email address`)
+
       var timer = 120
       var timerInterval = setInterval(() => {
         setResendTimer(--timer)
@@ -42,7 +42,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
         }
       }, 1000)
     } else {
-      alert('Something went wrong. Try again later!')
+      toast.error('Something went wrong. Try later!')
     }
     setLoading(false)
   }
@@ -59,11 +59,12 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
     const w = await getWallet()
     if (w.otp === val) {
       const res = await update('wallets', w.id, { otp: null, verified: true })
-      if (res.status === 200 && window.confirm('Passcode verified successfully')) {
+      if (res.status === 200) {
+        toast.success('Wallet passcode verified successfully')
         history.push('/app/wallet')
       }
     } else {
-      alert('Otp is wrong. Please try again!')
+      toast.error('OTP is wrong. Try again!')
     }
     setLoading(false)
   }
@@ -88,7 +89,7 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
               </button>
             </div>
           </div>
-          : <button className='btn btn-sm btn-violet-rounded col-6' onClick={sendOtp}>
+          : <button className='btn btn-sm btn-violet-rounded col-6' onClick={e => sendOtp(false)}>
               {
                 loading
                   ? <div className='spinner-border spinner-border-sm' role='status'>
