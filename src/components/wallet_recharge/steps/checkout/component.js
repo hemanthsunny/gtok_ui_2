@@ -7,8 +7,8 @@ function CheckoutComponent ({ rechargeAmount, setRechargeAmount, setPaymentInten
   const [loading, setLoading] = useState(false)
 
   const saveCheckout = async () => {
-    if (rechargeAmount < 10) {
-      toast.error('Minimum amount to recharge is INR 10/-')
+    if (rechargeAmount < 50) {
+      toast.error('Minimum amount to recharge is INR 50/-')
       return null
     }
     setLoading(true)
@@ -28,7 +28,7 @@ function CheckoutComponent ({ rechargeAmount, setRechargeAmount, setPaymentInten
       <div className='form-group'>
         <label className='form-label'>Recharge amount</label>
         <div className='passcode-card'>
-          <input type='number' className='passcode-input' placeholder='10' onChange={e => setRechargeAmount(e.target.value)} value={rechargeAmount} />
+          <input type='number' className='passcode-input' placeholder='50' onChange={e => setRechargeAmount(e.target.value)} value={rechargeAmount} />
         </div>
       </div>
       <button className='btn btn-sm btn-violet-rounded col-5' onClick={saveCheckout} disabled={loading}>

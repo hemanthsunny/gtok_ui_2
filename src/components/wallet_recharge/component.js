@@ -6,7 +6,7 @@ import CheckoutComponent from './steps/checkout/component'
 import CardDetailsComponent from './steps/card_details/component'
 
 function WalletRechargeComponent ({ currentUser }) {
-  const [rechargeAmount, setRechargeAmount] = useState(10)
+  const [rechargeAmount, setRechargeAmount] = useState(50)
   const [stepNumber, setStepNumber] = useState(1)
   const [paymentIntent, setPaymentIntent] = useState('')
 
