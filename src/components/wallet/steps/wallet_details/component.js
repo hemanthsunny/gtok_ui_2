@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 
 import { getQuery, firestore } from 'firebase_config'
 import TransactionComponent from '../transaction/component'
+import { decryptText } from 'helpers'
 
 function WalletDetailsComponent ({ currentUser, wallet }) {
   const [selectedWallet, setSelectedWallet] = useState(wallet)
@@ -50,7 +51,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
   }, [])
 
   const verifyPasscode = (pc) => {
-    if (selectedWallet.passcode === pc) {
+    if (decryptText(selectedWallet.passcode) === pc) {
       sessionStorage.setItem('walletVerification', JSON.stringify({
         verified: true,
         loginTime: new Date().getTime()

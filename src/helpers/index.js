@@ -4,6 +4,8 @@ import capitalizeFirstLetter from './capitalizeFirstLetter'
 import validateEmail from './validateEmail'
 import isImageExists from './isImageExists'
 import convertTextToLink from './convertTextToLink'
+import encryptText from './encryptText'
+import decryptText from './decryptText'
 
 export {
   convertTextToJson,
@@ -11,5 +13,7 @@ export {
   capitalizeFirstLetter,
   validateEmail,
   isImageExists,
-  convertTextToLink
+  convertTextToLink,
+  encryptText,
+  decryptText
 }

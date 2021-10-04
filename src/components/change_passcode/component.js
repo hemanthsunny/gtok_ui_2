@@ -6,6 +6,7 @@ import HeaderComponent from './header'
 import UpdatePasscodeComponent from './steps/update/component'
 import OtpComponent from './steps/otp/component'
 import { add, update, getQuery, firestore } from 'firebase_config'
+import { encryptText, decryptText } from 'helpers'
 
 function ChangePasscodeComponent ({ currentUser }) {
   const [passcodeState, setPasscodeState] = useState({
@@ -33,7 +34,7 @@ function ChangePasscodeComponent ({ currentUser }) {
   }, [])
 
   const savePasscode = async () => {
-    if (selectedWallet && (passcodeState.oldPasscode !== selectedWallet.passcode)) {
+    if (selectedWallet && (passcodeState.oldPasscode !== decryptText(selectedWallet.passcode))) {
       toast.error('Old passcode is wrong')
       return null
     }
@@ -57,7 +58,7 @@ function ChangePasscodeComponent ({ currentUser }) {
     let res
     if (selectedWallet || wallet[0]) {
       const data = {
-        passcode: passcodeState.newPasscode,
+        passcode: encryptText(passcodeState.newPasscode),
         otp: null,
         verified: false
       }
@@ -66,7 +67,7 @@ function ChangePasscodeComponent ({ currentUser }) {
       const data = {
         userId: currentUser.id,
         amount: 0,
-        passcode: passcodeState.newPasscode,
+        passcode: encryptText(passcodeState.newPasscode),
         otp: null,
         verified: false
       }
