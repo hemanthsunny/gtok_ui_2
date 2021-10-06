@@ -9,7 +9,7 @@ import { SetAllUsers } from 'store/actions'
 import { MobileFooterComponent } from 'components'
 
 const ParentComponent = ({
-  currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount, pendingRelationsCount
+  currentUser, allUsers, bindAllUsers, relations, pendingRelationsCount
 }) => {
   const [users, setUsers] = useState([])
 
@@ -26,7 +26,7 @@ const ParentComponent = ({
 
   return (
     <div>
-      <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
+      <HeaderComponent />
       <div>
         <div className='dashboard-content'>
           <div className='container mt-5 pt-2 pt-md-5 px-4'>
@@ -52,9 +52,7 @@ const ParentComponent = ({
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
   const { relations, pendingRelationsCount } = state.relationships
-  const { newAlertsCount } = state.alerts
-  const { newMessagesCount } = state.chatMessages
-  return { allUsers, relations, newAlertsCount, newMessagesCount, pendingRelationsCount }
+  return { allUsers, relations, pendingRelationsCount }
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -18,7 +18,7 @@ const SearchComponent = ({
 
   useEffect(() => {
     if (!allUsers[0]) {
-      if (currentUser.admin) bindAllUsers(currentUser, 'adminUsers')
+      if (currentUser.admin) bindAllUsers(currentUser, 'all')
       else bindAllUsers(currentUser, 'all')
     }
   }, [currentUser, allUsers, bindAllUsers, relations])

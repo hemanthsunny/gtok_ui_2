@@ -74,6 +74,16 @@ class ParentComponent extends Component {
     let posts = await getQuery(
       firestore.collection('posts').where('active', '==', true).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
     )
+    if (this.props.relations) {
+      const rlns = this.props.relations.filter(rln => rln.userIdOne === this.props.currentUser.id && rln.status === 1)
+      const rlnIds = rlns.map(rln => rln.userIdTwo)
+      posts = posts.filter(p => {
+        if (rlnIds.indexOf(p.userId) > -1) {
+          return p
+        }
+        return null
+      }).filter(el => el)
+    }
     posts = posts.sort((a, b) => b.createdAt - a.createdAt)
     this.setState({
       loadMore: posts.length >= (this.state.pageId * this.state.pageLimit),
@@ -154,7 +164,7 @@ class ParentComponent extends Component {
           <div className='dashboard-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
             {/* this.subHeader() */}
               <div className='feeling-wrapper'>
-                <div className='filter-wrapper'>
+                <div className='filter-wrapper d-none'>
                   <div className='filter-icon' onClick={e => this.setState({ showFilters: !this.state.showFilters })}>
                   Filter <img className='btn-play' src={require('assets/svgs/Filter.svg').default} alt="1" />
                   </div>
@@ -172,16 +182,20 @@ class ParentComponent extends Component {
                   </div>
                 </div>
                 {
-                  this.state.posts[0] && this.state.posts.map((post, idx) => {
-                    if (post.resharePostId) {
-                      return (
-                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                  this.state.posts[0]
+                    ? this.state.posts.map((post, idx) => {
+                      if (post.resharePostId) {
+                        return (
+                          <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                        )
+                      }
+                      return post.stories && (
+                        <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
                       )
-                    }
-                    return post.stories && (
-                      <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
-                    )
-                  })
+                    })
+                    : <div className='text-center mt-5'>
+                    Follow someone to view assets. <br /> Checkout our <Link to='/app/search' className='text-violet'>priority users</Link> and their assets.
+                    </div>
                 }
               </div>
               <MobileFooterComponent currentUser={this.props.currentUser} />
@@ -202,7 +216,8 @@ class ParentComponent extends Component {
 
 const mapStateToProps = (state) => {
   const { posts, sharePost } = state.posts
-  return { posts, sharePost }
+  const { relations } = state.relationships
+  return { posts, sharePost, relations }
 }
 
 const mapDispatchToProps = (dispatch) => {
