@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import MultiSelect from 'react-multi-select-component'
+import { toast } from 'react-toastify'
 import './style.css'
 
 import HeaderComponent from './header'
@@ -16,25 +17,17 @@ function EditProfileComponent (props) {
   const [bio, setBio] = useState(currentUser.bio || '')
   const [dob, setDob] = useState(currentUser.dob)
   const [selected, setSelected] = useState(currentUser.interestedTopics || [])
-  const [result, setResult] = useState({})
   const [uploading, setUploading] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const saveDetails = async (e) => {
     e.preventDefault()
     if (!name || !name.trim()) {
-      setResult({
-        status: 400,
-        message: 'Name is mandatory'
-      })
+      toast.error('Name is mandatory')
       return null
     }
     if (!username || !username.trim()) {
-      alert('Username is mandatory')
-      setResult({
-        status: 400,
-        message: 'Username is mandatory'
-      })
+      toast.error('Username is mandatory')
       return null
     }
     let data = {}
@@ -49,10 +42,7 @@ function EditProfileComponent (props) {
         firestore.collection('users').where('username', '==', data.username).get()
       )
       if (user[0]) {
-        setResult({
-          status: 400,
-          message: 'Username is already in use. Attempt anything new.'
-        })
+        toast.error('Username is already in use. Attempt anything new.')
         return null
       }
     }
@@ -74,18 +64,14 @@ function EditProfileComponent (props) {
     /* let res = await updateProfile(data); */
     const res = await update('users', currentUser.id, data)
     await bindDbUser({ ...currentUser, ...data })
-    setResult(res)
-    setTimeout(() => {
-      setResult('')
-    }, 3000)
+    if (res.status === 200) {
+      toast.success('Successfully updated')
+    }
   }
 
   const uploadImage = async (file) => {
     if (!file) {
-      setResult({
-        status: 400,
-        message: 'New image required'
-      })
+      toast.error('New image required')
       return null
     }
     setUploading(true)
@@ -126,14 +112,6 @@ function EditProfileComponent (props) {
       <div>
         <div className='dashboard-content'>
           <div className='edit-profile-wrapper desktop-align-center'>
-            <div className='text-center'>
-              {
-                result.status &&
-                <div className={`text-${result.status === 200 ? 'violet' : 'danger'} my-2`}>
-                  {result.message}
-                </div>
-              }
-            </div>
             <div className='upload-image'>
                 <label htmlFor='staticImage'>
                   {

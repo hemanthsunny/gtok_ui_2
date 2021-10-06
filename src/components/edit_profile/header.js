@@ -13,8 +13,12 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
       </div>
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
-          <div className='nav-link p-0 text-white fw-500' onClick={save}>
-            {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Save'}
+          <div className='nav-link p-0 text-white fw-500' onClick={save} disabled={loading}>
+            {loading
+              ? <div className='spinner-border spinner-border-sm' role='status'>
+                <span className='sr-only'>Loading...</span>
+              </div>
+              : 'Save'}
           </div>
         </li>
       </ul>
