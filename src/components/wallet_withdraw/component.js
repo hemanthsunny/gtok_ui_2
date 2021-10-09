@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import moment from 'moment'
 // import $ from 'jquery'
 import './style.css'
@@ -7,7 +8,8 @@ import './style.css'
 import HeaderComponent from './header'
 import PayoutDetailsComponent from './steps/payout_details/component'
 import ConfirmComponent from './steps/confirm/component'
-import { add, getQuery, update, firestore } from 'firebase_config'
+import { getQuery, firestore } from 'firebase_config'
+import { post } from 'services'
 
 function WalletWithdrawComponent ({ currentUser }) {
   const [withdrawAmount, setWithdrawAmount] = useState('')
@@ -33,7 +35,7 @@ function WalletWithdrawComponent ({ currentUser }) {
 
     async function getWithdrawTransaction () {
       const trn = await getQuery(
-        firestore.collection('transactions').where('userId', '==', currentUser.id).where('withdrawRequest', '==', true).get()
+        firestore.collection('transactions').where('userId', '==', currentUser.id).where('withdrawalRequest', '==', true).get()
       )
       if (trn[0]) {
         setWithdrawTransaction(trn[0])
@@ -47,32 +49,20 @@ function WalletWithdrawComponent ({ currentUser }) {
 
   const save = async () => {
     if (withdrawAmount < 10) {
-      setResult({
-        status: 400,
-        message: 'Minimum amount to withdraw is 500'
-      })
+      toast.error('Minimum amount to withdraw is INR 500/-')
       return null
     }
     if (!accountName) {
-      setResult({
-        status: 400,
-        message: 'Account holder name is required'
-      })
+      toast.error('Account holder name is required')
       return null
     }
     if (!accountNumber) {
-      setResult({
-        status: 400,
-        message: 'Account number must be valid'
-      })
+      toast.error('Account number must be valid')
       return null
     }
 
     if (!ifscCode) {
-      setResult({
-        status: 400,
-        message: 'IFSC code must be valid'
-      })
+      toast.error('IFSC code must be valid')
       return null
     }
 
@@ -83,24 +73,23 @@ function WalletWithdrawComponent ({ currentUser }) {
       currency: currentUser.currency || 'inr',
       type: 'debit',
       status: 'pending',
-      withdrawRequest: true,
-      withdrawalDate: getWithdrawalDate(),
-      trackDetails: {
-        location: {
-          country: null,
-          address: null
-        },
-        system: {
-          ipAddress: null,
-          browser: null
-        }
-      }
+      withdrawalRequest: true,
+      withdrawalDate: getWithdrawalDate()
     }
 
-    await update('wallets', selectedWallet.id, {
-      amount: selectedWallet.amount - +withdrawAmount
+    const res = await post('/transaction/withdraw', {
+      date: getWithdrawalDate(),
+      amount: withdrawAmount,
+      currency: 'inr'
     })
-    const res = await add('transactions', data)
+
+    if (res.status === 201) {
+      toast.success('Recharge successful')
+    } else {
+      toast.error('Recharge is unsuccessful. If your card has been debited, please contact the admin team.')
+    }
+    history.push('/app/wallet')
+
     setResult(res)
     setStepNumber(3)
     setWithdrawTransaction(data)
@@ -133,7 +122,7 @@ function WalletWithdrawComponent ({ currentUser }) {
   const alertTemplate = () => (
     <div className='p-3 pt-5 text-center'>
       <p className='p-2'>
-        Your request for a withdrawal has been received. The withdraw amount will be credited by {withdrawTransaction.withdrawalDate}.
+        Your withdrawal request has been received. The withdraw amount will be credited by {withdrawTransaction.withdrawalDate}.
       </p>
       <button className='btn btn-sm btn-violet-rounded mb-3' onClick={closeModal}>
         Done

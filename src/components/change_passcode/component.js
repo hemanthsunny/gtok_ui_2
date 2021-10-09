@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 import './style.css'
 
 import HeaderComponent from './header'
@@ -34,7 +35,7 @@ function ChangePasscodeComponent ({ currentUser }) {
   }, [])
 
   const savePasscode = async () => {
-    if (selectedWallet && (passcodeState.oldPasscode !== decryptText(selectedWallet.passcode))) {
+    if (selectedWallet && (passcodeState.oldPasscode !== (selectedWallet.passcode.length === 4 ? selectedWallet.passcode : decryptText(selectedWallet.passcode)))) {
       toast.error('Old passcode is wrong')
       return null
     }
@@ -47,7 +48,11 @@ function ChangePasscodeComponent ({ currentUser }) {
       return null
     }
     if (passcodeState.newPasscode !== passcodeState.confirmPasscode) {
-      toast.error('Passcodes didn\'t match')
+      toast.error('New passcode and confirm passcode didn\'t match')
+      return null
+    }
+    if (passcodeState.newPasscode === passcodeState.oldPasscode) {
+      toast.error('New passcode should not be same as the old one.')
       return null
     }
     setLoading(true)
@@ -60,7 +65,8 @@ function ChangePasscodeComponent ({ currentUser }) {
       const data = {
         passcode: encryptText(passcodeState.newPasscode),
         otp: null,
-        verified: false
+        verified: false,
+        lastPasscodeUpdatedAt: moment().format()
       }
       res = await update('wallets', (selectedWallet.id || wallet[0].id), data)
     } else {
@@ -69,7 +75,8 @@ function ChangePasscodeComponent ({ currentUser }) {
         amount: 0,
         passcode: encryptText(passcodeState.newPasscode),
         otp: null,
-        verified: false
+        verified: false,
+        lastPasscodeUpdatedAt: moment().format()
       }
       res = await add('wallets', data)
     }
