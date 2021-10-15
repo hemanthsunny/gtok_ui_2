@@ -82,20 +82,18 @@ const ParentComponent = (props) => {
   return (
     <div>
       <HeaderComponent save={savePost} />
-      <div>
-        <div className='dashboard-content pt-4'>
-            <div className='container create-post-wrapper'>
-              <DetailComponent postText={postText} setPostText={setPostText} currentUser={currentUser} sharePost={sharePost} />
-              <div className='text-center'>
-                {
-                  result.status &&
-                  <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
-                    {result.message}
-                  </div>
-                }
-              </div>
+      <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
+          <div className='container create-post-wrapper'>
+            <DetailComponent postText={postText} setPostText={setPostText} currentUser={currentUser} sharePost={sharePost} />
+            <div className='text-center'>
+              {
+                result.status &&
+                <div className={`text-${result.status === 200 ? 'success' : 'danger'} mb-2`}>
+                  {result.message}
+                </div>
+              }
             </div>
-        </div>
+          </div>
       </div>
     </div>
   )

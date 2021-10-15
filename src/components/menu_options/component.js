@@ -7,7 +7,7 @@ import './style.css'
 import { update } from 'firebase_config'
 import { SetPosts } from 'store/actions'
 
-const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, bindPosts }) => {
+const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, bindPosts, loadPosts }) => {
   const [copied, setCopied] = useState(false)
   const history = useHistory()
 
@@ -89,6 +89,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   const hidePost = async () => {
     await update('posts', sharePost.id, { active: !sharePost.active })
     await bindPosts(currentUser)
+    await loadPosts()
     await closeModal()
   }
 

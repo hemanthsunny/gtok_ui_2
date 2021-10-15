@@ -31,6 +31,7 @@ export default function HelmetMetaDataComponent (props) {
       <meta property='og:locale' content='en_US' />
       <meta property='og:type' content='website' />
       <meta property='og:title' content={title} />
+      <meta property='og:description' content={description} />
       <meta property='og:quote' content={quote} />
       <meta property='og:hashtag' content={hashtag} />
       <meta property='og:image' content={image} />

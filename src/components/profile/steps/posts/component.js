@@ -128,7 +128,7 @@ class PostsComponent extends Component {
                 No assets found
               </div>
           }
-          <MenuOptionsComponent currentUser={this.props.currentUser} />
+          <MenuOptionsComponent currentUser={this.props.currentUser} loadPosts={this.loadPosts} />
           <ShareOptionsComponent currentUser={this.props.currentUser} />
           <ReportPostComponent currentUser={this.props.currentUser} />
           <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>

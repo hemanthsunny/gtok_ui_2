@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading }) => {
   return (
-    <nav className='navbar fixed-top navbar-violet-md px-4'>
+    <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <Link to='/'>
         <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>
@@ -13,8 +13,14 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
       </div>
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
-          <div className='nav-link p-0 text-white fw-500' onClick={e => save()}>
-            {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Share'}
+          <div className='nav-link p-0 text-white fw-500'>
+            {
+              loading
+                ? <div className='spinner-border spinner-border-sm' role='status'>
+                  <span className='sr-only'>Loading...</span>
+                </div>
+                : <span onClick={e => save()}>Share</span>
+            }
           </div>
         </li>
       </ul>
