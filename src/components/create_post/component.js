@@ -252,6 +252,8 @@ const ParentComponent = (props) => {
             <div className='container create-post-wrapper'>
               <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} />
               <CategoryComponent postCategories={((sharePost && sharePost.type === 'activity') || (activeTab === 'activity')) ? ActivityCategories : FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
+              {/* Assets */}
+              <div className='pl-3 font-small text-grey'>*Assets can't be deleted after they've been created.</div>
               <div className='text-center'>
                 {
                   result.status &&

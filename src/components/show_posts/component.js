@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { motion } from 'framer-motion'
+import $ from 'jquery'
 import './style.css'
 
 import PostComponent from './children/post/component'
@@ -17,7 +17,6 @@ import {
 } from 'components'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
-import { pageVariants, pageTransition } from 'constants/framer-motion'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -48,25 +47,30 @@ class ParentComponent extends Component {
         reloadPosts: false
       })
     }
-    // if (!posts[0]) bindPosts(currentUser);
-    // if (this.state.reloadPosts) {
-    //   this.bindPosts(this.props.currentUser);
-    //   this.setState({
-    //     reloadPosts: false
-    //   });
-    // }
+    /* Onload hide scroll-to-top butotn */
+    $('.scroll-to-top').css('display', 'none')
   }
 
   UNSAFE_componentWillMount () {
     window.addEventListener('scroll', this.loadMorePosts)
+    window.addEventListener('scroll', this.updateScrollPosition)
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.loadMorePosts)
+    window.removeEventListener('scroll', this.updateScrollPosition)
   }
 
-  onSortOptionChange = async (val) => {
-    await this.bindPosts(this.props.currentUser, 'all', { sort: val })
+  scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  updateScrollPosition = () => {
+    if (window.pageYOffset > 200) {
+      $('.scroll-to-top').fadeIn()
+    } else {
+      $('.scroll-to-top').fadeOut()
+    }
   }
 
   checkRelationships = (posts) => {
@@ -85,12 +89,20 @@ class ParentComponent extends Component {
     return posts
   }
 
+  checkFilters = (posts) => {
+    if (this.state.selectedFilters[0]) {
+      posts = posts.filter(p => this.state.selectedFilters.indexOf(p.category.title) > -1)
+    }
+    return posts
+  }
+
   loadPosts = async () => {
     this.setState({ loading: true })
     let posts = await getQuery(
       firestore.collection('posts').where('active', '==', true).orderBy('createdAt', 'desc').limit(this.state.pageLimit).get()
     )
     posts = await this.checkRelationships(posts)
+    posts = await this.checkFilters(posts)
     posts = posts.sort((a, b) => b.createdAt - a.createdAt)
     this.setState({
       loadMore: posts.length >= (this.state.pageId * this.state.pageLimit),
@@ -110,6 +122,7 @@ class ParentComponent extends Component {
         firestore.collection('posts').where('active', '==', true).orderBy('createdAt', 'desc').limit(this.state.pageId * this.state.pageLimit).get()
       )
       posts = await this.checkRelationships(posts)
+      posts = await this.checkFilters(posts)
       posts = posts.sort((a, b) => b.createdAt - a.createdAt)
       this.setState({
         loadMore: posts.length >= (this.state.pageId * this.state.pageLimit),
@@ -121,30 +134,10 @@ class ParentComponent extends Component {
     }
   }
 
-  touchStart = (e) => {
-    this.setState({
-      touchStart: e.changedTouches[0].clientX
-    })
-  }
-
-  touchEnd = (e) => {
-    this.setState({
-      touchEnd: e.changedTouches[0].clientX
-    }, () => {
-      this.handleGesture()
-    })
-  }
-
-  handleGesture = (e) => {
-    if (this.state.touchStart - this.state.touchEnd > 150) {
-      this.props.history.push('/app/activities')
-    }
-  }
-
   handleFilters = (action, val) => {
     if (action === 'selected') {
       this.setState({
-        selectedFilters: [...this.state.selectedFilters, val].sort(),
+        selectedFilters: Array.from(new Set([...this.state.selectedFilters, val])).sort(),
         unselectedFilters: this.state.unselectedFilters.filter(f => f !== val).sort()
       })
     } else {
@@ -153,6 +146,8 @@ class ParentComponent extends Component {
         selectedFilters: this.state.selectedFilters.filter(f => f !== val).sort()
       })
     }
+    this.scrollToTop()
+    this.loadPosts()
   }
 
   subHeader = () => (
@@ -189,6 +184,13 @@ class ParentComponent extends Component {
                     }
                   </div>
                 </div>
+                <div className='filter-wrapper pl-sm-5'>
+                {
+                  this.state.selectedFilters.map((name, i) => (
+                    <div className='btn btn-violet btn-sm mx-1 selected-filter' key={i} onClick={e => this.handleFilters('unselected', name)}>{name}</div>
+                  ))
+                }
+                </div>
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {
@@ -197,12 +199,16 @@ class ParentComponent extends Component {
                       )
                     }
                     return post.stories && (
-                      <PostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                      <PostComponent currentUser={this.props.currentUser} post={post} key={idx} handleFilters={this.handleFilters}/>
                     )
                   })
                 }
                 <div className='text-center mt-5'>
                   Follow our <Link to='/app/search' className='text-violet'>priority users</Link> to view their assets.
+                </div>
+                {this.state.loading && <LoadingComponent />}
+                <div className='scroll-to-top' onClick={this.scrollToTop}>
+                  Scroll to top
                 </div>
               </div>
               <MobileFooterComponent currentUser={this.props.currentUser} />
@@ -210,10 +216,6 @@ class ParentComponent extends Component {
               <ShareOptionsComponent currentUser={this.props.currentUser} />
               <ReportPostComponent currentUser={this.props.currentUser} />
               <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>
-
-              {this.state.loading && <LoadingComponent />}
-            <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
-            </motion.div>
           </div>
         </div>
       </div>

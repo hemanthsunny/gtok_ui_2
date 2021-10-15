@@ -54,7 +54,7 @@ const UserComponent = ({ displayUser, currentUser, relations, bindRelationships 
             <CustomImageComponent user={displayUser} />
           </Link>
           <div className='media-body pl-3'>
-            <Link className='username' to={'/app/profile/' + displayUser.id}>
+            <Link className='username' to={'/app/profile/' + displayUser.username}>
               @{displayUser.username}<br/>
               <span className='actual-name'>{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}</span>
             </Link>

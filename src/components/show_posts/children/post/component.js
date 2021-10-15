@@ -19,7 +19,7 @@ import SliderComponent from '../slider/component'
 import { convertTextToLink } from 'helpers'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet, handleFilters
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
@@ -207,7 +207,7 @@ const PostComponent = ({
                       : <CustomImageComponent user={postedUser} size='sm' />
                     }
                   </span>
-                  <span className='card-badge'>{displayPost.category.title}</span>
+                  <span className='card-badge' onClick={e => handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
                   <span className={`${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <img className='inr-icon' src={require('assets/svgs/currency/inr_black.svg').default} alt="1" />
                     {displayPost.tradePrice}

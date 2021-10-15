@@ -32,6 +32,7 @@
   background-color: var(--color-violet-400);
   padding: 0.25rem 0.7rem;
   border-radius: 1.5rem;
+  cursor: pointer;
 }
 
 .post-card-wrapper .inr-icon {

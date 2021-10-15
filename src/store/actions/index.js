@@ -27,7 +27,7 @@ import {
   SET_WALLET,
   SET_PRICES,
   SET_TRANSACTIONS
-} from './types.js'
+} from '../types.js'
 import {
   getNewMessagesCount,
   getNewAlertsCount,
