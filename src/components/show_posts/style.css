@@ -73,7 +73,7 @@
 
 @media (max-width: 575.97px) {
   .scroll-to-top {
-    bottom: 12vh;
+    top: calc(100vh - 16vh);
   }
 }
 
