@@ -25,6 +25,10 @@ const ParentComponent = (props) => {
   const savePost = async (opts) => {
     const postData = Object.assign({
       active: true,
+      category: {
+        title: 'Same pinch',
+        key: 'same_pinch'
+      },
       stories: [{
         text: capitalizeFirstLetter(postText.trim())
       }],

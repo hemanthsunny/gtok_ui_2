@@ -91,7 +91,7 @@ class ParentComponent extends Component {
 
   checkFilters = (posts) => {
     if (this.state.selectedFilters[0]) {
-      posts = posts.filter(p => this.state.selectedFilters.indexOf(p.category.title) > -1)
+      posts = posts.filter(p => p.category && this.state.selectedFilters.indexOf(p.category.title) > -1)
     }
     return posts
   }
@@ -195,7 +195,7 @@ class ParentComponent extends Component {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {
                       return (
-                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
+                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx} handleFilters={this.handleFilters}/>
                       )
                     }
                     return post.stories && (

@@ -8,7 +8,7 @@ import PostComponent from 'components/show_posts/children/post/component'
 import { CustomImageComponent } from 'components'
 
 const ParentComponent = ({
-  currentUser, post, allUsers
+  currentUser, post, allUsers, handleFilters
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [resharePost, setResharePost] = useState('')
@@ -44,7 +44,7 @@ const ParentComponent = ({
       <div className='card reshare-post-card-wrapper'>
         <div className='card-body pb-3'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
-            <span className='card-badge'>Same pinch</span>
+            <span className='card-badge' onClick={e => handleFilters('selected', 'Same pinch')}>{post.category ? post.category.title : 'Same pinch'}</span>
             <div className='created-at'>{moment(post.createdAt).format('h:mm a')} &middot; {moment(post.createdAt).format('D MMM \'YY')}</div>
           </div>
           <div className='mt-2'>
