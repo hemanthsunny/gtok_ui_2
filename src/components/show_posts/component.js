@@ -187,7 +187,7 @@ class ParentComponent extends Component {
                 <div className='filter-wrapper pl-sm-5'>
                 {
                   this.state.selectedFilters.map((name, i) => (
-                    <div className='btn btn-violet btn-sm mx-1 selected-filter' key={i} onClick={e => this.handleFilters('unselected', name)}>{name}</div>
+                    <div className='btn btn-violet btn-sm mx-1 selected-filter' key={i} onClick={e => this.handleFilters('unselected', name)}>{name} &nbsp; <>x</></div>
                   ))
                 }
                 </div>
