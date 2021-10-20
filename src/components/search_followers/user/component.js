@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import { getQuery, firestore } from 'firebase_config'
-import { NotificationComponent, CustomImageComponent } from 'components'
+import { CustomImageComponent } from 'components'
 import { capitalizeFirstLetter } from 'helpers'
 import { createRelationships } from 'lib/api'
 import { SetRelationships } from 'store/actions'
@@ -11,7 +12,6 @@ import { SetRelationships } from 'store/actions'
 const UserComponent = ({ displayUser, currentUser, relations, bindRelationships }) => {
   const [follower, setFollower] = useState(null)
   const [isFollowerLoading, setIsFollowerLoading] = useState(false)
-  const [result, setResult] = useState({})
   /*
   const StatusCodes = {
     0: 'Pending',
@@ -42,13 +42,18 @@ const UserComponent = ({ displayUser, currentUser, relations, bindRelationships 
     )
     if (rlns[0]) setFollower(rlns[0].status)
     setIsFollowerLoading(false)
-    setResult(res)
+    if (res.status === 200 && status === 'follow') {
+      toast.success('Follow request sent')
+    } else if (res.status === 200 && status === 'cancel_request') {
+      toast.success('Follow request canceled')
+    } else {
+      toast.error(res.message)
+    }
   }
 
   return (
     <div className='search-user col-12 my-2 my-md-3'>
       <div className='p-0'>
-        {result.status && <NotificationComponent result={result} setResult={setResult} />}
         <div className='media profile-user'>
           <Link to={'/app/profile/' + displayUser.username}>
             <CustomImageComponent user={displayUser} />
@@ -61,7 +66,9 @@ const UserComponent = ({ displayUser, currentUser, relations, bindRelationships 
             <button className='btn btn-link px-0 pull-right'>
             {
               isFollowerLoading
-                ? <i className='fa fa-spinner fa-spin'></i>
+                ? <div className='spinner-border spinner-border-sm' role='status'>
+                  <span className='sr-only'>Loading...</span>
+                </div>
                 : (
                 <small>{
                   follower === 0

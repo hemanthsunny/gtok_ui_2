@@ -272,8 +272,8 @@ const PostComponent = ({
                   <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
                     {
                       follower
-                        ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/HeartActive.svg').default} alt="1" />
-                        : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Heart.svg').default} alt="1" />
+                        ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/PinchActive.svg').default} alt="1" />
+                        : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Pinch.svg').default} alt="1" />
                     }
                   </button>
                   <button className='btn btn-link' data-toggle='modal' data-target='#shareOptionsModal' onClick={e => sharePost('shareOptions')}>

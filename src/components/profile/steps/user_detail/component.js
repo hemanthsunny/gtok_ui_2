@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, withRouter, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import { getId, getQuery, add, update, firestore } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
@@ -105,7 +106,8 @@ function Component (props) {
     if (isAdminUser) {
       history.push('/app/followers')
     } else {
-      alert(`You cannot see @${user.username} followers`)
+      const htmlElement = () => <div><small>You cannot see @{user.username} followers</small></div>
+      toast.error(htmlElement)
     }
   }
 
@@ -113,7 +115,8 @@ function Component (props) {
     if (isAdminUser) {
       history.push('/app/following')
     } else {
-      alert(`You cannot see @${user.username} followers`)
+      const htmlElement = () => <div><small>You cannot see @{user.username} followers</small></div>
+      toast.error(htmlElement)
     }
   }
 
