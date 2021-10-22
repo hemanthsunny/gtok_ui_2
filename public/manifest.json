@@ -19,7 +19,7 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "theme_color": "#6930db",
   "background_color": "#ffffff",
