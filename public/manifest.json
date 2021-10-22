@@ -13,12 +13,13 @@
       "sizes": "192x192"
     },
     {
-      "src": "../assets/images/favicon.png",
+      "src": "../assets/images/favicon_512x512.png",
       "type": "image/jpg",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#6930db",
   "background_color": "#ffffff",
