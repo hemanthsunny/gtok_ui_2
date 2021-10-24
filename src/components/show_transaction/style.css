@@ -23,6 +23,13 @@
   text-align: center;
 }
 
+.show-transaction-wrapper .transaction-details .currency-icon {
+  width: 19px;
+  height: 19px;
+  position: relative;
+  left: 3px;
+}
+
 .show-transaction-wrapper .transaction-details .transaction-amount {
   margin-bottom: 0;
 }
@@ -33,15 +40,15 @@
 }
 
 .show-transaction-wrapper .transaction-details .debit {
-  color: var(--color-red-400);
+  color: #B11212;
 }
 
 .show-transaction-wrapper .transaction-details .pending {
-  color: var(--color-yellow-400);
+  color: #FFE427;
 }
 
 .show-transaction-wrapper .transaction-details .credit {
-  color: var(--color-green-500);
+  color: #12B118;
 }
 
 .show-transaction-wrapper .transaction-note {

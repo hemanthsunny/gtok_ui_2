@@ -31,12 +31,27 @@ function ShowTransactionComponent (props) {
     }
   })
 
-  const redirectTo = () => {
-
+  const redirectToDiscord = () => {
+    window.open(
+      'https://discord.gg/7H7pBb8gzE',
+      '_blank'
+    )
   }
 
   const redirectToUser = (un) => {
     history.push(`/app/profile/${un}`)
+  }
+
+  const currencyIcon = (transaction) => {
+    let currency = 'inr'
+    if (transaction.currency === 'inr' && transaction.type === 'credit') {
+      currency = 'inr_green'
+    } else if (transaction.currency === 'inr' && transaction.type === 'debit') {
+      currency = 'inr_red'
+    }
+    return (
+      <img src={require(`assets/svgs/currency/inr/${currency}.svg`).default} className='currency-icon' alt='Posts' />
+    )
   }
 
   return transactionUser && transaction && (
@@ -59,12 +74,12 @@ function ShowTransactionComponent (props) {
           </div>
         </div>
         <div className='transaction-details'>
-          <h4 className={`transaction-amount ${transaction.status === 'pending' ? 'pending' : (transaction.type === 'debit' ? 'debit' : 'credit')}`}>
-            {transaction.amount} <span className='text-uppercase'>{transaction.currency}</span>
+          <h4 className={`transaction-amount ${transaction.type === 'debit' ? 'debit' : 'credit'}`}>
+            {currencyIcon(transaction)}{transaction.amount}
           </h4>
-          <small>
-            {transaction.status} &nbsp;<img src={require('assets/svgs/Middot.svg').default} alt='middot' />&nbsp; {moment(transaction.createdAt).format('MMM D  \'YY, h:mma')}
-          </small>
+          <div className='fs-12 mt-2'>
+            <span className={`${transaction.status} text-capitalize`}>{transaction.status}</span> &nbsp;<img src={require('assets/svgs/Middot.svg').default} alt='middot' />&nbsp; {moment(transaction.createdAt).format('MMM D  \'YY, h:mma')}
+          </div>
         </div>
         <div className='invoice-table'>
           <div className='d-flex flex-row justify-content-between invoice-table-section'>
@@ -102,7 +117,7 @@ function ShowTransactionComponent (props) {
           </div>
         </div>
         <div className='transaction-note'>
-          Payments may take upto 3 working days to be reflected in your account. <span className='text-violet pointer' onClick={redirectTo}>Is something wrong?</span>
+          Payments may take upto 3 working days to be reflected in your account. <span className='text-violet pointer' onClick={redirectToDiscord}>Is something wrong?</span>
         </div>
       </div>
     </div>

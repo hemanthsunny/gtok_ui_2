@@ -370,13 +370,14 @@ export const SetTransactions = (currentUser) => {
 
 export const SetWallet = (currentUser) => {
   return (dispatch) => {
-    getWallet(currentUser).then(res => {
+    return getWallet(currentUser).then(res => {
       dispatch({
         type: SET_WALLET,
         payload: {
           wallet: res
         }
       })
+      return res
     })
   }
 }

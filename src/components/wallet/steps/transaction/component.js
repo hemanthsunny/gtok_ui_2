@@ -30,14 +30,27 @@ function TransactionComponent ({ wallet, transaction, allUsers }) {
       state: { transaction }
     })
   }
+
+  const currencyIcon = (transaction) => {
+    let currency = 'inr'
+    if (transaction.currency === 'inr' && transaction.type === 'credit') {
+      currency = 'inr_green'
+    } else if (transaction.currency === 'inr' && transaction.type === 'debit') {
+      currency = 'inr_red'
+    }
+    return (
+      <img src={require(`assets/svgs/currency/inr/${currency}.svg`).default} className='currency-icon' alt='Posts' />
+    )
+  }
+
   return transactionUser && (
     <div className='media p-2 pointer' onClick={redirectTo}>
       <CustomImageComponent user={transactionUser} />
       <div className='media-body pl-2'>
         <div className='flex-row'>
           <div className='pull-left transaction-name'>{transactionUser.username} {transaction.status === 'pending' && <small className='text-warning'>&middot; Pending</small>}</div>
-          <div className={`pull-right transaction-amount ${transaction.type === 'debit' ? 'debit' : 'credit'}`}>
-            <span>{transaction.type === 'debit' ? '-' : '+'}</span>{transaction.amount} <span className='text-uppercase'>{transaction.currency}</span>
+          <div className={`pull-right transaction-amount ${transaction.type}`}>
+            <span>{transaction.type === 'debit' ? '-' : '+'}</span>{currencyIcon(transaction)}{transaction.amount}
           </div>
         </div>
         <br/>

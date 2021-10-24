@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import './style.css'
 
 import HeaderComponent from './header'
 import { update } from 'firebase_config'
-import { SetUser, SetLoggedIn, SetDbUser } from 'store/actions'
+import { SetUser, SetLoggedIn, SetDbUser, SetWallet } from 'store/actions'
 
-function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser }) {
+function SettingsComponent ({ currentUser, wallet, bindLoggedIn, bindUser, bindDbUser, bindWallet }) {
+  const [selectedWallet, setSelectedWallet] = useState(wallet && wallet[0])
+  const [freezeWallet, setFreezeWallet] = useState(wallet && wallet[0] && wallet[0].freezeWallet)
+
   const handleFreezeWallet = async () => {
-    const res = await update('users', currentUser.id, { freezeWallet: !currentUser.freezeWallet })
-    await bindDbUser({ ...currentUser, freezeWallet: !currentUser.freezeWallet })
-    if (res.status !== 200) {
-      alert('Successfully went wrong. Try later.')
+    if (!selectedWallet) {
+      toast.error('No wallet found')
+      setSelectedWallet('')
+      return
+    }
+
+    const res = await update('wallets', selectedWallet.id, { freezeWallet: !freezeWallet })
+    setFreezeWallet(!freezeWallet)
+
+    if (res.status === 200 && !freezeWallet) {
+      toast.success('Zena freezed your wallet.')
+    } else if (res.status === 200 && freezeWallet) {
+      toast.success('Zena unfreezed your wallet.')
+    } else {
+      toast.error(res.message)
     }
   }
 
@@ -29,11 +44,11 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
                     <span className='option-name'>Change passcode</span>
                   </Link>
                 </li>
-                <li>
+                <li className={!selectedWallet && 'd-none'}>
                   <div className='d-flex flex-row align-items-center justify-content-between'>
                     <span className='option-name' htmlFor="freezeWallet">Freeze wallet</span>
                     <div className="custom-control custom-switch">
-                      <input type="checkbox" className="custom-control-input" id="freezeWallet" onChange={handleFreezeWallet} checked={currentUser.freezeWallet || false} />
+                      <input type="checkbox" className="custom-control-input" id="freezeWallet" onChange={handleFreezeWallet} checked={freezeWallet} />
                       <label className="custom-control-label" htmlFor="freezeWallet"></label>
                     </div>
                   </div>
@@ -47,15 +62,21 @@ function SettingsComponent ({ currentUser, bindLoggedIn, bindUser, bindDbUser })
   )
 }
 
+const mapStateToProps = (state) => {
+  const { wallet } = state.wallet
+  return { wallet }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     bindLoggedIn: (content) => dispatch(SetLoggedIn(content)),
     bindUser: (content) => dispatch(SetUser(content)),
-    bindDbUser: (content) => dispatch(SetDbUser(content))
+    bindDbUser: (content) => dispatch(SetDbUser(content)),
+    bindWallet: (content) => dispatch(SetWallet(content))
   }
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SettingsComponent)

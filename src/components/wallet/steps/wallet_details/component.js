@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { getQuery, firestore } from 'firebase_config'
 import TransactionComponent from '../transaction/component'
@@ -106,47 +107,69 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
         </div>
         <div className='balance-details'>
           <div className='balance-amount'>
-            <img src={require('assets/svgs/currency/inr.svg').default} className='posts-icon' alt='Posts' />
-            {walletVerification && walletVerification.verified && <span className='text'>{selectedWallet.amount || 0}</span>}
+            <img src={require('assets/svgs/currency/inr/inr.svg').default} className='currency-icon' alt='Posts' />
+            {!selectedWallet.freezeWallet && walletVerification && walletVerification.verified && <span className='text'>{selectedWallet.amount || 0}</span>}
           </div>
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
-          <button className='btn btn-custom col-4 mr-2' onClick={e => redirectTo('/app/recharge')} disabled={walletVerification && !walletVerification.verified}>Recharge</button>
-          <div className='btn btn-violet col-2 d-none'></div>
-          <button className='btn btn-custom col-4 ml-2' onClick={e => redirectTo('/app/withdraw')} disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
+          {
+            selectedWallet.freezeWallet
+              ? <div className='pt-2'>
+                <button className='btn btn-custom col-8 mr-2'>Your wallet is freezed</button>
+              </div>
+              : <div>
+                <button className='btn btn-custom col-4 mr-2' onClick={e => redirectTo('/app/recharge')} disabled={walletVerification && !walletVerification.verified}>Recharge</button>
+                <div className='btn btn-violet col-2 d-none'></div>
+                <button className='btn btn-custom col-4 ml-2 d-none' onClick={e => redirectTo('/app/withdraw')} disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
+                <button className='btn btn-custom col-4 ml-2' disabled title='Withdrawals are not allowed at the moment' onClick={e => toast.success('Withdrawals not allowed at the moment')}>Withdraw</button>
+              </div>
+          }
         </div>
       </div>
       {
-        walletVerification && walletVerification.verified
-          ? <div className='transactions-section'>
-              <div className='all-transactions-text'>All transactions</div>
-              <div className='transaction-card'>
-                {
-                  transactions[0]
-                    ? transactions.map((trn, i) => (
-                      <TransactionComponent wallet={wallet} transaction={trn} key={i}/>
-                    ))
-                    : <div className='text-center'>
-                    <small>No transactions yet</small>
+        selectedWallet.freezeWallet
+          ? <div>
+            <div className='enter-passcode-section'>
+              <Link to='/app/wallet_settings' className='btn btn-violet-rounded btn-sm col-3 submit-passcode'>
+                Unfreeze
+              </Link>
+            </div>
+          </div>
+          : <div>
+            {
+              walletVerification && walletVerification.verified
+                ? <div className='transactions-section'>
+                    <div className='all-transactions-text'>All transactions</div>
+                    <div className='transaction-card'>
+                      {
+                        transactions[0]
+                          ? transactions.map((trn, i) => (
+                            <TransactionComponent wallet={wallet} transaction={trn} key={i}/>
+                          ))
+                          : <div className='text-center'>
+                          <small>No transactions processed yet</small>
+                        </div>
+                      }
+                    </div>
                   </div>
-                }
-              </div>
-            </div>
-          : <div className='enter-passcode-section'>
-            <div className='passcode-text'>Enter passcode</div>
-            <div className='passcode-card'>
-              <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' />
-            </div>
-            <div className='text-center'>
-              {
-                result.status &&
-                <div className={`text-${result.status === 200 ? 'violet' : 'danger'} mt-3`}>
-                  {result.message}
+                : <div className='enter-passcode-section'>
+                  <div className='passcode-text'>Enter passcode</div>
+                  <div className='passcode-card'>
+                    <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' />
+                  </div>
+                  <div className='text-center'>
+                    {
+                      result.status &&
+                      <div className={`text-${result.status === 200 ? 'violet' : 'danger'} mt-3`}>
+                        {result.message}
+                      </div>
+                    }
+                  </div>
+                  <button className='btn btn-violet-rounded btn-sm col-3 submit-passcode' disabled={btnDisable} onClick={verifyPasscode}>Done</button>
                 </div>
-              }
-            </div>
-            <button className='btn btn-violet-rounded btn-sm col-3 submit-passcode' disabled={btnDisable} onClick={verifyPasscode}>Done</button>
+            }
+
           </div>
       }
     </div>
