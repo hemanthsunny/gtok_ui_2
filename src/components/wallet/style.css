@@ -1,3 +1,8 @@
+.wallet-details-wrapper {
+  position: relative;
+  top: -3px;
+}
+
 .wallet-details-wrapper .page-header {
   font-size: var(--font-size);
   font-weight: 500;

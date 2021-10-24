@@ -116,7 +116,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
           {
             selectedWallet.freezeWallet
               ? <div className='pt-2'>
-                <button className='btn btn-custom col-8 mr-2'>Your wallet is freezed</button>
+                <button className='btn btn-custom col-8 mr-2'>Your wallet is frozen</button>
               </div>
               : <div>
                 <button className='btn btn-custom col-4 mr-2' onClick={e => redirectTo('/app/recharge')} disabled={walletVerification && !walletVerification.verified}>Recharge</button>
