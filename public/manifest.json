@@ -8,15 +8,15 @@
       "type": "image/x-icon"
     },
     {
-      "src": "https://storage.googleapis.com/lg-main.appspot.com/images/app_splash_screen.jpg",
+      "src": "../assets/images/favicon.png",
       "type": "image/jpg",
-      "sizes": "192x192",
-      "purpose": "any maskable"
+      "sizes": "192x192"
     },
     {
-      "src": "https://storage.googleapis.com/lg-main.appspot.com/images/app_splash_screen.jpg",
+      "src": "../assets/images/favicon_512x512.png",
       "type": "image/jpg",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/?source=pwa",
