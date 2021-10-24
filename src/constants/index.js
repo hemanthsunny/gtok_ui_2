@@ -4,7 +4,7 @@ export const Metadata = {
     description: 'GTOK profile is a place where you can edit profile page.',
     path: 'home'
   },
-  '/app/posts': {
+  '/app/assets': {
     title: 'Lets Gtok',
     description: 'You can see others posts',
     path: 'posts'
@@ -54,7 +54,7 @@ export const Metadata = {
     description: "GTOK support has Faq's",
     path: 'support'
   },
-  '/app/create_post': {
+  '/app/create_asset': {
     title: 'Share feelings | Lets Gtok',
     description: 'Share feelings',
     path: 'create_post'

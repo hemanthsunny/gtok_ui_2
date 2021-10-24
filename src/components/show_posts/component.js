@@ -153,7 +153,7 @@ class ParentComponent extends Component {
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/posts' className='tab-item -active'>Feelings</Link>
+        <Link to='/app/assets' className='tab-item -active'>Feelings</Link>
         <Link to='/app/activities' className='tab-item'>Activities</Link>
       </div>
     </div>

@@ -165,7 +165,7 @@ class ParentComponent extends Component {
 
   shareText = (text) => {
     this.props.history.push({
-      pathname: '/app/create_post',
+      pathname: '/app/create_asset',
       state: { sharePostText: text }
     })
   }

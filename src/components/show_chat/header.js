@@ -11,7 +11,7 @@ const HeaderComponent = ({
     <nav className='navbar fixed-top navbar-violet d-sm-none'>
       <div className='container-fluid p-0'>
         <div className='navbar-brand mr-auto'>
-          <Link to='/app/posts'>
+          <Link to='/app/assets'>
             <img src={require('assets/svgs/Logo.svg').default} className='icon-logo' alt='Filters' />
           </Link>
         </div>

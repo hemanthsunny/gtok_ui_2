@@ -12,7 +12,7 @@ const HeaderComponent = ({
     <nav className={`navbar fixed-top navbar-violet ${window.innerWidth > 576 && 'd-none'}`}>
       <div className='container-fluid p-0'>
         <div className='navbar-brand d-flex'>
-          <Link to='/app/posts'>
+          <Link to='/app/assets'>
             <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='icon-logo' alt='Filters' />
           </Link>
           <Link to='/app/profile' className='flex-grow-1'>

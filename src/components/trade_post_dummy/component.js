@@ -81,7 +81,7 @@ function TradePostComponent (props) {
     setResult('result')
     if (result.status === 200) {
       history.push({
-        pathname: '/app/posts/displayPost.id'
+        pathname: '/app/assets/displayPost.id'
       })
     }
   }

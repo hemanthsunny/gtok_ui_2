@@ -70,7 +70,7 @@ const PostComponent = ({
         collection: 'posts',
         actionId: displayPost.id,
         actionKey: 'followers',
-        actionLink: '/app/posts/' + displayPost.id,
+        actionLink: '/app/assets/' + displayPost.id,
         unread: true,
         timestamp
       })
@@ -88,7 +88,7 @@ const PostComponent = ({
         collection: 'posts',
         actionId: displayPost.id,
         actionKey: 'followers',
-        actionLink: '/app/posts/' + displayPost.id,
+        actionLink: '/app/assets/' + displayPost.id,
         timestamp
       })
       setFollower(false)
@@ -110,7 +110,7 @@ const PostComponent = ({
       localStorage.setItem('sharePostText', `Hey! I want to share this asset with you. Have a look ${process.env.REACT_APP_URL}app/posts/${post.id}`)
     }
     await bindSharePost(currentUser, 'id', { post })
-    // history.push('/app/posts/' + displayPost.id)
+    // history.push('/app/assets/' + displayPost.id)
   }
 
   const redirectToProfile = async () => {

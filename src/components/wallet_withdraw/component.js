@@ -20,6 +20,7 @@ function WalletWithdrawComponent ({ currentUser }) {
   const [result, setResult] = useState({})
   const [selectedWallet, setSelectedWallet] = useState('')
   const [withdrawTransaction, setWithdrawTransaction] = useState('')
+  const [loading, setLoading] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -66,6 +67,7 @@ function WalletWithdrawComponent ({ currentUser }) {
       return null
     }
 
+    setLoading(true)
     const data = {
       userId: currentUser.id,
       walletId: selectedWallet.id,
@@ -74,25 +76,26 @@ function WalletWithdrawComponent ({ currentUser }) {
       type: 'debit',
       status: 'pending',
       withdrawalRequest: true,
-      withdrawalDate: getWithdrawalDate()
+      withdrawalDate: await getWithdrawalDate()
     }
 
     const res = await post('/transaction/withdraw', {
-      date: getWithdrawalDate(),
+      date: data.withdrawalDate,
       amount: withdrawAmount,
       currency: 'inr'
     })
 
     if (res.status === 201) {
-      toast.success('Recharge successful')
+      toast.success('We received your withdrawal request.')
     } else {
-      toast.error('Recharge is unsuccessful. If your card has been debited, please contact the admin team.')
+      toast.error('Withdrawal request is unsuccessful. Try again later.')
     }
     history.push('/app/wallet')
 
     setResult(res)
     setStepNumber(3)
     setWithdrawTransaction(data)
+    setLoading(false)
     setTimeout(() => {
       setResult('')
       setWithdrawAmount(0)
@@ -146,7 +149,7 @@ function WalletWithdrawComponent ({ currentUser }) {
           !withdrawTransaction
             ? <div>
               { stepNumber === 1 && <PayoutDetailsComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} withdrawAmount={withdrawAmount} setWithdrawAmount={setWithdrawAmount} accountName={accountName} setAccountName={setAccountName} accountNumber={accountNumber} setAccountNumber={setAccountNumber} ifscCode={ifscCode} setIfscCode={setIfscCode} /> }
-              { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} save={save} withdrawAmount={withdrawAmount} accountName={accountName} accountNumber={accountNumber} ifscCode={ifscCode} /> }
+              { stepNumber === 2 && <ConfirmComponent currentUser={currentUser} wallet={selectedWallet} setStepNumber={setStepNumber} save={save} withdrawAmount={withdrawAmount} accountName={accountName} accountNumber={accountNumber} ifscCode={ifscCode} loading={loading} /> }
               {
                 stepNumber === 3 && <div className='container desktop-align-center'>
                   {alertTemplate()}

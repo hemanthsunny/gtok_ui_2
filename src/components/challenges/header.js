@@ -8,7 +8,7 @@ const HeaderComponent = ({
   return (
     <nav className='navbar fixed-top navbar-expand-sm py-md-0'>
       <div className='navbar-brand mr-auto'>
-        <Link to='/app/posts'>
+        <Link to='/app/assets'>
           {/* <img src={require(`assets/svgs/Home.svg`).default} className='home-icon' alt='Home' /> */}
           <span className='home-page-title'>Lets Gtok</span>
         </Link>

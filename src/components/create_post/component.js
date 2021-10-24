@@ -120,7 +120,7 @@ const ParentComponent = (props) => {
     setLoading(false)
     if (result.status === 200) {
       props.history.push({
-        pathname: '/app/posts',
+        pathname: '/app/assets',
         state: { postingSuccess: true, reloadPosts: true }
       })
       if (sharePost.id) {
@@ -235,7 +235,7 @@ const ParentComponent = (props) => {
   }
 
   const subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <div className={`tab-item ${activeTab === 'feelings' && '-active'}`} onClick={e => handleActiveTab('feelings')}>Feelings</div>
         <div className={`tab-item ${activeTab === 'activity' && '-active'}`} onClick={e => handleActiveTab('activity')}>Activities</div>

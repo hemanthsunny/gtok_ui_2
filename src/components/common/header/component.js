@@ -12,17 +12,17 @@ const HeaderComponent = ({
     <nav className='navbar fixed-top navbar-violet'>
       <div className='container-fluid p-0'>
         <div className='navbar-brand mr-auto'>
-          <Link to='/app/posts'>
+          <Link to='/app/assets'>
             <img src={require('assets/svgs/Logo.svg').default} className='icon-logo' alt='Filters' />
           </Link>
         </div>
         <ul className='navbar-nav ml-auto'>
           <li className='nav-item'>
             <div className='nav-link p-0'>
-              <Link to='/app/create_post' className={`${window.innerWidth < 576 && 'd-none'}`} title='Create'>
+              <Link to='/app/create_asset' className={`${window.innerWidth < 576 && 'd-none'}`} title='Create'>
                 <img src={require('assets/svgs/Plus.svg').default} className='icon-post' alt='Chats' />
               </Link>
-              <Link to='/app/posts' className={`${window.innerWidth < 576 && 'd-none'}`} title='Home'>
+              <Link to='/app/assets' className={`${window.innerWidth < 576 && 'd-none'}`} title='Home'>
                 <img src={require('assets/svgs/HomeWhite.svg').default} className='icon-home' alt='Home' />
               </Link>
               <Link to='/app/search' title='Search'>

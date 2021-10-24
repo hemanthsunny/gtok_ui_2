@@ -28,7 +28,7 @@ const DetailComponent = ({
               <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon p-0' alt='Inr' />{tradePrice}
             </span>
           </div>
-          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Hey dear! type here about your feeling!!' rows={7} autoFocus></textarea>
+          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Do you know? Feelings are assets. Start sharing..' rows={7} autoFocus></textarea>
         </div>
         <div className='card-footer'>
           {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}

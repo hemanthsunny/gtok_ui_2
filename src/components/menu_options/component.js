@@ -12,7 +12,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   const history = useHistory()
 
   const copyLink = () => {
-    navigator.clipboard.writeText(`https://app.letsgtok.com/app/posts/${displayPost.id}`)
+    navigator.clipboard.writeText(`https://app.letsgtok.com/app/assets/${displayPost.id}`)
     setCopied(true)
     setTimeout(() => {
       setCopied(false)
@@ -22,7 +22,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   const editPost = async (post, idx) => {
     await closeModal()
     history.push({
-      pathname: '/app/create_post',
+      pathname: '/app/create_asset',
       state: {
         sharePost,
         story: sharePost.stories[0],
@@ -77,7 +77,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   const shareTo = async () => {
     await closeModal()
     history.push({
-      pathname: `/app/posts/${sharePost.id}`,
+      pathname: `/app/assets/${sharePost.id}`,
       state: {
         sharePost,
         story: sharePost.stories[0],

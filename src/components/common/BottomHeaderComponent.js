@@ -20,8 +20,8 @@ const BottomHeaderComponent = ({
       setMetaDetails(Metadata['/app/similarities'])
     } else if (path.includes('/app/profile')) {
       setMetaDetails(Metadata['/app/profile'])
-    } else if (path.includes('/app/create_post')) {
-      setMetaDetails(Metadata['/app/create_post'])
+    } else if (path.includes('/app/create_asset')) {
+      setMetaDetails(Metadata['/app/create_asset'])
     } else {
       setMetaDetails(Metadata[path || 'default'])
     }
@@ -36,14 +36,14 @@ const BottomHeaderComponent = ({
       <div className='d-flex flex-row navbar-bottom align-items-center align-self-center justify-content-around'>
         <div className='nav-item ml-1' title='Home'>
           <div className='nav-link text-center'>
-            <Link to='/app/posts'>
+            <Link to='/app/assets'>
               <img src={(metaDetails && (metaDetails.path === 'posts' || metaDetails.path === 'activities')) ? require('assets/svgs/HomeActive.svg').default : require('assets/svgs/Home.svg').default} className='home-icon' alt='Home' />
             </Link>
           </div>
         </div>
         <div className='nav-item ml-1' title='Create post'>
           <div className='nav-link text-center'>
-            <Link to='/app/create_post'>
+            <Link to='/app/create_asset'>
               <img src={(metaDetails && (metaDetails.path === 'create_post' || metaDetails.path === 'create_activity')) ? require('assets/svgs/PlusActive.svg').default : require('assets/svgs/Plus.svg').default} className='plus-c-icon' alt='Create post' />
             </Link>
           </div>

@@ -67,7 +67,7 @@ function TradePostComponent (props) {
     if (res.status === 201) {
       toast.success(`You've successfully traded @${postedUser.username} asset`)
       history.push({
-        pathname: `/app/posts/${displayPost.id}`,
+        pathname: `/app/assets/${displayPost.id}`,
         state: {
           traded: true,
           result

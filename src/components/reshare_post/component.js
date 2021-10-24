@@ -56,7 +56,7 @@ const ParentComponent = (props) => {
 
     if (result.status === 200) {
       props.history.push({
-        pathname: '/app/posts',
+        pathname: '/app/assets',
         state: { postingSuccess: true, reloadPosts: true }
       })
     } else {

@@ -58,7 +58,7 @@ const LandingComponent = () => {
   if (!token) {
     return (<Redirect to="/login" />)
   }
-  return (<Redirect to="/app/posts" />)
+  return (<Redirect to="/app/assets" />)
 }
 
 export const Routes = (props) => {
@@ -80,11 +80,11 @@ export const Routes = (props) => {
           <Route exact path="/activities" component={ShowOpenActivitiesComponent} />
           <AuthRoute exact path="/app" component={LandingComponent} />
           <AuthRoute exact path="/app/alerts" component={AlertsComponent} />
-          <AuthRoute exact path="/app/create_post" component={CreatePostComponent} />
+          <AuthRoute exact path="/app/create_asset" component={CreatePostComponent} />
           <AuthRoute exact path="/app/reshare_post" component={ResharePostComponent} />
           <AuthRoute exact path="/app/create_activity" component={CreateActivityComponent} />
-          <AuthRoute exact path="/app/posts" component={ShowPostsComponent} />
-          <AuthRoute exact path="/app/posts/:post_id" component={ShowPostComponent} />
+          <AuthRoute exact path="/app/assets" component={ShowPostsComponent} />
+          <AuthRoute exact path="/app/assets/:post_id" component={ShowPostComponent} />
           <AuthRoute exact path="/app/activities" component={ShowActivitiesComponent} />
           <AuthRoute exact path="/app/profile" component={ProfileComponent} />
           <AuthRoute exact path="/app/profile/:username" component={ProfileComponent} />

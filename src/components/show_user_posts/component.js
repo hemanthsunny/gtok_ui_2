@@ -126,7 +126,7 @@ class UserPostsComponent extends Component {
                   </div>
                   <hr/>
                   <div className='d-flex create-post'>
-                    <Link to='/app/create_post'>
+                    <Link to='/app/create_asset'>
                       <i className='fa fa-pencil'></i> &nbsp;
                       <small className='bot-text'>Share an experience</small>
                     </Link>
@@ -143,7 +143,7 @@ class UserPostsComponent extends Component {
                 </div>
               */}
                 <div className='d-flex'>
-                  <div className='col-12 font-xs-small card p-2 create-post-card-type' style={{ backgroundColor: 'white' }} onClick={e => this.props.history.push('/app/create_post')}>
+                  <div className='col-12 font-xs-small card p-2 create-post-card-type' style={{ backgroundColor: 'white' }} onClick={e => this.props.history.push('/app/create_asset')}>
                     <div className='d-flex align-self-center'>
                       <i className='fa fa-pencil pr-1 mt-1'></i> &nbsp;
                       <span>Share an experience / Pinch a feeling. Click here</span>
