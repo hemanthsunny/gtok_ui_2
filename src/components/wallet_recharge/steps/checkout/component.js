@@ -24,7 +24,7 @@ function CheckoutComponent ({ rechargeAmount, setRechargeAmount, setPaymentInten
   }
 
   return (
-    <div className='change-pc-wrapper desktop-align-center enter-passcode-section'>
+    <div className='change-pc-wrapper enter-passcode-section'>
       <div className='form-group'>
         <label className='form-label'>Recharge amount</label>
         <div className='passcode-card'>

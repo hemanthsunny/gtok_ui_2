@@ -208,8 +208,8 @@ const PostComponent = ({
                     }
                   </span>
                   <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
-                  <span className={`${!displayPost.tradePrice && 'd-none'} pl-2`}>
-                    <img className='inr-icon' src={require('assets/svgs/currency/inr_black.svg').default} alt="1" />
+                  <span className={`${!displayPost.tradePrice && 'd-none'} pl-2 ${(displayPost.tradePrice && !trans) && 'd-none'}`}>
+                    <img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />
                     {displayPost.tradePrice}
                   </span>
                   <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
@@ -217,19 +217,22 @@ const PostComponent = ({
                 <div className='clearfix'></div>
                 {
                   (displayPost.tradePrice && !trans && (currentUser.id !== displayPost.userId))
-                    ? <div className='card-body hidden-post'>
-                    <div className='blur-text'>
-                      This is a trading post. Trade it, to unlock.
-                    </div>
-                    <div className='locked-post pointer' onClick={e => tradePostAction(displayPost.id)}>
-                      <div className='locked-post-text'>
-                        Unlock for <img className='inr-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
-                      </div>
+                    ? <div className='card-body hidden-post px-0'>
                       <div>
-                        <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                        {story.text.substring(0, (story.text.length * 0.1))}...
+                        <span className='blur-text'>
+                          This is a trading asset. Trade it, to unlock. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </span>
+                      </div>
+                      <div className='locked-post pointer' onClick={e => tradePostAction(displayPost.id)}>
+                        <div className='locked-post-text'>
+                          Unlock for <img className='currency-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                        </div>
+                        <div>
+                          <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                        </div>
                       </div>
                     </div>
-                  </div>
                     : <div>
                       <p className='card-text white-space-preline'>
                         {story.text.length <= 150 || displayFullStory

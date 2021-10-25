@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const HeaderComponent = ({ save, loading }) => {
   return (
     <nav className='navbar fixed-top fixed-top-lg navbar-gradient-md'>
-      <div className='container'>
+      <div className='container pl-0'>
         <Link to='/app/wallet'>
           <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='go-back-icon' alt='LeftArrow' />
         </Link>

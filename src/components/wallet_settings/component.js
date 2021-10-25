@@ -10,7 +10,7 @@ import { SetUser, SetLoggedIn, SetDbUser, SetWallet } from 'store/actions'
 
 function SettingsComponent ({ currentUser, wallet, bindLoggedIn, bindUser, bindDbUser, bindWallet }) {
   const [selectedWallet, setSelectedWallet] = useState(wallet && wallet[0])
-  const [freezeWallet, setFreezeWallet] = useState(wallet && wallet[0] && wallet[0].freezeWallet)
+  const [freezed, setFreezed] = useState(wallet && wallet[0] && wallet[0].freezed)
 
   const handleFreezeWallet = async () => {
     if (!selectedWallet) {
@@ -19,13 +19,13 @@ function SettingsComponent ({ currentUser, wallet, bindLoggedIn, bindUser, bindD
       return
     }
 
-    const res = await update('wallets', selectedWallet.id, { freezeWallet: !freezeWallet })
-    setFreezeWallet(!freezeWallet)
+    const res = await update('wallets', selectedWallet.id, { freezed: !freezed })
+    setFreezed(!freezed)
 
-    if (res.status === 200 && !freezeWallet) {
-      toast.success('Zena freezed your wallet.')
-    } else if (res.status === 200 && freezeWallet) {
-      toast.success('Zena unfreezed your wallet.')
+    if (res.status === 200 && !freezed) {
+      toast.success('Your wallet is freezed.')
+    } else if (res.status === 200 && freezed) {
+      toast.success('Your wallet is unfreezed.')
     } else {
       toast.error(res.message)
     }
@@ -48,7 +48,7 @@ function SettingsComponent ({ currentUser, wallet, bindLoggedIn, bindUser, bindD
                   <div className='d-flex flex-row align-items-center justify-content-between'>
                     <span className='option-name' htmlFor="freezeWallet">Freeze wallet</span>
                     <div className="custom-control custom-switch">
-                      <input type="checkbox" className="custom-control-input" id="freezeWallet" onChange={handleFreezeWallet} checked={freezeWallet} />
+                      <input type="checkbox" className="custom-control-input" id="freezeWallet" onChange={handleFreezeWallet} checked={freezed} />
                       <label className="custom-control-label" htmlFor="freezeWallet"></label>
                     </div>
                   </div>

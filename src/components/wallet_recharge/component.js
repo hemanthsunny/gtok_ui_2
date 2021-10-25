@@ -14,7 +14,7 @@ function WalletRechargeComponent ({ currentUser }) {
     <div>
       <HeaderComponent/>
       <div className='dashboard-content -xs-bg-none pt-md-1'>
-        <div className='wallet-recharge-wrapper desktop-align-center'>
+        <div className='wallet-recharge-wrapper'>
           {stepNumber === 1 && <CheckoutComponent currentUser={currentUser} rechargeAmount={rechargeAmount} setRechargeAmount={setRechargeAmount} setStepNumber={setStepNumber} paymentIntent={paymentIntent} setPaymentIntent={setPaymentIntent} />}
           {stepNumber === 2 && <CardDetailsComponent currentUser={currentUser} rechargeAmount={rechargeAmount} setStepNumber={setStepNumber} paymentIntent={paymentIntent} />}
         </div>

@@ -74,14 +74,14 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
   }
 
   return (
-    <div className='change-pc-wrapper desktop-align-center enter-passcode-section'>
+    <div className='change-pc-wrapper enter-passcode-section'>
       <div className='form-group'>
         <label className='form-label'>Card details</label>
         <div className='passcode-card mt-3'>
           <CardElement options={CARD_ELEMENT_OPTIONS} />
         </div>
       </div>
-      <button className='btn btn-sm btn-violet-rounded col-8' onClick={handleSubmit} disabled={!stripe || loading}>
+      <button className='btn btn-sm btn-violet-rounded col-4' onClick={handleSubmit} disabled={!stripe || loading}>
         {
           loading
             ? <div className='spinner-border spinner-border-sm' role='status'>

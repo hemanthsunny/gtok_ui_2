@@ -111,7 +111,7 @@ function EditProfileComponent (props) {
       <HeaderComponent save={saveDetails} loading={loading}/>
       <div>
         <div className='dashboard-content'>
-          <div className='edit-profile-wrapper desktop-align-center'>
+          <div className='edit-profile-wrapper mt-sm-5'>
             <div className='upload-image'>
                 <label htmlFor='staticImage'>
                   {

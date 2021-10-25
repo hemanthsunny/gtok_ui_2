@@ -108,13 +108,13 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
         <div className='balance-details'>
           <div className='balance-amount'>
             <img src={require('assets/svgs/currency/inr/inr.svg').default} className='currency-icon' alt='Posts' />
-            {!selectedWallet.freezeWallet && walletVerification && walletVerification.verified && <span className='text'>{selectedWallet.amount || 0}</span>}
+            {!selectedWallet.freezed && walletVerification && walletVerification.verified && <span className='text'>{selectedWallet.amount || 0}</span>}
           </div>
           <div className='balance-text'>Balance</div>
         </div>
         <div className='text-center'>
           {
-            selectedWallet.freezeWallet
+            selectedWallet.freezed
               ? <div className='pt-2'>
                 <button className='btn btn-custom col-8 mr-2'>Your wallet is frozen</button>
               </div>
@@ -128,7 +128,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
         </div>
       </div>
       {
-        selectedWallet.freezeWallet
+        selectedWallet.freezed
           ? <div>
             <div className='enter-passcode-section'>
               <Link to='/app/wallet_settings' className='btn btn-violet-rounded btn-sm col-3 submit-passcode'>
