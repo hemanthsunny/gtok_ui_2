@@ -87,7 +87,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
             ? <div className='spinner-border spinner-border-sm' role='status'>
               <span className='sr-only'>Loading...</span>
             </div>
-            : <span>Confirm recharge</span>
+            : <span>Confirm</span>
         }
       </button>
     </div>

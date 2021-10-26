@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import $ from 'jquery'
 import './style.css'
 
@@ -8,15 +9,12 @@ import { update } from 'firebase_config'
 import { SetPosts } from 'store/actions'
 
 const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, bindPosts, loadPosts }) => {
-  const [copied, setCopied] = useState(false)
   const history = useHistory()
 
-  const copyLink = () => {
+  const copyLink = async () => {
     navigator.clipboard.writeText(`https://app.letsgtok.com/app/assets/${displayPost.id}`)
-    setCopied(true)
-    setTimeout(() => {
-      setCopied(false)
-    }, 5000)
+    toast.success('Link copied')
+    await closeModal()
   }
 
   const editPost = async (post, idx) => {
@@ -87,6 +85,11 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
   }
 
   const hidePost = async () => {
+    if (sharePost.active) {
+      toast.success('Your asset is hidden.')
+    } else {
+      toast.success('Your asset is unhidden.')
+    }
     await update('posts', sharePost.id, { active: !sharePost.active })
     await bindPosts(currentUser)
     await loadPosts()
@@ -106,7 +109,7 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
                 Share to...
               </li>
               <li className='menu-item' onClick={e => copyLink()}>
-                Copy link <small className={`text-violet btn-sm pull-right fade-in ${!copied && 'd-none'}`}>Copied</small>
+                Copy link
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
               <li className={`menu-item ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost()}>Edit</li>

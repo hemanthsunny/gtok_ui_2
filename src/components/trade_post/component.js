@@ -12,6 +12,7 @@ import FreezeComponent from './steps/freeze/component'
 import { CustomImageComponent } from 'components'
 import { getId, getQuery, firestore } from 'firebase_config'
 import { post } from 'services'
+import { decryptText } from 'helpers'
 
 function TradePostComponent (props) {
   const { currentUser } = props
@@ -22,6 +23,7 @@ function TradePostComponent (props) {
   const [loading, setLoading] = useState(false)
   const [wallet, setWallet] = useState(props.wallet[0])
   const [stepNumber, setStepNumber] = useState(1)
+  const [passcode, setPasscode] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -51,6 +53,13 @@ function TradePostComponent (props) {
   }, [postId, wallet])
 
   const saveTransaction = async () => {
+    if (decryptText(wallet.passcode) !== passcode) {
+      setResult({
+        status: 400,
+        message: 'Incorrect passcode'
+      })
+      return
+    }
     setLoading(true)
     let pos
     if ('geolocation' in navigator) {
@@ -110,14 +119,14 @@ function TradePostComponent (props) {
                           <div className='clearfix'></div>
                           <div className='card-body hidden-post pl-0'>
                             <div>
-                              {story.text.substring(0, (story.text.length * 0.1))}...
+                              {story.text.substring(0, 15)}...
                               <span className='blur-text'>
-                                This is a trading asset. Trade it, to unlock.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged
+                                This is a trading asset. Trade it, to unlock.
                               </span>
                             </div>
                             <div className='locked-post'>
                               <div className='locked-post-text'>
-                                Unlock for <img className='currency-icon' src={require('assets/svgs/currency/inr/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                                Unlock for <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}</span>
                               </div>
                               <div>
                                 <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
@@ -135,7 +144,7 @@ function TradePostComponent (props) {
               </div>
               { wallet.freezed && <FreezeComponent currentUser={currentUser} /> }
               { !wallet.freezed && stepNumber === 1 && <InvoiceComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} /> }
-              { !wallet.freezed && stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} loading={loading} /> }
+              { !wallet.freezed && stepNumber === 2 && <ConfirmComponent currentUser={currentUser} displayPost={displayPost} wallet={wallet} setStepNumber={setStepNumber} save={saveTransaction} loading={loading} passcode={passcode} setPasscode={setPasscode} result={result} setResult={setResult} /> }
             </div>
         }
       </div>

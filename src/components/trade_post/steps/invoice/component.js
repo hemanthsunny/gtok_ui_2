@@ -16,7 +16,7 @@ function InvoiceComponent ({ currentUser, wallet, displayPost, setStepNumber }) 
             <tr>
               <td className='key'>Wallet amount</td>
               <td className='value'>
-                <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
+                <img src={require('assets/svgs/currency/inr_black.svg').default} className='currency-icon' alt='Inr' />
                 {wallet.amount || 0}
               </td>
             </tr>
@@ -25,7 +25,7 @@ function InvoiceComponent ({ currentUser, wallet, displayPost, setStepNumber }) 
             <tr>
               <td className='key'>Asset price</td>
               <td className='value'>
-                <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon' alt='Inr' />
+                <img src={require('assets/svgs/currency/inr_black.svg').default} className='currency-icon' alt='Inr' />
                 {displayPost.tradePrice}
               </td>
             </tr>

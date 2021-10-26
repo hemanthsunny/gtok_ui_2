@@ -208,9 +208,8 @@ const PostComponent = ({
                     }
                   </span>
                   <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
-                  <span className={`${!displayPost.tradePrice && 'd-none'} pl-2 ${(displayPost.tradePrice && !trans) && 'd-none'}`}>
-                    <img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />
-                    {displayPost.tradePrice}
+                  <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2 ${(displayPost.tradePrice && !trans) && 'd-none'}`}>
+                    <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
                   </span>
                   <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
                 </div>
@@ -219,14 +218,14 @@ const PostComponent = ({
                   (displayPost.tradePrice && !trans && (currentUser.id !== displayPost.userId))
                     ? <div className='card-body hidden-post px-0'>
                       <div>
-                        {story.text.substring(0, (story.text.length * 0.1))}...
+                        {story.text.substring(0, 15)}...
                         <span className='blur-text'>
-                          This is a trading asset. Trade it, to unlock. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                          This is a trading asset. Trade it, to unlock.
                         </span>
                       </div>
                       <div className='locked-post pointer' onClick={e => tradePostAction(displayPost.id)}>
                         <div className='locked-post-text'>
-                          Unlock for <img className='currency-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}
+                          Unlock for <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}</span>
                         </div>
                         <div>
                           <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />

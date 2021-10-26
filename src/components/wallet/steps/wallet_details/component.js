@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import { getQuery, firestore } from 'firebase_config'
 import TransactionComponent from '../transaction/component'
@@ -93,6 +92,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
 
   return (
     <div className='wallet-details-wrapper'>
+      <input type="password" className='d-none'/>
       <div className='total-amount-section'>
         <div className='d-flex justify-content-between align-items-baseline py-3 px-3'>
           <Link to='/app/profile'>
@@ -121,8 +121,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
               : <div>
                 <button className='btn btn-custom col-4 mr-2' onClick={e => redirectTo('/app/recharge')} disabled={walletVerification && !walletVerification.verified}>Recharge</button>
                 <div className='btn btn-violet col-2 d-none'></div>
-                <button className='btn btn-custom col-4 ml-2 d-none' onClick={e => redirectTo('/app/withdraw')} disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
-                <button className='btn btn-custom col-4 ml-2' disabled title='Withdrawals are not allowed at the moment' onClick={e => toast.success('Withdrawals not allowed at the moment')}>Withdraw</button>
+                <button className='btn btn-custom col-4 ml-2' onClick={e => redirectTo('/app/withdraw')} disabled={walletVerification && !walletVerification.verified}>Withdraw</button>
               </div>
           }
         </div>
@@ -156,7 +155,7 @@ function WalletDetailsComponent ({ currentUser, wallet }) {
                 : <div className='enter-passcode-section'>
                   <div className='passcode-text'>Enter passcode</div>
                   <div className='passcode-card'>
-                    <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' />
+                    <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange(e.target.value)} maxLength='4' autoComplete='off' />
                   </div>
                   <div className='text-center'>
                     {

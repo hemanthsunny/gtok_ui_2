@@ -27,6 +27,13 @@
   margin-bottom: var(--spacing-24);
 }
 
+.trade-post-wrapper .invoice-table .currency-icon {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  left: 1px;
+}
+
 .trade-post-wrapper .invoice-table table {
   text-align: left;
   border-style: hidden;
@@ -58,4 +65,11 @@
 
 .trade-post-wrapper .recharge-section small {
   font-size: var(--font-size-smaller);
+}
+
+.trade-post-wrapper .enter-passcode-section .currency-icon {
+  width: 10px;
+  height: 10px;
+  position: relative;
+  left: 4px;
 }
