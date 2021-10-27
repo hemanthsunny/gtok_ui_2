@@ -49,8 +49,13 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
       }
     })
 
+    setLoading(false)
     if (result.error) {
       toast.error(result.error.message)
+      /* Cancel the payment intent */
+      await post('/transaction/cancel', {
+        paymentIntentId: paymentIntent.id
+      })
     } else {
       if (result.paymentIntent.status === 'succeeded') {
         // Show a success message to your customer
@@ -84,10 +89,9 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
             unread: true
           })
         }
-        history.push('/app/wallet')
       }
     }
-    setLoading(false)
+    history.push('/app/wallet')
   }
 
   return (

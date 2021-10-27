@@ -45,7 +45,7 @@ class ParentComponent extends Component {
   }
 
   redirectToHome = () => {
-    this.props.history.location.push('/')
+    this.props.history.push('/')
   }
 
   subHeader = () => (
