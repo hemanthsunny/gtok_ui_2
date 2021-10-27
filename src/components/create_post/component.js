@@ -61,6 +61,7 @@ const ParentComponent = (props) => {
   const [tradePost, setTradePost] = useState(sharePost.tradePrice > 0)
   const [activeTab, setActiveTab] = useState(sharePost.type || 'feelings')
   const [loading, setLoading] = useState(false)
+  const [postLength, setPostLength] = useState(story ? (30 - story.text.length) : 30)
 
   const savePost = async (opts) => {
     if (!postText) {
@@ -142,11 +143,16 @@ const ParentComponent = (props) => {
           return rln.userIdOne
         }
       }), undefined)
+
+      let logText = `@${currentUser.username} recently shared an asset`
+      if (tradePost) {
+        logText = `@${currentUser.username} recently shared a trading asset`
+      }
       await batchWrite('logs', relationsIds, {
-        text: `@${currentUser.username} recently shared a feeling. Show your support now.`,
+        text: logText,
         photoURL: currentUser.photoURL,
         userId: currentUser.id,
-        actionLink: `/app/${res.path}`,
+        actionLink: `/app/assets/${res.path.replace('posts/')}`,
         unread: true,
         timestamp
       })
@@ -245,15 +251,15 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent save={savePost} sharePost={sharePost} loading={loading} />
+      <HeaderComponent save={savePost} sharePost={sharePost} loading={loading} postLength={postLength} />
       <div>
         <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
           {!sharePost.id && subHeader()}
             <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} />
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} postLength={postLength} setPostLength={setPostLength} />
               <CategoryComponent postCategories={((sharePost && sharePost.type === 'activity') || (activeTab === 'activity')) ? ActivityCategories : FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               {/* Assets */}
-              <div className='pl-3 font-small text-grey'>*Assets can't be deleted after they've been created.</div>
+              <div className='pl-3 font-small text-grey'>*Assets can't be deleted once they've been created.</div>
               <div className='text-center'>
                 {
                   result.status &&

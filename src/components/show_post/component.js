@@ -9,7 +9,11 @@ import './style.css'
 import HeaderComponent from 'components/common/header/component'
 import PostComponent from 'components/show_posts/children/post/component'
 import {
-  LoadingComponent
+  LoadingComponent,
+  MenuOptionsComponent,
+  ShareOptionsComponent,
+  ReportPostComponent,
+  CreateChatComponent
 } from 'components'
 import { getId } from 'firebase_config'
 import { gtokFavicon } from 'images'
@@ -38,6 +42,10 @@ class ParentComponent extends Component {
       post,
       loading: false
     })
+  }
+
+  redirectToHome = () => {
+    this.props.history.location.push('/')
   }
 
   subHeader = () => (
@@ -75,6 +83,10 @@ class ParentComponent extends Component {
               {this.state.post && this.state.post.status !== 404 &&
                 <div className='pt-5'>
                   <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>
+                  <MenuOptionsComponent currentUser={this.props.currentUser} loadPosts={this.redirectToHome} />
+                  <ShareOptionsComponent currentUser={this.props.currentUser} />
+                  <ReportPostComponent currentUser={this.props.currentUser} />
+                  <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>
                   <div className='text-center'>
                     <FacebookShareButton url={this.state.postUrl} title={this.state.post.category.title} quote={this.state.post.stories[0].text} hashtag='#letsgtok' className='socialMediaButton'>
                       <FacebookIcon size={36}/>

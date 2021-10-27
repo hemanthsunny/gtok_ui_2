@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 
 import { post } from 'services'
+import { add } from 'firebase_config'
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -64,8 +65,24 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         })
         if (res.status === 201) {
           toast.success('Recharge successful')
+          /* Log the activity */
+          await add('logs', {
+            text: `Your wallet recharge of ${result.paymentIntent.amount}/- has been successful`,
+            photoURL: currentUser.photoURL,
+            receiverId: currentUser.id,
+            actionLink: '/app/wallet/',
+            unread: true
+          })
         } else {
           toast.error('Recharge is unsuccessful. If your card has been debited, please contact the admin team.')
+          /* Log the activity */
+          await add('logs', {
+            text: `Your wallet recharge of ${result.paymentIntent.amount}/- has been failed`,
+            photoURL: currentUser.photoURL,
+            receiverId: currentUser.id,
+            actionLink: '/app/wallet/',
+            unread: true
+          })
         }
         history.push('/app/wallet')
       }

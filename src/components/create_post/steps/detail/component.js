@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import { AudioPlayerComponent } from 'components'
 
 const DetailComponent = ({
-  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet, sharePost
+  setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet, sharePost, postLength, setPostLength
 }) => {
   const tradePriceMinimum = 10
   const tradePriceMaximum = 10000
 
   const handleChange = async (val) => {
     setPostText(val)
+    setPostLength(30 - val.length)
   }
 
   const handleAnonymousChange = () => {
@@ -29,6 +30,9 @@ const DetailComponent = ({
             </span>
           </div>
           <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Do you know? Feelings are assets. Start sharing..' rows={7} autoFocus></textarea>
+          <div className={`text-center ${postLength < 1 && 'd-none'}`}>
+            <small className='text-grey pb-5'>Atleast {postLength} chars required</small>
+          </div>
         </div>
         <div className='card-footer'>
           {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}

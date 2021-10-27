@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading, sharePost }) => {
+const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading, sharePost, postLength }) => {
   return (
     <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <Link to='/'>
@@ -19,7 +19,7 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
                 ? <div className='spinner-border spinner-border-sm' role='status'>
                   <span className='sr-only'>Loading...</span>
                 </div>
-                : <span onClick={e => save()}>{sharePost.id ? 'Update' : 'Share'}</span>
+                : <button className='btn btn-link text-white p-0' disabled={postLength > 0} onClick={e => save()}>{sharePost.id ? 'Update' : 'Share'}</button>
             }
           </div>
         </li>

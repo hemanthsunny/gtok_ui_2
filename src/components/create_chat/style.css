@@ -34,6 +34,17 @@
 }
 
 @media (min-width: 768px) {
+  .accessibility-icon {
+    display: none;
+  }
+
+  #createChatModal .modal-body {
+    min-height: 35vh !important;
+    max-height: 45vh !important;
+    overflow-y: scroll;
+    padding: 0 var(--spacing-32) 0;
+  }
+
   #createChatModal .media-body {
     min-width: 15vw !important;
   }

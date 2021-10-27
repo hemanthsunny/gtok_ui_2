@@ -90,6 +90,14 @@ function ChangePasscodeComponent ({ currentUser }) {
     if (res.status === 200) {
       toast.success('Your wallet passcode updated successfully')
       setStepNumber(2)
+      /* Log the activity */
+      await add('logs', {
+        text: 'Your wallet passcode updated successfully',
+        photoURL: currentUser.photoURL,
+        receiverId: currentUser.id,
+        actionLink: '/app/wallet/',
+        unread: true
+      })
     } else {
       toast.error('Something went wrong. Try later!')
     }

@@ -60,27 +60,29 @@ const PostComponent = ({
     if (!follower) {
       $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgFollow')
       await update('posts', displayPost.id, { followers: arrayAdd(currentUser.id), followersCount: displayPost.followers.length + 1 })
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} pinches your post`,
-        photoURL: currentUser.photoURL,
-        receiverId: postedUser.id,
-        userId: currentUser.id,
-        actionType: 'update',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'followers',
-        actionLink: '/app/assets/' + displayPost.id,
-        unread: true,
-        timestamp
-      })
+      if (currentUser.id !== postedUser.id) {
+        /* Log the activity */
+        await add('logs', {
+          text: `@${currentUser.username} pinched your asset`,
+          photoURL: currentUser.photoURL,
+          receiverId: postedUser.id,
+          userId: currentUser.id,
+          actionType: 'update',
+          collection: 'posts',
+          actionId: displayPost.id,
+          actionKey: 'followers',
+          actionLink: '/app/assets/' + displayPost.id,
+          unread: true,
+          timestamp
+        })
+      }
       setFollower(true)
     } else {
       $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgUnfollow')
       await update('posts', displayPost.id, { followers: arrayRemove(currentUser.id), followersCount: displayPost.followers.length - 1 })
       /* Log the activity */
       await add('logs', {
-        text: `${currentUser.displayName} removed pinch for your post`,
+        text: `${currentUser.displayName} removed pinch for your asset`,
         photoURL: currentUser.photoURL,
         receiverId: '',
         userId: currentUser.id,

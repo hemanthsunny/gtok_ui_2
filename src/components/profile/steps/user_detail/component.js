@@ -132,7 +132,7 @@ function Component (props) {
             <img src={require('assets/svgs/LeftArrowWhite.svg').default} className='posts-icon pull-left' alt='Posts' />
           </div>
           <div className='fw-500'>
-            @{user.username}
+            {capitalizeFirstLetter(user.displayName)}
           </div>
           {
             user.username === currentUser.username
@@ -151,7 +151,7 @@ function Component (props) {
             <div className='display-picture'>
               <CustomImageComponent user={user} size='lg' style={{ margin: '0px auto' }} />
             </div>
-            <div className='my-2'>{capitalizeFirstLetter(user.displayName)}</div>
+            <div className='my-2'>@{user.username}</div>
           </div>
           <div className='col-4 px-2' onClick={seeFollowing}>
             Following <br/>
