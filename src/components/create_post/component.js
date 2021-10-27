@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Prompt } from 'react-router'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
@@ -63,15 +62,6 @@ const ParentComponent = (props) => {
   const [activeTab, setActiveTab] = useState(sharePost.type || 'feelings')
   const [loading, setLoading] = useState(false)
   const [postLength, setPostLength] = useState(story ? (30 - story.text.length) : 30)
-  const shouldBlockNavigation = true
-
-  useEffect(() => {
-    if (shouldBlockNavigation) {
-      window.onbeforeunload = () => true
-    } else {
-      window.onbeforeunload = undefined
-    }
-  })
 
   const savePost = async (opts) => {
     if (!postText) {
@@ -263,10 +253,6 @@ const ParentComponent = (props) => {
     <div>
       <HeaderComponent save={savePost} sharePost={sharePost} loading={loading} postLength={postLength} />
       <div>
-        <Prompt
-          when={shouldBlockNavigation}
-          message='You have unsaved changes, are you sure you want to leave?'
-        />
         <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
           {!sharePost.id && subHeader()}
             <div className='container create-post-wrapper'>

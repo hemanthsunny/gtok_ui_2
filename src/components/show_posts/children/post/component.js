@@ -210,7 +210,7 @@ const PostComponent = ({
                     }
                   </span>
                   <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
-                  <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2 ${(displayPost.tradePrice && !trans) && 'd-none'}`}>
+                  <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
                   </span>
                   <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
