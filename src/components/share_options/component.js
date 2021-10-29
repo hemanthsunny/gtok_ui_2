@@ -10,7 +10,7 @@ const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost 
   const resharePost = async (post, idx) => {
     if (displayPost.id) {
       history.push({
-        pathname: '/app/reshare_post',
+        pathname: '/app/reshare_asset',
         state: {
           sharePost
         }

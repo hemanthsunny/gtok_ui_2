@@ -8,6 +8,7 @@ import './style.css'
 
 import HeaderComponent from 'components/common/header/component'
 import PostComponent from 'components/show_posts/children/post/component'
+import ResharePostComponent from 'components/show_posts/children/reshare/component'
 import {
   LoadingComponent,
   MenuOptionsComponent,
@@ -82,7 +83,11 @@ class ParentComponent extends Component {
               </Helmet>
               {this.state.post && this.state.post.status !== 404 &&
                 <div className='pt-5'>
-                  <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>
+                  {
+                    this.state.post.resharePostId
+                      ? <ResharePostComponent currentUser={this.props.currentUser} post={this.state.post} />
+                      : <PostComponent currentUser={this.props.currentUser} post={this.state.post}/>
+                  }
                   <MenuOptionsComponent currentUser={this.props.currentUser} loadPosts={this.redirectToHome} />
                   <ShareOptionsComponent currentUser={this.props.currentUser} />
                   <ReportPostComponent currentUser={this.props.currentUser} />

@@ -81,7 +81,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app" component={LandingComponent} />
           <AuthRoute exact path="/app/alerts" component={AlertsComponent} />
           <AuthRoute exact path="/app/create_asset" component={CreatePostComponent} />
-          <AuthRoute exact path="/app/reshare_post" component={ResharePostComponent} />
+          <AuthRoute exact path="/app/reshare_asset" component={ResharePostComponent} />
           <AuthRoute exact path="/app/create_activity" component={CreateActivityComponent} />
           <AuthRoute exact path="/app/assets" component={ShowPostsComponent} />
           <AuthRoute exact path="/app/assets/:post_id" component={ShowPostComponent} />

@@ -19,14 +19,25 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
 
   const editPost = async (post, idx) => {
     await closeModal()
-    history.push({
-      pathname: '/app/create_asset',
-      state: {
-        sharePost,
-        story: sharePost.stories[0],
-        storyIdx: idx || 0
-      }
-    })
+    if (sharePost.resharePostId) {
+      history.push({
+        pathname: '/app/reshare_asset',
+        state: {
+          sharePost,
+          story: sharePost.stories[0],
+          storyIdx: idx || 0
+        }
+      })
+    } else {
+      history.push({
+        pathname: '/app/create_asset',
+        state: {
+          sharePost,
+          story: sharePost.stories[0],
+          storyIdx: idx || 0
+        }
+      })
+    }
   }
 
   /*

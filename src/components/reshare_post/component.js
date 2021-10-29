@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -7,7 +7,7 @@ import './style.css'
 import HeaderComponent from './header'
 import DetailComponent from './steps/detail/component'
 
-import { add, timestamp, batchWrite } from 'firebase_config'
+import { add, update, getId, timestamp, batchWrite } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
 
@@ -20,8 +20,19 @@ const ParentComponent = (props) => {
 
   const { currentUser, bindNewPost } = props
   const [postText, setPostText] = useState(story.text)
+  const [resharePost, setResharePost] = useState('')
   const [result, setResult] = useState({})
 
+  useEffect(() => {
+    async function getResharePost () {
+      const res = await getId('posts', sharePost.resharePostId)
+      setResharePost(res)
+    }
+    if (!resharePost && sharePost && sharePost.resharePostId) {
+      getResharePost()
+    }
+  })
+  console.log('lll', sharePost)
   const savePost = async (opts) => {
     const postData = Object.assign({
       active: true,
@@ -39,7 +50,17 @@ const ParentComponent = (props) => {
       timestamp,
       ...opts
     })
-    const result = await add('posts', postData)
+
+    let result
+    if (sharePost.resharePostId) {
+      result = await update('posts', sharePost.id, {
+        stories: [{
+          text: capitalizeFirstLetter(postText.trim())
+        }]
+      })
+    } else {
+      result = await add('posts', postData)
+    }
     // When a new post added, alert all followers
     await sendAlertsToFollowers(result.data, postData)
     bindNewPost(currentUser)
@@ -88,7 +109,7 @@ const ParentComponent = (props) => {
       <HeaderComponent save={savePost} />
       <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
           <div className='container create-post-wrapper'>
-            <DetailComponent postText={postText} setPostText={setPostText} currentUser={currentUser} sharePost={sharePost} />
+            <DetailComponent postText={postText} setPostText={setPostText} currentUser={currentUser} sharePost={resharePost} />
             <div className='text-center'>
               {
                 result.status &&

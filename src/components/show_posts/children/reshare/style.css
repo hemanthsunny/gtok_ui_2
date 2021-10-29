@@ -25,4 +25,5 @@
 .reshare-post-card-wrapper .author {
   font-size: var(--font-size);
   font-weight: 500;
+  cursor: pointer;
 }

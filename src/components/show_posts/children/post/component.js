@@ -203,13 +203,20 @@ const PostComponent = ({
             <div key={idx}>
               <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
                 <div>
-                  <span className={`${reshare ? 'pull-left mr-2' : 'd-none'}`}>
-                    {displayPost.anonymous
-                      ? <CustomImageComponent user={postedUser} size='sm' />
-                      : <CustomImageComponent user={postedUser} size='sm' />
-                    }
-                  </span>
-                  <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
+                  {
+                    !post.resharePostId &&
+                    <span className={`${reshare ? 'pull-left mr-2' : 'd-none'}`}>
+                      {displayPost.anonymous
+                        ? <CustomImageComponent user={postedUser} size='sm' />
+                        : <CustomImageComponent user={postedUser} size='sm' />
+                      }
+                    </span>
+                  }
+                  {
+                    displayPost.category
+                      ? <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
+                      : <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', 'Same Pinch')}>Same Pinch</span>
+                  }
                   <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
                   </span>
