@@ -32,7 +32,7 @@ const ParentComponent = (props) => {
       getResharePost()
     }
   })
-  console.log('lll', sharePost)
+
   const savePost = async (opts) => {
     const postData = Object.assign({
       active: true,
