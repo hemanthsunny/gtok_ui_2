@@ -1,8 +1,53 @@
-.create-reshare-post-card-wrapper {
+.create-reshare-post-card-wrapper:nth-child(1) {
   font-size: var(--font-size);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 0 !important;
   filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.15));
 }
 
-.create-reshare-post-card-wrapper .card-body {
-  padding-bottom: 0;
+.create-reshare-post-card-wrapper:nth-child(2) {
+  margin-top: 0px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 0 !important;
+  filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.15));
+}
+
+.create-reshare-post-card-wrapper:nth-child(2) .card-footer {
+  font-size: var(--font-size);
+  background: linear-gradient(180deg, rgba(194, 95, 255, 0.6) 68.68%, #FFB47E 111.32%);
+  backdrop-filter: blur(45.7534px);
+  filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.25));
+}
+
+.create-reshare-post-card-wrapper:nth-child(1) .card-body {
+  /* padding-bottom: 0; */
+  filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.15));
+}
+
+.create-reshare-post-card-wrapper .card-badge {
+  font-size: var(--font-size-small);
+  color: var(--color-white);
+  background-color: var(--color-violet-400);
+  padding: 0.25rem 0.7rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+}
+
+.create-reshare-post-card-wrapper .card-amount .currency-text {
+  position: relative;
+  left: -0.35rem;
+}
+
+.create-reshare-post-card-wrapper .currency-icon {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  left: 0.12rem;
+}
+
+.create-reshare-post-card-wrapper .created-at {
+  float: right !important;
+  font-size: var(--font-size-small);
 }

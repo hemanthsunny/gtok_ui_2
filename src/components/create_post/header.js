@@ -2,14 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, loading, sharePost, postLength }) => {
+const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCount, save, saveBtn, loading, sharePost, postLength, headerText }) => {
   return (
     <nav className='navbar fixed-top fixed-top-lg navbar-violet-md px-4'>
       <Link to='/'>
         <img src={require('assets/svgs/Cross.svg').default} className='cross-icon' alt='LeftArrow' />
       </Link>
       <div className='navbar-brand mr-auto pt-2'>
-        &nbsp; &nbsp; {sharePost.id ? 'Edit' : 'Create'} asset
+        &nbsp; &nbsp; {headerText}
       </div>
       <ul className='navbar-nav ml-auto'>
         <li className='nav-item'>
@@ -19,7 +19,7 @@ const HeaderComponent = ({ newMessagesCount, newAlertsCount, pendingRelationsCou
                 ? <div className='spinner-border spinner-border-sm' role='status'>
                   <span className='sr-only'>Loading...</span>
                 </div>
-                : <button className='btn btn-link text-white p-0' disabled={postLength > 0} onClick={e => save()}>{sharePost.id ? 'Update' : 'Share'}</button>
+                : <button className='btn btn-link text-white p-0' disabled={postLength > 0} onClick={e => save()}>{saveBtn}</button>
             }
           </div>
         </li>

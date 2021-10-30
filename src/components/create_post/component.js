@@ -63,6 +63,64 @@ const ParentComponent = (props) => {
   const [loading, setLoading] = useState(false)
   const [postLength, setPostLength] = useState(story ? (30 - story.text.length) : 30)
 
+  const saveResharePost = async (opts) => {
+    const postData = Object.assign({
+      active: true,
+      category: {
+        title: 'Same pinch',
+        key: 'same_pinch'
+      },
+      stories: [{
+        text: capitalizeFirstLetter(postText.trim())
+      }],
+      userId: currentUser.id,
+      followers: [],
+      followersCount: 0,
+      resharePostId: props.resharePost.id,
+      timestamp,
+      ...opts
+    })
+
+    let result
+    if (sharePost.resharePostId) {
+      result = await update('posts', sharePost.id, {
+        stories: [{
+          text: capitalizeFirstLetter(postText.trim())
+        }]
+      })
+    } else {
+      result = await add('posts', postData)
+    }
+    // When a new post added, alert all followers
+    await sendAlertsToFollowers(result.data, postData)
+    bindNewPost(currentUser)
+    /* Log the activity */
+    // await add('logs', {
+    //   text: `${currentUser.displayName} created a post`,
+    //   photoURL: currentUser.photoURL,
+    //   receiverId: '',
+    //   userId: currentUser.id,
+    //   actionType: 'create',
+    //   collection: 'posts',
+    //   timestamp
+    // })
+
+    if (result.status === 200) {
+      props.history.push({
+        pathname: '/app/assets',
+        state: { postingSuccess: true, reloadPosts: true }
+      })
+      if (sharePost.id) {
+        toast.success('Your asset has been updated')
+      } else {
+        toast.success('Your asset is now live')
+      }
+    } else {
+      toast.error('Something went wrong. Try later!')
+      setResult(result)
+    }
+  }
+
   const savePost = async (opts) => {
     if (!postText) {
       alert('Write something before you post')
@@ -251,15 +309,13 @@ const ParentComponent = (props) => {
 
   return (
     <div>
-      <HeaderComponent save={savePost} sharePost={sharePost} loading={loading} postLength={postLength} />
+      <HeaderComponent save={props.createResharePost ? saveResharePost : savePost} sharePost={sharePost} loading={loading} postLength={postLength} saveBtn={props.createResharePost ? (sharePost.resharePostId ? 'Update' : 'Share') : (sharePost.id ? 'Update' : 'Share')} headerText={props.createResharePost ? (sharePost.resharePostId ? 'Edit asset' : 'Reshare asset') : (sharePost.id ? 'Edit asset' : 'Create asset')} />
       <div>
-        <div className='dashboard-content pt-4 pt-md-5 mt-md-5'>
+        <div className='dashboard-content'>
           {!sharePost.id && subHeader()}
-            <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} postLength={postLength} setPostLength={setPostLength} />
+            <div className='container create-post-wrapper pt-5 mt-sm-5'>
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} postLength={postLength} setPostLength={setPostLength} resharePost={props.resharePost} resharePostUser={props.resharePostUser} createResharePost={props.createResharePost} />
               <CategoryComponent postCategories={((sharePost && sharePost.type === 'activity') || (activeTab === 'activity')) ? ActivityCategories : FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
-              {/* Assets */}
-              <div className='pl-3 font-small text-grey'>*Assets can't be deleted once they've been created.</div>
               <div className='text-center'>
                 {
                   result.status &&

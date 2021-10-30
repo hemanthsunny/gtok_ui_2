@@ -10,7 +10,9 @@ import CardElementComponent from '../card_element/component'
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST)
+// If its dev - use process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST
+// If its prod - use process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
 
 function CardDetailsComponent ({ currentUser, rechargeAmount, paymentIntent }) {
   return (
