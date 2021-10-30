@@ -20,8 +20,8 @@ const DetailComponent = ({
     setAnonymous(!anonymous)
   }
 
-  return <div>
-      <div className='card create-post-card-wrapper mt-sm-3'>
+  return <div className='mt-sm-3'>
+      <div className='card create-post-card-wrapper'>
         <div className='card-body'>
           {
             createResharePost &&
