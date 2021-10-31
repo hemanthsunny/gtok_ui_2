@@ -60,6 +60,9 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         history.push('/app/wallet')
       }
     } else {
+      let paymentIntentAmount = result.paymentIntent.amount.toString()
+      paymentIntentAmount = paymentIntentAmount.replace('00', '')
+
       if (result.paymentIntent.status === 'succeeded') {
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
@@ -67,7 +70,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
         const res = await post('/transaction/recharge', {
-          amount: result.paymentIntent.amount,
+          amount: paymentIntentAmount,
           paymentIntentId: result.paymentIntent.id,
           currency: result.paymentIntent.currency
         })
@@ -75,7 +78,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
           toast.success('Recharge successful')
           /* Log the activity */
           await add('logs', {
-            text: `Your wallet recharge of ${result.paymentIntent.amount}/- has been successful`,
+            text: `Your wallet recharge of ${paymentIntentAmount}/- has been successful`,
             photoURL: currentUser.photoURL,
             receiverId: currentUser.id,
             actionLink: '/app/wallet/',
@@ -86,7 +89,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
           toast.error('Recharge is unsuccessful. If your card has been debited, please contact the admin team.')
           /* Log the activity */
           await add('logs', {
-            text: `Your wallet recharge of ${result.paymentIntent.amount}/- has been failed`,
+            text: `Your wallet recharge of ${paymentIntentAmount}/- has been failed`,
             photoURL: currentUser.photoURL,
             receiverId: currentUser.id,
             actionLink: '/app/wallet/',
