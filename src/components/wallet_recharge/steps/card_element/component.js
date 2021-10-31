@@ -67,7 +67,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
         const res = await post('/transaction/recharge', {
-          amount: result.paymentIntent.amount.slice(0, -2),
+          amount: result.paymentIntent.amount,
           paymentIntentId: result.paymentIntent.id,
           currency: result.paymentIntent.currency
         })
