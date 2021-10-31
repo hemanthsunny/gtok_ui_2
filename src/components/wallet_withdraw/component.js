@@ -125,19 +125,11 @@ function WalletWithdrawComponent ({ currentUser }) {
   const alertTemplate = () => (
     <div className='p-3 pt-5 text-center'>
       <p className='p-2'>
-        Withdrawals aren't supported at this moment.
+        Your withdrawal request has been received. The withdraw amount will be credited by {withdrawTransaction.withdrawalDate}.
       </p>
       <button className='btn btn-sm btn-violet-rounded mb-3' onClick={closeModal}>
-        Go back
+        Done
       </button>
-      <div className='d-none'>
-        <p className='p-2'>
-          Your withdrawal request has been received. The withdraw amount will be credited by {withdrawTransaction.withdrawalDate}.
-        </p>
-        <button className='btn btn-sm btn-violet-rounded mb-3' onClick={closeModal}>
-          Done
-        </button>
-      </div>
     </div>
   )
 
@@ -153,6 +145,15 @@ function WalletWithdrawComponent ({ currentUser }) {
             </div>
           }
         </div>
+        <div className='p-3 pt-5 mt-5 text-center'>
+          <p className='p-2 pt-5'>
+            Withdrawals aren't supported at this moment.
+          </p>
+          <button className='btn btn-sm btn-violet-rounded mb-3' onClick={closeModal}>
+            Go back
+          </button>
+        </div>
+        <div className='d-none'>
         {
           !withdrawTransaction
             ? <div>
@@ -168,6 +169,7 @@ function WalletWithdrawComponent ({ currentUser }) {
             {alertTemplate()}
             </div>
         }
+        </div>
       </div>
     </div>
   )

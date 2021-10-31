@@ -15,7 +15,6 @@ function CheckoutComponent ({ rechargeAmount, setRechargeAmount, setPaymentInten
     const res = await post('/transaction/checkout', {
       amount: rechargeAmount
     })
-
     if (res.status === 201) {
       setPaymentIntent(res.data.data)
       setStepNumber(2)

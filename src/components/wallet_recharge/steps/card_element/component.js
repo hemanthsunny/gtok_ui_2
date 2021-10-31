@@ -49,13 +49,16 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
       }
     })
 
-    setLoading(false)
     if (result.error) {
+      setLoading(false)
       toast.error(result.error.message)
       /* Cancel the payment intent */
       await post('/transaction/cancel', {
         paymentIntentId: paymentIntent.id
       })
+      if (result.error.type !== 'validation_error') {
+        history.push('/app/wallet')
+      }
     } else {
       if (result.paymentIntent.status === 'succeeded') {
         // Show a success message to your customer
@@ -64,7 +67,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
         const res = await post('/transaction/recharge', {
-          amount: result.paymentIntent.amount,
+          amount: result.paymentIntent.amount.slice(0, -2),
           paymentIntentId: result.paymentIntent.id,
           currency: result.paymentIntent.currency
         })
@@ -78,6 +81,7 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
             actionLink: '/app/wallet/',
             unread: true
           })
+          setLoading(false)
         } else {
           toast.error('Recharge is unsuccessful. If your card has been debited, please contact the admin team.')
           /* Log the activity */
@@ -88,10 +92,11 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
             actionLink: '/app/wallet/',
             unread: true
           })
+          setLoading(false)
         }
       }
+      history.push('/app/wallet')
     }
-    history.push('/app/wallet')
   }
 
   return (
@@ -101,6 +106,9 @@ function CardElementComponent ({ currentUser, paymentIntent }) {
         <div className='passcode-card mt-3'>
           <CardElement options={CARD_ELEMENT_OPTIONS} />
         </div>
+      </div>
+      <div className='font-small pb-2'>
+        <small>*Only credit and debit cards accepted at the moment.</small>
       </div>
       <button className='btn btn-sm btn-violet-rounded col-4' onClick={handleSubmit} disabled={!stripe || loading}>
         {
