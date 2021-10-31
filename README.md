@@ -34,3 +34,6 @@ Ref: https://www.youtube.com/watch?v=qJt-FtzJ5fo
 Ref: https://unix.stackexchange.com/questions/164501/echo-out-lines-of-script-before-running-them
 3. How to kill a port?
 Ref: https://stackoverflow.com/questions/57537355/firebase-serve-error-port-5000-is-not-open-could-not-start-functions-emulator
+4. How to create a manifest file?
+Ref: https://web.dev/add-manifest/
+5. Splashscreen - https://web.dev/splash-screen/?utm_source=lighthouse&utm_medium=lr

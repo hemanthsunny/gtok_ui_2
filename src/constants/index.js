@@ -4,7 +4,7 @@ export const Metadata = {
     description: 'GTOK profile is a place where you can edit profile page.',
     path: 'home'
   },
-  '/app/posts': {
+  '/app/assets': {
     title: 'Lets Gtok',
     description: 'You can see others posts',
     path: 'posts'
@@ -35,9 +35,14 @@ export const Metadata = {
     path: 'alerts'
   },
   '/app/chats': {
-    title: 'Messages | Lets Gtok',
-    description: 'GTOK Messages is a places where you can chat each other',
+    title: 'Chats | Lets Gtok',
+    description: 'Chat easily',
     path: 'chats'
+  },
+  '/app/chat_requests': {
+    title: 'Requests | Lets Gtok',
+    description: 'Request chat anyone',
+    path: 'chat_requests'
   },
   '/app/payments': {
     title: 'Payments | Lets Gtok',
@@ -49,7 +54,7 @@ export const Metadata = {
     description: "GTOK support has Faq's",
     path: 'support'
   },
-  '/app/create_post': {
+  '/app/create_asset': {
     title: 'Share feelings | Lets Gtok',
     description: 'Share feelings',
     path: 'create_post'
@@ -69,6 +74,10 @@ export const Metadata = {
     description: 'Login into our lets GTOK application to access our app complete features.'
   },
   '/signup': {
+    title: 'Signup | Lets Gtok',
+    description: 'Signup into our lets GTOK application.'
+  },
+  '/signup/:username': {
     title: 'Signup | Lets Gtok',
     description: 'Signup into our lets GTOK application.'
   },

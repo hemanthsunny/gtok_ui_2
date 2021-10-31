@@ -1,7 +1,7 @@
 import VerifyEmailComponent from 'components/auth/verify_email/component'
 import LoginComponent from 'components/auth/LoginComponent'
 import LogoutComponent from 'components/auth/LogoutComponent'
-import SignupComponent from 'components/auth/SignupComponent'
+import SignupComponent from 'components/auth/sign_up/component'
 import SignupSuccessComponent from 'components/auth/SignupSuccessComponent'
 import ForgotPasswordComponent from 'components/auth/ForgotPasswordComponent'
 import DeleteProfileComponent from 'components/auth/DeleteProfileComponent'
@@ -9,33 +9,30 @@ import AlertsComponent from 'components/alerts/component'
 import DisplayComponent from 'components/display_question/DisplayComponent'
 import PaymentsComponent from 'components/payments/PaymentsComponent'
 import SearchComponent from 'components/search/component'
-import SearchRequestsComponent from 'components/search_requests/component'
+import PendingRequestsComponent from 'components/pending_requests/component'
 import SearchFollowersComponent from 'components/search_followers/component'
 import SearchFollowingComponent from 'components/search_following/component'
-import DefaultLayout from 'components/common/DefaultLayout'
-import HeaderComponent from 'components/common/HeaderComponent'
+import DefaultLayout from 'components/common/default_layout/component'
+import HeaderComponent from 'components/common/header/component'
 import BottomHeaderComponent from 'components/common/BottomHeaderComponent'
-import StaticHeaderComponent from 'components/common/StaticHeaderComponent'
+import StaticHeaderComponent from 'components/common/static_header/component'
 import ErrorComponent from 'components/common/ErrorComponent'
 import NotificationComponent from 'components/common/NotificationComponent'
 import NoInternetNotification from 'components/common/NoInternetNotification'
-import CookieNotification from 'components/common/CookieNotification'
+import CookieNotification from 'components/common/cookie_notification/component'
 import ModalComponent from 'components/common/ModalComponent'
 import FormFieldsComponent from 'components/common/FormFieldsComponent'
-import CreateChatComponent from 'components/chats/CreateChatComponent'
+import CreateChatComponent from 'components/create_chat/component'
+import CreateChatLayerComponent from 'components/create_chat_layer/component'
 import SupportComponent from 'components/support/SupportComponent'
 import PermissionsComponent from 'components/permissions/component'
 import LoadingComponent from 'components/common/LoadingComponent'
-import HelmetMetaDataComponent from 'components/common/HelmetMetaDataComponent'
+import HelmetMetaDataComponent from 'components/common/helmet_metadata/component'
 import UserPermissionsComponent from 'components/common/UserPermissionsComponent'
 import CreatePostComponent from 'components/create_post/component'
 import CreateActivityComponent from 'components/create_activity/component'
+import ResharePostComponent from 'components/reshare_post/component'
 import SortComponent from 'components/common/SortComponent'
-import ProfileSettingsComponent from 'components/profile/SettingsComponent'
-import AlertHeaderComponent from 'components/common/headers/AlertHeaderComponent'
-import HomeHeaderComponent from 'components/common/headers/HomeHeaderComponent'
-import MessageHeaderComponent from 'components/common/headers/MessageHeaderComponent'
-import ProfileHeaderComponent from 'components/common/headers/ProfileHeaderComponent'
 import SettingsComponent from 'components/settings/component'
 import ChangePasswordComponent from 'components/change_password/component'
 import EditProfileComponent from 'components/edit_profile/component'
@@ -49,8 +46,9 @@ import ShowUserActivitiesComponent from 'components/show_user_activities/compone
 import PaymentCardsComponent from 'components/payment_cards/component'
 import AddPaymentCardComponent from 'components/add_payment_card/component'
 import WalletComponent from 'components/wallet/component'
+import WalletSettingsComponent from 'components/wallet_settings/component'
 import AddPriceComponent from 'components/add_price/component'
-import UnlockProfileComponent from 'components/unlock_profile/component'
+import TradePostComponent from 'components/trade_post/component'
 import PurchaseOrdersComponent from 'components/purchase_orders/component'
 import ChatsComponent from 'components/chats/component'
 import ShowChatComponent from 'components/show_chat/component'
@@ -60,6 +58,16 @@ import ShowOpenPostsComponent from 'components/common/show_open_posts/component'
 import ShowOpenActivitiesComponent from 'components/common/show_open_activities/component'
 import ReportPostComponent from 'components/report_post/component'
 import ScrollIntoViewComponent from 'components/common/scroll_into_view/component'
+import MobileFooterComponent from 'components/common/mobile_footer/component'
+import AudioPlayerComponent from 'components/audio_player/component'
+import ChangePasscodeComponent from 'components/change_passcode/component'
+import WalletRechargeComponent from 'components/wallet_recharge/component'
+import WalletWithdrawComponent from 'components/wallet_withdraw/component'
+import MenuOptionsComponent from 'components/menu_options/component'
+import ShareOptionsComponent from 'components/share_options/component'
+import AlertModalComponent from 'components/alert_modal/component'
+import InviteFriendsComponent from 'components/invite_friends/component'
+import ShowTransactionComponent from 'components/show_transaction/component'
 
 export {
   VerifyEmailComponent,
@@ -71,7 +79,7 @@ export {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchRequestsComponent,
+  PendingRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
   DefaultLayout,
@@ -87,6 +95,7 @@ export {
   FormFieldsComponent,
   LogoutComponent,
   CreateChatComponent,
+  CreateChatLayerComponent,
   SupportComponent,
   PermissionsComponent,
   LoadingComponent,
@@ -94,12 +103,8 @@ export {
   UserPermissionsComponent,
   CreatePostComponent,
   CreateActivityComponent,
+  ResharePostComponent,
   SortComponent,
-  ProfileSettingsComponent,
-  AlertHeaderComponent,
-  HomeHeaderComponent,
-  MessageHeaderComponent,
-  ProfileHeaderComponent,
   SettingsComponent,
   ChangePasswordComponent,
   EditProfileComponent,
@@ -113,8 +118,9 @@ export {
   PaymentCardsComponent,
   AddPaymentCardComponent,
   WalletComponent,
+  WalletSettingsComponent,
   AddPriceComponent,
-  UnlockProfileComponent,
+  TradePostComponent,
   PurchaseOrdersComponent,
   ChatsComponent,
   ShowChatComponent,
@@ -123,5 +129,15 @@ export {
   ShowOpenPostsComponent,
   ShowOpenActivitiesComponent,
   ReportPostComponent,
-  ScrollIntoViewComponent
+  ScrollIntoViewComponent,
+  MobileFooterComponent,
+  AudioPlayerComponent,
+  ChangePasscodeComponent,
+  WalletRechargeComponent,
+  WalletWithdrawComponent,
+  MenuOptionsComponent,
+  ShareOptionsComponent,
+  AlertModalComponent,
+  InviteFriendsComponent,
+  ShowTransactionComponent
 }

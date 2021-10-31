@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import $ from 'jquery'
+import './style.css'
 
 import {
   add,
@@ -9,29 +11,27 @@ import {
   arrayRemove,
   getId,
   update,
-  remove,
-  removeFile,
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { NotificationComponent, ReportPostComponent } from 'components'
-import { PostCategories } from 'constants/categories'
+import { NotificationComponent, CustomImageComponent } from 'components'
+import SliderComponent from '../slider/component'
+import { convertTextToLink } from 'helpers'
 
 const PostComponent = ({
-  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, purchaseOrders
+  currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet, handleFilters
 }) => {
-  const [displayPost, setDisplayPost] = useState(post)
   const [postedUser, setPostedUser] = useState('')
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
-  const [followerLoading, setFollowerLoading] = useState(false)
   const [result, setResult] = useState({})
   const [activeIndex, setActiveIndex] = useState(0)
   const [play, setPlay] = useState(true)
-  const [playDetails, setPlayDetails] = useState('')
+  const [playDetails, setPlayDetails] = useState({ currentTime: 0, duration: 0 })
   const [displayFullStory, setDisplayFullStory] = useState(false)
 
-  const purchaseFound = purchaseOrders.find(order => (order.profileUserId === displayPost.userId && order.active))
+  const trans = transactions.find(trans => trans.userId === currentUser.id && trans.postId === displayPost.id)
   const history = useHistory()
+  const audioRef = useRef()
 
   useEffect(() => {
     async function getPostedUser () {
@@ -57,29 +57,32 @@ const PostComponent = ({
     //   alert('You cannot follow yourself.')
     //   return null;
     // }
-    setFollowerLoading(true)
     if (!follower) {
+      $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgFollow')
       await update('posts', displayPost.id, { followers: arrayAdd(currentUser.id), followersCount: displayPost.followers.length + 1 })
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} pinches your post`,
-        photoURL: currentUser.photoURL,
-        receiverId: postedUser.id,
-        userId: currentUser.id,
-        actionType: 'update',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'followers',
-        actionLink: '/app/posts/' + displayPost.id,
-        unread: true,
-        timestamp
-      })
+      if (currentUser.id !== postedUser.id) {
+        /* Log the activity */
+        await add('logs', {
+          text: `@${currentUser.username} pinched your asset`,
+          photoURL: currentUser.photoURL,
+          receiverId: postedUser.id,
+          userId: currentUser.id,
+          actionType: 'update',
+          collection: 'posts',
+          actionId: displayPost.id,
+          actionKey: 'followers',
+          actionLink: '/app/assets/' + displayPost.id,
+          unread: true,
+          timestamp
+        })
+      }
       setFollower(true)
     } else {
+      $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgUnfollow')
       await update('posts', displayPost.id, { followers: arrayRemove(currentUser.id), followersCount: displayPost.followers.length - 1 })
       /* Log the activity */
       await add('logs', {
-        text: `${currentUser.displayName} removed pinch for your post`,
+        text: `${currentUser.displayName} removed pinch for your asset`,
         photoURL: currentUser.photoURL,
         receiverId: '',
         userId: currentUser.id,
@@ -87,21 +90,16 @@ const PostComponent = ({
         collection: 'posts',
         actionId: displayPost.id,
         actionKey: 'followers',
-        actionLink: '/app/posts/' + displayPost.id,
+        actionLink: '/app/assets/' + displayPost.id,
         timestamp
       })
       setFollower(false)
     }
     await getUpdatedPost(displayPost.id)
-    setFollowerLoading(false)
-  }
-
-  const selectCategory = (key) => {
-    const category = PostCategories.find(c => c.key === key)
-    if (!category) {
-      return
-    }
-    return category.title
+    setTimeout(() => {
+      $(`.icon-heart-${displayPost.id}`).removeClass('scaleInImgFollow')
+      $(`.icon-heart-${displayPost.id}`).removeClass('scaleInImgUnfollow')
+    }, 2000)
   }
 
   const getUpdatedPost = async (id) => {
@@ -109,58 +107,17 @@ const PostComponent = ({
     await getId('posts', id)
   }
 
-  const deletePost = async (post, idx) => {
-    if (displayPost.id && window.confirm('Are you sure to delete this post?')) {
-      let result
-      if (displayPost.stories.length === 1) {
-        result = await remove('posts', displayPost.id)
-      } else {
-        if (post.fileUrl) {
-          await removeFile(post.fileUrl)
-        }
-        displayPost.stories.splice(idx, 1)
-        result = await update('posts', displayPost.id, { stories: displayPost.stories })
-        setDisplayPost(displayPost)
-      }
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} removed the post`,
-        photoURL: currentUser.photoURL,
-        receiverId: '',
-        userId: currentUser.id,
-        actionType: 'delete',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'id',
-        actionLink: '/app/profile/' + currentUser.id,
-        timestamp
-      })
-      setResult(result)
-      // await bindPosts(currentUser);
+  const sharePost = async (opt) => {
+    if (opt === 'shareOptions') {
+      localStorage.setItem('sharePostText', `Hey! I want to share this asset with you. Have a look ${process.env.REACT_APP_URL}app/posts/${post.id}`)
     }
-  }
-
-  const sharePost = async () => {
     await bindSharePost(currentUser, 'id', { post })
-    history.push('/app/posts/' + displayPost.id)
+    // history.push('/app/assets/' + displayPost.id)
   }
 
   const redirectToProfile = async () => {
     if (!hideRedirects) {
-      history.push('/app/profile/' + displayPost.userId)
-    }
-  }
-
-  const editPost = (post, idx) => {
-    if (displayPost.id) {
-      history.push({
-        pathname: '/app/create_post',
-        state: {
-          sharePost: displayPost,
-          story: post,
-          storyIdx: idx
-        }
-      })
+      history.push('/app/profile/' + postedUser.username)
     }
   }
 
@@ -194,101 +151,153 @@ const PostComponent = ({
 
     const interval = setInterval(() => {
       currentTime = parseInt(audio.currentTime)
-      setPlayDetails({ currentTime, duration })
+      setPlayDetails({
+        currentTime,
+        duration,
+        progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
+      })
       if (currentTime >= duration) {
         clearInterval(interval)
         setPlay(prev => { return true })
       }
     }, 1000)
 
-    setPlayDetails({ currentTime, duration })
+    setPlayDetails({
+      currentTime,
+      duration,
+      progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
+    })
     setPlay(prevState => {
       return !prevState
     })
   }
 
+  const onChangeAudio = (e) => {
+    const audio = audioRef.current
+    audio.currentTime = (audio.duration / 100) * e.target.value
+    setPlayDetails({ ...playDetails, progressPercent: e.target.value })
+  }
+
+  const tradePostAction = () => {
+    if (!wallet.length) {
+      history.push('/app/change_passcode')
+    } else {
+      history.push(`/app/trade/${displayPost.id}`)
+    }
+  }
+
   return postedUser && displayPost.stories && (
-    <div className='card post-card-wrapper'>
-      {
-        result.status && <NotificationComponent result={result} setResult={setResult} />
-      }
-      <ReportPostComponent postId={displayPost.id} currentUser={currentUser} collection='posts' />
-      <div>
-        <span className='card-badge'>{selectCategory(displayPost.category.key)}</span>
-        <div className='card-follow'>
-        {followerLoading
-          ? <i className='fa fa-spinner fa-spin'></i>
-          : <button className='btn btn-link p-0 pr-2' onClick={e => followPost(e)}>
-            <i className={`fa fa-heart ${follower && '-active'}`}></i>
-          </button>
+    <div className={`d-flex ${reshare ? 'm-0' : 'ml-2 mt-3 mb-4'}`}>
+      <div className={`${reshare && 'd-none'}`}>
+        {displayPost.anonymous
+          ? <CustomImageComponent user={postedUser} size='sm' />
+          : <CustomImageComponent user={postedUser} size='sm' />
         }
-        </div>
       </div>
-      {
-        (displayPost.premium && !purchaseFound && (currentUser.id !== displayPost.userId))
-          ? <div className='card-body'>
-          <div className='blur-post'>
-            This post is locked. <br/> To unlock this post, purchase premium of the profile user.
-          </div>
-          <Link to={`/app/profile/${displayPost.userId}/unlock_profile`} className='unlock-post d-flex'>
-            <i className='fa fa-lock'></i> &nbsp; Premium post. Unlock now
-          </Link>
-        </div>
-          : <div className='card-body'>
-          {
-            displayPost.stories.map((story, idx) => (
-              <div className={`${idx !== activeIndex && 'd-none'}`} key={idx}>
-                <p className='white-space-preline'>
-                  {story.text.length <= 150 || displayFullStory
-                    ? story.text
-                    : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{story.text.slice(0, 149)} <small>. . . See full story</small></span>
-                  }
-                </p>
-                { story.fileUrl &&
-                  <div className='d-flex align-items-center'>
-                    <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' />
-                    <button className='audio-btn' onClick={e => playAudio(idx)}><i className={`fa fa-${play ? 'play' : 'pause'}`}></i></button>{playDetails && <small className='audio-details'>{playDetails.currentTime} / {playDetails.duration}</small>}
-                  </div>
-                }
-                {
-                  displayPost.stories.length > 1 &&
-                  <div className='carousel-effect'>
-                    <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
-                    <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
-                  </div>
-                }
-                <div className='clearfix my-3'></div>
-                <div className='media card-details'>
-                  <div className='media-body'>
-                    <h6>
-                      {displayPost.anonymous ? <span>@Anonymous</span> : <span className='pointer' onClick={e => redirectToProfile()}>@{postedUser.username}</span>}
-                      <div className='edit-options'>
-                        <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => editPost(story, idx)}>
-                          <i className='fa fa-pencil'></i>
-                        </button>
-                        <button className={`btn btn-link ${(displayPost.userId !== currentUser.id) && 'd-none'}`} onClick={e => deletePost(story, idx)}>
-                          <i className='fa fa-trash'></i>
-                        </button>
-                        <button className='btn btn-link btn-sm ml-2 fs-15 text-secondary' onClick={sharePost}>
-                          <i className='fa fa-share-alt'></i>
-                        </button>
-                        <button className={`btn btn-link ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal'>
-                          <i className='fa fa-flag'></i>
-                        </button>
-                      </div>
-                    </h6>
-                    <span className='created-at'>
-                      {moment(displayPost.createdAt).fromNow()}
+      <div className={`card post-card-wrapper ${reshare ? 'reshare-box' : 'add-filter'}`}>
+        {
+          result.status && <NotificationComponent result={result} setResult={setResult} />
+        }
+        {
+          displayPost.stories.map((story, idx) => (
+            <div key={idx}>
+              <div className={`card-body ${idx !== activeIndex && 'd-none'}`}>
+                <div>
+                  {
+                    !post.resharePostId &&
+                    <span className={`${reshare ? 'pull-left mr-2' : 'd-none'}`}>
+                      {displayPost.anonymous
+                        ? <CustomImageComponent user={postedUser} size='sm' />
+                        : <CustomImageComponent user={postedUser} size='sm' />
+                      }
                     </span>
-                  </div>
+                  }
+                  {
+                    displayPost.category
+                      ? <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
+                      : <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', 'Same Pinch')}>Same Pinch</span>
+                  }
+                  <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
+                    <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
+                  </span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
+                </div>
+                <div className='clearfix'></div>
+                {
+                  (displayPost.tradePrice && !trans && (currentUser.id !== displayPost.userId))
+                    ? <div className='card-body hidden-post px-0'>
+                      <div>
+                        {story.text.substring(0, 15)}...
+                        <span className='blur-text'>
+                          This is a trading asset. Trade it, to unlock.
+                        </span>
+                      </div>
+                      <div className='locked-post pointer' onClick={e => tradePostAction(displayPost.id)}>
+                        <div className='locked-post-text'>
+                          Unlock for <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr_violet.svg').default} alt="1" />{displayPost.tradePrice}</span>
+                        </div>
+                        <div>
+                          <img src={require('assets/svgs/LockedPost.svg').default} className='locked-post-icon' alt="1" />
+                        </div>
+                      </div>
+                    </div>
+                    : <div>
+                      <p className='card-text white-space-preline'>
+                        {story.text.length <= 150 || displayFullStory
+                          ? convertTextToLink(story.text)
+                          : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{convertTextToLink(story.text.slice(0, 149))} <small>. . . See full story</small></span>
+                        }
+                      </p>
+                      { story.fileUrl &&
+                        <div className='audio-player-wrapper'>
+                          <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
+                          <div className='audio-btn' onClick={e => playAudio(idx)}>
+                            <button className='btn'>
+                              { play
+                                ? <img className='btn-play' src={require('assets/svgs/Play.svg').default} alt="1" />
+                                : <img className='btn-pause' src={require('assets/svgs/Pause.svg').default} alt="1" />
+                              }
+                            </button>
+                          </div>
+                          <div className='audio-time'>
+                            {playDetails && <span className='current'>{moment.utc(playDetails.currentTime * 1000).format('mm:ss')}</span>}
+                            {playDetails && <span className='duration'>{moment.utc(playDetails.duration * 1000).format('mm:ss')}</span>}
+                          </div>
+                          <SliderComponent playDetails={playDetails} onChange={onChangeAudio} />
+                        </div>
+                      }
+                      {
+                        displayPost.stories.length > 1 &&
+                        <div className='carousel-effect'>
+                          <span className='prev' onClick={e => slideTo('prev', idx)}>Prev</span>
+                          <span className='next' onClick={e => slideTo('next', idx)}>Next</span>
+                        </div>
+                      }
+                      <div className='clearfix my-3'></div>
+                    </div>
+              }
+              </div>
+              <div className='card-footer'>
+                {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={redirectToProfile}>@{postedUser.username}</span>}
+                <div className={`edit-options ${hideEditOptions && 'd-none'}`}>
+                  <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
+                    {
+                      follower
+                        ? <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/PinchActive.svg').default} alt="1" />
+                        : <img className={`icon-heart icon-heart-${displayPost.id}`} src={require('assets/svgs/Pinch.svg').default} alt="1" />
+                    }
+                  </button>
+                  <button className='btn btn-link' data-toggle='modal' data-target='#shareOptionsModal' onClick={e => sharePost('shareOptions')}>
+                    <img className="icon-share" src={require('assets/svgs/ShareBtn.svg').default} alt="1" />
+                  </button>
+                  <button className='btn btn-link' data-toggle='modal' data-target='#menuOptionsModal' onClick={e => sharePost('menuOptions')}>
+                    <img className="icon-more" src={require('assets/svgs/ShowMore.svg').default} alt="1" />
+                  </button>
                 </div>
               </div>
-            ))
-          }
-        </div>
-      }
-      <div className={`post-card-footer ${follower && 'd-none'}`}>
-      Give a  <i className='fa fa-heart px-1'></i> to show your love
+            </div>
+          ))
+        }
       </div>
     </div>
   )
@@ -296,8 +305,9 @@ const PostComponent = ({
 
 const mapStateToProps = (state) => {
   const { allUsers } = state.users
-  const { purchaseOrders } = state.purchaseOrders
-  return { allUsers, purchaseOrders }
+  const { transactions } = state.transactions
+  const { wallet } = state.wallet
+  return { allUsers, transactions, wallet }
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -114,3 +114,4 @@ database.rules.json
 firestore.indexes.json
 firestore.rules
 package-lock.json
+.DS_Store

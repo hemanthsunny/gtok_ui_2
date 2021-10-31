@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 import _ from 'lodash'
+import './style.css'
 
 import HeaderComponent from './header'
 import DetailComponent from './steps/detail/component'
 import CategoryComponent from './steps/category/component'
-import SubmitComponent from './steps/submit/component'
 
 import { add, update, timestamp, uploadFile, removeFile, batchWrite } from 'firebase_config'
-import { PostCategories } from 'constants/categories'
+import { FeelingCategories, ActivityCategories } from 'constants/categories'
 import { capitalizeFirstLetter } from 'helpers'
 import { SetNewPost } from 'store/actions'
-import { SidebarComponent } from 'components'
 
 const pageVariants = {
   initial: {
@@ -49,29 +49,79 @@ const ParentComponent = (props) => {
 
   const { currentUser, bindNewPost } = props
   const [postText, setPostText] = useState(story.text)
-  const [category, setCategory] = useState(sharePost.category || {})
+  const [category, setCategory] = useState(sharePost.category || {
+    title: 'Current feeling',
+    key: 'current_feeling'
+  })
   const [result, setResult] = useState({})
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
   const [anonymous, setAnonymous] = useState(sharePost.anonymous || false)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
+  const [tradePrice, setTradePrice] = useState(sharePost.tradePrice || 10)
+  const [tradePost, setTradePost] = useState(sharePost.tradePrice > 0)
+  const [activeTab, setActiveTab] = useState(sharePost.type || 'feelings')
+  const [loading, setLoading] = useState(false)
+  const [postLength, setPostLength] = useState(story ? (30 - story.text.length) : 30)
 
-  useEffect(() => {
-    if (touchStart && touchEnd && (touchStart - touchEnd > 75)) {
-      props.history.push('/app/create_activity')
+  const saveResharePost = async (opts) => {
+    const postData = Object.assign({
+      active: true,
+      category: {
+        title: 'Same pinch',
+        key: 'same_pinch'
+      },
+      stories: [{
+        text: capitalizeFirstLetter(postText.trim())
+      }],
+      userId: currentUser.id,
+      followers: [],
+      followersCount: 0,
+      resharePostId: props.resharePost.id,
+      timestamp,
+      ...opts
+    })
+
+    let result
+    if (sharePost.resharePostId) {
+      result = await update('posts', sharePost.id, {
+        stories: [{
+          text: capitalizeFirstLetter(postText.trim())
+        }]
+      })
+    } else {
+      result = await add('posts', postData)
     }
-  }, [touchStart, touchEnd, props])
+    // When a new post added, alert all followers
+    await sendAlertsToFollowers(result.data, postData)
+    bindNewPost(currentUser)
+    /* Log the activity */
+    // await add('logs', {
+    //   text: `${currentUser.displayName} created a post`,
+    //   photoURL: currentUser.photoURL,
+    //   receiverId: '',
+    //   userId: currentUser.id,
+    //   actionType: 'create',
+    //   collection: 'posts',
+    //   timestamp
+    // })
+
+    if (result.status === 200) {
+      props.history.push({
+        pathname: '/app/assets',
+        state: { postingSuccess: true, reloadPosts: true }
+      })
+      if (sharePost.id) {
+        toast.success('Your asset has been updated')
+      } else {
+        toast.success('Your asset is now live')
+      }
+    } else {
+      toast.error('Something went wrong. Try later!')
+      setResult(result)
+    }
+  }
 
   const savePost = async (opts) => {
-    if (opts && opts.premium && (!props.prices || !props.prices[0])) {
-      alert('Before you do a premium post, set a price in your profile')
-      return null
-    }
-    if (opts && opts.premium && (!props.wallet || !props.wallet[0])) {
-      alert('Just before doing a premium post, please create a wallet')
-      return null
-    }
     if (!postText) {
       alert('Write something before you post')
       return null
@@ -80,14 +130,17 @@ const ParentComponent = (props) => {
       alert('Please select a category')
       return null
     }
+    setLoading(true)
     let result = ''
-    let postData = {}
+    let postData = {
+      type: activeTab === 'activity' ? activeTab : ''
+    }
     if (sharePost.id) {
       sharePost.stories.splice(storyIdx, 1, { text: capitalizeFirstLetter(postText.trim()), fileUrl })
       postData = Object.assign(postData, {
         stories: sharePost.stories,
         category,
-        categoryId: category.id,
+        tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })
       result = await update('posts', sharePost.id, postData)
@@ -104,8 +157,8 @@ const ParentComponent = (props) => {
         followers: [],
         followersCount: 0,
         category,
-        categoryId: category.id,
         timestamp,
+        tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })
       result = await add('posts', postData)
@@ -123,12 +176,19 @@ const ParentComponent = (props) => {
     //   timestamp
     // })
 
+    setLoading(false)
     if (result.status === 200) {
       props.history.push({
-        pathname: '/app/posts',
+        pathname: '/app/assets',
         state: { postingSuccess: true, reloadPosts: true }
       })
+      if (sharePost.id) {
+        toast.success('Your asset has been updated')
+      } else {
+        toast.success('Your asset is now live')
+      }
     } else {
+      toast.error('Something went wrong. Try later!')
       setResult(result)
     }
   }
@@ -141,11 +201,16 @@ const ParentComponent = (props) => {
           return rln.userIdOne
         }
       }), undefined)
+
+      let logText = `@${currentUser.username} recently shared an asset`
+      if (tradePost) {
+        logText = `@${currentUser.username} recently shared a trading asset`
+      }
       await batchWrite('logs', relationsIds, {
-        text: `@${currentUser.username} recently shared a feeling. Show your support now.`,
+        text: logText,
         photoURL: currentUser.photoURL,
         userId: currentUser.id,
-        actionLink: `/app/${res.path}`,
+        actionLink: `/app/assets/${res.path.replace('posts/')}`,
         unread: true,
         timestamp
       })
@@ -217,36 +282,40 @@ const ParentComponent = (props) => {
   //   })
   // }
 
-  const onTouchStart = (e) => {
-    setTouchStart(e.changedTouches[0].clientX)
-    setTouchEnd(0)
-  }
-
-  const onTouchEnd = (e) => {
-    setTouchEnd(e.changedTouches[0].clientX)
+  const handleActiveTab = (tab) => {
+    setActiveTab(tab)
+    if (tab === 'activity' && !sharePost.id) {
+      setCategory({
+        title: 'Current activity',
+        key: 'current_activity'
+      })
+    }
+    if (tab === 'feelings' && !sharePost.id) {
+      setCategory({
+        title: 'Current feeling',
+        key: 'current_feeling'
+      })
+    }
   }
 
   const subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/create_post' className='tab-item -active'>Share Feeling</Link>
-        <Link to='/app/create_activity' className='tab-item'>Share Activity</Link>
+        <div className={`tab-item ${activeTab === 'feelings' && '-active'}`} onClick={e => handleActiveTab('feelings')}>Feelings</div>
+        <div className={`tab-item ${activeTab === 'activity' && '-active'}`} onClick={e => handleActiveTab('activity')}>Activities</div>
       </div>
     </div>
   )
 
   return (
     <div>
-      <HeaderComponent />
+      <HeaderComponent save={props.createResharePost ? saveResharePost : savePost} sharePost={sharePost} loading={loading} postLength={postLength} saveBtn={props.createResharePost ? (sharePost.resharePostId ? 'Update' : 'Share') : (sharePost.id ? 'Update' : 'Share')} headerText={props.createResharePost ? (sharePost.resharePostId ? 'Edit asset' : 'Reshare asset') : (sharePost.id ? 'Edit asset' : 'Create asset')} />
       <div>
-        <SidebarComponent currentUser={currentUser} />
-        <div className='dashboard-content' onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          {subHeader()}
-          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
-            <div className='container create-post-wrapper'>
-              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} />
-              <CategoryComponent postCategories={PostCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
-              <SubmitComponent save={savePost} anonymous={anonymous} setAnonymous={setAnonymous} />
+        <div className='dashboard-content'>
+          {!sharePost.id && subHeader()}
+            <div className='container create-post-wrapper pt-5 mt-sm-5'>
+              <DetailComponent btnUpload={btnUpload} fileUrl={fileUrl} uploadAudio={uploadAudio} deleteFile={deleteFile} postText={postText} setPostText={setPostText} currentUser={currentUser} category={category} tradePrice={tradePrice} setTradePrice={setTradePrice} anonymous={anonymous} setAnonymous={setAnonymous} tradePost={tradePost} setTradePost={setTradePost} wallet={props.wallet} activeTab={activeTab} setActiveTab={setActiveTab} sharePost={sharePost} postLength={postLength} setPostLength={setPostLength} resharePost={props.resharePost} resharePostUser={props.resharePostUser} createResharePost={props.createResharePost} />
+              <CategoryComponent postCategories={((sharePost && sharePost.type === 'activity') || (activeTab === 'activity')) ? ActivityCategories : FeelingCategories} category={category} setCategory={setCategory} currentUser={currentUser} />
               <div className='text-center'>
                 {
                   result.status &&
@@ -256,6 +325,7 @@ const ParentComponent = (props) => {
                 }
               </div>
             </div>
+          <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
           </motion.div>
         </div>
       </div>

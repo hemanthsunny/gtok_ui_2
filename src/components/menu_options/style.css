@@ -1,0 +1,89 @@
+.btn-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: var(--color-white-600);
+  position: relative;
+}
+
+.btn-disabled .info {
+  width: 17px;
+  height: 17px;
+}
+
+.menu-list .menu-item {
+  cursor: pointer;
+}
+
+#tooltip {
+  display: inline-block;
+  background: #ffffff;
+  color: var(--color-violet-400);
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid var(--color-white-600);
+  top: 10px !important;
+}
+
+#arrow,
+#arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-top: 1px solid var(--color-white-600);
+  border-left: 1px solid var(--color-white-600);
+}
+
+#arrow {
+  visibility: hidden;
+}
+
+#arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}
+
+#tooltip[data-popper-placement^='top'] > #arrow {
+  bottom: -4px;
+}
+
+#tooltip[data-popper-placement^='bottom'] > #arrow {
+  top: -4px;
+}
+
+#tooltip[data-popper-placement^='left'] > #arrow {
+  right: -4px;
+}
+
+#tooltip[data-popper-placement^='right'] > #arrow {
+  left: -4px;
+}
+
+@media (max-width: 767.98px) {
+  #menuOptionsModal .user-list {
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  #menuOptionsModal .modal-body {
+    font-size: var(--font-size);
+    padding-left: var(--spacing-12) !important;
+    min-height: 29vh !important;
+    max-height: 50vh !important;
+  }
+
+  #menuOptionsModal .chat-user {
+    padding: var(--spacing-4) 0;
+  }
+
+  #menuOptionsModal .media-body {
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 768px) {
+
+}

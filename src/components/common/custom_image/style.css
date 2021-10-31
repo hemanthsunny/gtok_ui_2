@@ -1,0 +1,41 @@
+.custom-image {
+  width: var(--spacing-40);
+  height: var(--spacing-40);
+  border-radius: 13%;
+  object-fit: cover;
+}
+
+.custom-image-text {
+  width: var(--spacing-40);
+  height: var(--spacing-40);
+  border-radius: 13%;
+  color: var(--color-white);
+  background-color: var(--color-violet-400);
+  font-size: var(--font-size-big);
+  padding-top: var(--spacing-8);
+  text-align: center;
+}
+
+.custom-image.-sm {
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+}
+
+.custom-image-text.-sm {
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+  font-size: var(--font-size);
+  padding-top: var(--spacing-2);
+}
+
+.custom-image.-lg {
+  width: var(--spacing-64);
+  height: var(--spacing-64);
+}
+
+.custom-image-text.-lg {
+  width: var(--spacing-64);
+  height: var(--spacing-64);
+  font-size: var(--font-size-bigger);
+  padding-top: var(--spacing-16);
+}

@@ -1,35 +1,66 @@
-import React from 'react'
+import React, { useState } from 'react'
+// import $ from 'jquery'
 
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
-  const handleCategory = async (val) => {
-    if (val) {
-      const cat = postCategories.find(c => c.title === val)
+  const [other, setOther] = useState('')
+  const [otherValue, setOtherValue] = useState('')
+
+  const handleCategory = async (cat) => {
+    if (cat) {
       setCategory(cat)
+      if (cat.key === 'other') {
+        setOther(true)
+      } else {
+        setOther(false)
+        window.$('#selectPostCategoryModal').modal('hide')
+      }
     }
   }
 
+  const submitCategory = () => {
+    if (category.key === 'other') {
+      setCategory({
+        title: otherValue.trim() ? otherValue : 'Other',
+        key: 'other'
+      })
+    }
+    window.$('#selectPostCategoryModal').modal('hide')
+  }
+
   return (
-    <div className='feeling-category-wrapper'>
-      <div className='mb-3'>
-        <select className='custom-select font-small' id='category' onChange={e => handleCategory(e.target.value)} value={category && category.title}>
-          <option>Select category</option>
-          {
-            postCategories.map(category => (
-              <option value={category.title} key={category.key}>
-              {category.title}
-              </option>
-            ))
-          }
-        </select>
-      </div>
-      <div className={`input-group mb-3 ${!currentUser.eligibleToPremium && 'd-none'}`}>
-        <div className='input-group-prepend'>
-          <label className='input-group-text font-small' htmlFor='visibleTo'>Visible to</label>
+    <div className='modal fade' id='selectPostCategoryModal' tabIndex='-1' role='dialog' aria-labelledby='selectPostCategoryModalLabel' aria-hidden='true'>
+      <div className='modal-dialog'>
+        <div className='modal-content'>
+          <div className='modal-body pt-0'>
+            <div className='text-center'>
+              <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
+            </div>
+            <div className='user-list'>
+              {
+                postCategories.map((obj, idx) =>
+                  <div className='post-category' key={idx} onClick={e => handleCategory(obj)}>
+                    <div className='username pull-left'>
+                      {obj.title}
+                     </div>
+                    <div className={`${obj.key === category.key ? '' : 'd-none'}`}>
+                      <img className='btn-play' src={require('assets/svgs/Tick.svg').default} alt='1' />
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+            <div className={`${other ? 'other-category-box' : 'd-none'}`}>
+              <textarea className='form-control' value={otherValue} onChange={e => setOtherValue(e.target.value)} placeholder='Type here' maxLength='15'></textarea>
+              <small className='pull-right'>{15 - otherValue.length} chars left</small>
+            </div>
+            <br/>
+            <div className='text-center'>
+              <button className='btn btn-violet-rounded btn-sm' onClick={submitCategory}>
+                Done
+              </button>
+            </div>
+          </div>
         </div>
-        <select className='custom-select font-small' id='visibleTo'>
-          <option defaultValue value='public'>Everyone</option>
-          <option value='premium'>Premium users only</option>
-        </select>
       </div>
     </div>
   )

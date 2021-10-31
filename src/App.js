@@ -14,6 +14,10 @@ import './App.css'
 import { CookieNotification, NoInternetNotification, LoadingComponent, ScrollIntoViewComponent } from 'components'
 import { SetDbUser, SetUser, SetLoggedIn } from 'store/actions'
 
+// Toast for popups
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 export const AuthContext = React.createContext()
 
 class App extends Component {
@@ -61,6 +65,16 @@ class App extends Component {
       this.state.loading
         ? <div><LoadingComponent /></div>
         : <div>
+          <ToastContainer
+            position='top-center'
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick={false}
+            pauseOnHover
+            progressClassName='toast-progress'
+            bodyClassName='toast-body'
+          />
           <CookieNotification />
           <NoInternetNotification />
           <Router>

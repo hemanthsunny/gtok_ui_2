@@ -1,0 +1,20 @@
+.show-post-subheader {
+  position: fixed;
+  width: 100vw;
+  padding: 36px var(--spacing-24) var(--spacing-12);
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-white);
+  z-index: 9;
+}
+
+.show-post-subheader .go-back-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.show-post-subheader .page-name {
+  font-weight: 500;
+  font-size: var(--font-size);
+  padding-top: 2px;
+}

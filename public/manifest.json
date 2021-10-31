@@ -3,22 +3,23 @@
   "name": "Lets Gtok",
   "icons": [
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "https://storage.googleapis.com/lg-main.appspot.com/images/favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "https://storage.googleapis.com/lg-main.appspot.com/images/favicon.png",
       "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "../assets/images/favicon.jpg",
+      "src": "https://storage.googleapis.com/lg-main.appspot.com/images/favicon.png",
       "type": "image/jpg",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "theme_color": "#6930db",
   "background_color": "#ffffff",

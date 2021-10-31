@@ -1,3 +1,65 @@
+export const FeelingCategories = [
+  {
+    title: 'Current feeling',
+    key: 'current_feeling'
+  },
+  {
+    title: 'Happy',
+    key: 'happy'
+  },
+  {
+    title: 'Sad',
+    key: 'sad'
+  },
+  {
+    title: 'Surprise',
+    key: 'surprise'
+  },
+  {
+    title: 'Fear',
+    key: 'fear'
+  },
+  {
+    title: 'Anger',
+    key: 'angry'
+  },
+  {
+    title: 'Other',
+    key: 'other'
+  }
+]
+
+export const ActivityCategories = [
+  {
+    title: 'Current activity',
+    key: 'current_activity'
+  },
+  {
+    title: 'Eating',
+    key: 'eating'
+  },
+  {
+    title: 'Playing',
+    key: 'playing'
+  },
+  {
+    title: 'Working',
+    key: 'working'
+  },
+  {
+    title: 'Reading',
+    key: 'reading'
+  },
+  {
+    title: 'Watching',
+    key: 'watching'
+  },
+  {
+    title: 'Other',
+    key: 'other'
+  }
+]
+
 export const PostCategories = [
   {
     title: 'Anxiety',

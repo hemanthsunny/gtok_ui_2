@@ -3,19 +3,20 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import _ from 'lodash'
-import HeaderComponent from './header'
+import './style.css'
 
-import { capitalizeFirstLetter } from 'helpers'
-import { SidebarComponent, LoadingComponent } from 'components'
+import HeaderComponent from './header'
+import { LoadingComponent, CustomImageComponent } from 'components'
 import { SetChatMessages, SetNewMessagesCount } from 'store/actions'
 import { gtokFavicon } from 'images'
-import { add, getQuery, getId, update, firestore, timestamp } from 'firebase_config'
+import { add, getId, update, firestore, timestamp } from 'firebase_config'
+import { convertTextToLink } from 'helpers'
 
 class ParentComponent extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      message: '',
+      message: localStorage.getItem('sharePostText') || '',
       messagesList: [],
       convoId: props.match.params.id,
       currentUser: props.currentUser,
@@ -27,6 +28,11 @@ class ParentComponent extends Component {
     this.bindMessages = props.bindMessages
     this.bindNewMessagesCount = props.bindNewMessagesCount
     this.scrollRef = React.createRef()
+
+    /* Clear localStorage */
+    setTimeout(() => {
+      localStorage.removeItem('sharePostText')
+    }, 5000)
   }
 
   componentDidMount () {
@@ -47,21 +53,10 @@ class ParentComponent extends Component {
     const result = await getId('conversations', id)
     result.id = id
     const chatUser = result.usersRef.find(u => u.id !== this.state.currentUser.id)
-    let status = null
-    if (this.props.relations[0]) {
-      const rln = this.props.relations.find(rln => rln.userIdOne === this.state.currentUser.id && rln.userIdTwo === chatUser.id)
-      if (rln && rln.status) { status = rln.status }
-    } else {
-      const rln = await getQuery(
-        firestore.collection('userRelationships').where('userIdOne', '==', this.state.currentUser.id).where('userIdTwo', '==', chatUser.id).get()
-      )
-      if (rln[0] && rln[0].status) { status = rln[0].status }
-    }
     this.setState({
       convoId: id,
       conversation: result,
-      chatUser,
-      status,
+      chatUser: await getId('users', chatUser.id),
       chatUserLastSeen: chatUser.lastSeen.seconds
     })
     this.getMessagesSnapshot()
@@ -136,10 +131,6 @@ class ParentComponent extends Component {
   }
 
   sendMessage = async () => {
-    if (this.state.status !== 1) {
-      alert('You must follow this user in order to send a message.')
-      return null
-    }
     if (!this.state.message.trim()) { return }
     const data = {
       conversationId: this.state.conversation.id,
@@ -174,7 +165,7 @@ class ParentComponent extends Component {
 
   shareText = (text) => {
     this.props.history.push({
-      pathname: '/app/create_post',
+      pathname: '/app/create_asset',
       state: { sharePostText: text }
     })
   }
@@ -191,11 +182,11 @@ class ParentComponent extends Component {
           : this.state.messagesList[0]
             ? this.state.messagesList.map((msg, idx) => (
             <div className='chat-messages' key={idx}>
-              <div className={`${this.isMsgAdmin(msg.admin) ? 'sender ml-2' : 'receiver'} mt-3 white-space-preline`}>
-                {msg.text}
+              <div className={`${this.isMsgAdmin(msg.admin) ? 'sender ml-2 mt-1 mb-2' : 'receiver mt-1'} white-space-preline`}>
+                {convertTextToLink(msg.text)}
                 <div className='msg-header'>
-                  <small className='pull-left msg-datetime'>{moment(msg.createdAt).format('HH:mm DD/MM/YY')}</small>
-                  <div className='dropdown p-0 pull-right'>
+                  <small className='pull-right msg-datetime'>{moment(msg.createdAt).format('HH:mm')}</small>
+                  <div className='dropdown p-0 pull-right d-none'>
                     <i className='fa fa-angle-down msg-menu-icon' data-toggle='dropdown'></i>
                     <div className='dropdown-menu'>
                       <button className='dropdown-item btn-link' onClick={e => this.copyText(msg.text)}>
@@ -222,25 +213,20 @@ class ParentComponent extends Component {
   }
 
   subHeader = () => (
-    <div className='dashboard-tabs' role='navigation' aria-label='Main'>
-      <div className='tabs -big'>
-        <Link to='/app/chats' className='tab-item'>
-          Back
-        </Link>
-        <div className='tab-item -active'>
-          {this.state.conversation && this.state.chatUser
-            ? <div className='text-center'>
-              {this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}<br/>
-              {
-                this.state.chatUser.lastSeen &&
-                <small>
-                  Last active {this.state.chatUserLastSeen && moment.unix(this.state.chatUserLastSeen).format('HH:mm DD/MM/YYYY')}
-                </small>
-              }
+    <div className='chat-subheader' aria-label='Subheader'>
+      <Link to='/app/chats'>
+        <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
+      </Link>
+      <div className='page-name'>
+      {this.state.conversation && this.state.chatUser
+        ? <div className='media'>
+            <CustomImageComponent user={this.state.chatUser} size='sm' />
+            <div className='media-body pl-2'>
+            @{this.state.chatUser.username}
             </div>
-            : <LoadingComponent />
-          }
         </div>
+        : <LoadingComponent />
+      }
       </div>
     </div>
   );
@@ -248,35 +234,28 @@ class ParentComponent extends Component {
   render () {
     return (
       <div>
-        <HeaderComponent newAlertsCount={this.props.newAlertsCount} newMessagesCount={this.props.newMessagesCount} />
-        <div>
-          <SidebarComponent currentUser={this.props.currentUser} />
-          <div className='dashboard-content -opts'>
-            {this.subHeader()}
-            <div className='mob-single-chat-window'>
-              {this.state.copied && this.copiedTextAlert() }
-              {
-                this.state.conversation && this.state.chatUser
-                  ? (
-                  <div>
-                    {this.renderMessageWindow()}
-                    <div className='chat-window-footer'>
-                      <div className='p-2 d-none'>
-                        <i className='fa fa-paperclip'></i>
-                      </div>
-                      <div className='flex-grow-1 p-2'>
-                        <textarea className='reply-box' rows='1' placeholder='Write message here..' value={this.state.message} onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus}>
-                        </textarea>
-                      </div>
-                      <div className='p-2'>
-                        <i className='fa fa-paper-plane' onClick={e => this.sendMessage()}></i>
+        <HeaderComponent />
+        <div className='dashboard-content -opts'>
+          {this.subHeader()}
+          <div className='mob-single-chat-window'>
+            {this.state.copied && this.copiedTextAlert() }
+            {
+              this.state.conversation && this.state.chatUser
+                ? (
+                <div>
+                  {this.renderMessageWindow()}
+                  <div className='chat-window-footer'>
+                    <div className='input-group mb-sm-3'>
+                      <textarea className='form-control' placeholder='Type message' aria-label='Type message' aria-describedby='reply-message' onChange={e => this.setState({ message: e.target.value })} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus} value={this.state.message}></textarea>
+                      <div className='input-group-append'>
+                        <img className='' src={require('assets/svgs/ArrowUp.svg').default} alt='1' onClick={e => this.sendMessage()} />
                       </div>
                     </div>
                   </div>
-                    )
-                  : <LoadingComponent />
-              }
-            </div>
+                </div>
+                  )
+                : <LoadingComponent />
+            }
           </div>
         </div>
       </div>
@@ -287,7 +266,8 @@ class ParentComponent extends Component {
 const mapStateToProps = (state) => {
   const { messages } = state.chatMessages
   const { relations } = state.relationships
-  return { messages, relations }
+  const { sharePost } = state.posts
+  return { messages, relations, sharePost }
 }
 
 const mapDispatchToProps = (dispatch) => {

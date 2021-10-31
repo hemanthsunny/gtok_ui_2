@@ -38,13 +38,6 @@
   border: none;
 }
 
-.feeling-detail-wrapper .attachment {
-  padding-left: var(--spacing-8);
-  background: var(--color-white);
-  font-size: var(--font-size);
-  cursor: pointer;
-}
-
 .feeling-detail-wrapper .trash-icon {
   width: 19px;
 }
@@ -55,34 +48,6 @@
 
 .feeling-submit-wrapper .display-right {
   margin-left: auto;
-}
-
-.feeling-detail-wrapper .audio-btn,
-.feeling-detail-wrapper .audio-btn:focus,
-.feeling-detail-wrapper .audio-btn:hover {
-  width: var(--spacing-32);
-  height: var(--spacing-32);
-  border-radius: 50%;
-  font-size: var(--font-size-small);
-  color: var(--color-violet-400);
-  border: 1px solid var(--color-violet-100);
-}
-
-.feeling-detail-wrapper .audio-btn .fa-spinner {
-  position: relative;
-  left: -3px;
-  font-size: var(--font-size-small);
-}
-
-.feeling-detail-wrapper .audio-btn .fa-pause {
-  position: relative;
-  left: -2px;
-  font-size: var(--font-size-small);
-}
-
-.feeling-detail-wrapper .audio-details {
-  margin: 0 var(--spacing-8);
-  font-size: var(--font-size-small);
 }
 
 .feeling-submit-wrapper .checkbox-icon {

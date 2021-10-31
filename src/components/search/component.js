@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import './style.css'
 
 import HeaderComponent from './header'
 import SearchUserComponent from './user/component'
-import { SidebarComponent } from 'components'
+import { MobileFooterComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
 
 const SearchComponent = ({
@@ -13,10 +14,11 @@ const SearchComponent = ({
 }) => {
   const [searchVal, setSearchVal] = useState('')
   const [users, setUsers] = useState(allUsers)
+  const priorityUsers = allUsers.filter(u => u.priority === 'high')
 
   useEffect(() => {
     if (!allUsers[0]) {
-      if (currentUser.admin) bindAllUsers(currentUser, 'adminUsers')
+      if (currentUser.admin) bindAllUsers(currentUser, 'all')
       else bindAllUsers(currentUser, 'all')
     }
   }, [currentUser, allUsers, bindAllUsers, relations])
@@ -36,7 +38,7 @@ const SearchComponent = ({
       val = ''
     }
     // search from allUsers
-    const users = _.filter(allUsers, (u) => u.displayName && u.displayName.indexOf(val) > -1)
+    const users = _.filter(allUsers, (u) => u.displayName && u.displayName.toLowerCase().indexOf(val) > -1)
     setUsers(users)
     setSearchVal(val)
     if (!!val && !allUsers[0]) {
@@ -45,7 +47,7 @@ const SearchComponent = ({
   }
 
   const subHeader = () => (
-    <div className='dashboard-tabs search-subheader' role='navigation' aria-label='Main'>
+    <div className='dashboard-tabs search-subheader d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
         <Link to='/app/search' className='tab-item -active'>Find a new search</Link>
         <Link to='/app/search/followers' className='tab-item'>Your followers</Link>
@@ -60,8 +62,7 @@ const SearchComponent = ({
   return (
     <div>
       <HeaderComponent newAlertsCount={newAlertsCount} newMessagesCount={newMessagesCount} />
-      <div>
-        <SidebarComponent currentUser={currentUser} />
+      <div className='pt-4'>
         <div className='dashboard-content'>
           {subHeader()}
           <div className='container'>
@@ -74,7 +75,7 @@ const SearchComponent = ({
               <div>
               {/* If searchVal exists and users found */}
               {
-                searchVal && users[0] && <div className='row'>
+                searchVal && users[0] && <div className='search-user'>
                   {
                     users.map((user, idx) =>
                       <SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
@@ -90,7 +91,7 @@ const SearchComponent = ({
               }
               {/* If there is no searchVal */}
               {
-                !searchVal && <div className='text-center mt-5'>
+                !searchVal && <div className='text-center mt-5 d-none'>
                   <img src={require('assets/svgs/Search.svg').default} className='profile-icon' alt='Search' />
                   <div>
                     Look for a new user here.
@@ -98,10 +99,23 @@ const SearchComponent = ({
                 </div>
               }
               </div>
+              {
+                !searchVal &&
+                <div className='priority-user-list'>
+                  <div className='priority-user-list-header'>Priority users</div>
+                  {
+                    priorityUsers[0] && priorityUsers.map((user, idx) => <div className={`priority-user ${user.id === currentUser.id && 'd-none'}`} key={idx}>
+                        <SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
+                      </div>
+                    )
+                  }
+                </div>
+              }
             </div>
           </div>
         </div>
       </div>
+      <MobileFooterComponent currentUser={currentUser} />
     </div>
   )
 }

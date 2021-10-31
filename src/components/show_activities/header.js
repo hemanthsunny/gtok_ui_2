@@ -11,7 +11,7 @@ const HeaderComponent = ({
     <nav className='navbar fixed-top header'>
       <div className='container-fluid'>
         <div className='navbar-brand mr-auto'>
-          <Link to='/app/posts'>
+          <Link to='/app/assets'>
             <span className='home-page-title'>Lets Gtok</span>
           </Link>
         </div>

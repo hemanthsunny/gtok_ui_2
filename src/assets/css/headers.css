@@ -11,44 +11,6 @@
   width: 10px;
 }
 
-.home-page-title {
-  font-size: 16px !important;
-  color: #000000 !important;
-}
-
-.message-icon, .alert-icon, .profile-icon {
-  width: 21px;
-}
-
-.message-count-dot {
-  position: absolute;
-  top: -6px;
-  right: 6px;
-}
-
-.alert-count-dot {
-  position: absolute;
-  top: -4px;
-  right: 7px;
-}
-
-.challenge-icon {
-  width: 25px;
-}
-
-.plus-c-icon {
-  width: 27px;
-  transform: scale(1.2);
-}
-
-.home-icon {
-  width: 25px;
-}
-
-.profile-icon {
-  width: 27px;
-}
-
 .save-icon {
   width: 16px;
 }

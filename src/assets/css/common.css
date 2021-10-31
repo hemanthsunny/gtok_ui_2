@@ -1,6 +1,8 @@
 :root {
   --color-white: #fff;
+  --color-white-600: #d5d5d5;
   --color-black: #000;
+  --color-black-400: #2b2b2b;
   --color-gray-100: #f7f8fa;
   --color-gray-200: #f1f2f5;
   --color-gray-300: #e4e6eb;
@@ -34,6 +36,8 @@
   --color-green-400: #3dd48a;
   --color-green-500: #36ba79;
   --color-green-600: #1f6e48;
+  --color-pink-100: #e7c1ff;
+  --color-pink-400: #cb76ff;
   --color-primary-100: var(--color-blue-100);
   --color-primary-200: var(--color-blue-200);
   --color-primary-300: var(--color-blue-300);
@@ -139,6 +143,14 @@
   color: #000 !important;
 }
 
+.text-gray-6 {
+  color: var(--color-gray-600)
+}
+
+.fs-10 {
+  font-size: 10px !important;
+}
+
 .fs-16 {
   font-size: 16px !important;
 }
@@ -159,6 +171,42 @@
   font-size: 24px !important;
 }
 
+.fw-100 {
+  font-weight: 100 !important;
+}
+
+.fw-200 {
+  font-weight: 200 !important;
+}
+
+.fw-300 {
+  font-weight: 300 !important;
+}
+
+.fw-400 {
+  font-weight: 400 !important;
+}
+
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+.fw-700 {
+  font-weight: 700 !important;
+}
+
+.fw-800 {
+  font-weight: 800 !important;
+}
+
+.fw-900 {
+  font-weight: 900 !important;
+}
+
 .btn-violet {
   color: var(--color-white) !important;
   background-color: var(--color-violet-400)!important;
@@ -169,8 +217,18 @@
   border-color: var(--color-violet-400)!important;
 }
 
+.btn-violet-rounded {
+  color: var(--color-white) !important;
+  background-color: var(--color-violet-400)!important;
+  border-radius: var(--spacing-32) !important;
+}
+
 .text-capitalize {
   text-transform: capitalize !important;
+}
+
+.text-violet {
+  color: var(--color-violet-400);
 }
 
 .pointer {
@@ -184,37 +242,6 @@ a {
 input[type="text"], textarea {
   outline: none !important;
   box-shadow: none !important;
-}
-
-/* Custom image */
-.custom-image {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.custom-image-text {
-  width: var(--spacing-40);
-  height: var(--spacing-40);
-  border-radius: 50%;
-  color: var(--color-white);
-  background-color: var(--color-violet-400);
-  font-size: var(--font-size-big);
-  padding-top: var(--spacing-8);
-  text-align: center;
-}
-
-.custom-image.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-}
-
-.custom-image-text.-lg {
-  width: var(--spacing-64);
-  height: var(--spacing-64);
-  font-size: var(--font-size-bigger);
-  padding-top: var(--spacing-16);
 }
 
 /* Dashboard header - >576px */
@@ -255,18 +282,76 @@ input[type="text"], textarea {
 
 .tab-item.-active {
   color: var(--color-text);
-  box-shadow: inset 0 -0.125rem 0 var(--color-violet-400);
+  border-bottom: 3px solid var(--color-black-400);
+  border-radius: 2px;
+  /* box-shadow: inset 0 -0.125rem 0 var(--color-black-400); */
 }
 
 /* Dashboard content - >576px */
 .dashboard-content {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-white);
   min-height: 100vh;
 }
 
 /* Hide emulator warning locally */
 .firebase-emulator-warning {
   display: none;
+}
+
+.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('assets/svgs/Loader.svg') 50% 50% no-repeat;
+  background-size: 50px 50px;
+  animation: rotate360 2s infinite;
+}
+
+/* Toastify overriding colors */
+.Toastify__toast.Toastify__toast-theme--light.Toastify__toast--success,
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  /* background-color: var(--color-violet-400) !important; */
+}
+
+.Toastify__close-button {
+  color: var(--color-white) !important;
+}
+
+.Toastify--animate-icon {
+  display: none !important;
+}
+
+.Toastify__toast--success {
+  background: var(--color-violet-400) !important;
+}
+
+.Toastify__toast--warning {
+  background: var(--color-yellow-400) !important;
+}
+
+.Toastify__toast--error {
+  background: var(--color-red-400) !important;
+}
+
+.toast-progress {
+  background-color: var(--color-white) !important;
+}
+
+.toast-body {
+  text-align: center;
+  color: var(--color-white) !important;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 576px) {
@@ -297,11 +382,13 @@ input[type="text"], textarea {
 
 @media (min-width: 576px) {
   .dashboard-content {
-    margin-left: 16.25rem;
+    /* margin-left: 16.25rem; */
+    margin: 0px auto;
+    max-width: 70vw
   }
 
   .dashboard-content .desktop-align-center {
-    margin-top: var(--spacing-32);
+    margin-top: var(--spacing-80) !important;
     padding: var(--spacing-16);
     background-color: var(--color-white);
     width: 40vw !important;
@@ -309,5 +396,19 @@ input[type="text"], textarea {
 
   .tabs.-big {
     height: calc(var(--spacing-64) + 0.0625rem);
+  }
+
+  .fixed-top-lg {
+    top: 48px !important;
+    max-width: 50vw !important;
+    margin: 0px auto !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .dashboard-content {
+    /* margin-left: 16.25rem; */
+    margin: 0px auto;
+    max-width: 50vw
   }
 }

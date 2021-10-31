@@ -13,6 +13,7 @@ import chatbotMessages from './ChatbotMessages'
 import purchaseOrders from './PurchaseOrders'
 import wallet from './Wallets'
 import prices from './Prices'
+import transactions from './Transactions'
 
 export default combineReducers({
   subscriptionPlans,
@@ -28,5 +29,6 @@ export default combineReducers({
   chatbotMessages,
   purchaseOrders,
   wallet,
-  prices
+  prices,
+  transactions
 })

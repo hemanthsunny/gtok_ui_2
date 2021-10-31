@@ -56,14 +56,14 @@ class ParentComponent extends Component {
 
   handleGesture = (e) => {
     if (this.state.touchStart - this.state.touchEnd < -150) {
-      this.props.history.push('/app/posts')
+      this.props.history.push('/app/assets')
     }
   }
 
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
-        <Link to='/app/posts' className='tab-item'>Feelings</Link>
+        <Link to='/app/assets' className='tab-item'>Feelings</Link>
         <Link to='/app/activities' className='tab-item -active'>Activities</Link>
       </div>
     </div>

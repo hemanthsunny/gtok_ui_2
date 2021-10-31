@@ -1,0 +1,17 @@
+.navbar-linear-violet {
+  background: linear-gradient(180deg, #6930DB -49.99%, #FFB47E 208.18%);
+  border-radius: 0 0 1rem 1rem;
+  min-height: var(--spacing-48);
+  padding-left: var(--spacing-24);
+}
+
+.navbar-linear-violet .go-back-icon {
+  width: var(--spacing-16);
+  height: var(--spacing-16);
+}
+
+.navbar-linear-violet .navbar-brand {
+  color: var(--color-white);
+  font-size: var(--font-size-big) !important;
+  font-weight: 500 !important;
+}

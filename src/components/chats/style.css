@@ -1,0 +1,86 @@
+/* header css */
+a.chat-active {
+  background-color: var(--color-white);
+  border-radius: 50% 50% 0 0;
+  padding: 0.85rem !important;
+  position: relative;
+  top: 3px;
+  /* -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 10px, transparent 20px, black 21px); */
+}
+
+a.chat-active::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  bottom: 2px;
+  left: -25px;
+  height: 35px;
+  width: 25px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 9px 0 0 var(--color-white);
+  z-index: -99;
+}
+
+a.chat-active::after {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  bottom: 2px;
+  right: -25px;
+  height: 35px;
+  width: 25px;
+  border-bottom-left-radius: 20px;
+  box-shadow: -5px 9px 0 0 var(--color-white);
+  z-index: -99;
+}
+
+/* body */
+.conversation-list {
+  list-style-type: none;
+}
+
+.conversation-list li {
+  font-size: var(--font-size);
+  transition: all 0.35s;
+  cursor: pointer;
+}
+
+.conversation-list li:hover {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.conversation-list li.active {
+  background-color: rgba(200, 200, 200, 0.5);
+}
+
+.new-chat {
+  position: fixed;
+  bottom: 4vh;
+  right: 6vw;
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: var(--color-violet-400);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.new-chat .icon-chat {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  top: var(--spacing-12);
+  left: var(--spacing-1);
+}
+
+.request-note {
+  position: fixed;
+  bottom: 0px;
+  background-color: var(--color-violet-100);
+  margin: 0 auto;
+  font-size: var(--font-size);
+  padding: var(--spacing-12);
+  text-align: center;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
+}

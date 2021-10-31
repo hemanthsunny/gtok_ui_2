@@ -17,7 +17,7 @@ const SidebarComponent = ({ currentUser }) => {
             </div>
           </div>
         </Link>
-        <Link to='/app/create_post' className='nav-link -sm'>
+        <Link to='/app/create_asset' className='nav-link -sm'>
           <img src={require('assets/svgs/Plus.svg').default} className='static-avatar' alt='Edit' />
           <div className='static-text'>
             Create Post

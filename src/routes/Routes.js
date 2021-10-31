@@ -12,18 +12,20 @@ import {
   DisplayComponent,
   PaymentsComponent,
   SearchComponent,
-  SearchRequestsComponent,
+  PendingRequestsComponent,
   SearchFollowersComponent,
   SearchFollowingComponent,
   ForgotPasswordComponent,
   DeleteProfileComponent,
   ErrorComponent,
   CreateChatComponent,
+  CreateChatLayerComponent,
   SupportComponent,
   ChatsComponent,
   ShowChatComponent,
   CreatePostComponent,
   CreateActivityComponent,
+  ResharePostComponent,
   SettingsComponent,
   PermissionsComponent,
   ChangePasswordComponent,
@@ -37,12 +39,18 @@ import {
   PaymentCardsComponent,
   AddPaymentCardComponent,
   WalletComponent,
+  WalletSettingsComponent,
   AddPriceComponent,
-  UnlockProfileComponent,
+  TradePostComponent,
   PurchaseOrdersComponent,
   ShowPostComponent,
   ShowOpenPostsComponent,
-  ShowOpenActivitiesComponent
+  ShowOpenActivitiesComponent,
+  ChangePasscodeComponent,
+  WalletRechargeComponent,
+  WalletWithdrawComponent,
+  InviteFriendsComponent,
+  ShowTransactionComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -50,7 +58,7 @@ const LandingComponent = () => {
   if (!token) {
     return (<Redirect to="/login" />)
   }
-  return (<Redirect to="/app/posts" />)
+  return (<Redirect to="/app/assets" />)
 }
 
 export const Routes = (props) => {
@@ -63,6 +71,7 @@ export const Routes = (props) => {
           <Route path="/login" component={LoginComponent} />
           <Route path="/logout" component={LogoutComponent} />
           <Route exact path="/signup" component={SignupComponent} />
+          <Route exact path="/signup/:username" component={SignupComponent} />
           <Route exact path="/signup_success" component={SignupSuccessComponent} />
           <Route exact path="/forgot_password" component={ForgotPasswordComponent} />
           <Route exact path="/profile_deleted" component={DeleteProfileComponent} />
@@ -71,18 +80,20 @@ export const Routes = (props) => {
           <Route exact path="/activities" component={ShowOpenActivitiesComponent} />
           <AuthRoute exact path="/app" component={LandingComponent} />
           <AuthRoute exact path="/app/alerts" component={AlertsComponent} />
-          <AuthRoute exact path="/app/create_post" component={CreatePostComponent} />
+          <AuthRoute exact path="/app/create_asset" component={CreatePostComponent} />
+          <AuthRoute exact path="/app/reshare_asset" component={ResharePostComponent} />
           <AuthRoute exact path="/app/create_activity" component={CreateActivityComponent} />
-          <AuthRoute exact path="/app/posts" component={ShowPostsComponent} />
-          <AuthRoute exact path="/app/posts/:post_id" component={ShowPostComponent} />
+          <AuthRoute exact path="/app/assets" component={ShowPostsComponent} />
+          <AuthRoute exact path="/app/assets/:post_id" component={ShowPostComponent} />
           <AuthRoute exact path="/app/activities" component={ShowActivitiesComponent} />
           <AuthRoute exact path="/app/profile" component={ProfileComponent} />
-          <AuthRoute exact path="/app/profile/:user_id" component={ProfileComponent} />
+          <AuthRoute exact path="/app/profile/:username" component={ProfileComponent} />
           <AuthRoute exact path="/app/profile/:user_id/posts" component={ShowUserPostsComponent} />
           <AuthRoute exact path="/app/profile/:user_id/activities" component={ShowUserActivitiesComponent} />
-          <AuthRoute exact path="/app/profile/:user_id/unlock_profile" component={UnlockProfileComponent} />
+          <AuthRoute exact path="/app/trade/:post_id" component={TradePostComponent} />
           <AuthRoute exact path="/app/profile/:user_id/add_price" component={AddPriceComponent} />
-          <AuthRoute exact path="/app/profile/:user_id/wallet" component={WalletComponent} />
+          <AuthRoute exact path="/app/wallet" component={WalletComponent} />
+          <AuthRoute exact path="/app/wallet_settings" component={WalletSettingsComponent} />
           {/* <AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} /> */}
           <AuthRoute exact path="/app/settings" component={SettingsComponent} />
           <AuthRoute exact path="/app/settings/edit_profile" component={EditProfileComponent} />
@@ -93,15 +104,21 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/settings/add_payment_card" component={AddPaymentCardComponent} />
           <AuthRoute exact path="/app/payments" component={PaymentsComponent} />
           <AuthRoute exact path="/app/search" component={SearchComponent} />
-          <AuthRoute exact path="/app/search/requests" component={SearchRequestsComponent} />
-          <AuthRoute exact path="/app/search/following" component={SearchFollowingComponent} />
-          <AuthRoute exact path="/app/search/followers" component={SearchFollowersComponent} />
+          <AuthRoute exact path="/app/requests" component={PendingRequestsComponent} />
+          <AuthRoute exact path="/app/following" component={SearchFollowingComponent} />
+          <AuthRoute exact path="/app/followers" component={SearchFollowersComponent} />
           <AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
           <AuthRoute exact path="/app/chats" component={ChatsComponent} />
           <AuthRoute exact path="/app/chats/:id" component={ShowChatComponent} />
-          <AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
+          <AuthRoute exact path="/app/chats/new/:id" component={CreateChatLayerComponent} />
+          <AuthRoute exact path="/app/new_chat" component={CreateChatComponent} />
           <AuthRoute exact path="/app/support" component={SupportComponent} />
           <AuthRoute exact path="/app/challenges" component={ChallengesComponent} />
+          <AuthRoute exact path="/app/change_passcode" component={ChangePasscodeComponent} />
+          <AuthRoute exact path="/app/recharge" component={WalletRechargeComponent} />
+          <AuthRoute exact path="/app/withdraw" component={WalletWithdrawComponent} />
+          <AuthRoute exact path="/app/transactions/:id" component={ShowTransactionComponent} />
+          <AuthRoute exact path="/app/invite_friends" component={InviteFriendsComponent} />
           <Redirect to="/" />
         </Switch>
       </AnimatePresence>
