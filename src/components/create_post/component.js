@@ -140,6 +140,7 @@ const ParentComponent = (props) => {
       postData = Object.assign(postData, {
         stories: sharePost.stories,
         category,
+        anonymous,
         tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })
@@ -158,6 +159,7 @@ const ParentComponent = (props) => {
         followersCount: 0,
         category,
         timestamp,
+        anonymous,
         tradePrice: tradePost ? tradePrice : 0,
         ...opts
       })

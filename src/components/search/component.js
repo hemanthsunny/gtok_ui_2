@@ -8,18 +8,30 @@ import HeaderComponent from './header'
 import SearchUserComponent from './user/component'
 import { MobileFooterComponent } from 'components'
 import { SetAllUsers } from 'store/actions'
+import { getQuery, firestore } from 'firebase_config'
 
 const SearchComponent = ({
   currentUser, allUsers, bindAllUsers, relations, newAlertsCount, newMessagesCount, pendingRelationsCount
 }) => {
   const [searchVal, setSearchVal] = useState('')
   const [users, setUsers] = useState(allUsers)
-  const priorityUsers = allUsers.filter(u => u.priority === 'high')
+  const [priorityUsers, setPriorityUsers] = useState('')
 
   useEffect(() => {
     if (!allUsers[0]) {
       if (currentUser.admin) bindAllUsers(currentUser, 'all')
       else bindAllUsers(currentUser, 'all')
+    }
+
+    async function getPriorityUsers () {
+      const pusers = await getQuery(
+        firestore.collection('users').where('priority', '==', 'high').get()
+      )
+      setPriorityUsers(pusers)
+    }
+
+    if (!priorityUsers) {
+      getPriorityUsers()
     }
   }, [currentUser, allUsers, bindAllUsers, relations])
 

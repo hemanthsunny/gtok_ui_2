@@ -112,7 +112,12 @@ class PostsComponent extends Component {
           {
             this.state.posts[0]
               ? this.state.posts.map((post, idx) => {
+                /* Donot show anonymous assets to other users on profile page */
                 if (post.anonymous && post.userId !== this.props.currentUser.id) {
+                  return (<div key={idx}></div>)
+                }
+                /* Donot show hidden assets to other users on profile page */
+                if (!post.active && post.userId !== this.props.currentUser.id) {
                   return (<div key={idx}></div>)
                 }
                 if (post.resharePostId) {

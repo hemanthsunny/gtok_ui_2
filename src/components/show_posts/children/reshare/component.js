@@ -5,7 +5,7 @@ import moment from 'moment'
 import './style.css'
 
 import { getId } from 'firebase_config'
-import PostComponent from 'components/show_posts/children/post/component'
+import PostComponent from '../post/component'
 import { CustomImageComponent } from 'components'
 
 const ParentComponent = ({
@@ -13,26 +13,36 @@ const ParentComponent = ({
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [resharePost, setResharePost] = useState('')
+  const [resharePostUser, setResharePostUser] = useState('')
   const history = useHistory()
 
   useEffect(() => {
-    async function getPostedUser (p) {
-      let result = allUsers.find(user => user.id === p.userId)
+    async function getPostedUser () {
+      let result = allUsers.find(user => user.id === post.userId)
       if (!result) {
-        result = await getId('users', p.userId)
+        result = await getId('users', post.userId)
       }
-      result.id = p.userId
+      result.id = post.userId
       setPostedUser(result)
     }
     // if (!postedUser) {
     //   getPostedUser()
     // }
+    async function getResharePostUser (p) {
+      let result = allUsers.find(user => user.id === p.userId)
+      if (!result) {
+        result = await getId('users', p.userId)
+      }
+      result.id = p.userId
+      setResharePostUser(result)
+    }
 
     async function getResharePost () {
       const result = await getId('posts', post.resharePostId)
       result.id = post.resharePostId
       setResharePost(result)
-      getPostedUser(result)
+      getPostedUser()
+      getResharePostUser(result)
     }
     if (!resharePost) {
       getResharePost()
@@ -57,8 +67,8 @@ const ParentComponent = ({
           <div className='mt-2'>
             {resharePost.stories[0].text}
           </div>
-          <div className='mt-2 author text-violet' onClick={redirectToProfile}>
-            @{postedUser.username}
+          <div className='mt-2 author text-violet'>
+            {resharePost.anonymous ? <span>@anonymous</span> : <span onClick={redirectToProfile}>@{resharePostUser.username}</span>}
           </div>
         </div>
         {
