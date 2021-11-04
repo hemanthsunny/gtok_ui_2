@@ -38,7 +38,7 @@ const DetailComponent = ({
               {resharePost.stories[0].text}
               </p>
               <div className='author text-violet'>
-                @{resharePostUser.username}
+                {resharePost.anonymous ? <span>@anonymous</span> : <span>@{resharePostUser.username}</span>}
               </div>
               <hr />
             </div>
@@ -63,13 +63,17 @@ const DetailComponent = ({
         <div className='card-footer'>
           {anonymous ? <span className='author'>@anonymous</span> : <span className='author'>@{currentUser.username}</span>}
           <div className='edit-options'>
-            <button className='btn btn-link btn-heart' onClick={handleAnonymousChange}>
-              {
-                anonymous
-                  ? <img className='icon-heart icon-heart' src={require('assets/svgs/EyeballClosed.svg').default} alt="1" />
-                  : <img className='icon-heart icon-heart' src={require('assets/svgs/Eyeball.svg').default} alt="1" />
-              }
-            </button>
+            {
+              createResharePost
+                ? <div className='mb-4 pb-2'></div>
+                : <button className='btn btn-link btn-heart' onClick={handleAnonymousChange}>
+                  {
+                    anonymous
+                      ? <img className='icon-heart icon-heart' src={require('assets/svgs/EyeballClosed.svg').default} alt="1" />
+                      : <img className='icon-heart icon-heart' src={require('assets/svgs/Eyeball.svg').default} alt="1" />
+                  }
+                </button>
+            }
           </div>
         </div>
       </div>

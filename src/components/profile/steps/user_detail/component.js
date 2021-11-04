@@ -106,7 +106,7 @@ function Component (props) {
     if (isAdminUser) {
       history.push('/app/followers')
     } else {
-      const htmlElement = () => <div><small>You cannot see @{user.username} followers</small></div>
+      const htmlElement = () => <div>You cannot see @{user.username} followers</div>
       toast.error(htmlElement)
     }
   }
@@ -115,7 +115,7 @@ function Component (props) {
     if (isAdminUser) {
       history.push('/app/following')
     } else {
-      const htmlElement = () => <div><small>You cannot see @{user.username} followers</small></div>
+      const htmlElement = () => <div>You cannot see @{user.username} followers</div>
       toast.error(htmlElement)
     }
   }
