@@ -80,19 +80,21 @@ const PostComponent = ({
     } else {
       $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgUnfollow')
       await update('posts', displayPost.id, { followers: arrayRemove(currentUser.id), followersCount: displayPost.followers.length - 1 })
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} removed pinch for your asset`,
-        photoURL: currentUser.photoURL,
-        receiverId: '',
-        userId: currentUser.id,
-        actionType: 'update',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'followers',
-        actionLink: '/app/assets/' + displayPost.id,
-        timestamp
-      })
+      if (currentUser.id !== postedUser.id) {
+        /* Log the activity */
+        await add('logs', {
+          text: `${currentUser.displayName} removed pinch for your asset`,
+          photoURL: currentUser.photoURL,
+          receiverId: '',
+          userId: currentUser.id,
+          actionType: 'update',
+          collection: 'posts',
+          actionId: displayPost.id,
+          actionKey: 'followers',
+          actionLink: '/app/assets/' + displayPost.id,
+          timestamp
+        })
+      }
       setFollower(false)
     }
     await getUpdatedPost(displayPost.id)
