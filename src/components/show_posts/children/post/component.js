@@ -278,7 +278,7 @@ const PostComponent = ({
               }
               </div>
               <div className='card-footer'>
-                {displayPost.anonymous ? <span className='author'>@Anonymous</span> : <span className='author pointer' onClick={redirectToProfile}>@{postedUser.username}</span>}
+                {displayPost.anonymous ? <span className='author'>@anonymous</span> : <span className='author pointer' onClick={redirectToProfile}>@{postedUser.username}</span>}
                 <div className={`edit-options ${hideEditOptions && 'd-none'}`}>
                   <button className='btn btn-link btn-heart pr-0' onClick={e => followPost(e)}>
                     {

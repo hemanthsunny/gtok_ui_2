@@ -82,7 +82,7 @@ const ParentComponent = (props) => {
     })
 
     let result
-    if (sharePost.resharePostId) {
+    if (sharePost.resharePostId && sharePost.id === currentUser.id) {
       result = await update('posts', sharePost.id, {
         stories: [{
           text: capitalizeFirstLetter(postText.trim())
