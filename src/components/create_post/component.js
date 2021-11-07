@@ -212,7 +212,7 @@ const ParentComponent = (props) => {
         text: logText,
         photoURL: currentUser.photoURL,
         userId: currentUser.id,
-        actionLink: `/app/assets/${res.path.replace('posts/')}`,
+        actionLink: `/app/assets/${res.path.replace('posts/', '')}`,
         unread: true,
         timestamp
       })
