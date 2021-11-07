@@ -72,7 +72,6 @@ class ParentComponent extends Component {
       alerts,
       loading: false
     })
-    console.log('alerts', alerts)
     await this.props.bindAlerts(this.props.currentUser, 'none', alerts)
   }
 

@@ -7,6 +7,7 @@ import './style.css'
 import { getId } from 'firebase_config'
 import PostComponent from '../post/component'
 import { CustomImageComponent } from 'components'
+import { hideCurrentYear } from 'helpers'
 
 const ParentComponent = ({
   currentUser, post, allUsers, handleFilters
@@ -62,7 +63,7 @@ const ParentComponent = ({
         <div className='card-body pb-3'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
             <span className='card-badge' onClick={e => handleFilters('selected', resharePost.category.title)}>{resharePost.category && resharePost.category.title}</span>
-            <div className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {moment(resharePost.createdAt).format('D MMM \'YY')}</div>
+            <div className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {hideCurrentYear(resharePost.createdAt)}</div>
           </div>
           <div className='mt-2'>
             {resharePost.stories[0].text}

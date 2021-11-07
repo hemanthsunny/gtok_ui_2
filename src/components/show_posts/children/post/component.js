@@ -16,7 +16,7 @@ import {
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
 import SliderComponent from '../slider/component'
-import { convertTextToLink } from 'helpers'
+import { convertTextToLink, hideCurrentYear } from 'helpers'
 
 const PostComponent = ({
   currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet, handleFilters
@@ -220,7 +220,7 @@ const PostComponent = ({
                   <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
                   </span>
-                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {hideCurrentYear(displayPost.createdAt)}</span>
                 </div>
                 <div className='clearfix'></div>
                 {
