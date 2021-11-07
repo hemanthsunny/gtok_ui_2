@@ -62,7 +62,7 @@ const ParentComponent = ({
       <div className='card reshare-post-card-wrapper'>
         <div className='card-body pb-3'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
-            <span className='card-badge' onClick={e => handleFilters('selected', resharePost.category.title)}>{resharePost.category && resharePost.category.title}</span>
+            <span className={`card-badge ${!post.active && 'hidden'}`} onClick={e => handleFilters('selected', resharePost.category.title)}>{resharePost.category && resharePost.category.title}</span>
             <div className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {hideCurrentYear(resharePost.createdAt)}</div>
           </div>
           <div className='mt-2'>
