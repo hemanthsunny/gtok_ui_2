@@ -10,7 +10,7 @@ import { CustomImageComponent } from 'components'
 import { hideCurrentYear } from 'helpers'
 
 const ParentComponent = ({
-  currentUser, post, allUsers, handleFilters
+  currentUser, post, allUsers, handleFilters, handleResharePostUser
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [resharePost, setResharePost] = useState('')
@@ -36,6 +36,8 @@ const ParentComponent = ({
       }
       result.id = p.userId
       setResharePostUser(result)
+      /* Pass resharePostUser to share options popup */
+      handleResharePostUser && handleResharePostUser(result)
     }
 
     async function getResharePost () {

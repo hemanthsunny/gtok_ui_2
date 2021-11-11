@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import './style.css'
 
-const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }) => {
+const ShareOptionsComponent = ({ currentUser, resharePostUser, sharePost, sharePost: displayPost }) => {
   const history = useHistory()
 
   const resharePost = async (post, idx) => {
@@ -35,7 +35,7 @@ const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost 
               <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
             </div>
             <ul className='menu-list'>
-              <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} onClick={e => resharePost()}>
+              <li className={`menu-item ${((displayPost.userId === currentUser.id) || (resharePostUser && resharePostUser.id === currentUser.id)) && 'd-none'}`} onClick={e => resharePost()}>
                 Reshare
               </li>
               <li className='menu-item' data-toggle='modal' data-target='#createChatModal' onClick={e => closeModal()}>Send to...</li>
