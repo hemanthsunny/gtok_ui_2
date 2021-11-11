@@ -13,7 +13,7 @@
 }
 
 .post-card-wrapper.hidden {
-  background: linear-gradient(180deg, #9A9A9A 62.98%, #E4E4E4 102.49%);  
+  background: linear-gradient(180deg, #9A9A9A 62.98%, #959595 102.49%);
 }
 
 .post-card-wrapper.add-filter {
@@ -43,7 +43,7 @@
 }
 
 .post-card-wrapper .card-badge.hidden {
-  background-color: #7E7285;
+  background-color: #959595;
 }
 
 .post-card-wrapper .card-amount .currency-text {

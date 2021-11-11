@@ -116,10 +116,10 @@ const MenuOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost, 
               <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
             </div>
             <ul className='menu-list'>
-              <li className='menu-item' onClick={e => shareTo()}>
+              <li className={`menu-list ${!displayPost.active && 'd-none'}`} onClick={e => shareTo()}>
                 Share to...
               </li>
-              <li className='menu-item' onClick={e => copyLink()}>
+              <li className={`menu-list ${!displayPost.active && 'd-none'}`} onClick={e => copyLink()}>
                 Copy link
               </li>
               <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} data-toggle='modal' data-target='#reportPostModal' onClick={e => closeModal()}>Report</li>
