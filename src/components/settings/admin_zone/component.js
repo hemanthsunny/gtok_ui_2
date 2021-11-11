@@ -54,6 +54,27 @@ function AdminZoneComponent ({ currentUser }) {
     setLoading(false)
   }
 
+  const updateRelationshipStatus = async () => {
+    setLoading(true)
+    const result = await get('userRelationships')
+    await result.map(async (rln, idx) => {
+      let status
+      if (!rln.status && rln.status !== null) {
+        status = 'pending'
+      } else if (rln.status && rln.status === 1) {
+        status = 'followed'
+      } else if (rln.status && rln.status === 2) {
+        status = 'declined'
+      } else if (rln.status && rln.status === 3) {
+        status = 'blocked'
+      }
+      if (status && rln.status !== null) {
+        await firestore.collection('userRelationships').doc(rln.id).update({ status })
+      }
+    })
+    setLoading(false)
+  }
+
   return (
     <div className='section'>
       <div className='section-header'>Admin zone { loading && <i className='fa fa-spin fa-spinner'></i> }</div>
@@ -69,6 +90,13 @@ function AdminZoneComponent ({ currentUser }) {
           <div className='d-flex flex-row align-items-center justify-content-between'>
             <span className='option-name' htmlFor="customSwitch1" onClick={mergePosts}>
               Merge feelings and activities
+            </span>
+          </div>
+        </li>
+        <li>
+          <div className='d-flex flex-row align-items-center justify-content-between'>
+            <span className='option-name' htmlFor="customSwitch1" onClick={updateRelationshipStatus}>
+              Update relationship statuses
             </span>
           </div>
         </li>
