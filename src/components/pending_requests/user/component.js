@@ -30,11 +30,11 @@ const PendingUserComponent = ({
     <div className='search-user col-12 my-2 my-md-3'>
       <div className='p-0'>
         <div className='media profile-user'>
-          <Link to={'/app/profile/' + displayUser.id}>
+          <Link to={`/app/profile/${displayUser.username}`}>
             <CustomImageComponent user={displayUser} />
           </Link>
           <div className='media-body media-middle pl-3'>
-            <Link className='username' to={'/app/profile/' + displayUser.id}>
+            <Link className='username' to={`/app/profile/${displayUser.username}`}>
               @{displayUser.username}<br/>
               <span className='actual-name'>{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || 'No name'}</span>
              </Link>

@@ -42,8 +42,10 @@ const SearchUserComponent = ({ displayUser, currentUser, relations, bindRelation
     )
     if (rlns[0]) setFollower(rlns[0].status)
     setIsFollowerLoading(false)
-    if (res.status === 200 && status === 'follow') {
+    if (res.status === 200 && status === 'follow' && displayUser.private) {
       toast.success('Follow request sent')
+    } else if (res.status === 200 && status === 'follow' && !displayUser.private) {
+      toast.success('Following successfully')
     } else if (res.status === 200 && status === 'cancel_request') {
       toast.success('Follow request canceled')
     } else {
