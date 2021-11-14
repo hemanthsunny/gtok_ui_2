@@ -90,8 +90,17 @@ const ParentComponent = (props) => {
       })
     } else {
       result = await add('posts', postData)
+      // Alert actual user when an asset is reshared
+      await add('logs', {
+        text: `@${currentUser.username} reshared your asset`,
+        receiverId: props.resharePostUser.id,
+        photoURL: currentUser.photoURL,
+        userId: currentUser.id,
+        actionLink: `/app/assets/${result.data.path.replace('posts/', '')}`,
+        unread: true,
+        timestamp
+      })
     }
-    // When a new post added, alert all followers
     await sendAlertsToFollowers(result.data, postData)
     bindNewPost(currentUser)
     /* Log the activity */
@@ -212,7 +221,7 @@ const ParentComponent = (props) => {
         text: logText,
         photoURL: currentUser.photoURL,
         userId: currentUser.id,
-        actionLink: `/app/assets/${res.path.replace('posts/')}`,
+        actionLink: `/app/assets/${res.path.replace('posts/', '')}`,
         unread: true,
         timestamp
       })

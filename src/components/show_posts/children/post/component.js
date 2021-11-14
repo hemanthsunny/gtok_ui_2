@@ -16,7 +16,7 @@ import {
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
 import { NotificationComponent, CustomImageComponent } from 'components'
 import SliderComponent from '../slider/component'
-import { convertTextToLink } from 'helpers'
+import { convertTextToLink, hideCurrentYear } from 'helpers'
 
 const PostComponent = ({
   currentUser, post, bindPosts, hideSimilarityBtn = false, bindSharePost, hideShareBtn = false, hideRedirects = false, allUsers, bindUpdatedPost, transactions, reshare = false, hideEditOptions, post: displayPost, wallet, handleFilters
@@ -80,19 +80,21 @@ const PostComponent = ({
     } else {
       $(`.icon-heart-${displayPost.id}`).addClass('scaleInImgUnfollow')
       await update('posts', displayPost.id, { followers: arrayRemove(currentUser.id), followersCount: displayPost.followers.length - 1 })
-      /* Log the activity */
-      await add('logs', {
-        text: `${currentUser.displayName} removed pinch for your asset`,
-        photoURL: currentUser.photoURL,
-        receiverId: '',
-        userId: currentUser.id,
-        actionType: 'update',
-        collection: 'posts',
-        actionId: displayPost.id,
-        actionKey: 'followers',
-        actionLink: '/app/assets/' + displayPost.id,
-        timestamp
-      })
+      if (currentUser.id !== postedUser.id) {
+        /* Log the activity */
+        await add('logs', {
+          text: `${currentUser.displayName} removed pinch for your asset`,
+          photoURL: currentUser.photoURL,
+          receiverId: '',
+          userId: currentUser.id,
+          actionType: 'update',
+          collection: 'posts',
+          actionId: displayPost.id,
+          actionKey: 'followers',
+          actionLink: '/app/assets/' + displayPost.id,
+          timestamp
+        })
+      }
       setFollower(false)
     }
     await getUpdatedPost(displayPost.id)
@@ -194,7 +196,7 @@ const PostComponent = ({
           : <CustomImageComponent user={postedUser} size='sm' />
         }
       </div>
-      <div className={`card post-card-wrapper ${reshare ? 'reshare-box' : 'add-filter'}`}>
+      <div className={`card post-card-wrapper ${reshare ? 'reshare-box' : 'add-filter'} ${!displayPost.active && 'hidden'} `}>
         {
           result.status && <NotificationComponent result={result} setResult={setResult} />
         }
@@ -214,13 +216,13 @@ const PostComponent = ({
                   }
                   {
                     displayPost.category
-                      ? <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
-                      : <span className='card-badge' onClick={e => handleFilters && handleFilters('selected', 'Same Pinch')}>Same Pinch</span>
+                      ? <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
+                      : <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', 'Same Pinch')}>Same Pinch</span>
                   }
                   <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
                   </span>
-                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {moment(displayPost.createdAt).format('D MMM \'YY')}</span>
+                  <span className='created-at'>{moment(displayPost.createdAt).format('h:mm a')} &middot; {hideCurrentYear(displayPost.createdAt)}</span>
                 </div>
                 <div className='clearfix'></div>
                 {

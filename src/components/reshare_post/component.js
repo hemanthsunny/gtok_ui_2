@@ -17,6 +17,7 @@ const ParentComponent = (props) => {
   useEffect(() => {
     async function getResharePostUser (post) {
       const res = await getId('users', post.userId)
+      res.id = post.userId
       setResharePostUser(res)
     }
 

@@ -5,8 +5,15 @@
   border: 0 !important;
   border-radius: 7px !important;
   font-size: var(--font-size);
-  background: linear-gradient(180deg, rgba(194, 95, 255, 0.6) 68.68%, #FFB47E 111.32%);
   backdrop-filter: blur(45.7534px);
+}
+
+.post-card-wrapper {
+  background: linear-gradient(180deg, rgba(194, 95, 255, 0.6) 68.68%, #FFB47E 111.32%);
+}
+
+.post-card-wrapper.hidden {
+  background: linear-gradient(180deg, #9A9A9A 62.98%, #959595 102.49%);
 }
 
 .post-card-wrapper.add-filter {
@@ -33,6 +40,10 @@
   padding: 0.25rem 0.7rem;
   border-radius: 1.5rem;
   cursor: pointer;
+}
+
+.post-card-wrapper .card-badge.hidden {
+  background-color: #959595;
 }
 
 .post-card-wrapper .card-amount .currency-text {

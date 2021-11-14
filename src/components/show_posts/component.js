@@ -150,6 +150,12 @@ class ParentComponent extends Component {
     this.loadPosts()
   }
 
+  handleResharePostUser = (user) => {
+    this.setState({
+      resharePostUser: user
+    })
+  }
+
   subHeader = () => (
     <div className='dashboard-tabs' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -195,7 +201,7 @@ class ParentComponent extends Component {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {
                       return (
-                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx} handleFilters={this.handleFilters}/>
+                        <ResharePostComponent currentUser={this.props.currentUser} post={post} key={idx} handleFilters={this.handleFilters} handleResharePostUser={this.handleResharePostUser}/>
                       )
                     }
                     return post.stories && (
@@ -213,7 +219,7 @@ class ParentComponent extends Component {
               </div>
               <MobileFooterComponent currentUser={this.props.currentUser} />
               <MenuOptionsComponent currentUser={this.props.currentUser} loadPosts={this.loadPosts} />
-              <ShareOptionsComponent currentUser={this.props.currentUser} />
+              <ShareOptionsComponent currentUser={this.props.currentUser} resharePostUser={this.state.resharePostUser} />
               <ReportPostComponent currentUser={this.props.currentUser} />
               <CreateChatComponent currentUser={this.props.currentUser} sendTo={true}/>
           </div>

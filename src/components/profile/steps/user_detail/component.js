@@ -124,6 +124,12 @@ function Component (props) {
     history.push(`/app/chats/new/${userId}`)
   }
 
+  const loaderComponent = () => (
+    <div className='spinner-border spinner-border-sm' role='loading'>
+      <span className='sr-only'>Loading...</span>
+    </div>
+  )
+
   return (
     <div className='profile-wrapper'>
       <div className='container'>
@@ -161,9 +167,6 @@ function Component (props) {
         {
           user.bio && <p className='profile-bio'>{user.bio}</p>
         }
-        {
-          isFollowerLoading && <i className='fa fa-spinner fa-spin'></i>
-        }
       </div>
       {
         isAdminUser &&
@@ -176,7 +179,9 @@ function Component (props) {
       {
         !isAdminUser && follower.status === 1 &&
           <div className='text-center'>
-            <div className='btn btn-custom col-4 mr-2' onClick={unfollow}>Following</div>
+            <div className='btn btn-custom col-4 mr-2' onClick={unfollow}>
+              { isFollowerLoading ? loaderComponent() : 'Following' }
+            </div>
             <div className='btn btn-violet col-2 d-none'></div>
             <div className='btn btn-custom col-4 ml-2' onClick={msgUser}>Message</div>
           </div>
@@ -186,8 +191,14 @@ function Component (props) {
           <div className='text-center'>
             <div className='btn btn-custom col-1 d-none'></div>
             <div className='btn btn-custom col-7 mr-1' onClick={e => relationStatus('cancel_request')}>
-              Request sent &nbsp;
-              <img className='icon-request-sent' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" />
+              {
+                isFollowerLoading
+                  ? loaderComponent()
+                  : <div>
+                    Request sent &nbsp;
+                    <img className='icon-request-sent' src={require('assets/svgs/SentRequest.svg').default} alt="Pending" />
+                  </div>
+              }
             </div>
             <div className='btn btn-custom col-2 ml-1' onClick={msgUser}>
               <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />
@@ -198,8 +209,14 @@ function Component (props) {
         !isAdminUser && (follower.status === undefined || follower.status === null) &&
           <div className='text-center'>
             <div className='btn btn-custom col-7 mr-1' onClick={e => relationStatus('follow')}>
-              Follow &nbsp;
-              <img className='icon-request-sent' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" />
+              {
+                isFollowerLoading
+                  ? loaderComponent()
+                  : <div>
+                  Follow &nbsp;
+                  <img className='icon-request-sent' src={require('assets/svgs/SendRequest.svg').default} alt="Follow" />
+                  </div>
+              }
             </div>
             <div className='btn btn-custom col-2 ml-1' onClick={msgUser}>
               <img className='icon-search-chat' src={require('assets/svgs/ChatBlack.svg').default} alt="1" />

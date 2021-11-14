@@ -7,9 +7,10 @@ import './style.css'
 import { getId } from 'firebase_config'
 import PostComponent from '../post/component'
 import { CustomImageComponent } from 'components'
+import { hideCurrentYear } from 'helpers'
 
 const ParentComponent = ({
-  currentUser, post, allUsers, handleFilters
+  currentUser, post, allUsers, handleFilters, handleResharePostUser
 }) => {
   const [postedUser, setPostedUser] = useState('')
   const [resharePost, setResharePost] = useState('')
@@ -35,6 +36,8 @@ const ParentComponent = ({
       }
       result.id = p.userId
       setResharePostUser(result)
+      /* Pass resharePostUser to share options popup */
+      handleResharePostUser && handleResharePostUser(result)
     }
 
     async function getResharePost () {
@@ -61,8 +64,8 @@ const ParentComponent = ({
       <div className='card reshare-post-card-wrapper'>
         <div className='card-body pb-3'>
           <div className='d-flex flex-row align-items-center justify-content-between'>
-            <span className='card-badge' onClick={e => handleFilters('selected', resharePost.category.title)}>{resharePost.category && resharePost.category.title}</span>
-            <div className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {moment(resharePost.createdAt).format('D MMM \'YY')}</div>
+            <span className={`card-badge ${!post.active && 'hidden'}`} onClick={e => handleFilters('selected', resharePost.category.title)}>{resharePost.category && resharePost.category.title}</span>
+            <div className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {hideCurrentYear(resharePost.createdAt)}</div>
           </div>
           <div className='mt-2'>
             {resharePost.stories[0].text}

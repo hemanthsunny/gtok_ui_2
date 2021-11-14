@@ -139,7 +139,7 @@ class ParentComponent extends Component {
                           <motion.div initial='initial' animate='in' exit='out' variants={pageVariants} transition={pageTransition}>
                           {
                           this.state.alerts.map((alert, idx) => (
-                            <Link to={alert.actionLink || '/app/profile/' + alert.userId} key={alert.id}>
+                            <Link to={alert.actionLink ? alert.actionLink.replace('undefined', '') : '/'} key={alert.id}>
                               <div className='card br-0' onClick={e => this.updateAlert(alert)}>
                                 <div className='media py-2'>
                                   <CustomImageComponent user={alert} />

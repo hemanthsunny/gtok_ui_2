@@ -6,6 +6,7 @@ import isImageExists from './isImageExists'
 import convertTextToLink from './convertTextToLink'
 import encryptText from './encryptText'
 import decryptText from './decryptText'
+import hideCurrentYear from './hideCurrentYear'
 
 export {
   convertTextToJson,
@@ -15,5 +16,6 @@ export {
   isImageExists,
   convertTextToLink,
   encryptText,
-  decryptText
+  decryptText,
+  hideCurrentYear
 }

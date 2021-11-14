@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import {
   FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton, LinkedinIcon, LinkedinShareButton
@@ -51,9 +51,9 @@ class ParentComponent extends Component {
 
   subHeader = () => (
     <div className='show-post-subheader' aria-label='Subheader'>
-      <Link to='/'>
+      <div className='pointer' onClick={this.props.history.goBack}>
         <img src={require('assets/svgs/LeftArrow.svg').default} className='go-back-icon' alt='LeftArrow' />
-      </Link>
+      </div>
       <div className='page-name'>
         Feeling/Activity
       </div>

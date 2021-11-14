@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.reshare-post-card-wrapper .card-badge.hidden {
+  background: #7E7285;
+}
+
 .reshare-post-card-wrapper .created-at {
   font-size: var(--font-size-small);
 }

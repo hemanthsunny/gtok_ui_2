@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import $ from 'jquery'
 import './style.css'
 
-const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost }) => {
+const ShareOptionsComponent = ({ currentUser, resharePostUser, sharePost, sharePost: displayPost }) => {
   const history = useHistory()
 
   const resharePost = async (post, idx) => {
@@ -31,15 +31,23 @@ const ShareOptionsComponent = ({ currentUser, sharePost, sharePost: displayPost 
       <div className='modal-dialog'>
         <div className='modal-content'>
           <div className='modal-body p-0'>
-            <div className='text-center'>
-              <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
-            </div>
-            <ul className='menu-list'>
-              <li className={`menu-item ${(displayPost.userId === currentUser.id) && 'd-none'}`} onClick={e => resharePost()}>
-                Reshare
-              </li>
-              <li className='menu-item' data-toggle='modal' data-target='#createChatModal' onClick={e => closeModal()}>Send to...</li>
-            </ul>
+            {
+              displayPost.active
+                ? <div>
+                  <div className='text-center'>
+                    <img className='btn-play' src={require('assets/svgs/Accessibility.svg').default} alt='1' />
+                  </div>
+                  <ul className='menu-list'>
+                    <li className={`menu-item ${((displayPost.userId === currentUser.id) || (resharePostUser && resharePostUser.id === currentUser.id)) && 'd-none'}`} onClick={e => resharePost()}>
+                      Reshare
+                    </li>
+                    <li className='menu-item' data-toggle='modal' data-target='#createChatModal' onClick={e => closeModal()}>Send to...</li>
+                  </ul>
+                </div>
+                : <div className='p-5 text-center'>
+                  A hidden asset cannot be shared.
+                </div>
+            }
           </div>
         </div>
       </div>

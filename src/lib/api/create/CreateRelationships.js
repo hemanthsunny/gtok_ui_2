@@ -10,7 +10,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
   // }
   let res = ''
   const logsData = {
-    text: `${currentUser.displayName} followed you`,
+    text: `@${currentUser.username} followed you`,
     photoURL: currentUser.photoURL,
     receiverId: '',
     userId: currentUser.id,
@@ -25,7 +25,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
   const data = {
     userIdOne: currentUser.id,
     userIdTwo: displayUser.id,
-    status: 0,
+    status: displayUser.private ? 0 : 1,
     actionUserId: currentUser.id
   }
   const rln = await getQuery(
@@ -42,10 +42,10 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
     if (status === 'follow') {
       if (data.status === 0) {
         logsData.receiverId = data.userIdTwo
-        logsData.text = `${currentUser.displayName} sent you a follow request.`
+        logsData.text = `@${currentUser.username} sent you a follow request.`
       } else if (data.status === 1) {
         logsData.receiverId = data.userIdTwo
-        logsData.text = `${currentUser.displayName} followed you`
+        logsData.text = `@${currentUser.username} followed you`
       }
       res = await add('userRelationships', data)
     } else if (status === 'accept_request') {
@@ -59,7 +59,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       // Then, update the status (accept request) for existing relationship
       res = await update('userRelationships', rlnTwo[0].id, { status: 1, actionUserId: currentUser.id })
       logsData.receiverId = displayUser.id
-      logsData.text = `${currentUser.displayName} accepted your follow request`
+      logsData.text = `@${currentUser.username} accepted your follow request`
       logsData.actionType = 'update'
       logsData.actionId = rlnTwo[0].id
       logsData.actionKey = status
@@ -74,7 +74,7 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       // Then, update the status (decline request) for existing relationship
       res = await update('userRelationships', rlnTwo[0].id, { status: null, actionUserId: currentUser.id })
       logsData.receiverId = null
-      logsData.text = `${currentUser.displayName} cancelled your follow request`
+      logsData.text = `@${currentUser.username} cancelled your follow request`
       logsData.actionType = 'update'
       logsData.actionId = rlnTwo[0].id
       logsData.actionKey = status
@@ -86,24 +86,24 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       status === 'unfollow' || status === 'unblock' || status === 'cancel_request'
     ) {
       if (status === 'unfollow') {
-        logsData.text = `${currentUser.displayName} blocked you`
+        logsData.text = `@${currentUser.username} blocked you`
         logsData.actionType = 'update'
         logsData.actionId = rln[0].id
         logsData.actionKey = 'block'
       } else if (status === 'unblock') {
-        logsData.text = `${currentUser.displayName} unblocked you`
+        logsData.text = `@${currentUser.username} unblocked you`
         logsData.actionType = 'update'
         logsData.actionId = rln[0].id
         logsData.actionKey = 'unblock'
       } else if (status === 'cancel_request') {
-        logsData.text = `${currentUser.displayName} declined your follow request`
+        logsData.text = `@${currentUser.username} declined your follow request`
         logsData.actionType = 'update'
         logsData.actionId = rln[0].id
         logsData.actionKey = 'decline'
       }
       res = await update('userRelationships', rln[0].id, { status: null, actionUserId: currentUser.id })
     } else if (status === 'block') {
-      logsData.text = `${currentUser.displayName} blocked you`
+      logsData.text = `@${currentUser.username} blocked you`
       logsData.actionType = 'update'
       logsData.actionId = rln[0].id
       logsData.actionKey = 'block'
@@ -111,14 +111,14 @@ export const createRelationships = async (currentUser, displayUser = {}, status 
       res = await update('userRelationships', rlnTwo[0].id, { status: null, actionUserId: currentUser.id })
     } else if (status === 'accept_request') {
       logsData.receiverId = data.userIdTwo
-      logsData.text = `${currentUser.displayName} accepted your follow request`
+      logsData.text = `@${currentUser.username} accepted your follow request`
       logsData.actionType = 'update'
       logsData.actionId = rln[0].id
       logsData.actionKey = status
       res = await update('userRelationships', rln[0].id, { status: 1, actionUserId: currentUser.id })
       res = await update('userRelationships', rlnTwo[0].id, { status: 1, actionUserId: currentUser.id })
     } else if (status === 'decline_request') {
-      logsData.text = `${currentUser.displayName} declined your follow request`
+      logsData.text = `@${currentUser.username} declined your follow request`
       logsData.actionType = 'update'
       logsData.actionId = rlnTwo[0].id
       logsData.actionKey = status

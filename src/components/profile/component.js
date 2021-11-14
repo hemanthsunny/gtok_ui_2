@@ -61,9 +61,9 @@ function ParentComponent ({ currentUser, computedMatch }) {
                     <UserDetailComponent currentUser={currentUser} displayUser={displayUser} />
                     {
                       username
-                        ? relationship.status !== 'followed' && displayUser.private
+                        ? relationship.status !== 1 && displayUser.private
                           ? <div className='private-profile-text'>
-                            @{displayUser.username} assets are private. <br/> Follow to view what they are sharing.
+                            @{displayUser.username} assets are private.
                           </div>
                           : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
                         : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
