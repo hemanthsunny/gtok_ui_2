@@ -46,7 +46,7 @@ const DetailComponent = ({
           <div className='d-flex flex-row align-items-center'>
             {
               createResharePost
-                ? <span className='card-badge'>Same pinch</span>
+                ? <span className='card-badge'>same pinch</span>
                 : <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
                   {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
                 </button>

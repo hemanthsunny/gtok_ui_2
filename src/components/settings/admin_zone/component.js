@@ -9,7 +9,7 @@ function AdminZoneComponent ({ currentUser }) {
   const history = useHistory()
 
   const postCategoryKeys = [
-    'current_feeling', 'happy', 'sad', 'surprise', 'fear', 'angry', 'other', 'current_activity', 'eating', 'playing', 'working', 'reading', 'watching'
+    'current_feeling', 'happy', 'sad', 'surprise', 'fear', 'angry'
   ]
 
   const mergePosts = async () => {
@@ -48,11 +48,18 @@ function AdminZoneComponent ({ currentUser }) {
           await firestore.collection('posts').doc(post.id).update({
             category: {
               key: 'other',
-              title: post.category.title
+              title: post.category.title.toLowerCase()
             }
           })
         }
       }
+      /* Converting all categories to lowerCase */
+      await firestore.collection('posts').doc(post.id).update({
+        category: {
+          key: post.category ? post.category.key : 'other',
+          title: post.category ? post.category.title.toLowerCase() : 'other'
+        }
+      })
     })
     setLoading(false)
   }
@@ -88,6 +95,13 @@ function AdminZoneComponent ({ currentUser }) {
       <ul className='section-list'>
         <li>
           <div className='d-flex flex-row align-items-center justify-content-between pointer'>
+            <span className='option-name' htmlFor="customSwitch1" onClick={e => redirectTo('send_company_alerts')}>
+              Send company alerts
+            </span>
+          </div>
+        </li>
+        <li>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={updateCategories}>
               Update categories
             </span>
@@ -104,13 +118,6 @@ function AdminZoneComponent ({ currentUser }) {
           <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={updateRelationshipStatus}>
               Update relationship statuses
-            </span>
-          </div>
-        </li>
-        <li>
-          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
-            <span className='option-name' htmlFor="customSwitch1" onClick={e => redirectTo('send_company_alerts')}>
-              Send company alerts
             </span>
           </div>
         </li>

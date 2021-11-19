@@ -49,10 +49,7 @@ const ParentComponent = (props) => {
 
   const { currentUser, bindNewPost } = props
   const [postText, setPostText] = useState(story.text)
-  const [category, setCategory] = useState(sharePost.category || {
-    title: 'Current feeling',
-    key: 'current_feeling'
-  })
+  const [category, setCategory] = useState(sharePost.category || FeelingCategories[0])
   const [result, setResult] = useState({})
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
@@ -67,7 +64,7 @@ const ParentComponent = (props) => {
     const postData = Object.assign({
       active: true,
       category: {
-        title: 'Same pinch',
+        title: 'same pinch',
         key: 'same_pinch'
       },
       stories: [{

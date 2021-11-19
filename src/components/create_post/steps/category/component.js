@@ -4,9 +4,13 @@ import React, { useState } from 'react'
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
   const [other, setOther] = useState('')
   const [otherValue, setOtherValue] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const categoryPattern = /^[a-zA-Z]+$/i
 
   const handleCategory = async (cat) => {
-    if (cat) {
+    if (cat && categoryPattern.test(cat.title)) {
+      setErrorMsg('')
+      setOtherValue('')
       setCategory(cat)
       if (cat.key === 'other') {
         setOther(true)
@@ -14,17 +18,22 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
         setOther(false)
         window.$('#selectPostCategoryModal').modal('hide')
       }
+    } else {
+      setErrorMsg('Only alphabets supported')
     }
   }
 
   const submitCategory = () => {
-    if (category.key === 'other') {
+    if (category.key === 'other' && categoryPattern.test(otherValue)) {
+      setErrorMsg('')
       setCategory({
-        title: otherValue.trim() ? otherValue : 'Other',
+        title: otherValue.trim() ? otherValue : 'other',
         key: 'other'
       })
+      window.$('#selectPostCategoryModal').modal('hide')
+    } else {
+      setErrorMsg('Only alphabets supported')
     }
-    window.$('#selectPostCategoryModal').modal('hide')
   }
 
   return (
@@ -54,6 +63,7 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
               <small className='pull-right'>{15 - otherValue.length} chars left</small>
             </div>
             <br/>
+            {errorMsg && <div className='text-danger font-small my-2'>{errorMsg}</div>}
             <div className='text-center'>
               <button className='btn btn-violet-rounded btn-sm' onClick={submitCategory}>
                 Done
