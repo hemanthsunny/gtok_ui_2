@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { get, firestore } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
 
 function AdminZoneComponent ({ currentUser }) {
   const [loading, setLoading] = useState(false)
+  const history = useHistory()
+
   const postCategoryKeys = [
     'current_feeling', 'happy', 'sad', 'surprise', 'fear', 'angry', 'other', 'current_activity', 'eating', 'playing', 'working', 'reading', 'watching'
   ]
@@ -75,28 +78,39 @@ function AdminZoneComponent ({ currentUser }) {
     setLoading(false)
   }
 
+  const redirectTo = (path) => {
+    history.push(`/app/${path}`)
+  }
+
   return (
     <div className='section'>
       <div className='section-header'>Admin zone { loading && <i className='fa fa-spin fa-spinner'></i> }</div>
       <ul className='section-list'>
         <li>
-          <div className='d-flex flex-row align-items-center justify-content-between'>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={updateCategories}>
               Update categories
             </span>
           </div>
         </li>
         <li>
-          <div className='d-flex flex-row align-items-center justify-content-between'>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={mergePosts}>
               Merge feelings and activities
             </span>
           </div>
         </li>
         <li>
-          <div className='d-flex flex-row align-items-center justify-content-between'>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={updateRelationshipStatus}>
               Update relationship statuses
+            </span>
+          </div>
+        </li>
+        <li>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
+            <span className='option-name' htmlFor="customSwitch1" onClick={e => redirectTo('send_company_alerts')}>
+              Send company alerts
             </span>
           </div>
         </li>

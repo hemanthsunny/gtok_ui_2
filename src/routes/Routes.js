@@ -50,7 +50,8 @@ import {
   WalletRechargeComponent,
   WalletWithdrawComponent,
   InviteFriendsComponent,
-  ShowTransactionComponent
+  ShowTransactionComponent,
+  SendCompanyAlertsComponent
 } from 'components'
 
 const LandingComponent = () => {
@@ -119,6 +120,7 @@ export const Routes = (props) => {
           <AuthRoute exact path="/app/withdraw" component={WalletWithdrawComponent} />
           <AuthRoute exact path="/app/transactions/:id" component={ShowTransactionComponent} />
           <AuthRoute exact path="/app/invite_friends" component={InviteFriendsComponent} />
+          <AuthRoute exact path="/app/send_company_alerts" component={SendCompanyAlertsComponent} />
           <Redirect to="/" />
         </Switch>
       </AnimatePresence>
