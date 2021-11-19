@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import moment from 'moment'
 import './style.css'
 
-function AudioPlayer ({ fileUrl }) {
+function AudioPlayer ({ fileUrl, postId, storyId }) {
   const [play, setPlay] = useState(true)
   const [playDetails, setPlayDetails] = useState('')
   const audioRef = useRef()
@@ -13,7 +13,12 @@ function AudioPlayer ({ fileUrl }) {
   })
 
   const playAudio = () => {
-    const audio = document.getElementById('audio-player')
+    let audio
+    if (postId && storyId) {
+      audio = document.getElementById(`audio-player-${postId}-${storyId}`)
+    } else {
+      audio = document.getElementById('audio-player')
+    }
     const duration = parseInt(audio.duration)
     let currentTime = parseInt(audio.currentTime)
 

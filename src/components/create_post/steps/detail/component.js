@@ -36,6 +36,7 @@ const DetailComponent = ({
               <div className='clearfix'></div>
               <p className='mt-3 mb-2'>
               {resharePost.stories[0].text}
+              {resharePost.stories[0].fileUrl && <AudioPlayerComponent fileUrl={resharePost.stories[0].fileUrl} />}
               </p>
               <div className='author text-violet'>
                 {resharePost.anonymous ? <span>@anonymous</span> : <span>@{resharePostUser.username}</span>}
@@ -43,7 +44,7 @@ const DetailComponent = ({
               <hr />
             </div>
           }
-          <div className='d-flex flex-row align-items-center'>
+          <div className=''>
             {
               createResharePost
                 ? <span className='card-badge'>same pinch</span>
@@ -51,7 +52,7 @@ const DetailComponent = ({
                   {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
                 </button>
             }
-            <span className={`${tradePost ? 'ml-2' : 'd-none'}`}>
+            <span className={`${tradePost && !createResharePost ? 'ml-2' : 'd-none'}`}>
               <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon p-0' alt='Inr' />{tradePrice}
             </span>
           </div>

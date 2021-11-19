@@ -6,7 +6,7 @@ import './style.css'
 
 import { getId } from 'firebase_config'
 import PostComponent from '../post/component'
-import { CustomImageComponent } from 'components'
+import { CustomImageComponent, AudioPlayerComponent } from 'components'
 import { hideCurrentYear } from 'helpers'
 
 const ParentComponent = ({
@@ -70,6 +70,7 @@ const ParentComponent = ({
           <div className='mt-2'>
             {resharePost.stories[0].text}
           </div>
+          { resharePost.stories[0].fileUrl && <AudioPlayerComponent fileUrl={resharePost.stories[0].fileUrl} /> }
           <div className='mt-2 author text-violet'>
             {resharePost.anonymous ? <span>@anonymous</span> : <span onClick={redirectToProfile}>@{resharePostUser.username}</span>}
           </div>
