@@ -130,7 +130,7 @@ const CreateChatComponent = (props) => {
             <div className='user-list'>
               {
                 userList[0]
-                  ? userList.sort().map((user, idx) =>
+                  ? userList.sort().map((user, idx) => user.id !== currentUser.id &&
                     <div className='media chat-user' key={idx}>
                       <Link to={'/app/profile/' + user.id}>
                         <CustomImageComponent user={user} size='sm'/>
