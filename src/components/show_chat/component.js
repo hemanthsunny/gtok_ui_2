@@ -28,14 +28,11 @@ class ParentComponent extends Component {
     this.bindMessages = props.bindMessages
     this.bindNewMessagesCount = props.bindNewMessagesCount
     this.scrollRef = React.createRef()
-
-    /* Clear localStorage */
-    setTimeout(() => {
-      localStorage.removeItem('sharePostText')
-    }, 5000)
   }
 
   componentDidMount () {
+    /* Clear localStorage */
+    localStorage.removeItem('sharePostText')
     this.getSelectedConversation()
     this.scrollToBottom()
   }
@@ -66,7 +63,7 @@ class ParentComponent extends Component {
     setTimeout(() => {
       // this.scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       // Alternative option: https://stackoverflow.com/questions/43441856/how-to-scroll-to-an-element
-      window.scrollTo(0, this.scrollRef.current.offsetTop)
+      window.scrollTo(0, this.scrollRef.current?.offsetTop)
     }, 1000)
   }
 

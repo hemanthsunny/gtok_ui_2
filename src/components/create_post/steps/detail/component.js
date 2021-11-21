@@ -25,11 +25,11 @@ const DetailComponent = ({
         <div className='card-body'>
           {
             createResharePost &&
-            <div className=''>
-              <div className='d-flex flex-row align-items-center justify-content-between'>
+            <div>
+              <div>
                 <span className='card-badge'>{resharePost.category.title}</span>
                 <span className={`card-amount ${!resharePost.tradePrice && 'd-none'} pl-2`}>
-                  <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{resharePost.tradePrice}</span>
+                  <span className='currency-text'><img className='inr-black-icon p-0' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{resharePost.tradePrice}</span>
                 </span>
                 <span className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {moment(resharePost.createdAt).format('D MMM \'YY')}</span>
               </div>
