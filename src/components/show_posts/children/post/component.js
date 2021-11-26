@@ -207,7 +207,7 @@ const PostComponent = ({
                         }
                       </p>
                       {
-                        story.fileUrl && <AudioPlayerComponent fileUrl={story.fileUrl} postId={displayPost.id} storyId={idx} />
+                        story.fileUrl && <AudioPlayerComponent fileUrl={story.fileUrl} postId={displayPost.id} storyId={idx.toString()} />
                       }
                       {
                         displayPost.stories.length > 1 &&

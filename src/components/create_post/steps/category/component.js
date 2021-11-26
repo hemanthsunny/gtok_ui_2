@@ -27,7 +27,7 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
     if (category.key === 'other' && categoryPattern.test(otherValue)) {
       setErrorMsg('')
       setCategory({
-        title: otherValue.trim() ? otherValue : 'other',
+        title: otherValue.trim() ? otherValue.toLowerCase() : 'other',
         key: 'other'
       })
       window.$('#selectPostCategoryModal').modal('hide')

@@ -99,7 +99,7 @@ const DetailComponent = ({
               </div>
             </label>
             <input type='file' className='form-control-plaintext d-none' id='staticAudioFile' onChange={e => uploadAudio(e.target.files[0])} accept='audio/*' />
-            { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} /> }
+            { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} postId='newAssetAudio' storyId='0' /> }
           </div>
           <hr className='mt-2' />
           {

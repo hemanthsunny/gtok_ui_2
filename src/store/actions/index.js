@@ -44,7 +44,11 @@ import {
   createPageVisits,
   createRelationships
 } from 'lib/api'
+import { SetCurrentAudio } from './AudioPlayer'
 
+export {
+  SetCurrentAudio
+}
 export const SetDbUser = (content) => {
   return {
     type: SET_DB_USER,
