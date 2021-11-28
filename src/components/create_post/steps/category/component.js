@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 // import $ from 'jquery'
 
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
-  const [other, setOther] = useState('')
-  const [otherValue, setOtherValue] = useState('')
+  const [other, setOther] = useState(category.key === 'other')
+  const [otherValue, setOtherValue] = useState(category.key === 'other' && category.title)
   const [errorMsg, setErrorMsg] = useState('')
   const categoryPattern = /^[a-zA-Z\s]+$/i
 
