@@ -5,7 +5,7 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
   const [other, setOther] = useState('')
   const [otherValue, setOtherValue] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
-  const categoryPattern = /^[a-zA-Z]+$/i
+  const categoryPattern = /^[a-zA-Z\s]+$/i
 
   const handleCategory = async (cat) => {
     if (cat && categoryPattern.test(cat.title)) {
