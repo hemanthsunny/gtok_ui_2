@@ -68,6 +68,7 @@ import ShareOptionsComponent from 'components/share_options/component'
 import AlertModalComponent from 'components/alert_modal/component'
 import InviteFriendsComponent from 'components/invite_friends/component'
 import ShowTransactionComponent from 'components/show_transaction/component'
+import SendCompanyAlertsComponent from 'components/send_company_alerts/component'
 
 export {
   VerifyEmailComponent,
@@ -139,5 +140,6 @@ export {
   ShareOptionsComponent,
   AlertModalComponent,
   InviteFriendsComponent,
-  ShowTransactionComponent
+  ShowTransactionComponent,
+  SendCompanyAlertsComponent
 }

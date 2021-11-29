@@ -25,17 +25,18 @@ const DetailComponent = ({
         <div className='card-body'>
           {
             createResharePost &&
-            <div className=''>
-              <div className='d-flex flex-row align-items-center justify-content-between'>
+            <div>
+              <div>
                 <span className='card-badge'>{resharePost.category.title}</span>
                 <span className={`card-amount ${!resharePost.tradePrice && 'd-none'} pl-2`}>
-                  <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{resharePost.tradePrice}</span>
+                  <span className='currency-text'><img className='inr-black-icon p-0' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{resharePost.tradePrice}</span>
                 </span>
                 <span className='created-at'>{moment(resharePost.createdAt).format('h:mm a')} &middot; {moment(resharePost.createdAt).format('D MMM \'YY')}</span>
               </div>
               <div className='clearfix'></div>
               <p className='mt-3 mb-2'>
               {resharePost.stories[0].text}
+              {resharePost.stories[0].fileUrl && <AudioPlayerComponent fileUrl={resharePost.stories[0].fileUrl} />}
               </p>
               <div className='author text-violet'>
                 {resharePost.anonymous ? <span>@anonymous</span> : <span>@{resharePostUser.username}</span>}
@@ -43,15 +44,15 @@ const DetailComponent = ({
               <hr />
             </div>
           }
-          <div className='d-flex flex-row align-items-center'>
+          <div className=''>
             {
               createResharePost
-                ? <span className='card-badge'>Same pinch</span>
+                ? <span className='card-badge'>same pinch</span>
                 : <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
                   {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
                 </button>
             }
-            <span className={`${tradePost ? 'ml-2' : 'd-none'}`}>
+            <span className={`${tradePost && !createResharePost ? 'ml-2' : 'd-none'}`}>
               <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon p-0' alt='Inr' />{tradePrice}
             </span>
           </div>
@@ -98,7 +99,7 @@ const DetailComponent = ({
               </div>
             </label>
             <input type='file' className='form-control-plaintext d-none' id='staticAudioFile' onChange={e => uploadAudio(e.target.files[0])} accept='audio/*' />
-            { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} /> }
+            { fileUrl && <AudioPlayerComponent fileUrl={fileUrl} postId='newAssetAudio' storyId='0' /> }
           </div>
           <hr className='mt-2' />
           {

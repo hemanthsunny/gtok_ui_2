@@ -1,30 +1,30 @@
 export const FeelingCategories = [
   {
-    title: 'Current feeling',
+    title: 'current feeling',
     key: 'current_feeling'
   },
   {
-    title: 'Happy',
+    title: 'happy',
     key: 'happy'
   },
   {
-    title: 'Sad',
+    title: 'sad',
     key: 'sad'
   },
   {
-    title: 'Surprise',
+    title: 'surprise',
     key: 'surprise'
   },
   {
-    title: 'Fear',
+    title: 'fear',
     key: 'fear'
   },
   {
-    title: 'Anger',
+    title: 'anger',
     key: 'angry'
   },
   {
-    title: 'Other',
+    title: 'other',
     key: 'other'
   }
 ]

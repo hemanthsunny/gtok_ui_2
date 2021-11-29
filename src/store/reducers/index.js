@@ -14,6 +14,7 @@ import purchaseOrders from './PurchaseOrders'
 import wallet from './Wallets'
 import prices from './Prices'
 import transactions from './Transactions'
+import audioPlayer from './AudioPlayer'
 
 export default combineReducers({
   subscriptionPlans,
@@ -30,5 +31,6 @@ export default combineReducers({
   purchaseOrders,
   wallet,
   prices,
-  transactions
+  transactions,
+  audioPlayer
 })

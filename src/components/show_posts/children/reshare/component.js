@@ -6,7 +6,7 @@ import './style.css'
 
 import { getId } from 'firebase_config'
 import PostComponent from '../post/component'
-import { CustomImageComponent } from 'components'
+import { CustomImageComponent, AudioPlayerComponent } from 'components'
 import { hideCurrentYear } from 'helpers'
 
 const ParentComponent = ({
@@ -53,7 +53,7 @@ const ParentComponent = ({
   }, [post, allUsers, resharePost, setResharePost])
 
   const redirectToProfile = () => {
-    history.push('/app/profile/' + postedUser.username)
+    history.push('/app/profile/' + resharePostUser.username)
   }
 
   return postedUser && resharePost && (
@@ -70,6 +70,8 @@ const ParentComponent = ({
           <div className='mt-2'>
             {resharePost.stories[0].text}
           </div>
+          {/* Change this logic when user able to add audio for an reshared asset. Else audio breaks. */}
+          { resharePost.stories[0].fileUrl && <AudioPlayerComponent fileUrl={resharePost.stories[0].fileUrl} postId={post.id} storyId='0' /> }
           <div className='mt-2 author text-violet'>
             {resharePost.anonymous ? <span>@anonymous</span> : <span onClick={redirectToProfile}>@{resharePostUser.username}</span>}
           </div>

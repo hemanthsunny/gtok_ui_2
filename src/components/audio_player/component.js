@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { connect } from 'react-redux'
 import moment from 'moment'
 import './style.css'
 
-function AudioPlayer ({ fileUrl }) {
+import { SetCurrentAudio } from 'store/actions'
+
+function AudioPlayer ({ fileUrl, postId, storyId, currentAudio, bindCurrentAudio }) {
   const [play, setPlay] = useState(true)
   const [playDetails, setPlayDetails] = useState('')
   const audioRef = useRef()
@@ -13,14 +16,31 @@ function AudioPlayer ({ fileUrl }) {
   })
 
   const playAudio = () => {
-    const audio = document.getElementById('audio-player')
+    let audio
+    if (postId && storyId) {
+      audio = document.getElementById(`audio-player-${postId}-${storyId}`)
+    } else if (postId) {
+      audio = document.getElementById(`audio-player-${postId}`)
+    } else {
+      audio = document.getElementById('audio-player')
+    }
+    if (audio !== currentAudio) {
+      bindCurrentAudio(audio)
+      currentAudio && currentAudio.pause()
+    }
     const duration = parseInt(audio.duration)
     let currentTime = parseInt(audio.currentTime)
 
     if (audio.paused) {
       audio.play()
+      setPlay(prevState => {
+        return false
+      })
     } else {
       audio.pause()
+      setPlay(prevState => {
+        return true
+      })
     }
 
     const interval = setInterval(() => {
@@ -41,9 +61,6 @@ function AudioPlayer ({ fileUrl }) {
       duration,
       progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
     })
-    setPlay(prevState => {
-      return !prevState
-    })
   }
 
   const onChangeAudio = (e) => {
@@ -55,13 +72,10 @@ function AudioPlayer ({ fileUrl }) {
   return (
     <>
       <div className='audio-player-wrapper'>
-        <audio className='d-none' id='audio-player' src={fileUrl} controls controlsList='nodownload' ref={audioRef} />
+        <audio className='d-none' id={`audio-player-${postId}-${storyId}`} src={fileUrl} controls controlsList='nodownload' ref={audioRef} />
         <div className='audio-btn' onClick={playAudio}>
           <button className='btn'>
-            { play
-              ? <img className='btn-play' src={require('assets/svgs/Play.svg').default} alt="1" />
-              : <img className='btn-pause' src={require('assets/svgs/Pause.svg').default} alt="1" />
-            }
+            <img className={`btn-${play ? 'play' : 'pause'}`} src={require(`assets/svgs/${play ? 'Play' : 'Pause'}.svg`).default} alt="1" />
           </button>
         </div>
         <div className={`${!playDetails && 'd-none'}`}>
@@ -81,4 +95,18 @@ function AudioPlayer ({ fileUrl }) {
   )
 }
 
-export default AudioPlayer
+const mapStateToProps = (state) => {
+  const { currentAudio } = state.audioPlayer
+  return { currentAudio }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    bindCurrentAudio: (audio) => dispatch(SetCurrentAudio(audio))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AudioPlayer)

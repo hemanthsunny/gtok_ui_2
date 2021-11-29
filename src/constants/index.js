@@ -69,6 +69,11 @@ export const Metadata = {
     description: 'Compete others',
     path: 'challenges'
   },
+  '/app/send_company_alerts': {
+    title: 'Send company alerts | Lets Gtok',
+    description: 'LetsGtok is a social asset platform',
+    path: 'send_company_alerts'
+  },
   '/login': {
     title: 'Login | Lets Gtok',
     description: 'Login into our lets GTOK application to access our app complete features.'

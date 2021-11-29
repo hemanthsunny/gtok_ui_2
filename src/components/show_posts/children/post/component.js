@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
@@ -14,8 +14,7 @@ import {
   timestamp
 } from 'firebase_config'
 import { SetPosts, SetSharePost, SetUpdatedPost } from 'store/actions'
-import { NotificationComponent, CustomImageComponent } from 'components'
-import SliderComponent from '../slider/component'
+import { NotificationComponent, CustomImageComponent, AudioPlayerComponent } from 'components'
 import { convertTextToLink, hideCurrentYear } from 'helpers'
 
 const PostComponent = ({
@@ -25,13 +24,10 @@ const PostComponent = ({
   const [follower, setFollower] = useState(!!displayPost.followers.find(f => f === currentUser.id))
   const [result, setResult] = useState({})
   const [activeIndex, setActiveIndex] = useState(0)
-  const [play, setPlay] = useState(true)
-  const [playDetails, setPlayDetails] = useState({ currentTime: 0, duration: 0 })
   const [displayFullStory, setDisplayFullStory] = useState(false)
 
   const trans = transactions.find(trans => trans.userId === currentUser.id && trans.postId === displayPost.id)
   const history = useHistory()
-  const audioRef = useRef()
 
   useEffect(() => {
     async function getPostedUser () {
@@ -140,46 +136,6 @@ const PostComponent = ({
     }
   }
 
-  const playAudio = (idx) => {
-    const audio = document.getElementById(`audio-player-${displayPost.id}-${idx}`)
-    const duration = parseInt(audio.duration)
-    let currentTime = parseInt(audio.currentTime)
-
-    if (audio.paused) {
-      audio.play()
-    } else {
-      audio.pause()
-    }
-
-    const interval = setInterval(() => {
-      currentTime = parseInt(audio.currentTime)
-      setPlayDetails({
-        currentTime,
-        duration,
-        progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
-      })
-      if (currentTime >= duration) {
-        clearInterval(interval)
-        setPlay(prev => { return true })
-      }
-    }, 1000)
-
-    setPlayDetails({
-      currentTime,
-      duration,
-      progressPercent: parseFloat((currentTime / duration) * 100).toFixed(2)
-    })
-    setPlay(prevState => {
-      return !prevState
-    })
-  }
-
-  const onChangeAudio = (e) => {
-    const audio = audioRef.current
-    audio.currentTime = (audio.duration / 100) * e.target.value
-    setPlayDetails({ ...playDetails, progressPercent: e.target.value })
-  }
-
   const tradePostAction = () => {
     if (!wallet.length) {
       history.push('/app/change_passcode')
@@ -217,7 +173,7 @@ const PostComponent = ({
                   {
                     displayPost.category
                       ? <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
-                      : <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', 'Same Pinch')}>Same Pinch</span>
+                      : <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', 'same pinch')}>same pinch</span>
                   }
                   <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>
                     <span className='currency-text'><img className='currency-icon' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{displayPost.tradePrice}</span>
@@ -250,23 +206,8 @@ const PostComponent = ({
                           : <span className='pointer' onClick={e => setDisplayFullStory(!displayFullStory)}>{convertTextToLink(story.text.slice(0, 149))} <small>. . . See full story</small></span>
                         }
                       </p>
-                      { story.fileUrl &&
-                        <div className='audio-player-wrapper'>
-                          <audio className='d-none' id={`audio-player-${displayPost.id}-${idx}`} src={story.fileUrl} controls controlsList='nodownload' ref={audioRef} />
-                          <div className='audio-btn' onClick={e => playAudio(idx)}>
-                            <button className='btn'>
-                              { play
-                                ? <img className='btn-play' src={require('assets/svgs/Play.svg').default} alt="1" />
-                                : <img className='btn-pause' src={require('assets/svgs/Pause.svg').default} alt="1" />
-                              }
-                            </button>
-                          </div>
-                          <div className='audio-time'>
-                            {playDetails && <span className='current'>{moment.utc(playDetails.currentTime * 1000).format('mm:ss')}</span>}
-                            {playDetails && <span className='duration'>{moment.utc(playDetails.duration * 1000).format('mm:ss')}</span>}
-                          </div>
-                          <SliderComponent playDetails={playDetails} onChange={onChangeAudio} />
-                        </div>
+                      {
+                        story.fileUrl && <AudioPlayerComponent fileUrl={story.fileUrl} postId={displayPost.id} storyId={idx.toString()} />
                       }
                       {
                         displayPost.stories.length > 1 &&

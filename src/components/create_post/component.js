@@ -49,10 +49,7 @@ const ParentComponent = (props) => {
 
   const { currentUser, bindNewPost } = props
   const [postText, setPostText] = useState(story.text)
-  const [category, setCategory] = useState(sharePost.category || {
-    title: 'Current feeling',
-    key: 'current_feeling'
-  })
+  const [category, setCategory] = useState(sharePost.category || FeelingCategories[0])
   const [result, setResult] = useState({})
   const [fileUrl, setFileUrl] = useState(story.fileUrl)
   const [btnUpload, setBtnUpload] = useState('upload')
@@ -67,7 +64,7 @@ const ParentComponent = (props) => {
     const postData = Object.assign({
       active: true,
       category: {
-        title: 'Same pinch',
+        title: 'same pinch',
         key: 'same_pinch'
       },
       stories: [{
@@ -82,12 +79,15 @@ const ParentComponent = (props) => {
     })
 
     let result
-    if (sharePost.resharePostId && sharePost.id === currentUser.id) {
+    let toasterText = 'Your asset is now live'
+    console.log('mcnggggg here')
+    if (sharePost.resharePostId && sharePost.userId === currentUser.id) {
       result = await update('posts', sharePost.id, {
         stories: [{
           text: capitalizeFirstLetter(postText.trim())
         }]
       })
+      toasterText = 'Your asset has been updated'
     } else {
       result = await add('posts', postData)
       // Alert actual user when an asset is reshared
@@ -119,11 +119,7 @@ const ParentComponent = (props) => {
         pathname: '/app/assets',
         state: { postingSuccess: true, reloadPosts: true }
       })
-      if (sharePost.id) {
-        toast.success('Your asset has been updated')
-      } else {
-        toast.success('Your asset is now live')
-      }
+      toast.success(toasterText)
     } else {
       toast.error('Something went wrong. Try later!')
       setResult(result)
@@ -144,6 +140,7 @@ const ParentComponent = (props) => {
     let postData = {
       type: activeTab === 'activity' ? activeTab : ''
     }
+    let toasterText = 'Your asset is now live'
     if (sharePost.id) {
       sharePost.stories.splice(storyIdx, 1, { text: capitalizeFirstLetter(postText.trim()), fileUrl })
       postData = Object.assign(postData, {
@@ -156,6 +153,7 @@ const ParentComponent = (props) => {
       result = await update('posts', sharePost.id, postData)
       postData = Object.assign(postData, { id: sharePost.id })
       await bindNewPost(postData)
+      toasterText = 'Your asset has been updated'
     } else {
       postData = Object.assign(postData, {
         active: true,
@@ -193,11 +191,7 @@ const ParentComponent = (props) => {
         pathname: '/app/assets',
         state: { postingSuccess: true, reloadPosts: true }
       })
-      if (sharePost.id) {
-        toast.success('Your asset has been updated')
-      } else {
-        toast.success('Your asset is now live')
-      }
+      toast.success(toasterText)
     } else {
       toast.error('Something went wrong. Try later!')
       setResult(result)

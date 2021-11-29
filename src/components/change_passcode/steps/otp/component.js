@@ -33,8 +33,8 @@ function OtpComponent ({ currentUser, passcodeState, setPasscodeState, selectedW
       setOtpSent(true)
       toast.success(`OTP is ${resend ? 're' : ''}sent to your email address`)
 
-      var timer = 120
-      var timerInterval = setInterval(() => {
+      let timer = 120
+      const timerInterval = setInterval(() => {
         setResendTimer(--timer)
         if (timer < 1) {
           setResendTimer('')
