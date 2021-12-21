@@ -71,7 +71,7 @@ export const FeelingCategories = [
     key: 'angry'
   },
   {
-    title: 'mc donalds',
+    title: 'burger',
     key: 'special'
   },
   {
