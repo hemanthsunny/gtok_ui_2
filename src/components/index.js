@@ -69,6 +69,7 @@ import AlertModalComponent from 'components/alert_modal/component'
 import InviteFriendsComponent from 'components/invite_friends/component'
 import ShowTransactionComponent from 'components/show_transaction/component'
 import SendCompanyAlertsComponent from 'components/send_company_alerts/component'
+import ProfileGraphsComponent from 'components/profile_graphs/component'
 
 export {
   VerifyEmailComponent,
@@ -141,5 +142,6 @@ export {
   AlertModalComponent,
   InviteFriendsComponent,
   ShowTransactionComponent,
-  SendCompanyAlertsComponent
+  SendCompanyAlertsComponent,
+  ProfileGraphsComponent
 }

@@ -1,3 +1,50 @@
+export const specialCategoryColor = '#FFB47E'
+export const categoryColors = [
+  '#6903DB', // current feeling
+  '#FFEF0A', // happy
+  '#1C5A8F', // sad
+  '#A6FF58', // surprise
+  '#8F7A7A', // fear
+  '#D12D00', // anger
+  '#FFB47E', // special
+  '#808080' // other
+]
+
+export const categories = [
+  {
+    title: 'current feeling',
+    key: 'current_feeling'
+  },
+  {
+    title: 'happy',
+    key: 'happy'
+  },
+  {
+    title: 'sad',
+    key: 'sad'
+  },
+  {
+    title: 'surprise',
+    key: 'surprise'
+  },
+  {
+    title: 'fear',
+    key: 'fear'
+  },
+  {
+    title: 'anger',
+    key: 'angry'
+  },
+  {
+    title: 'burger',
+    key: 'special'
+  },
+  {
+    title: 'other',
+    key: 'other'
+  }
+]
+
 export const FeelingCategories = [
   {
     title: 'current feeling',
@@ -22,6 +69,10 @@ export const FeelingCategories = [
   {
     title: 'anger',
     key: 'angry'
+  },
+  {
+    title: 'mc donalds',
+    key: 'special'
   },
   {
     title: 'other',

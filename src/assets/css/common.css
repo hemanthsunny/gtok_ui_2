@@ -1,4 +1,5 @@
 :root {
+  --color-special: #ffb47e;
   --color-white: #fff;
   --color-white-600: #d5d5d5;
   --color-black: #000;
@@ -217,9 +218,32 @@
   border-color: var(--color-violet-400)!important;
 }
 
+.btn-violet-outline-r {
+  color: var(--color-violet-400) !important;
+  border-color: var(--color-violet-400)!important;
+  border-radius: var(--spacing-32) !important;
+}
+
 .btn-violet-rounded {
   color: var(--color-white) !important;
   background-color: var(--color-violet-400)!important;
+  border-radius: var(--spacing-32) !important;
+}
+
+.btn-special-outline {
+  color: var(--color-special) !important;
+  border-color: var(--color-special)!important;
+}
+
+.btn-special-outline-r {
+  color: var(--color-special) !important;
+  border-color: var(--color-special)!important;
+  border-radius: var(--spacing-32) !important;
+}
+
+.btn-special-rounded {
+  color: var(--color-special) !important;
+  background-color: var(--color-special) !important;
   border-radius: var(--spacing-32) !important;
 }
 

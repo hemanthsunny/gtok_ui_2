@@ -31,8 +31,10 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
         key: 'other'
       })
       window.$('#selectPostCategoryModal').modal('hide')
-    } else {
+    } else if (category.key === 'other' && !categoryPattern.test(otherValue)) {
       setErrorMsg('Only alphabets supported')
+    } else {
+      window.$('#selectPostCategoryModal').modal('hide')
     }
   }
 
@@ -47,10 +49,16 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
             <div className='user-list'>
               {
                 postCategories.map((obj, idx) =>
-                  <div className='post-category' key={idx} onClick={e => handleCategory(obj)}>
+                  <div className={`post-category ${obj.key === 'special' && 'text-color'}`} key={idx} onClick={e => handleCategory(obj)}>
                     <div className='username pull-left'>
                       {obj.title}
-                     </div>
+                      {
+                        obj.key === 'special' &&
+                        <small className='btn-special-outline-r ml-3'>
+                          Until 01/01/2022
+                        </small>
+                      }
+                    </div>
                     <div className={`${obj.key === category.key ? '' : 'd-none'}`}>
                       <img className='btn-play' src={require('assets/svgs/Tick.svg').default} alt='1' />
                     </div>

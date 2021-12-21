@@ -172,7 +172,7 @@ const PostComponent = ({
                   }
                   {
                     displayPost.category
-                      ? <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
+                      ? <span className={`card-badge ${displayPost.category.key === 'special' && 'card-badge-special'} ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', displayPost.category.title)}>{displayPost.category.title}</span>
                       : <span className={`card-badge ${!displayPost.active && 'hidden'}`} onClick={e => handleFilters && handleFilters('selected', 'same pinch')}>same pinch</span>
                   }
                   <span className={`card-amount ${!displayPost.tradePrice && 'd-none'} pl-2`}>

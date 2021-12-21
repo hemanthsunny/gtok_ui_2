@@ -27,7 +27,7 @@ const DetailComponent = ({
             createResharePost &&
             <div>
               <div>
-                <span className='card-badge'>{resharePost.category.title}</span>
+                <span className={`card-badge ${resharePost.category.key === 'special' && 'card-badge-special'}`}>{resharePost.category.title}</span>
                 <span className={`card-amount ${!resharePost.tradePrice && 'd-none'} pl-2`}>
                   <span className='currency-text'><img className='inr-black-icon p-0' src={require('assets/svgs/currency/inr/inr_black.svg').default} alt="1" />{resharePost.tradePrice}</span>
                 </span>
@@ -48,7 +48,7 @@ const DetailComponent = ({
             {
               createResharePost
                 ? <span className='card-badge'>same pinch</span>
-                : <button className='card-badge' data-target='#selectPostCategoryModal' data-toggle='modal'>
+                : <button className={`card-badge ${category.key === 'special' && 'card-badge-special'}`} data-target='#selectPostCategoryModal' data-toggle='modal'>
                   {category.title} <img className='icon-angle-down' src={require('assets/svgs/AngleDown.svg').default} alt="1" />
                 </button>
             }

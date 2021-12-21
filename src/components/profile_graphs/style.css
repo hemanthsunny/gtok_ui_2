@@ -1,0 +1,17 @@
+.profile-graphs-container {
+  width: 100vw;
+  text-align: center;
+  margin: 0px auto !important;
+}
+
+.profile-graphs-container .graphs {
+  position: relative;
+  left: 10vw;
+  width: 30vw;
+}
+
+@media (max-width: 767.97px) {
+  .profile-graphs-container {
+    /* display: none; */
+  }
+}

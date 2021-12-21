@@ -5,6 +5,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 
 import 'bootstrap/dist/css/bootstrap.css'
+import 'chart.js/dist/chart.js'
+
 import { Provider } from 'react-redux'
 import store from './store'
 
