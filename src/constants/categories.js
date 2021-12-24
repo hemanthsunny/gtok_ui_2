@@ -1,12 +1,24 @@
-export const specialCategoryColor = '#FFB47E'
+export const specialCategory = {
+  key: 'special',
+  title: 'burger',
+  color: '#ff9110',
+  startDate: '25-12-2021',
+  days: 7,
+  endDate: '01-01-2022',
+  description: 'Have you tasted a burger 🍔 before? Tell us about your favourite burger. 😃',
+  homepage_description: `<div class='px-2 p-sm-2'>
+  Welcome to Burger week. What is your favorite burger!?
+  </div>`
+}
+
 export const categoryColors = [
   '#6903DB', // current feeling
   '#FFEF0A', // happy
   '#1C5A8F', // sad
-  '#A6FF58', // surprise
+  '#FE0089', // surprise
   '#8F7A7A', // fear
   '#D12D00', // anger
-  '#FFB47E', // special
+  '#FF9110', // special
   '#808080' // other
 ]
 

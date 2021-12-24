@@ -6,6 +6,7 @@ import './style.css'
 
 import PostComponent from './children/post/component'
 import ResharePostComponent from './children/reshare/component'
+import SpecialHeaderComponent from './children/special_header/component'
 import {
   HeaderComponent,
   MobileFooterComponent,
@@ -198,6 +199,7 @@ class ParentComponent extends Component {
                   ))
                 }
                 </div>
+                <SpecialHeaderComponent currentUser={this.currentUser} />
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {

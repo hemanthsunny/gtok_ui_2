@@ -27,7 +27,7 @@ class DoughnutChart extends React.Component {
       type: 'doughnut',
       options: {
         animation: false,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         responsive: true,
         layout: {
           padding: {
@@ -36,10 +36,10 @@ class DoughnutChart extends React.Component {
         },
         plugins: {
           legend: {
-            position: 'right'
+            position: 'bottom'
           },
           title: {
-            display: false,
+            display: true,
             text: this.props.title
           }
         }

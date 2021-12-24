@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 
 import { AudioPlayerComponent } from 'components'
+import { specialCategory } from 'constants/categories'
 
 const DetailComponent = ({
   setStepNumber, postText, setPostText, btnUpload, fileUrl, uploadAudio, deleteFile, currentUser, category, tradePrice, setTradePrice, anonymous, setAnonymous, tradePost, setTradePost, wallet, sharePost, postLength, setPostLength, resharePost, resharePostUser, createResharePost
@@ -56,7 +57,7 @@ const DetailComponent = ({
               <img src={require('assets/svgs/currency/inr_black.svg').default} className='inr-black-icon p-0' alt='Inr' />{tradePrice}
             </span>
           </div>
-          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder='Do you know? Feelings are assets. Start sharing..' rows={7} autoFocus></textarea>
+          <textarea className='create-post-box' value={postText} onChange={e => handleChange(e.target.value)} placeholder={category.key === 'special' ? specialCategory.description : 'Do you know? Feelings are assets. Start sharing..'} rows={7} autoFocus></textarea>
           <div className={`text-center ${postLength < 1 && 'd-none'}`}>
             <small className='text-grey pb-5'>Atleast {postLength} chars required</small>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import $ from 'jquery'
+import { specialCategory } from 'constants/categories'
 
 const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, setCategory, postCategories }) => {
   const [other, setOther] = useState(category.key === 'other')
@@ -55,7 +55,7 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
                       {
                         obj.key === 'special' &&
                         <small className='btn-special-outline-r ml-3'>
-                          Until 01/01/2022
+                          Until {specialCategory.endDate}
                         </small>
                       }
                     </div>

@@ -78,6 +78,10 @@ class PostsComponent extends Component {
     })
   }
 
+  redirectToCreatePage = () => {
+    this.props.history.push('/app/create_asset')
+  }
+
   subHeader = () => (
     <div className='dashboard-tabs d-none' role='navigation' aria-label='Main'>
       <div className='tabs -big'>
@@ -130,7 +134,7 @@ class PostsComponent extends Component {
                 )
               })
               : <div className='text-center mt-5'>
-                No assets found
+                No assets found. <br /><br /> <button className='btn btn-violet-rounded btn-sm' onClick={this.redirectToCreatePage}>Create an asset</button>
               </div>
           }
           <MenuOptionsComponent currentUser={this.props.currentUser} loadPosts={this.loadPosts} />

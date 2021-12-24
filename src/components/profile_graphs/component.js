@@ -23,16 +23,18 @@ function ProfileGraphsComponent ({
       const posts = await getQuery(
         firestore.collection('posts').where('userId', '==', currentUser.id).get()
       )
-      setData([
-        posts.filter(elem => elem.category && elem.category.key === 'current_feeling').length,
-        posts.filter(elem => elem.category && elem.category.key === 'happy').length,
-        posts.filter(elem => elem.category && elem.category.key === 'sad').length,
-        posts.filter(elem => elem.category && elem.category.key === 'surprise').length,
-        posts.filter(elem => elem.category && elem.category.key === 'fear').length,
-        posts.filter(elem => elem.category && elem.category.key === 'angry').length,
-        posts.filter(elem => elem.category && elem.category.key === 'special').length,
-        posts.filter(elem => elem.category && elem.category.key === 'other').length
-      ])
+      if (posts.length > 0) {
+        setData([
+          posts?.filter(elem => elem.category && elem.category.key === 'current_feeling').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'happy').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'sad').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'surprise').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'fear').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'angry').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'special').length,
+          posts?.filter(elem => elem.category && elem.category.key === 'other').length
+        ])
+      }
     }
     if (!data) {
       getUserAssets()
@@ -42,9 +44,9 @@ function ProfileGraphsComponent ({
   return (
     <div className='profile-graphs-container'>
       {
-        data &&
+        data && data.length > 0 &&
         <div className='graphs'>
-          <DoughnutChart labels={labels} data={data} title='All Time Feelings' colors={categoryColors} />
+          <DoughnutChart labels={labels} data={data} title='Wheel of Emotions (WOE)' colors={categoryColors} />
         </div>
       }
     </div>
