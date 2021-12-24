@@ -199,7 +199,9 @@ class ParentComponent extends Component {
                   ))
                 }
                 </div>
-                <SpecialHeaderComponent currentUser={this.currentUser} />
+                {
+                  !this.state.selectedFilters?.length && <SpecialHeaderComponent currentUser={this.currentUser} />
+                }
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {
