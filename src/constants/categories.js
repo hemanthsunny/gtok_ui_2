@@ -4,7 +4,7 @@ export const specialCategory = {
   color: '#ff9110',
   startDate: '25-12-2021',
   days: 7,
-  endDate: '01-01-2022',
+  endDate: '2 Jan \'22',
   description: 'Have you tasted a burger 🍔 before? Tell us about your favourite burger. 😃',
   homepage_description: `<div class='px-2 p-sm-2'>
   Welcome to Burger week. What is your favorite burger!?

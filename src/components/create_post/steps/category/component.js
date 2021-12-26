@@ -49,13 +49,13 @@ const DetailComponent = ({ currentUser, setStepNumber, handleChange, category, s
             <div className='user-list'>
               {
                 postCategories.map((obj, idx) =>
-                  <div className={`post-category ${obj.key === 'special' && 'text-color'}`} key={idx} onClick={e => handleCategory(obj)}>
+                  <div className={`post-category ${obj.key === 'special' && 'text-color-special'}`} key={idx} onClick={e => handleCategory(obj)}>
                     <div className='username pull-left'>
                       {obj.title}
                       {
                         obj.key === 'special' &&
-                        <small className='btn-special-outline-r ml-3'>
-                          Until {specialCategory.endDate}
+                        <small className='ml-1'>
+                          (Ends on {specialCategory.endDate})
                         </small>
                       }
                     </div>
