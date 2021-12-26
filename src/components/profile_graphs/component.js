@@ -46,7 +46,7 @@ function ProfileGraphsComponent ({
       {
         data && data.length > 0 &&
         <div className='graphs'>
-          <DoughnutChart labels={labels} data={data} title='Wheel of Emotions (WOE)' colors={categoryColors} />
+          <DoughnutChart labels={labels} data={data} title='Wheel Of Emotions' colors={categoryColors} />
         </div>
       }
     </div>

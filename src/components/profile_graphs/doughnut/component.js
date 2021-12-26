@@ -23,8 +23,35 @@ class DoughnutChart extends React.Component {
   }
 
   componentDidMount () {
+    const _this = this
+
+    /*
+      Custom plugin for chartjs
+      Ref: https://www.youtube.com/watch?v=E8pSF9JrEvE
+    */
+    const counter = {
+      id: 'counter',
+      beforeDraw (chart, args, options) {
+        const {
+          ctx,
+          chartArea: {
+            top, width, height
+          }
+        } = chart
+        ctx.save()
+        ctx.font = `${options.fontSize} ${options.fontFamily}`
+        ctx.textAlign = options.textAlign
+        ctx.fillStyle = options.color
+        ctx.fillText(_this.props?.data?.reduce((a, b) => a + b), width / 2, top + (height / 2))
+      }
+    }
+
+    Chart.defaults.font.family = 'Poppins'
+    Chart.defaults.font.size = (window.innerWidth > 768) ? 13 : 12
+    Chart.defaults.font.color = '#2b2b2b'
     this.myChart = new Chart(this.chartRef.current.getContext('2d'), {
       type: 'doughnut',
+      plugins: [counter],
       options: {
         animation: false,
         maintainAspectRatio: true,
@@ -40,7 +67,17 @@ class DoughnutChart extends React.Component {
           },
           title: {
             display: true,
-            text: this.props.title
+            text: this.props.title,
+            color: '#2b2b2b',
+            font: {
+              weight: '500'
+            }
+          },
+          counter: {
+            fontSize: (window.innerWidth > 768) ? '18px' : '16px',
+            fontFamily: 'Poppins',
+            color: '#2b2b2b',
+            textAlign: 'center'
           }
         }
       },
