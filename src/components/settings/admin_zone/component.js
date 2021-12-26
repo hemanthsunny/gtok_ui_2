@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import { get, firestore } from 'firebase_config'
 import { capitalizeFirstLetter } from 'helpers'
+import { post } from 'services'
 
 function AdminZoneComponent ({ currentUser }) {
   const [loading, setLoading] = useState(false)
@@ -89,6 +90,14 @@ function AdminZoneComponent ({ currentUser }) {
     history.push(`/app/${path}`)
   }
 
+  const sendWeeklyNewsletter = async () => {
+    setLoading(true)
+    const res = await post('/send_weekly_newsletter')
+    if (res.status) {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className='section'>
       <div className='section-header'>Admin zone { loading && <i className='fa fa-spin fa-spinner'></i> }</div>
@@ -118,6 +127,13 @@ function AdminZoneComponent ({ currentUser }) {
           <div className='d-flex flex-row align-items-center justify-content-between pointer'>
             <span className='option-name' htmlFor="customSwitch1" onClick={updateRelationshipStatus}>
               Update relationship statuses
+            </span>
+          </div>
+        </li>
+        <li>
+          <div className='d-flex flex-row align-items-center justify-content-between pointer'>
+            <span className='option-name' htmlFor="customSwitch1" onClick={sendWeeklyNewsletter}>
+              Send weekly newsletter
             </span>
           </div>
         </li>
