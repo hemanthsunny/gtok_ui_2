@@ -25,7 +25,7 @@ function ProfileGraphsComponent ({
       )
       if (posts.length > 0) {
         setData([
-          posts?.filter(elem => elem.category && elem.category.key === 'current_feeling').length,
+          posts?.filter(elem => elem.category && (elem.category.key === 'current_feeling' || elem.category.key === 'same_pinch')).length,
           posts?.filter(elem => elem.category && elem.category.key === 'happy').length,
           posts?.filter(elem => elem.category && elem.category.key === 'sad').length,
           posts?.filter(elem => elem.category && elem.category.key === 'surprise').length,
