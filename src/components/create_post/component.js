@@ -80,7 +80,6 @@ const ParentComponent = (props) => {
 
     let result
     let toasterText = 'Your asset is now live'
-    console.log('mcnggggg here')
     if (sharePost.resharePostId && sharePost.userId === currentUser.id) {
       result = await update('posts', sharePost.id, {
         stories: [{

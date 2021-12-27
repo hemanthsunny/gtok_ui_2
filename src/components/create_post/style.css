@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.text-color-special {
+  color: var(--color-special);
+}
+
 #selectPostCategoryModal .other-category-box {
   padding-left: var(--spacing-12);
   padding-right: var(--spacing-12);
@@ -94,6 +98,10 @@
   background-color: var(--color-violet-400);
   padding: 0.25rem 0.7rem;
   border-radius: 1.5rem;
+}
+
+.card-badge-special {
+  background-color: var(--color-special) !important;
 }
 
 .create-post-card-wrapper .inr-icon {

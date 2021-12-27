@@ -59,6 +59,14 @@
   border-radius: 1.5rem;
 }
 
+.feeling-wrapper .filter-wrapper .selected-filter-special {
+  font-size: var(--font-size-small);
+  color: var(--color-white);
+  background-color: var(--color-special);
+  padding: 0.25rem 0.7rem;
+  border-radius: 1.5rem;
+}
+
 .feeling-wrapper .scroll-to-top {
   position: fixed;
   left: 50%;

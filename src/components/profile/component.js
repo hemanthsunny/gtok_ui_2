@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { MobileFooterComponent, LoadingComponent } from 'components'
+import { MobileFooterComponent, LoadingComponent, ProfileGraphsComponent } from 'components'
 // import HeaderComponent from './header'
 import UserDetailComponent from './steps/user_detail/component'
 import PostsComponent from './steps/posts/component'
@@ -18,6 +18,7 @@ function ParentComponent ({ currentUser, computedMatch }) {
 
   useEffect(async () => {
     async function getDisplayUser () {
+      setLoading(true)
       const u = await getQuery(
         firestore.collection('users').where('username', '==', username).get()
       )
@@ -26,13 +27,16 @@ function ParentComponent ({ currentUser, computedMatch }) {
         /* get relationship status */
         getRelationship(u[0])
       }
+      setLoading(false)
     }
 
     async function getRelationship (u) {
+      setLoading(true)
       const rlns = await getQuery(
         firestore.collection('userRelationships').where('userIdOne', '==', currentUser.id).where('userIdTwo', '==', u.id).get()
       )
       if (rlns[0]) setRelationship(rlns[0])
+      setLoading(false)
     }
 
     if (username) {
@@ -60,13 +64,21 @@ function ParentComponent ({ currentUser, computedMatch }) {
                   : <div>
                     <UserDetailComponent currentUser={currentUser} displayUser={displayUser} />
                     {
+                      (!username || (username && username === currentUser.username)) &&
+                      <div>
+                        <ProfileGraphsComponent currentUser={currentUser} />
+                        <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
+                      </div>
+                    }
+                    {
                       username
                         ? relationship.status !== 1 && displayUser.private
                           ? <div className='private-profile-text'>
                             @{displayUser.username} assets are private.
                           </div>
                           : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
-                        : <PostsComponent currentUser={currentUser} displayUser={displayUser} hideHeader={true} />
+                        : <div>
+                        </div>
                     }
                   </div>
               }

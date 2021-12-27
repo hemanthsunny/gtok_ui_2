@@ -6,6 +6,7 @@ import './style.css'
 
 import PostComponent from './children/post/component'
 import ResharePostComponent from './children/reshare/component'
+import SpecialHeaderComponent from './children/special_header/component'
 import {
   HeaderComponent,
   MobileFooterComponent,
@@ -17,6 +18,7 @@ import {
 } from 'components'
 import { SetPosts } from 'store/actions'
 import { getQuery, firestore } from 'firebase_config'
+import { categories } from 'constants/categories'
 
 class ParentComponent extends Component {
   constructor (props) {
@@ -193,10 +195,13 @@ class ParentComponent extends Component {
                 <div className='filter-wrapper pl-sm-5'>
                 {
                   this.state.selectedFilters.map((name, i) => (
-                    <div className='btn btn-violet btn-sm mx-1 selected-filter' key={i} onClick={e => this.handleFilters('unselected', name)}>{name} &nbsp; <>x</></div>
+                    <div className={`btn btn-sm mx-1 ${categories.find(c => c.title === name && c.key !== 'special') ? 'selected-filter' : 'selected-filter-special'}`} key={i} onClick={e => this.handleFilters('unselected', name)}>{name} &nbsp; <>x</></div>
                   ))
                 }
                 </div>
+                {
+                  !this.state.selectedFilters?.length && <SpecialHeaderComponent currentUser={this.currentUser} />
+                }
                 {
                   this.state.posts[0] && this.state.posts.map((post, idx) => {
                     if (post.resharePostId) {

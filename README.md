@@ -22,6 +22,9 @@ Our application must communicate with a real-time firebase project environment (
 - Authorization
 - Firestore
 
+#### How to create good security database rules
+Database rules: https://medium.com/@juliomacr/10-firebase-realtime-database-rule-templates-d4894a118a98
+
 #### Remove this styling from styles/common.css to see emulator warning
 `.firebase-emulator-warning {
     display: none;
@@ -37,3 +40,9 @@ Ref: https://stackoverflow.com/questions/57537355/firebase-serve-error-port-5000
 4. How to create a manifest file?
 Ref: https://web.dev/add-manifest/
 5. Splashscreen - https://web.dev/splash-screen/?utm_source=lighthouse&utm_medium=lr
+6. Set cookies - https://www.valentinog.com/blog/cookies/
+
+Chart.js references:
+1. Custom legend
+- https://stackoverflow.com/questions/39454586/pie-chart-legend-chart-js
+- https://stackoverflow.com/questions/31625364/display-data-label-legend-in-line-chart-using-chartjs

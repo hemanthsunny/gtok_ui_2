@@ -7,6 +7,7 @@ import convertTextToLink from './convertTextToLink'
 import encryptText from './encryptText'
 import decryptText from './decryptText'
 import hideCurrentYear from './hideCurrentYear'
+import isMobile from './isMobile'
 
 export {
   convertTextToJson,
@@ -17,5 +18,6 @@ export {
   convertTextToLink,
   encryptText,
   decryptText,
-  hideCurrentYear
+  hideCurrentYear,
+  isMobile
 }

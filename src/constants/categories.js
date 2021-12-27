@@ -1,3 +1,62 @@
+export const specialCategory = {
+  key: 'special',
+  title: 'burger',
+  color: '#ff9110',
+  startDate: '25-12-2021',
+  days: 7,
+  endDate: '2 Jan \'22',
+  description: 'Have you tasted a burger 🍔 before? Tell us about your favourite burger. 😃',
+  homepage_description: `<div class='px-2 p-sm-2'>
+  Welcome to Burger week. What is your favorite burger!?
+  </div>`
+}
+
+export const categoryColors = [
+  '#6903DB', // current feeling
+  '#FFEF0A', // happy
+  '#1C5A8F', // sad
+  '#FE0089', // surprise
+  '#8F7A7A', // fear
+  '#D12D00', // anger
+  '#FF9110', // special
+  '#808080' // other
+]
+
+export const categories = [
+  {
+    title: 'current feeling',
+    key: 'current_feeling'
+  },
+  {
+    title: 'happy',
+    key: 'happy'
+  },
+  {
+    title: 'sad',
+    key: 'sad'
+  },
+  {
+    title: 'surprise',
+    key: 'surprise'
+  },
+  {
+    title: 'fear',
+    key: 'fear'
+  },
+  {
+    title: 'anger',
+    key: 'angry'
+  },
+  {
+    title: 'burger',
+    key: 'special'
+  },
+  {
+    title: 'other',
+    key: 'other'
+  }
+]
+
 export const FeelingCategories = [
   {
     title: 'current feeling',
@@ -22,6 +81,10 @@ export const FeelingCategories = [
   {
     title: 'anger',
     key: 'angry'
+  },
+  {
+    title: 'burger',
+    key: 'special'
   },
   {
     title: 'other',
