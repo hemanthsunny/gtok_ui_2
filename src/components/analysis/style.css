@@ -15,5 +15,6 @@
     position: relative;
     left: 10vw;
     width: 30vw;
+    top: var(--spacing-48);
   }
 }

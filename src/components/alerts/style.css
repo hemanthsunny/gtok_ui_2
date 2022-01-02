@@ -50,6 +50,6 @@ a.bell-active::before {
 }
 
 .alerts-wrapper .created-at {
-  color: #2B2B2B;
+  color: #2b2b2b;
   font-size: var(--font-size-smaller);
 }

@@ -1,4 +1,4 @@
-export default ({
+export default {
   id: number(),
   user: user, // foreign key
   name: str(),
@@ -6,5 +6,5 @@ export default ({
   expiryDate: str(),
   securityCode: str(), // 3 digits of card
   createdAt: new Date(),
-  updatedAt: new Date()
-})
+  updatedAt: new Date(),
+};

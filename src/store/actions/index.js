@@ -26,8 +26,8 @@ import {
   SET_PURCHASE_ORDERS,
   SET_WALLET,
   SET_PRICES,
-  SET_TRANSACTIONS
-} from '../types.js'
+  SET_TRANSACTIONS,
+} from "../types.js";
 import {
   getNewMessagesCount,
   getNewAlertsCount,
@@ -42,384 +42,386 @@ import {
   getPrices,
   getTransactions,
   createPageVisits,
-  createRelationships
-} from 'lib/api'
-import { SetCurrentAudio } from './AudioPlayer'
+  createRelationships,
+} from "lib/api";
+import { SetCurrentAudio } from "./AudioPlayer";
 
-export {
-  SetCurrentAudio
-}
+export { SetCurrentAudio };
 export const SetDbUser = (content) => {
   return {
     type: SET_DB_USER,
     payload: {
-      dbUser: content
-    }
-  }
-}
+      dbUser: content,
+    },
+  };
+};
 
 export const SetUser = (content) => {
   return {
     type: SET_USER,
     payload: {
-      user: content
-    }
-  }
-}
+      user: content,
+    },
+  };
+};
 
 export const SetLoggedIn = (content) => {
   return {
     type: SET_LOGGED_IN,
     payload: {
-      loggedIn: content
-    }
-  }
-}
+      loggedIn: content,
+    },
+  };
+};
 
 export const SetReload = (content) => {
   return {
     type: SET_RELOAD,
     payload: {
-      reload: content
-    }
-  }
-}
+      reload: content,
+    },
+  };
+};
 
 export const SetSubscriptionPlans = (content) => {
   return {
     type: SET_SUBSCRIPTION_PLANS,
     payload: {
-      plans: content
-    }
-  }
-}
+      plans: content,
+    },
+  };
+};
 
 export const SetChatMessages = (content) => {
   return {
     type: SET_CHAT_MESSAGES,
     payload: {
-      messages: content
-    }
-  }
-}
+      messages: content,
+    },
+  };
+};
 
 export const SetConvos = (content) => {
   return {
     type: SET_CONVOS,
     payload: {
-      convos: content
-    }
-  }
-}
+      convos: content,
+    },
+  };
+};
 
 export const SetSurveysList = (currentUser) => {
   return (dispatch) => {
-    getSurveysList(currentUser).then(res => {
+    getSurveysList(currentUser).then((res) => {
       dispatch({
         type: SET_SURVEYS_LIST,
         payload: {
-          surveys: res
-        }
-      })
-    })
-  }
-}
+          surveys: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetSurveysAfterResponses = (currentUser, type = 'all') => {
+export const SetSurveysAfterResponses = (currentUser, type = "all") => {
   return (dispatch) => {
-    getSurveysList(currentUser, type).then(res => {
+    getSurveysList(currentUser, type).then((res) => {
       dispatch({
         type: SET_SURVEYS_AFTER_RESPONSES,
         payload: {
-          surveysAfterResponses: res
-        }
-      })
-    })
-  }
-}
+          surveysAfterResponses: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetNewMessagesCount = (currentUser) => {
   return (dispatch) => {
-    getNewMessagesCount(currentUser).then(res => {
+    getNewMessagesCount(currentUser).then((res) => {
       dispatch({
         type: SET_NEW_MESSAGES_COUNT,
         payload: {
-          newMessagesCount: res
-        }
-      })
-    })
-  }
-}
+          newMessagesCount: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetNewAlertsCount = (currentUser) => {
   return (dispatch) => {
-    getNewAlertsCount(currentUser).then(res => {
+    getNewAlertsCount(currentUser).then((res) => {
       dispatch({
         type: SET_NEW_ALERTS_COUNT,
         payload: {
-          newAlertsCount: res
-        }
-      })
-    })
-  }
-}
+          newAlertsCount: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetTrendingPosts = (currentUser) => {
   return (dispatch) => {
-    getPosts(currentUser, 'trending').then(res => {
+    getPosts(currentUser, "trending").then((res) => {
       dispatch({
         type: SET_TRENDING_POSTS,
         payload: {
-          trendingPosts: res
-        }
-      })
-    })
-  }
-}
+          trendingPosts: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetPosts = (currentUser, type = 'all', data) => {
-  if (type === 'none') {
+export const SetPosts = (currentUser, type = "all", data) => {
+  if (type === "none") {
     return (dispatch) => {
       dispatch({
         type: SET_POSTS,
         payload: {
-          posts: data
-        }
-      })
-    }
+          posts: data,
+        },
+      });
+    };
   }
   return (dispatch) => {
-    getPosts(currentUser, type, data).then(res => {
+    getPosts(currentUser, type, data).then((res) => {
       dispatch({
         type: SET_POSTS,
         payload: {
-          posts: res
-        }
-      })
-    })
-  }
-}
+          posts: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetSharePost = (currentUser, type = 'id', data) => {
+export const SetSharePost = (currentUser, type = "id", data) => {
   return (dispatch) => {
-    getPosts(currentUser, type, data).then(res => {
+    getPosts(currentUser, type, data).then((res) => {
       dispatch({
         type: SET_SHARE_POST,
         payload: {
-          sharePost: res
-        }
-      })
-    })
-  }
-}
+          sharePost: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetSelectedUserPosts = (currentUser, type = 'selectedUser', data) => {
+export const SetSelectedUserPosts = (
+  currentUser,
+  type = "selectedUser",
+  data
+) => {
   return (dispatch) => {
-    getPosts(currentUser, type, data).then(res => {
+    getPosts(currentUser, type, data).then((res) => {
       dispatch({
         type: SET_SELECTED_USER_POSTS,
         payload: {
-          selectedUserPosts: res
-        }
-      })
-    })
-  }
-}
+          selectedUserPosts: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetNewPost = (post) => {
   return (dispatch) => {
     dispatch({
       type: SET_NEW_POST,
       payload: {
-        newPost: post
-      }
-    })
-  }
-}
+        newPost: post,
+      },
+    });
+  };
+};
 
 export const SetDeletedPostId = (id) => {
   return (dispatch) => {
     dispatch({
       type: SET_DELETED_POST,
       payload: {
-        postId: id
-      }
-    })
-  }
-}
+        postId: id,
+      },
+    });
+  };
+};
 
 export const SetUpdatedPost = (currentUser, type, data) => {
   return (dispatch) => {
-    getPosts(currentUser, type, data).then(res => {
+    getPosts(currentUser, type, data).then((res) => {
       dispatch({
         type: SET_UPDATED_POST,
         payload: {
-          updatedPost: res
-        }
-      })
-    })
-  }
-}
+          updatedPost: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetAllUsers = (currentUser, type = 'all', searchVal = '') => {
+export const SetAllUsers = (currentUser, type = "all", searchVal = "") => {
   return (dispatch) => {
-    getUsers(currentUser, type, searchVal).then(res => {
+    getUsers(currentUser, type, searchVal).then((res) => {
       dispatch({
         type: SET_ALL_USERS,
         payload: {
-          allUsers: res
-        }
-      })
-    })
-  }
-}
+          allUsers: res,
+        },
+      });
+    });
+  };
+};
 
-export const SetAlerts = (currentUser, type = 'all', data) => {
-  if (type === 'none') {
+export const SetAlerts = (currentUser, type = "all", data) => {
+  if (type === "none") {
     return (dispatch) => {
       dispatch({
         type: SET_ALERTS,
         payload: {
-          alerts: data
-        }
-      })
-    }
+          alerts: data,
+        },
+      });
+    };
   }
   return (dispatch) => {
-    getAlerts(currentUser, type).then(res => {
+    getAlerts(currentUser, type).then((res) => {
       dispatch({
         type: SET_ALERTS,
         payload: {
-          alerts: res
-        }
-      })
-    })
-  }
-}
+          alerts: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetPermissions = (currentUser) => {
   return (dispatch) => {
-    getPermissions(currentUser).then(res => {
+    getPermissions(currentUser).then((res) => {
       dispatch({
         type: SET_PERMISSIONS,
         payload: {
-          pms: res
-        }
-      })
-    })
-  }
-}
+          pms: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetRelationships = (currentUser, displayUser, status) => {
   return (dispatch) => {
-    getRelationships(currentUser, displayUser, status).then(res => {
+    getRelationships(currentUser, displayUser, status).then((res) => {
       dispatch({
         type: SET_RELATIONSHIPS,
         payload: {
           rls: res,
-          currentUser: currentUser
-        }
-      })
-    })
-  }
-}
+          currentUser: currentUser,
+        },
+      });
+    });
+  };
+};
 
 export const SetUserRelations = (currentUser, displayUser, status) => {
   return (dispatch) => {
-    getRelationships(currentUser, displayUser, status).then(res => {
+    getRelationships(currentUser, displayUser, status).then((res) => {
       dispatch({
         type: SET_USER_RELATIONS,
         payload: {
-          rls: res
-        }
-      })
-    })
-  }
-}
+          rls: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetChatbotMessages = (content) => {
   return {
     type: SET_CHATBOT_MESSAGES,
     payload: {
-      messages: content
-    }
-  }
-}
+      messages: content,
+    },
+  };
+};
 
 export const SetPurchaseOrders = (currentUser) => {
   return (dispatch) => {
-    getPurchaseOrders(currentUser).then(res => {
+    getPurchaseOrders(currentUser).then((res) => {
       dispatch({
         type: SET_PURCHASE_ORDERS,
         payload: {
-          po: res
-        }
-      })
-    })
-  }
-}
+          po: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetTransactions = (currentUser) => {
   return (dispatch) => {
-    getTransactions(currentUser).then(res => {
+    getTransactions(currentUser).then((res) => {
       dispatch({
         type: SET_TRANSACTIONS,
         payload: {
-          po: res
-        }
-      })
-    })
-  }
-}
+          po: res,
+        },
+      });
+    });
+  };
+};
 
 export const SetWallet = (currentUser) => {
   return (dispatch) => {
-    return getWallet(currentUser).then(res => {
+    return getWallet(currentUser).then((res) => {
       dispatch({
         type: SET_WALLET,
         payload: {
-          wallet: res
-        }
-      })
-      return res
-    })
-  }
-}
+          wallet: res,
+        },
+      });
+      return res;
+    });
+  };
+};
 export const SetPrices = (currentUser) => {
   return (dispatch) => {
-    getPrices(currentUser).then(res => {
+    getPrices(currentUser).then((res) => {
       dispatch({
         type: SET_PRICES,
         payload: {
-          prices: res
-        }
-      })
-    })
-  }
-}
+          prices: res,
+        },
+      });
+    });
+  };
+};
 
 export const CreatePageVisits = (currentUser) => {
   return (dispatch) => {
-    createPageVisits(currentUser).then(res => {
+    createPageVisits(currentUser).then((res) => {
       // dispatch({
       //   type: SET_ALERTS,
       //   payload: {
       //     pageVisits: res
       //   }
       // });
-    })
-  }
-}
+    });
+  };
+};
 
 export const CreateRelationships = (currentUser, displayUser, status) => {
   return (dispatch) => {
-    createRelationships(currentUser, displayUser, status).then(res => {
+    createRelationships(currentUser, displayUser, status).then((res) => {
       // dispatch({
       //   type: SET_ALERTS,
       //   payload: {
       //     pageVisits: res
       //   }
       // });
-    })
-  }
-}
+    });
+  };
+};

@@ -1,12 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
 /* Permissions reference: https://stackoverflow.com/questions/58128847/what-all-mobile-permission-we-can-ask-in-a-pwa */
 
-const UserPermissionsComponent = ({
-  newMessagesCount,
-  newAlertsCount
-}) => {
+const UserPermissionsComponent = ({ newMessagesCount, newAlertsCount }) => {
   // const [hideNotify, setHideNotify] = useState(true)
   // name: 'notifications',
   // name: 'geolocation',
@@ -63,20 +60,13 @@ const UserPermissionsComponent = ({
   // });
   // }, [newAlertsCount, newMessagesCount]);
 
-  return (
-    <div className={'text-center d-none'}>
-      Please accept permissions.
-    </div>
-  )
-}
+  return <div className={"text-center d-none"}>Please accept permissions.</div>;
+};
 
 const mapStateToProps = (state) => {
-  const { newMessagesCount } = state.chatMessages
-  const { newAlertsCount } = state.alerts
-  return { newMessagesCount, newAlertsCount }
-}
+  const { newMessagesCount } = state.chatMessages;
+  const { newAlertsCount } = state.alerts;
+  return { newMessagesCount, newAlertsCount };
+};
 
-export default connect(
-  mapStateToProps,
-  null
-)(UserPermissionsComponent)
+export default connect(mapStateToProps, null)(UserPermissionsComponent);

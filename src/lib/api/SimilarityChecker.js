@@ -17,34 +17,34 @@ SimilarityChecker
 */
 
 export const SimilarityChecker = (input = []) => {
-  const res1 = input[0] && input[0].response
-  const res2 = input[1] && input[1].response
-  const common = []
-  let description = ''
+  const res1 = input[0] && input[0].response;
+  const res2 = input[1] && input[1].response;
+  const common = [];
+  let description = "";
 
   for (const i in res1) {
-    if (typeof (res1[i]) === 'string') {
+    if (typeof res1[i] === "string") {
       if (res1[i] === res2[i]) {
-        common.push({ key: [i - 1], value: res1[i] })
+        common.push({ key: [i - 1], value: res1[i] });
       }
-    } else if (typeof (res1[i]) === 'object') {
+    } else if (typeof res1[i] === "object") {
       // let atleastOne = false;
-      const res1i = []
-      let res2i = []
+      const res1i = [];
+      let res2i = [];
       for (const val in res1[i]) {
-        res1i.push(res1[i][val])
+        res1i.push(res1[i][val]);
       }
       for (const val in res2[i]) {
         // res2i.push(res2[i][j]);
-        const com = res1i.find(ans => ans === res2[i][val])
-        if (com) res2i.push(com)
+        const com = res1i.find((ans) => ans === res2[i][val]);
+        if (com) res2i.push(com);
       }
       if (res2i[0]) {
-        res2i = res2i.sort().toString().replace(/,/g, ', ')
-        description += res2i + ', '
-        common.push({ key: i, value: res2i })
+        res2i = res2i.sort().toString().replace(/,/g, ", ");
+        description += res2i + ", ";
+        common.push({ key: i, value: res2i });
       }
     }
   }
-  return { common, description }
-}
+  return { common, description };
+};

@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 
 // Stripe pkgs
-import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
-import CardElementComponent from '../card_element/component'
+import CardElementComponent from "../card_element/component";
 // import { getQuery, firestore } from 'firebase_config'
 // import { post } from 'services'
 
@@ -12,17 +12,20 @@ import CardElementComponent from '../card_element/component'
 // recreating the `Stripe` object on every render.
 // If its dev - use process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST
 // If its prod - use process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-function CardDetailsComponent ({ currentUser, rechargeAmount, paymentIntent }) {
+function CardDetailsComponent({ currentUser, rechargeAmount, paymentIntent }) {
   return (
     <Elements stripe={stripePromise}>
-      <CardElementComponent paymentIntent={paymentIntent} currentUser={currentUser} />
+      <CardElementComponent
+        paymentIntent={paymentIntent}
+        currentUser={currentUser}
+      />
     </Elements>
-  )
+  );
 }
 
-export default CardDetailsComponent
+export default CardDetailsComponent;
 
 // const [cardHolderName, setCardHolderName] = useState('')
 // const [cardNumber, setCardNumber] = useState('')

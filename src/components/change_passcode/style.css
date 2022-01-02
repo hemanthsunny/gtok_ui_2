@@ -29,14 +29,15 @@
   min-width: 200px; */
 
   border: none;
-  background:
-    repeating-linear-gradient(90deg,
-        dimgrey 0,
-        dimgrey 15vw,
-        transparent 0,
-        transparent 20vw)
-      0 100%/100% 2px no-repeat;
-  letter-spacing: .5ch;
+  background: repeating-linear-gradient(
+      90deg,
+      dimgrey 0,
+      dimgrey 15vw,
+      transparent 0,
+      transparent 20vw
+    )
+    0 100%/100% 2px no-repeat;
+  letter-spacing: 0.5ch;
 
   color: var(--color-black);
   padding: 0;

@@ -1,4 +1,4 @@
-export default ({
+export default {
   id: number(),
   from: user, // foreign key - purchasing user
   to: user, // receiving user
@@ -7,5 +7,5 @@ export default ({
   status: str(), // success, pending, fail, initiated,
   paymentCard: paymentCard, // include card details to track transaction
   createdAt: new Date(),
-  updatedAt: new Date()
-})
+  updatedAt: new Date(),
+};

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
 const NoInternetNotification = () => {
-  const [online, setOnline] = useState(navigator.onLine)
+  const [online, setOnline] = useState(navigator.onLine);
 
   useEffect(() => {
-    function isOnline () {
+    function isOnline() {
       // const xml = new XMLHttpRequest()
       // return new Promise((res, rej) => {
       //   xml.onload = () => {
@@ -22,17 +22,21 @@ const NoInternetNotification = () => {
       //   xml.setRequestHeader('Origin', 'http://localhost:3000')
       //   xml.send()
       // })
-      setOnline(true)
+      setOnline(true);
     }
 
-    if (!online) isOnline()
-  }, [online])
+    if (!online) isOnline();
+  }, [online]);
 
   return (
-    <div className={`notification alert fade show alert-danger ${online && 'd-none'}`}>
+    <div
+      className={`notification alert fade show alert-danger ${
+        online && "d-none"
+      }`}
+    >
       No Internet
     </div>
-  )
-}
+  );
+};
 
-export default NoInternetNotification
+export default NoInternetNotification;

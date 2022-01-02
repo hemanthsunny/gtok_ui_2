@@ -1,72 +1,137 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const SupportComponent = ({ currentUser }) => {
   return (
-    <div className='container-fluid font-xs-small'>
-      <h4 className='text-center text-secondary py-2'>How our app works?</h4>
-      <div id='accordion'>
-        <div className='card'>
-          <div className='card-header' id='headingOne'>
-            <button className='btn btn-link' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
+    <div className="container-fluid font-xs-small">
+      <h4 className="text-center text-secondary py-2">How our app works?</h4>
+      <div id="accordion">
+        <div className="card">
+          <div className="card-header" id="headingOne">
+            <button
+              className="btn btn-link"
+              data-toggle="collapse"
+              data-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
               Step 1 : Home page
             </button>
           </div>
-          <div id='collapseOne' className='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              Write and share about yourself in <Link to='/app/home'> home </Link> page. Can, even, generate a post by answering questions.
+          <div
+            id="collapseOne"
+            className="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              Write and share about yourself in{" "}
+              <Link to="/app/home"> home </Link> page. Can, even, generate a
+              post by answering questions.
             </div>
           </div>
         </div>
-        <div className='card'>
-          <div className='card-header' id='headingTwo'>
-            <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
+        <div className="card">
+          <div className="card-header" id="headingTwo">
+            <button
+              className="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
               Step 2 : Search page
             </button>
           </div>
-          <div id='collapseTwo' className='collapse' aria-labelledby='headingTwo' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              You can search and find people here. Also, you can find similarities in various categories with others. <Link to='/app/search'>Search</Link> here.
+          <div
+            id="collapseTwo"
+            className="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              You can search and find people here. Also, you can find
+              similarities in various categories with others.{" "}
+              <Link to="/app/search">Search</Link> here.
             </div>
           </div>
         </div>
-        <div className='card'>
-          <div className='card-header' id='headingThree'>
-            <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
+        <div className="card">
+          <div className="card-header" id="headingThree">
+            <button
+              className="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
               Step 3 : Chat page
             </button>
           </div>
-          <div id='collapseThree' className='collapse' aria-labelledby='headingThree' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              You can chat with others based on similarities. Lets get to know each other by saying 'Hi!'.
+          <div
+            id="collapseThree"
+            className="collapse"
+            aria-labelledby="headingThree"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              You can chat with others based on similarities. Lets get to know
+              each other by saying 'Hi!'.
             </div>
           </div>
         </div>
-        <div className='card'>
-          <div className='card-header' id='headingFour'>
-            <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
+        <div className="card">
+          <div className="card-header" id="headingFour">
+            <button
+              className="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseFour"
+              aria-expanded="false"
+              aria-controls="collapseFour"
+            >
               Step 4 : Profile page
             </button>
           </div>
-          <div id='collapseFour' className='collapse' aria-labelledby='headingFour' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              In profile page, you can update your profile information. You cannot edit email and date of birth. If you wish to update email or date of birth, send us a mail at <span className='btn btn-link p-0'> letsgtok@gmail.com</span>
+          <div
+            id="collapseFour"
+            className="collapse"
+            aria-labelledby="headingFour"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              In profile page, you can update your profile information. You
+              cannot edit email and date of birth. If you wish to update email
+              or date of birth, send us a mail at{" "}
+              <span className="btn btn-link p-0"> letsgtok@gmail.com</span>
             </div>
           </div>
         </div>
-        <div className='card'>
-          <div className='card-header' id='headingFive'>
-            <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
+        <div className="card">
+          <div className="card-header" id="headingFive">
+            <button
+              className="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseFive"
+              aria-expanded="false"
+              aria-controls="collapseFive"
+            >
               Step 5 : Manage permissions
             </button>
           </div>
-          <div id='collapseFive' className='collapse' aria-labelledby='headingFive' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              You can manage your permissions in <Link to='/app/profile'>profile</Link> page. You can set permissions like who can see your profile, similarities etc.
+          <div
+            id="collapseFive"
+            className="collapse"
+            aria-labelledby="headingFive"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              You can manage your permissions in{" "}
+              <Link to="/app/profile">profile</Link> page. You can set
+              permissions like who can see your profile, similarities etc.
             </div>
           </div>
         </div>
-      {/*
+        {/*
         <div className='card'>
           <div className='card-header' id='headingSix'>
             <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -80,19 +145,32 @@ const SupportComponent = ({ currentUser }) => {
           </div>
         </div>
       */}
-        <div className='card'>
-          <div className='card-header' id='headingSeven'>
-            <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#collapseSeven' aria-expanded='false' aria-controls='collapseSeven'>
+        <div className="card">
+          <div className="card-header" id="headingSeven">
+            <button
+              className="btn btn-link collapsed"
+              data-toggle="collapse"
+              data-target="#collapseSeven"
+              aria-expanded="false"
+              aria-controls="collapseSeven"
+            >
               Any queries / Contact us
             </button>
           </div>
-          <div id='collapseSeven' className='collapse' aria-labelledby='headingSeven' data-parent='#accordion'>
-            <div className='card-body p-4 text-justify text-secondary'>
-              We are always happy to listen your feedback or queries. Drop us an email at <span className='btn btn-link p-0'> letsgtok@gmail.com </span>
+          <div
+            id="collapseSeven"
+            className="collapse"
+            aria-labelledby="headingSeven"
+            data-parent="#accordion"
+          >
+            <div className="card-body p-4 text-justify text-secondary">
+              We are always happy to listen your feedback or queries. Drop us an
+              email at{" "}
+              <span className="btn btn-link p-0"> letsgtok@gmail.com </span>
             </div>
           </div>
         </div>
-      {/*
+        {/*
         <div className='card'>
           <div className='card-header' id='headingThree'>
             <button className='btn btn-link collapsed' data-toggle='collapse' data-target='#stepThree' aria-expanded='true' aria-controls='stepThree'>
@@ -124,7 +202,7 @@ const SupportComponent = ({ currentUser }) => {
       */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SupportComponent
+export default SupportComponent;
