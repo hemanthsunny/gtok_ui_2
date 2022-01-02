@@ -3,6 +3,7 @@ import "./style.css";
 
 import DoughnutChart from "./doughnut/component";
 import LineChart from "./linechart/component";
+import EmotionScoreComponent from "./emotion_score/component";
 import HeaderComponent from "./header";
 
 import { categories, categoryColors } from "constants/categories";
@@ -10,7 +11,9 @@ import { capitalizeFirstLetter } from "helpers";
 import { getQuery, firestore } from "firebase_config";
 
 function ProfileGraphsComponent({ currentUser }) {
-  const [data, setData] = useState();
+  const [currentUserAssets, setCurrentUserAssets] = useState();
+  const [allUserAssets, setAllUserAssets] = useState();
+
   const labels = categories.map((elem, idx) => {
     if (elem.key === "angry") {
       return "Anger";
@@ -21,43 +24,76 @@ function ProfileGraphsComponent({ currentUser }) {
 
   useEffect(() => {
     async function getUserAssets() {
-      const posts = await getQuery(
+      const assets = await getQuery(
         firestore
           .collection("posts")
-          .where("userId", "==", currentUser.id)
           .get()
       );
-      if (posts.length > 0) {
-        setData([
-          posts?.filter(
+
+      /* calculate current user assets */
+      const currentUserAssets = assets.filter(post => post.userId === currentUser.id);
+      if (currentUserAssets.length > 0) {
+        setCurrentUserAssets([
+          currentUserAssets?.filter(
             (elem) =>
               elem.category &&
               (elem.category.key === "current_feeling" ||
                 elem.category.key === "same_pinch")
           ),
-          posts?.filter(
+          currentUserAssets?.filter(
             (elem) => elem.category && elem.category.key === "happy"
           ),
-          posts?.filter((elem) => elem.category && elem.category.key === "sad"),
-          posts?.filter(
+          currentUserAssets?.filter((elem) => elem.category && elem.category.key === "sad"),
+          currentUserAssets?.filter(
             (elem) => elem.category && elem.category.key === "surprise"
           ),
-          posts?.filter(
+          currentUserAssets?.filter(
             (elem) => elem.category && elem.category.key === "fear"
           ),
-          posts?.filter(
+          currentUserAssets?.filter(
             (elem) => elem.category && elem.category.key === "angry"
           ),
-          posts?.filter(
+          currentUserAssets?.filter(
             (elem) => elem.category && elem.category.key === "special"
           ),
-          posts?.filter(
+          currentUserAssets?.filter(
+            (elem) => elem.category && elem.category.key === "other"
+          ),
+        ]);
+      }
+
+      /* calculate all users assets */
+      if (assets.length > 0) {
+        setAllUserAssets([
+          assets?.filter(
+            (elem) =>
+              elem.category &&
+              (elem.category.key === "current_feeling" ||
+                elem.category.key === "same_pinch")
+          ),
+          assets?.filter(
+            (elem) => elem.category && elem.category.key === "happy"
+          ),
+          assets?.filter((elem) => elem.category && elem.category.key === "sad"),
+          assets?.filter(
+            (elem) => elem.category && elem.category.key === "surprise"
+          ),
+          assets?.filter(
+            (elem) => elem.category && elem.category.key === "fear"
+          ),
+          assets?.filter(
+            (elem) => elem.category && elem.category.key === "angry"
+          ),
+          assets?.filter(
+            (elem) => elem.category && elem.category.key === "special"
+          ),
+          assets?.filter(
             (elem) => elem.category && elem.category.key === "other"
           ),
         ]);
       }
     }
-    if (!data) {
+    if (!currentUserAssets || !allUserAssets) {
       getUserAssets();
     }
   });
@@ -66,14 +102,15 @@ function ProfileGraphsComponent({ currentUser }) {
     <div className="dashboard-content">
       <HeaderComponent />
       <div className="profile-graphs-container">
-        {data && data.length > 0 && (
+        {currentUserAssets?.length > 0 && allUserAssets?.length > 0 && (
           <div className="graphs">
+            <EmotionScoreComponent currentUser={currentUser} labels={labels} currentUserAssets={currentUserAssets} allUserAssets={allUserAssets} />
             <DoughnutChart
               labels={labels}
-              data={data}
+              data={currentUserAssets}
               colors={categoryColors}
             />
-            <LineChart labels={labels} data={data} colors={categoryColors} />
+            <LineChart labels={labels} data={currentUserAssets} colors={categoryColors} />
           </div>
         )}
       </div>

@@ -64,12 +64,12 @@ class DoughnutChart extends React.Component {
         responsive: true,
         layout: {
           padding: {
-            top: 40,
+            top: 20,
           },
         },
         plugins: {
           legend: {
-            position: "bottom",
+            position: "top"
           },
           title: {
             display: true,
@@ -78,6 +78,7 @@ class DoughnutChart extends React.Component {
             font: {
               weight: "500",
             },
+            position: "bottom"
           },
           counter: {
             fontSize: window.innerWidth > 768 ? "18px" : "16px",

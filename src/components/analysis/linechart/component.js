@@ -11,6 +11,7 @@ class LineChart extends React.Component {
     super(props);
     this.chartRef = React.createRef();
 
+    this.title = "Monthly Emotions";
     this.currentMonth = 0;
     this.totalMonths = window.innerWidth > 768 ? 12 : 6;
     this.data = {
@@ -25,6 +26,15 @@ class LineChart extends React.Component {
       plugins: {
         legend: {
           display: false
+        },
+        title: {
+          display: true,
+          text: this.title,
+          position: "bottom",
+          fontFamily: "Poppins",
+          fontWeight: 0,
+          color: "#2b2b2b",
+          textAlign: "center",
         }
       },
       tooltips: {
