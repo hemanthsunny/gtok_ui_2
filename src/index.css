@@ -1,26 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Quicksand:wght@500&display=swap');
-@import 'assets/css/common.css';
-@import 'assets/css/headers.css';
-@import 'assets/css/challenges.css';
-@import 'assets/css/purchase_badges.css';
-@import 'assets/css/redeem_badges.css';
-@import 'assets/css/create_post.css';
-@import 'assets/css/create_activity.css';
-@import 'assets/css/show_activities.css';
-@import 'assets/css/payment_cards.css';
-@import 'assets/css/add_price.css';
-@import 'assets/css/unlock_profile.css';
-@import 'assets/css/purchase_orders.css';
-@import 'assets/css/sidebar.css';
-@import 'assets/css/auth.css';
-@import 'assets/css/show_open_posts.css';
-@import 'assets/css/modal.css';
-@import 'assets/css/alerts.css';
+@import url("https://fonts.googleapis.com/css2?family=Playball&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Quicksand:wght@500&display=swap");
+@import "assets/css/common.css";
+@import "assets/css/headers.css";
+@import "assets/css/challenges.css";
+@import "assets/css/purchase_badges.css";
+@import "assets/css/redeem_badges.css";
+@import "assets/css/create_post.css";
+@import "assets/css/create_activity.css";
+@import "assets/css/show_activities.css";
+@import "assets/css/payment_cards.css";
+@import "assets/css/add_price.css";
+@import "assets/css/unlock_profile.css";
+@import "assets/css/purchase_orders.css";
+@import "assets/css/sidebar.css";
+@import "assets/css/auth.css";
+@import "assets/css/show_open_posts.css";
+@import "assets/css/modal.css";
+@import "assets/css/alerts.css";
 
 * {
   /* font-family: var(--font-family-display); */
   /* font-family: 'Roboto', sans-serif; */
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -36,7 +36,7 @@ code {
 }
 
 .font-poppins {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .App {
@@ -113,7 +113,7 @@ code {
   left: 42vw;
   margin: 0px auto;
   z-index: 99999;
-  background-color: #DC3545;
+  background-color: #dc3545;
   color: #fff;
   font-size: 14px;
   padding: 5px 10px;
@@ -136,7 +136,7 @@ code {
   height: 44px;
   border-radius: 50%;
   right: 3vw;
-  background-color: #DC3545;
+  background-color: #dc3545;
   z-index: 999;
 }
 
@@ -165,60 +165,59 @@ audio {
 }
 
 audio::-internal-media-controls-download-button {
-  display:none;
+  display: none;
 }
 
 /* Radio group */
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
-    position: absolute;
-    left: -9999px;
+  position: absolute;
+  left: -9999px;
 }
 [type="radio"]:checked + label,
-[type="radio"]:not(:checked) + label
-{
-    position: relative;
-    padding-left: 28px;
-    cursor: pointer;
-    line-height: 20px;
-    display: inline-block;
-    /* color: #666; */
+[type="radio"]:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  /* color: #666; */
 }
 [type="radio"]:checked + label:before,
 [type="radio"]:not(:checked) + label:before {
-    content: '';
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #A1A1A1;
-    border-radius: 100%;
-    background: #fff;
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #a1a1a1;
+  border-radius: 100%;
+  background: #fff;
 }
 [type="radio"]:checked + label:after,
 [type="radio"]:not(:checked) + label:after {
-    content: '';
-    width: 12px;
-    height: 12px;
-    /* background: rgba(220, 53, 69, 0.8); */
-    background: var(--color-violet-400);
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    border-radius: 100%;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+  content: "";
+  width: 12px;
+  height: 12px;
+  /* background: rgba(220, 53, 69, 0.8); */
+  background: var(--color-violet-400);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 [type="radio"]:not(:checked) + label:after {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    transform: scale(0);
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
 }
 [type="radio"]:checked + label:after {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 
 .text-between-line:before,
@@ -256,7 +255,7 @@ input[type="date"] {
   min-width: 100px !important;
   font-size: 16px !important;
   padding: 5px 7px !important;
-  background-color: #DC3545 !important;
+  background-color: #dc3545 !important;
 }
 
 button.login {
@@ -409,9 +408,9 @@ button:active {
 }
 
 .profile-options div.option div:after {
-  content: '\b7';
+  content: "\b7";
   font-size: 34px;
-  color: #DC3545;
+  color: #dc3545;
 }
 
 .profile-options div.option .active {
@@ -461,14 +460,26 @@ button:active {
 }
 
 @-webkit-keyframes fadeOut {
-   0% {opacity: 1;}
-   80% {opacity: 1;}
-   100% {opacity: 0;}
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @keyframes fadeOut {
-   0% {opacity: 1;}
-   80% {opacity: 1;}
-   100% {opacity: 0;}
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .icon-bg-dark {
@@ -491,14 +502,13 @@ button:active {
   z-index: 999;
 }
 
-
 /* Default Layout */
 .navbar {
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  padding-right: .6rem !important;
-  padding-top: .25rem !important;
-  padding-bottom: .25rem !important;
+  padding-right: 0.6rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
 }
 
 .hidden-spacer {
@@ -549,7 +559,6 @@ button:active {
   color: red;
 }
 
-
 .navbar-nav .nav-profile:hover {
   background-color: rgba(255, 255, 255, 1);
   cursor: pointer;
@@ -561,7 +570,7 @@ button:active {
 .post-textbox:active {
   width: 100%;
   border: 3px solid #fff;
-  border-radius: .4em;
+  border-radius: 0.4em;
   outline: none;
   resize: none;
   padding: 10px;
@@ -617,8 +626,10 @@ button:active {
 .left-sidebar-wrapper a:hover,
 .left-sidebar-wrapper a:focus,
 .left-sidebar-wrapper a:active,
-.alerts-wrapper a, .alerts-wrapper a:hover,
-.alerts-wrapper a:focus, .alerts-wrapper a:active {
+.alerts-wrapper a,
+.alerts-wrapper a:hover,
+.alerts-wrapper a:focus,
+.alerts-wrapper a:active {
   color: #000000 !important;
   text-decoration: none !important;
 }
@@ -691,7 +702,7 @@ button:active {
 
 /* Share post page */
 .instaButton {
-  background-color: rgba(245,96,64, 0.7) !important;
+  background-color: rgba(245, 96, 64, 0.7) !important;
   border: none;
   padding: 0px;
   font-size: 23px !important;
@@ -707,7 +718,7 @@ button:active {
   width: 100%;
   background-color: #eee;
   border: 3px solid #fff;
-  border-radius: .4em;
+  border-radius: 0.4em;
   outline: none;
   resize: none;
   padding: 10px;
@@ -732,7 +743,7 @@ button:active {
 .select:focus,
 .select:active {
   box-shadow: none !important;
-  border-bottom: 2px solid #DC3545 !important;
+  border-bottom: 2px solid #dc3545 !important;
 }
 
 /* Modal component */
@@ -833,7 +844,8 @@ button:active {
   font-size: small;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   color: #6c757d !important;
   border-bottom: 2px solid !important;
   border-radius: 0px !important;
@@ -842,7 +854,7 @@ button:active {
 
 /* Payments Component */
 .subscription-plan-card {
-  border: 2px solid #DC3545 !important;
+  border: 2px solid #dc3545 !important;
   border-radius: 5px !important;
 }
 
@@ -887,7 +899,7 @@ button:active {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #DC3545;
+  background-color: #dc3545;
   color: #fff;
 }
 
@@ -907,7 +919,7 @@ button:active {
 }
 
 .login-page-clipart {
-  font-family: 'Poppins' !important;
+  font-family: "Poppins" !important;
   text-align: center;
 }
 
@@ -981,9 +993,7 @@ button:active {
 }
 
 @media (min-width: 992px) {
-
 }
 
 @media (min-width: 1200px) {
-
 }

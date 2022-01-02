@@ -14,7 +14,7 @@
   left: 0px;
   top: -5vh;
   min-height: 28vh;
-  background: linear-gradient(180deg, #6930DB -49.99%, #FFB47E 208.18%);
+  background: linear-gradient(180deg, #6930db -49.99%, #ffb47e 208.18%);
   border-radius: 0px 0px 42px 42px;
   color: var(--color-white);
 }
@@ -67,7 +67,7 @@
 .enter-passcode-section .passcode-input {
   font-size: var(--font-size-bigger);
   border-width: 0;
-  border-bottom: 3px solid #D5D5D5;
+  border-bottom: 3px solid #d5d5d5;
   border-radius: 0;
   margin-left: var(--spacing-12);
   margin-right: var(--spacing-12);
@@ -85,7 +85,6 @@
 .enter-passcode-section .submit-passcode {
   margin-top: var(--spacing-64);
 }
-
 
 /* Extra code */
 .wallet-details-wrapper .btn-custom {
@@ -215,17 +214,16 @@
 }
 
 .wallet-wrapper .transaction-card .credit {
-  color: #12B118;
+  color: #12b118;
 }
 
 .wallet-wrapper .transaction-card .debit {
-  color: #B11212;
+  color: #b11212;
 }
 
 .wallet-wrapper .transaction-card .transaction-divider {
   margin: 7px 0px !important;
 }
-
 
 @media (max-width: 576px) {
   .posts-footer {

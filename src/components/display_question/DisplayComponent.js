@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function DisplayComponent () {
-  return (
-    <div>'DisplayComponent'</div>
-  )
+function DisplayComponent() {
+  return <div>'DisplayComponent'</div>;
 }
 
-export default DisplayComponent
+export default DisplayComponent;

@@ -1,26 +1,29 @@
-import React, { useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
 
-import { add, getId, getQuery, firestore } from 'firebase_config'
-import { LoadingComponent } from 'components'
+import { add, getId, getQuery, firestore } from "firebase_config";
+import { LoadingComponent } from "components";
 
 const CreateChatComponent = (props) => {
-  const chatUserId = props.match.params.id
-  const { currentUser } = props
+  const chatUserId = props.match.params.id;
+  const { currentUser } = props;
 
   useEffect(() => {
-    const usersInStrFormat = [currentUser.id, chatUserId].sort().toString()
-    async function checkForConvo () {
+    const usersInStrFormat = [currentUser.id, chatUserId].sort().toString();
+    async function checkForConvo() {
       const convo = await getQuery(
-        firestore.collection('conversations').where('usersInStrFormat', '==', usersInStrFormat).get()
-      )
-      return convo
+        firestore
+          .collection("conversations")
+          .where("usersInStrFormat", "==", usersInStrFormat)
+          .get()
+      );
+      return convo;
     }
-    async function getInitialConversation () {
-      let convo = await checkForConvo()
+    async function getInitialConversation() {
+      let convo = await checkForConvo();
 
       if (!convo[0]) {
-        const resultUser = await getUser(chatUserId)
+        const resultUser = await getUser(chatUserId);
         const data = {
           admin: currentUser.id,
           usersInStrFormat: usersInStrFormat,
@@ -30,40 +33,40 @@ const CreateChatComponent = (props) => {
           group: false,
           usersRef: [
             {
-              ref: 'users/' + currentUser.id,
+              ref: "users/" + currentUser.id,
               id: currentUser.id,
               displayName: currentUser.displayName,
               photoURL: currentUser.photoURL,
-              lastSeen: new Date().getTime()
+              lastSeen: new Date().getTime(),
             },
             {
-              ref: 'users/' + chatUserId,
+              ref: "users/" + chatUserId,
               id: chatUserId,
               displayName: resultUser.displayName,
               photoURL: resultUser.photoURL,
-              lastSeen: new Date().getTime()
-            }
-          ]
-        }
+              lastSeen: new Date().getTime(),
+            },
+          ],
+        };
 
-        await add('conversations', data)
-        convo = await checkForConvo()
+        await add("conversations", data);
+        convo = await checkForConvo();
       }
-      props.history.push('/app/chats/' + convo[0].id)
+      props.history.push("/app/chats/" + convo[0].id);
     }
-    getInitialConversation()
-  }, [chatUserId, currentUser, props.history])
+    getInitialConversation();
+  }, [chatUserId, currentUser, props.history]);
 
   const getUser = async (id) => {
-    const result = await getId('users', id)
-    return result || {}
-  }
+    const result = await getId("users", id);
+    return result || {};
+  };
 
   return (
-    <div className='container-fluid text-center'>
+    <div className="container-fluid text-center">
       <LoadingComponent />
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(CreateChatComponent)
+export default withRouter(CreateChatComponent);

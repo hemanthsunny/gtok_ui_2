@@ -1,8 +1,5 @@
-import React from 'react'
+import React from "react";
 
-const LoadingComponent = () => (
-  <div className='loader'>
-  </div>
-)
+const LoadingComponent = () => <div className="loader"></div>;
 
-export default LoadingComponent
+export default LoadingComponent;

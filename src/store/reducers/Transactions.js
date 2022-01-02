@@ -1,21 +1,21 @@
-import { SET_TRANSACTIONS } from '../types'
+import { SET_TRANSACTIONS } from "../types";
 
 const INITIAL_STATE = {
-  transactions: []
-}
+  transactions: [],
+};
 
 const relationships = (state = INITIAL_STATE, action) => {
-  const { payload } = action
+  const { payload } = action;
   switch (action.type) {
     case SET_TRANSACTIONS: {
       return {
         ...state,
-        transactions: payload.po
-      }
+        transactions: payload.po,
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default relationships
+export default relationships;

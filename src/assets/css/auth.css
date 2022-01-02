@@ -94,7 +94,7 @@
 }
 
 .login-form .right-block .body .input-group-text.append {
-  background-color: #F4EFFD;
+  background-color: #f4effd;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-top-right-radius: 20px;
@@ -103,12 +103,12 @@
 }
 
 .login-form .right-block .body .forgot-pw {
-  color: #8A8A8A;
+  color: #8a8a8a;
 }
 
 .login-form .right-block .body .login-btn {
   color: var(--color-white);
-  background: linear-gradient(180deg, #7C3BFF 0%, #2E087A 100%);
+  background: linear-gradient(180deg, #7c3bff 0%, #2e087a 100%);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border: 0px;
   border-radius: 15px;
@@ -164,7 +164,6 @@
   }
 
   .login-form .left-block {
-
   }
 
   .login-form .right-block {
@@ -175,9 +174,7 @@
 @media (min-width: 576px) and (max-width: 767.98px) {
 }
 
-
 @media (min-width: 768px) {
-
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -213,7 +210,6 @@
     max-width: 45vw;
     margin: 0px auto;
   }
-
 }
 
 @media (min-width: 1200px) {

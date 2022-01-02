@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { useEffect } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   DefaultLayout,
   ErrorComponent,
-  VerifyEmailComponent
-} from 'components'
-import { SetReload } from 'store/actions'
+  VerifyEmailComponent,
+} from "components";
+import { SetReload } from "store/actions";
 
 const AuthSwitchWrapper = (props) => {
   const {
@@ -20,58 +20,59 @@ const AuthSwitchWrapper = (props) => {
     reload,
     bindReload,
     ...rest
-  } = props
+  } = props;
 
-  const localReload = reload
+  const localReload = reload;
 
   useEffect(() => {
-    bindReload(false)
-  }, [reload, bindReload])
+    bindReload(false);
+  }, [reload, bindReload]);
 
   // if (!navigator.onLine || !loggedIn) {
   if (!loggedIn) {
-    return (<Redirect to="/" />)
+    return <Redirect to="/" />;
   }
 
   if (localReload || !dbUser || !user) {
-    window.location.reload()
+    window.location.reload();
   }
   return (
     <Route
       key={path}
       path={path}
       exact={exact}
-      render={props => (
-        loggedIn
-          ? (
-            <DefaultLayout>
-              {(user.emailVerified || dbUser.admin) ? <TruthyComponent currentUser={dbUser} {...rest} /> : <VerifyEmailComponent currentUser={dbUser} />}
-            </DefaultLayout>
-            )
-          : (
-            <FalsyComponent />
-            )
-      )
+      render={(props) =>
+        loggedIn ? (
+          <DefaultLayout>
+            {user.emailVerified || dbUser.admin ? (
+              <TruthyComponent currentUser={dbUser} {...rest} />
+            ) : (
+              <VerifyEmailComponent currentUser={dbUser} />
+            )}
+          </DefaultLayout>
+        ) : (
+          <FalsyComponent />
+        )
       }
     />
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
-  const { loggedIn, dbUser, reload, user } = state.authUsers
-  return { loggedIn, dbUser, reload, user }
-}
+  const { loggedIn, dbUser, reload, user } = state.authUsers;
+  return { loggedIn, dbUser, reload, user };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bindReload: (content) => dispatch(SetReload(content))
-  }
-}
+    bindReload: (content) => dispatch(SetReload(content)),
+  };
+};
 
 const AuthSwitch = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AuthSwitchWrapper)
+)(AuthSwitchWrapper);
 
 // const AuthSwitch = connect(
 //   mapStateToProps,
@@ -79,7 +80,11 @@ const AuthSwitch = connect(
 // )(AuthSwitchWrapper);
 
 const AuthRoute = ({ component, ...rest }) => (
-  <AuthSwitch {...rest} truthyComponent={component} falsyComponent={ErrorComponent} />
-)
+  <AuthSwitch
+    {...rest}
+    truthyComponent={component}
+    falsyComponent={ErrorComponent}
+  />
+);
 
-export default AuthRoute
+export default AuthRoute;

@@ -1,4 +1,4 @@
-export default ({
+export default {
   id: number(),
   name: str(),
   uniqName: str(),
@@ -10,5 +10,5 @@ export default ({
   lastSignedIn: new Date(),
   lastSignedInLoc: str(),
   createdAt: new Date(),
-  updatedAt: new Date()
-})
+  updatedAt: new Date(),
+};

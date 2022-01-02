@@ -1,21 +1,21 @@
-import { SET_PERMISSIONS } from '../types'
+import { SET_PERMISSIONS } from "../types";
 
 const INITIAL_STATE = {
-  pms: []
-}
+  pms: [],
+};
 
 const permissions = (state = INITIAL_STATE, action) => {
-  const { payload } = action
+  const { payload } = action;
   switch (action.type) {
     case SET_PERMISSIONS: {
       return {
         ...state,
-        pms: payload.pms
-      }
+        pms: payload.pms,
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default permissions
+export default permissions;

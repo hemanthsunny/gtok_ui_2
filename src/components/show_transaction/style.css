@@ -4,7 +4,7 @@
 }
 
 .show-transaction-wrapper .invoice-table {
-  border: 2px solid #D5D5D5;
+  border: 2px solid #d5d5d5;
   border-radius: var(--spacing-24);
   margin-top: var(--spacing-24);
   margin-bottom: var(--spacing-24);
@@ -40,15 +40,15 @@
 }
 
 .show-transaction-wrapper .transaction-details .debit {
-  color: #B11212;
+  color: #b11212;
 }
 
 .show-transaction-wrapper .transaction-details .pending {
-  color: #FFE427;
+  color: #ffe427;
 }
 
 .show-transaction-wrapper .transaction-details .credit {
-  color: #12B118;
+  color: #12b118;
 }
 
 .show-transaction-wrapper .transaction-note {

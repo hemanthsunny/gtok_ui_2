@@ -24,7 +24,9 @@
   padding: 1.5rem 0;
 }
 
-.feeling-detail-wrapper, .feeling-category-wrapper, .feeling-submit-wrapper {
+.feeling-detail-wrapper,
+.feeling-category-wrapper,
+.feeling-submit-wrapper {
   font-size: var(--font-size);
 }
 

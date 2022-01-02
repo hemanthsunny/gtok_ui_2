@@ -1,5 +1,5 @@
 /* Start: Range */
-input[type='range'] {
+input[type="range"] {
   -webkit-appearance: none;
   background-color: #ddd;
   height: 10px;
@@ -9,28 +9,28 @@ input[type='range'] {
   z-index: 0;
 }
 
-input[type='range']::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   height: 10px;
   z-index: 1;
 }
 
-input[type='range']::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   content: "50%";
   -webkit-appearance: none;
-  background: #007BFF;
+  background: #007bff;
   border-radius: 50%;
   box-shadow: -210px 0 0 200px #aaa;
   cursor: pointer;
   height: 10px;
   width: 10px;
   border: 0;
-  color: #007BFF;
+  color: #007bff;
   position: relative;
   top: 4px;
 }
 
-input[type='range']::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
   background: #333;
   border-radius: 50%;
   box-shadow: -1010px 0 0 1000px #666;
@@ -45,7 +45,7 @@ input[type="range"]::-moz-range-track {
 }
 input[type="range"]::-moz-range-progress {
   background-color: #666;
-  height: 20px
+  height: 20px;
 }
 input[type="range"]::-ms-fill-upper {
   background-color: #ddd;

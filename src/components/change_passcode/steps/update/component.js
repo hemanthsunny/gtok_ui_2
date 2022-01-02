@@ -1,48 +1,85 @@
-import React from 'react'
+import React from "react";
 
-function UpdatePasscodeComponent ({ currentUser, wallet, passcodeState, setPasscodeState, setStepNumber, savePasscode, loading }) {
+function UpdatePasscodeComponent({
+  currentUser,
+  wallet,
+  passcodeState,
+  setPasscodeState,
+  setStepNumber,
+  savePasscode,
+  loading,
+}) {
   const handleChange = (key, val) => {
-    setPasscodeState({ ...passcodeState, [key]: val })
-  }
+    setPasscodeState({ ...passcodeState, [key]: val });
+  };
 
   const handleUpdate = () => {
-    savePasscode()
-  }
+    savePasscode();
+  };
 
   return (
-    <div className='change-pc-wrapper desktop-align-center enter-passcode-section'>
-      <div className=''>
-        <img src={require('assets/svgs/StepOne.svg').default} className='' alt='Visibility' />
+    <div className="change-pc-wrapper desktop-align-center enter-passcode-section">
+      <div className="">
+        <img
+          src={require("assets/svgs/StepOne.svg").default}
+          className=""
+          alt="Visibility"
+        />
       </div>
-      <div className={`form-group ${wallet.length < 1 && 'd-none'}`}>
-        <label className='form-label'>Old passcode</label>
-        <div className='passcode-card'>
-          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('oldPasscode', e.target.value)} value={passcodeState.oldPasscode} />
+      <div className={`form-group ${wallet.length < 1 && "d-none"}`}>
+        <label className="form-label">Old passcode</label>
+        <div className="passcode-card">
+          <input
+            type="password"
+            className="passcode-input"
+            placeholder="...."
+            onChange={(e) => handleChange("oldPasscode", e.target.value)}
+            value={passcodeState.oldPasscode}
+          />
         </div>
       </div>
-      <div className='form-group'>
-        <label className='form-label'>New passcode</label>
-        <div className='passcode-card'>
-          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('newPasscode', e.target.value)} value={passcodeState.newPasscode} maxLength='4' />
+      <div className="form-group">
+        <label className="form-label">New passcode</label>
+        <div className="passcode-card">
+          <input
+            type="password"
+            className="passcode-input"
+            placeholder="...."
+            onChange={(e) => handleChange("newPasscode", e.target.value)}
+            value={passcodeState.newPasscode}
+            maxLength="4"
+          />
         </div>
       </div>
-      <div className='form-group'>
-        <label className='form-label'>Confirm passcode</label>
-        <div className='passcode-card'>
-          <input type='password' className='passcode-input' placeholder='....' onChange={e => handleChange('confirmPasscode', e.target.value)} value={passcodeState.confirmPasscode} maxLength='4' />
+      <div className="form-group">
+        <label className="form-label">Confirm passcode</label>
+        <div className="passcode-card">
+          <input
+            type="password"
+            className="passcode-input"
+            placeholder="...."
+            onChange={(e) => handleChange("confirmPasscode", e.target.value)}
+            value={passcodeState.confirmPasscode}
+            maxLength="4"
+          />
         </div>
       </div>
-      <button className='btn btn-sm btn-violet-rounded col-6' onClick={handleUpdate}>
-        {
-          loading
-            ? <div className='spinner-border spinner-border-sm' role='status'>
-              <span className='sr-only'>Loading...</span>
-            </div>
-            : (wallet ? 'Update' : 'Create')
-        }
+      <button
+        className="btn btn-sm btn-violet-rounded col-6"
+        onClick={handleUpdate}
+      >
+        {loading ? (
+          <div className="spinner-border spinner-border-sm" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : wallet ? (
+          "Update"
+        ) : (
+          "Create"
+        )}
       </button>
     </div>
-  )
+  );
 }
 
-export default UpdatePasscodeComponent
+export default UpdatePasscodeComponent;

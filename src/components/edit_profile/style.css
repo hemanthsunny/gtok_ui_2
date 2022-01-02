@@ -53,7 +53,7 @@
   background-color: transparent;
 }
 
-.edit-profile-wrapper input[type='date'] {
+.edit-profile-wrapper input[type="date"] {
   outline: none !important;
   box-shadow: none !important;
 }

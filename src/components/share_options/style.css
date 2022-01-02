@@ -32,11 +32,11 @@
 @media (min-width: 768px) {
   .modal {
     text-align: center;
-    padding: 0!important;
+    padding: 0 !important;
   }
 
   .modal:before {
-    content: '';
+    content: "";
     display: inline-block;
     height: 100%;
     vertical-align: middle;

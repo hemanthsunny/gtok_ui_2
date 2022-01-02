@@ -1,0 +1,23 @@
+.linechart-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.linechart-area-wrapper > canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.linechart-area-wrapper {
+  height: 500px !important;
+}
+
+@media (max-width: 767.98px) {
+  .linechart-area-wrapper {
+    width: 500px;
+    height: 200px !important;
+    overflow-x: scroll !important;
+  }
+}

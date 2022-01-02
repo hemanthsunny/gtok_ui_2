@@ -1,14 +1,19 @@
-import { getQuery, firestore } from 'firebase_config'
+import { getQuery, firestore } from "firebase_config";
 
 export const getNewMessagesCount = async (currentUser) => {
-  let messagesCount = 0
+  let messagesCount = 0;
   const convos = await getQuery(
-    firestore.collection('conversations').where('users', 'array-contains-any', [currentUser.id]).get()
-  )
+    firestore
+      .collection("conversations")
+      .where("users", "array-contains-any", [currentUser.id])
+      .get()
+  );
   for (const convo of convos) {
-    const currentUserRef = convo.usersRef.find(ref => ref.id === currentUser.id)
+    const currentUserRef = convo.usersRef.find(
+      (ref) => ref.id === currentUser.id
+    );
     if (currentUserRef.unread) {
-      messagesCount += 1
+      messagesCount += 1;
     }
   }
   // .onSnapshot(snapshot => {
@@ -23,5 +28,5 @@ export const getNewMessagesCount = async (currentUser) => {
   //   console.log("set", messagesCount)
   //   // return messagesCount;
   // });
-  return messagesCount
-}
+  return messagesCount;
+};

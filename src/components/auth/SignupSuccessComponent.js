@@ -1,10 +1,10 @@
-import React from 'react'
-import { StaticHeaderComponent } from 'components'
+import React from "react";
+import { StaticHeaderComponent } from "components";
 
 const SignupSuccessComponent = () => (
   <div>
     <StaticHeaderComponent />
-    <div className='mt-5 pt-3'>
+    <div className="mt-5 pt-3">
       {/*
       <h5>
       Thank you for signing up. Kindly verify your email.<br/>
@@ -19,13 +19,16 @@ const SignupSuccessComponent = () => (
       </p>
       <h5>Succesfully signed up. Kindly verify your email.</h5>
       <a href='/login'>Login</a> */}
-      <div className='h3 text-success py-4'><i className='fa fa-check-circle fa-2x'></i></div>
-      <h5 className='text-center text-secondary'>
-        Succesfully signed up. Kindly verify your email.<br/>
+      <div className="h3 text-success py-4">
+        <i className="fa fa-check-circle fa-2x"></i>
+      </div>
+      <h5 className="text-center text-secondary">
+        Succesfully signed up. Kindly verify your email.
+        <br />
       </h5>
-      <a href='/login'> Login here</a>
+      <a href="/login"> Login here</a>
     </div>
   </div>
-)
+);
 
-export default SignupSuccessComponent
+export default SignupSuccessComponent;

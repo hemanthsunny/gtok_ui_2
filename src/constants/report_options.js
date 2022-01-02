@@ -1,26 +1,26 @@
 export const ReportOptions = [
   {
-    key: 'copyright',
-    title: 'Copyrights Violated'
+    key: "copyright",
+    title: "Copyrights Violated",
   },
   {
-    key: 'spam',
-    title: 'Spam / Promotional'
+    key: "spam",
+    title: "Spam / Promotional",
   },
   {
-    key: 'hate_speech',
-    title: 'Hate Speech'
+    key: "hate_speech",
+    title: "Hate Speech",
   },
   {
-    key: 'violence',
-    title: 'Violence'
+    key: "violence",
+    title: "Violence",
   },
   {
-    key: 'inappropriate',
-    title: 'Inappropriate'
+    key: "inappropriate",
+    title: "Inappropriate",
   },
   {
-    key: 'other',
-    title: 'Other'
-  }
-]
+    key: "other",
+    title: "Other",
+  },
+];

@@ -1,28 +1,28 @@
-import { SET_SURVEYS_LIST, SET_SURVEYS_AFTER_RESPONSES } from '../types'
+import { SET_SURVEYS_LIST, SET_SURVEYS_AFTER_RESPONSES } from "../types";
 
 const INITIAL_STATE = {
   surveysList: [],
-  surveysAfterResponses: []
-}
+  surveysAfterResponses: [],
+};
 
 const surveysList = (state = INITIAL_STATE, action) => {
-  const { payload } = action
+  const { payload } = action;
   switch (action.type) {
     case SET_SURVEYS_LIST: {
       return {
         ...state,
-        surveysList: payload.surveys
-      }
+        surveysList: payload.surveys,
+      };
     }
     case SET_SURVEYS_AFTER_RESPONSES: {
       return {
         ...state,
-        surveysAfterResponses: payload.surveysAfterResponses
-      }
+        surveysAfterResponses: payload.surveysAfterResponses,
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default surveysList
+export default surveysList;

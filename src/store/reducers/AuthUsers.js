@@ -1,47 +1,42 @@
-import {
-  SET_USER,
-  SET_DB_USER,
-  SET_LOGGED_IN,
-  SET_RELOAD
-} from '../types'
+import { SET_USER, SET_DB_USER, SET_LOGGED_IN, SET_RELOAD } from "../types";
 
 const INITIAL_STATE = {
   reload: false,
   loggedIn: false,
   user: null,
-  dbUser: null
-}
+  dbUser: null,
+};
 
 const authUsers = (state = INITIAL_STATE, action) => {
-  const { payload } = action
+  const { payload } = action;
   switch (action.type) {
     case SET_DB_USER: {
       return {
         ...state,
-        dbUser: payload.dbUser
-      }
+        dbUser: payload.dbUser,
+      };
     }
     case SET_USER: {
       return {
         ...state,
-        user: payload.user
-      }
+        user: payload.user,
+      };
     }
     case SET_LOGGED_IN: {
       return {
         ...state,
-        loggedIn: payload.loggedIn
-      }
+        loggedIn: payload.loggedIn,
+      };
     }
     case SET_RELOAD: {
       return {
         ...state,
-        reload: payload.reload
-      }
+        reload: payload.reload,
+      };
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default authUsers
+export default authUsers;

@@ -10,7 +10,7 @@
 .static-header .home-page-title {
   font-size: 22px !important;
   font-weight: 500;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: var(--color-white);
   letter-spacing: 0.015rem;
 }
