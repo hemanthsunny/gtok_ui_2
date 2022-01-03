@@ -23,7 +23,7 @@ const ParentComponent = ({ currentUser }) => {
   return (
     <div className="text-center mx-3 mx-sm-0">
       <button
-        className="btn btn-sm btn-special-outline-r"
+        className={`btn btn-sm btn-${specialCategory.key === "special" ? "special" : "violet"}-outline-r`}
         onClick={redirectToCreatePage}
       >
         <span

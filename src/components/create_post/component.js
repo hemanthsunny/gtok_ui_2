@@ -18,7 +18,7 @@ import {
   removeFile,
   batchWrite,
 } from "firebase_config";
-import { FeelingCategories, ActivityCategories } from "constants/categories";
+import { categories, ActivityCategories } from "constants/categories";
 import { capitalizeFirstLetter } from "helpers";
 import { SetNewPost } from "store/actions";
 
@@ -62,7 +62,7 @@ const ParentComponent = (props) => {
   const { currentUser, bindNewPost } = props;
   const [postText, setPostText] = useState(story.text);
   const [category, setCategory] = useState(
-    sharePost.category || FeelingCategories[0]
+    sharePost.category || categories[0]
   );
   const [result, setResult] = useState({});
   const [fileUrl, setFileUrl] = useState(story.fileUrl);
@@ -409,7 +409,7 @@ const ParentComponent = (props) => {
                 (sharePost && sharePost.type === "activity") ||
                 activeTab === "activity"
                   ? ActivityCategories
-                  : FeelingCategories
+                  : categories
               }
               category={category}
               setCategory={setCategory}

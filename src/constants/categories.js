@@ -1,14 +1,28 @@
+// export const specialCategory = {
+//   key: "special",
+//   title: "burger",
+//   color: "#ff9110",
+//   startDate: "25-12-2021",
+//   days: 7,
+//   endDate: "2 Jan '22",
+//   description:
+//     "Have you tasted a burger 🍔 before? Tell us about your favourite burger. 😃",
+//   homepage_description: `<div class='px-2 p-sm-2'>
+//   Welcome to Burger week. What is your favorite burger!?
+//   </div>`,
+// };
+
 export const specialCategory = {
-  key: "special",
-  title: "burger",
-  color: "#ff9110",
-  startDate: "25-12-2021",
+  key: "current_feeling",
+  title: "current feeling",
+  color: "#6903DB",
+  startDate: "",
   days: 7,
-  endDate: "2 Jan '22",
+  endDate: "",
   description:
     "Have you tasted a burger 🍔 before? Tell us about your favourite burger. 😃",
   homepage_description: `<div class='px-2 p-sm-2'>
-  Welcome to Burger week. What is your favorite burger!?
+  Share a feeling = Care a friend
   </div>`,
 };
 
@@ -47,10 +61,6 @@ export const categories = [
   {
     title: "anger",
     key: "angry",
-  },
-  {
-    title: "burger",
-    key: "special",
   },
   {
     title: "other",

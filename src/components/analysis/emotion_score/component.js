@@ -29,7 +29,7 @@ const EmotionScoreComponent = ({ currentUser, labels, currentUserAssets, allUser
   };
 
   return <div className="emotion-score-wrapper mt-5 pt-4">
-    <div className="card">
+    <div className="card mx-3 mx-sm-0">
       <div className="card-body">
         <div className="username">@{currentUser.username}</div>
         <div className="emotion-score">
@@ -43,7 +43,7 @@ const EmotionScoreComponent = ({ currentUser, labels, currentUserAssets, allUser
         <span className="btn btn-sm btn-violet-rounded question-mark">
           <span>&#63;</span>
         </span>
-        Your emotional score is calculated based on total number of feelings you've shared on the letsgtok platform.
+        Your Emotional Score is calculated based on total number of feelings you've shared on the letsgtok platform.
       </div>
     </div>
   </div>;
